@@ -1,4 +1,4 @@
-const CACHE_NAME = 'quiz-hub-v4';
+const CACHE_NAME = 'quiz-hub-v5';
 const ASSETS = [
   './',
   './index.html',
@@ -30,18 +30,21 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+  // Network-first: always try to get the latest page/asset when online (so
+  // redesigns aren't masked by a stale cache), falling back to the cache
+  // when offline, and only ever falling back to a clean network-error
+  // response (never `undefined`, which Chrome reports as net::ERR_FAILED).
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request)
-        .then((response) => {
-          if (response && response.ok) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return response;
-        })
-        .catch(() => cached);
-    })
+    fetch(event.request)
+      .then((response) => {
+        if (response && response.ok) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() =>
+        caches.match(event.request).then((cached) => cached || Response.error())
+      )
   );
 });

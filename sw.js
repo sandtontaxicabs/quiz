@@ -1,8 +1,10 @@
-const CACHE_NAME = 'maths-quest-v1';
+const CACHE_NAME = 'quiz-hub-v2';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
+  './english.html',
+  './english-manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png'

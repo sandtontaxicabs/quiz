@@ -1,0 +1,17 @@
+{
+  "name": "Word Quest: Tell It Another Way",
+  "short_name": "Word Quest",
+  "description": "A colourful, gamified Stage 5 English progression test on fairy tale features, phrases and clauses, sentences, verb tenses, pronouns and homophones, with instant marking and badges.",
+  "start_url": "./english.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#eafff9",
+  "theme_color": "#1b998b",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

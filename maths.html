@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Maths Quest: Area, Perimeter &amp; Number Laws</title>
+<meta name="description" content="A colourful, gamified maths quiz for Area &amp; Perimeter and Laws of Arithmetic with instant marking and badges." />
+<meta name="theme-color" content="#6c63ff" />
+<link rel="manifest" href="maths-manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+:root{
+  --bg1:#eef2ff; --bg2:#fff0f6; --card:#ffffff; --ink:#232946; --muted:#6b7394;
+  --purple:#6c63ff; --pink:#ff6b9d; --gold:#ffb703; --green:#06d6a0; --blue:#4cc9f0; --red:#ef476f;
+  --shadow:0 14px 34px rgba(50,50,120,.14);
+  --radius:22px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:"Baloo 2","Trebuchet MS","Segoe UI",Arial,sans-serif;color:var(--ink)}
+body{
+  background:
+    radial-gradient(circle at 8% 10%, #d9d4ff 0, transparent 40%),
+    radial-gradient(circle at 92% 15%, #ffd6e7 0, transparent 42%),
+    radial-gradient(circle at 50% 100%, #d4f7ec 0, transparent 45%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  padding:14px; padding-bottom:40px;
+}
+.app{max-width:760px;margin:0 auto;display:grid;gap:14px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+h1,h2,h3{margin:0}
+h1{font-size:clamp(1.4rem,5vw,2rem);line-height:1.1}
+p{margin:0;color:var(--muted)}
+button{border:none;border-radius:16px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;
+  transition:transform .12s ease, box-shadow .2s ease, opacity .2s ease; box-shadow:0 8px 18px rgba(70,84,150,.16);
+  font-family:inherit;}
+button:hover{transform:translateY(-1px)}
+button:active{transform:translateY(1px) scale(.98)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#8a7dff);color:#fff}
+.btn-secondary{background:#eef1ff;color:var(--ink)}
+.btn-good{background:linear-gradient(135deg,var(--green),#3ee6b0);color:#04372c}
+.btn-warn{background:linear-gradient(135deg,var(--gold),#ffd166);color:#5b3d00}
+.btn-danger{background:linear-gradient(135deg,var(--red),#ff8fa3);color:#fff}
+.btn-ghost{background:transparent;color:var(--purple);box-shadow:none;text-decoration:underline;padding:6px 8px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row.between{justify-content:space-between}
+.row.center{justify-content:center}
+.pill{padding:7px 13px;border-radius:999px;background:#eef1ff;font-weight:800;font-size:.85rem;display:inline-flex;gap:6px;align-items:center}
+.pill.gold{background:#fff4d6;color:#6f5200}
+.pill.green{background:#dcfff3;color:#04473a}
+.pill.pink{background:#ffe4ee;color:#8a1f4c}
+.badge-emoji{font-size:1.1em}
+
+/* Home screen */
+.hero{background:linear-gradient(135deg,var(--purple),#9a90ff 60%, var(--pink));color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% -10%, rgba(255,255,255,.35), transparent 45%)}
+.hero h1{color:#fff}
+.hero p{color:rgba(255,255,255,.9)}
+.level-box{background:rgba(255,255,255,.18);border-radius:16px;padding:10px 14px;backdrop-filter:blur(2px)}
+.xp-bar-outer{height:12px;border-radius:999px;background:rgba(255,255,255,.28);overflow:hidden;margin-top:6px}
+.xp-bar-inner{height:100%;background:linear-gradient(90deg,var(--gold),#fff3b0);border-radius:999px;transition:width .5s ease}
+.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.topic-grid{grid-template-columns:1fr}}
+.topic-card{border-radius:18px;padding:14px;color:#fff;position:relative;overflow:hidden;min-height:96px;display:flex;flex-direction:column;justify-content:space-between}
+.topic-card.shapes{background:linear-gradient(135deg,#4cc9f0,#4361ee)}
+.topic-card.laws{background:linear-gradient(135deg,#06d6a0,#1b998b)}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:14px;background:#f8f9ff;border:1px solid #eceffb;font-size:.92rem}
+.history-item + .history-item{margin-top:8px}
+.badges-shelf{display:flex;flex-wrap:wrap;gap:8px}
+.badge-chip{background:#fff7e0;border:1px solid #ffe6a6;border-radius:14px;padding:8px 10px;font-size:1.4rem;position:relative}
+.badge-chip .name{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:.6rem;font-weight:800;color:var(--muted);white-space:nowrap}
+
+/* Quiz screen */
+.progress-wrap{display:grid;gap:8px}
+.progress-label{display:flex;justify-content:space-between;font-size:.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.bar-outer{height:14px;border-radius:999px;background:#eef1ff;overflow:hidden;box-shadow:inset 0 0 0 1px #e2e6ff}
+.bar-inner{height:100%;border-radius:999px;transition:width .45s cubic-bezier(.4,1.6,.6,1)}
+.bar-inner.overall{background:linear-gradient(90deg,var(--purple),var(--pink))}
+.bar-inner.section{background:linear-gradient(90deg,var(--blue),var(--green))}
+.score-strip{display:flex;gap:10px;flex-wrap:wrap}
+.score-tile{flex:1;min-width:110px;background:#f8f9ff;border-radius:16px;padding:10px 12px;text-align:center;border:1px solid #eceffb}
+.score-tile .num{font-size:1.35rem;font-weight:900}
+.score-tile .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.03em}
+
+.qcard{padding:18px;display:grid;gap:16px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.difficulty-tag{font-size:.72rem;font-weight:900;text-transform:uppercase;padding:5px 10px;border-radius:999px;letter-spacing:.03em}
+.difficulty-tag.easy{background:#dcfff3;color:#04473a}
+.difficulty-tag.medium{background:#fff4d6;color:#6f5200}
+.difficulty-tag.hard{background:#ffe1e8;color:#8a1f4c}
+.qprompt{font-size:1.15rem;font-weight:800;line-height:1.4}
+.qprompt .math{font-family:"Cambria Math","Georgia",serif}
+.diagram-wrap{display:flex;justify-content:center;padding:6px 0}
+.choices{display:grid;gap:10px}
+.choice-btn{text-align:left;background:#f8f9ff;border:2px solid #e6e9fb;color:var(--ink);font-weight:700;padding:13px 15px;border-radius:16px;box-shadow:none;display:flex;align-items:center;gap:10px}
+.choice-btn:hover{border-color:#c9cffb}
+.choice-btn.selected{border-color:var(--purple);background:#eef0ff}
+.choice-btn.correct{border-color:var(--green);background:#dcfff3;color:#04473a}
+.choice-btn.incorrect{border-color:var(--red);background:#ffe1e8;color:#8a1f4c}
+.choice-btn.disabled-other{opacity:.55}
+.choice-letter{width:26px;height:26px;border-radius:50%;background:#e6e9fb;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;flex:none}
+.choice-btn.correct .choice-letter{background:var(--green);color:#fff}
+.choice-btn.incorrect .choice-letter{background:var(--red);color:#fff}
+
+.numeric-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.numeric-row input{flex:1;min-width:120px;padding:13px 15px;border-radius:16px;border:2px solid #e6e9fb;font-size:1.1rem;font-weight:800;font-family:inherit;color:var(--ink)}
+.numeric-row input:focus{outline:none;border-color:var(--purple)}
+.numeric-row span.unit{font-weight:800;color:var(--muted)}
+
+.feedback-banner{border-radius:16px;padding:12px 14px;font-weight:800;display:flex;gap:10px;align-items:center;animation:pop .35s ease}
+.feedback-banner.correct{background:#dcfff3;color:#04473a}
+.feedback-banner.incorrect{background:#fff1d6;color:#6f5200}
+.feedback-banner.wrong-final{background:#ffe1e8;color:#8a1f4c}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.shake{animation:shake .4s ease}
+
+.memo-box{background:#f5f6ff;border:2px dashed #c9cffb;border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.memo-box h4{margin:0;font-size:.95rem;color:var(--purple);display:flex;align-items:center;gap:6px}
+.memo-box .ans-line{font-weight:800}
+.memo-box .explain{color:var(--ink);line-height:1.5}
+
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.arrow-btn{width:52px;height:52px;border-radius:50%;font-size:1.3rem;display:flex;align-items:center;justify-content:center;background:#eef1ff;color:var(--purple);box-shadow:0 6px 14px rgba(70,84,150,.14)}
+
+.results-card{text-align:center;display:grid;gap:14px}
+.big-score{font-size:3rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stars-row{font-size:2rem;letter-spacing:4px}
+.section-report{text-align:left;display:grid;gap:8px}
+.section-report .sr-row{display:flex;justify-content:space-between;background:#f8f9ff;border-radius:14px;padding:10px 12px;border:1px solid #eceffb}
+
+.hidden{display:none !important}
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+.footer-note{text-align:center;font-size:.78rem;color:var(--muted);padding-top:6px}
+.install-banner{background:#fff7e0;border:1px solid #ffe6a6;border-radius:16px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+
+.tab-bar-wrap{max-width:760px;margin:0 auto 10px;position:sticky;top:0;z-index:20}
+.tab-bar{display:flex;gap:6px;padding:7px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:16px;box-shadow:0 6px 18px rgba(50,50,120,.12);overflow-x:auto}
+.tab-link{flex:1;text-align:center;padding:9px 6px;border-radius:12px;font-weight:800;font-size:.82rem;text-decoration:none;color:var(--muted);white-space:nowrap}
+.tab-link.active{background:var(--purple);color:#fff}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="tab-bar-wrap">
+  <nav class="tab-bar">
+    <a href="index.html" class="tab-link">🏠 Home</a>
+    <a href="maths.html" class="tab-link active">🔢 Maths</a>
+    <a href="english.html" class="tab-link">📚 English</a>
+    <a href="history.html" class="tab-link">🏺 History</a>
+  </nav>
+</div>
+<div class="app" id="app"></div>
+
+<script>
+/* ===================== UTILITIES ===================== */
+const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const pick = (arr) => arr[rnd(0, arr.length - 1)];
+const uid = () => Math.random().toString(36).slice(2, 10);
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=rnd(0,i); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function fmt(n){ return Number.isInteger(n) ? n : Math.round(n*100)/100; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ===================== SHAPE (SVG) HELPERS ===================== */
+// Generates an "L / step" composite rectilinear shape:
+// bounding box W x H, with a notch of width nw, height nh cut from the top-right corner.
+// If nw=0 or nh=0, it's a plain rectangle.
+function buildLShape(W, H, nw, nh){
+  const pts = [
+    [0,0], [W-nw,0], [W-nw,nh], [W,nh], [W,H], [0,H]
+  ];
+  const area = W*H - nw*nh;
+  const segments = [
+    {len: W-nw, label:'top'},
+    {len: nh,   label:'notch-v'},
+    {len: nw,   label:'notch-h'},
+    {len: H-nh, label:'right'},
+    {len: W,    label:'bottom'},
+    {len: H,    label:'left'}
+  ];
+  const perimeter = segments.reduce((s,x)=>s+x.len,0);
+  return {pts, area, perimeter, segments, W, H, nw, nh};
+}
+
+function shapeSVG(shape, unit, opts){
+  opts = opts || {};
+  const hideIndex = opts.hideIndex; // segment index to show as "?"
+  const pad = 46;
+  const maxDim = Math.max(shape.W, shape.H);
+  const scale = Math.min(220 / shape.W, 190 / shape.H, 26);
+  const vw = shape.W*scale + pad*2, vh = shape.H*scale + pad*2;
+  const ox = pad, oy = pad;
+  const P = shape.pts.map(([x,y]) => [ox + x*scale, oy + y*scale]);
+  const pointsAttr = P.map(p => p.join(',')).join(' ');
+
+  // label positions per segment (midpoint of each edge, offset outward)
+  function mid(i,j,dx,dy,text,key){
+    const [x1,y1]=P[i], [x2,y2]=P[j];
+    const mx=(x1+x2)/2 + dx, my=(y1+y2)/2 + dy;
+    const isHidden = hideIndex===key;
+    return `<text x="${mx}" y="${my}" font-size="13" font-weight="800" fill="${isHidden?'#ef476f':'#232946'}" text-anchor="middle" dominant-baseline="middle" font-family="Trebuchet MS, Arial, sans-serif">${isHidden? '?' : text+unit}</text>`;
+  }
+
+  const labels = [
+    mid(0,1, 0,-14, fmt(shape.segments[0].len), 0),
+    mid(1,2, 22,0, fmt(shape.segments[1].len), 1),
+    mid(2,3, 0,-14, fmt(shape.segments[2].len), 2),
+    mid(3,4, 24,0, fmt(shape.segments[3].len), 3),
+    mid(4,5, 0,18, fmt(shape.segments[4].len), 4),
+    mid(5,0, -24,0, fmt(shape.segments[5].len), 5)
+  ].join('');
+
+  return `<svg width="${Math.min(vw,300)}" height="${Math.min(vh,260)}" viewBox="0 0 ${vw} ${vh}" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="${pointsAttr}" fill="#c9e8ff" stroke="#4361ee" stroke-width="3" stroke-linejoin="round"/>
+    ${labels}
+  </svg>`;
+}
+
+/* ===================== QUESTION BANK: SECTION "shapes" (Area & Perimeter) ===================== */
+function genShapeQuestion(difficulty){
+  const isRect = difficulty === 'easy' && Math.random() < 0.55;
+  let W,H,nw,nh;
+  if (difficulty === 'easy'){
+    W = rnd(4,9); H = rnd(3,8);
+    if (isRect){ nw=0; nh=0; } else { nw = rnd(1, Math.min(3,W-1)); nh = rnd(1, Math.min(3,H-1)); }
+  } else if (difficulty === 'medium'){
+    W = rnd(7,14); H = rnd(6,12);
+    nw = rnd(2, Math.min(6,W-2)); nh = rnd(2, Math.min(6,H-2));
+  } else { // hard
+    W = rnd(12,40); H = rnd(10,30);
+    nw = rnd(3, Math.min(15,W-3)); nh = rnd(3, Math.min(15,H-3));
+  }
+  const shape = buildLShape(W,H,nw,nh);
+  const unit = pick(difficulty==='hard' ? ['m','km','cm'] : ['m','cm']);
+  const mode = isRect ? pick(['area','perimeter']) : pick(['area','area','perimeter','perimeter','missing']);
+
+  if (mode === 'area'){
+    const correct = fmt(shape.area);
+    const distractors = new Set([
+      fmt(shape.W*shape.H), // forgetting to subtract notch
+      fmt(correct + rnd(2,8)),
+      fmt(Math.max(1,correct - rnd(2,8)))
+    ]);
+    distractors.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractors)].slice(0,4).map(v=>`${v} ${unit}²`));
+    return {
+      id: uid(), section:'shapes', difficulty, type:'mcq',
+      prompt: `Find the <b>area</b> of this composite shape.`,
+      diagramSVG: shapeSVG(shape, unit, {}),
+      choices, correctAnswer: `${correct} ${unit}²`,
+      explanation: shape.nw===0
+        ? `This is a simple rectangle, so Area = length × width = ${shape.W} × ${shape.H} = <b>${correct} ${unit}²</b>.`
+        : `Split the shape into two rectangles.<br>Rectangle 1 (left, full height): ${shape.W-shape.nw} × ${shape.H} = ${(shape.W-shape.nw)*shape.H} ${unit}²<br>Rectangle 2 (bottom-right): ${shape.nw} × ${shape.H-shape.nh} = ${shape.nw*(shape.H-shape.nh)} ${unit}²<br>Total area = ${(shape.W-shape.nw)*shape.H} + ${shape.nw*(shape.H-shape.nh)} = <b>${correct} ${unit}²</b>.`
+    };
+  }
+  if (mode === 'perimeter'){
+    const correct = fmt(shape.perimeter);
+    const wrongSum = fmt(shape.segments.slice(0,4).reduce((s,x)=>s+x.len,0)); // forgot 2 sides
+    const distractors = new Set([wrongSum, fmt(correct+rnd(2,6)), fmt(Math.max(1,correct-rnd(2,6)))]);
+    distractors.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractors)].slice(0,4).map(v=>`${v} ${unit}`));
+    const sumText = shape.segments.map(s=>fmt(s.len)).join(' + ');
+    return {
+      id: uid(), section:'shapes', difficulty, type:'mcq',
+      prompt: `Find the <b>perimeter</b> of this shape (add up all the outer sides).`,
+      diagramSVG: shapeSVG(shape, unit, {}),
+      choices, correctAnswer: `${correct} ${unit}`,
+      explanation: `Add every side going all the way around:<br>${sumText} = <b>${correct} ${unit}</b>.<br>Tip: opposite sides of the missing "step" always add up to the outer width and height!`
+    };
+  }
+  // missing length
+  const hideIndex = rnd(0,5);
+  const missingVal = fmt(shape.segments[hideIndex].len);
+  const others = shape.segments.filter((_,i)=>i!==hideIndex).reduce((s,x)=>s+x.len,0);
+  const correct = missingVal;
+  const distractors = new Set([fmt(correct+rnd(1,4)), fmt(Math.max(1,correct-rnd(1,4))), fmt(shape.perimeter)]);
+  distractors.delete(correct);
+  const choices = shuffle([correct, ...Array.from(distractors)].slice(0,4).map(v=>`${v} ${unit}`));
+  return {
+    id: uid(), section:'shapes', difficulty, type:'mcq',
+    prompt: `The perimeter of this shape is <b>${fmt(shape.perimeter)} ${unit}</b>. What is the length of the missing side (shown as "?")?`,
+    diagramSVG: shapeSVG(shape, unit, {hideIndex}),
+    choices, correctAnswer: `${correct} ${unit}`,
+    explanation: `Add up the 5 known sides: ${others} ${unit}.<br>Perimeter − known sides = missing side:<br>${fmt(shape.perimeter)} − ${others} = <b>${correct} ${unit}</b>.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "laws" (Laws of Arithmetic) ===================== */
+function genLawsQuestion(difficulty){
+  const kind = difficulty === 'easy'
+    ? pick(['commTF','orderOpsTF'])
+    : difficulty === 'medium'
+      ? pick(['reorderMCQ','missingChain','commTF'])
+      : pick(['missingChain','distributive','reorderMCQ']);
+
+  if (kind === 'commTF'){
+    const a = rnd(2,9), b = rnd(2,9), c = rnd(2,9);
+    const makeTrue = Math.random() < 0.5;
+    let prompt, isTrue, explanation;
+    if (makeTrue){
+      prompt = `True or False: ${a} × ${b} × ${c} = ${a} × ${b*c}`;
+      isTrue = true;
+      explanation = `This is <b>True</b>. Because of the associative law, you can group the numbers differently:<br>${a} × ${b} × ${c} = ${a} × (${b} × ${c}) = ${a} × ${b*c} = ${a*b*c}.`;
+    } else {
+      const wrongC = c + rnd(1,3);
+      prompt = `True or False: ${a} × ${b} × ${c} = ${a} × ${b*wrongC}`;
+      isTrue = false;
+      explanation = `This is <b>False</b>. ${a} × ${b} × ${c} = ${a} × (${b}×${c}) = ${a} × ${b*c} = ${a*b*c}, not ${a} × ${b*wrongC} = ${a*b*wrongC}.`;
+    }
+    return {
+      id: uid(), section:'laws', difficulty, type:'tf', prompt,
+      diagramSVG: null,
+      choices: ['True','False'], correctAnswer: isTrue ? 'True':'False',
+      explanation
+    };
+  }
+
+  if (kind === 'orderOpsTF'){
+    const a = rnd(2,8), b = rnd(2,9), c = rnd(2,7);
+    const correctVal = a + b*c;
+    const claimedVal = Math.random() < 0.5 ? correctVal : (a+b)*c;
+    const isTrue = claimedVal === correctVal;
+    return {
+      id: uid(), section:'laws', difficulty, type:'tf',
+      prompt: `A friend writes: ${a} + ${b} × ${c} = ${claimedVal}. Is this correct?`,
+      diagramSVG: null,
+      choices: ['True','False'], correctAnswer: isTrue ? 'True' : 'False',
+      explanation: `Remember: multiplication happens before addition (order of operations).<br>${a} + ${b} × ${c} = ${a} + ${b*c} = <b>${correctVal}</b>.${isTrue ? '' : ` So ${claimedVal} is not correct.`}`
+    };
+  }
+
+  if (kind === 'reorderMCQ'){
+    const a = pick([2,4,5,10,20,25,50]);
+    const b = rnd(2,9);
+    const c = pick([2,4,5,8,10]);
+    const product = a*b*c;
+    const correctRegroup = `(${a} × ${c}) × ${b} = ${a*c} × ${b}`;
+    const options = shuffle([
+      correctRegroup,
+      `${a} + ${b} × ${c}`,
+      `(${a} × ${b}) − ${c}`,
+      `${a} × (${b} + ${c})`
+    ]);
+    return {
+      id: uid(), section:'laws', difficulty, type:'mcq',
+      prompt: `Which is the easiest way to work out ${a} × ${b} × ${c} mentally, without changing the answer?`,
+      diagramSVG: null,
+      choices: options, correctAnswer: correctRegroup,
+      explanation: `${a} × ${b} × ${c} = ${product}.<br>The associative law lets you regroup the multiplication in any order:<br>(${a} × ${c}) × ${b} = ${a*c} × ${b} = ${product}. The other options change the value because they don't just regroup multiplication.`
+    };
+  }
+
+  if (kind === 'missingChain'){
+    const a = rnd(12,30);
+    const factor = pick([2,3,4,5,6]);
+    const b = factor * rnd(2,7);
+    const product = a*b;
+    const missing = b/factor;
+    return {
+      id: uid(), section:'laws', difficulty, type:'numeric',
+      prompt: `Fill in the missing number: ${a} × ${b} = ${a} × <span class="math">?</span> × ${factor}`,
+      diagramSVG: null,
+      correctAnswer: missing,
+      explanation: `${b} can be split into ${missing} × ${factor} (since ${missing} × ${factor} = ${b}).<br>So ${a} × ${b} = ${a} × ${missing} × ${factor} = ${product}.`
+    };
+  }
+
+  // distributive
+  const base = rnd(15,60);
+  const near = pick([base+1, base-1]);
+  const mult = rnd(3,9);
+  const diff = near - base;
+  const missing = Math.abs(diff);
+  const sign = diff > 0 ? '−' : '+';
+  return {
+    id: uid(), section:'laws', difficulty, type:'numeric',
+    prompt: `Fill in the missing number: ${base} × ${mult} = ${near} × ${mult} ${sign} <span class="math">?</span> × ${mult}`,
+    diagramSVG: null,
+    correctAnswer: missing,
+    explanation: `${base} = ${near} ${sign} ${missing}, so ${base} × ${mult} = (${near} ${sign} ${missing}) × ${mult} = ${near}×${mult} ${sign} ${missing}×${mult}.<br>This trick (the distributive law) makes multiplying near round numbers much faster mentally.`
+  };
+}
+
+/* ===================== QUIZ GENERATION ===================== */
+const SECTIONS = [
+  {key:'shapes', name:'Area & Perimeter', emoji:'📐', gen: genShapeQuestion},
+  {key:'laws',   name:'Laws of Arithmetic', emoji:'🧠', gen: genLawsQuestion}
+];
+const DIFF_PLAN = ['easy','easy','medium','medium','hard','hard']; // per section, 6 each = 12 total
+
+function generateQuiz(){
+  const questions = [];
+  SECTIONS.forEach(sec => {
+    const plan = shuffle(DIFF_PLAN);
+    plan.forEach(diff => {
+      const q = sec.gen(diff);
+      questions.push(q);
+    });
+  });
+  return questions; // 12 total, alternating not required; we interleave for engagement
+}
+function interleave(questions){
+  const bySection = {};
+  questions.forEach(q => { (bySection[q.section] = bySection[q.section]||[]).push(q); });
+  const keys = Object.keys(bySection);
+  const out = [];
+  let i = 0;
+  while (out.length < questions.length){
+    keys.forEach(k => { if (bySection[k][i]) out.push(bySection[k][i]); });
+    i++;
+  }
+  return out;
+}
+
+/* ===================== PERSISTENCE ===================== */
+const LS_SAVE = 'mq_saved_v1';
+const LS_HISTORY = 'mq_history_v1';
+const LS_XP = 'mq_xp_v1';
+
+function loadJSON(key, fallback){
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; }
+}
+function saveJSON(key, val){ try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
+
+function getXP(){ return loadJSON(LS_XP, {xp:0}); }
+function addXP(n){ const d = getXP(); d.xp += n; saveJSON(LS_XP, d); return d.xp; }
+function levelFromXP(xp){ return Math.floor(xp/100) + 1; }
+function xpIntoLevel(xp){ return xp % 100; }
+
+function getHistory(){ return loadJSON(LS_HISTORY, []); }
+function pushHistory(entry){ const h = getHistory(); h.unshift(entry); saveJSON(LS_HISTORY, h.slice(0,25)); }
+
+/* ===================== APP STATE ===================== */
+let state = null; // active quiz state
+
+function newQuizState(){
+  return {
+    startedAt: Date.now(),
+    questions: interleave(generateQuiz()),
+    index: 0,
+    answers: {}, // qid -> {chosen, correct, attempts, resolved}
+  };
+}
+
+function totalCount(){ return state.questions.length; }
+function answeredCount(){ return Object.values(state.answers).filter(a=>a.resolved).length; }
+function correctCount(){ return Object.values(state.answers).filter(a=>a.resolved && a.correct).length; }
+function sectionQuestions(sectionKey){ return state.questions.filter(q=>q.section===sectionKey); }
+function sectionAnsweredCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved).length; }
+function sectionCorrectCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved && state.answers[q.id].correct).length; }
+
+/* ===================== RENDERING ===================== */
+const app = document.getElementById('app');
+
+function go(view){ window.location.hash = view; render(); }
+
+function render(){
+  const hash = window.location.hash.replace('#','') || 'home';
+  if (hash === 'home') return renderHome();
+  if (hash === 'quiz') return renderQuiz();
+  if (hash === 'results') return renderResults();
+  renderHome();
+}
+window.addEventListener('hashchange', render);
+
+function renderHome(){
+  const saved = loadJSON(LS_SAVE, null);
+  const history = getHistory();
+  const xpData = getXP();
+  const level = levelFromXP(xpData.xp);
+  const pct = xpIntoLevel(xpData.xp);
+
+  app.innerHTML = `
+    <div class="card hero">
+      <div class="row between">
+        <div>
+          <h1>🌟 Maths Quest</h1>
+          <p>Area &amp; Perimeter + Laws of Arithmetic</p>
+        </div>
+        <div class="level-box">
+          <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>
+          <div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%"></div></div>
+          <div style="font-size:.72rem;opacity:.85;margin-top:2px">${pct}/100 XP to next level</div>
+        </div>
+      </div>
+    </div>
+
+    ${saved ? `
+    <div class="card install-banner">
+      <div><b>⏸️ You have a saved quiz in progress</b><br><span style="font-size:.85rem;color:var(--muted)">Question ${saved.index+1} of ${saved.questions.length}</span></div>
+      <div class="row">
+        <button class="btn-primary" id="continueBtn">Continue ▶</button>
+        <button class="btn-ghost" id="discardBtn">Discard</button>
+      </div>
+    </div>` : ''}
+
+    <div class="card">
+      <h3 style="margin-bottom:10px">Start a fresh quiz</h3>
+      <p style="margin-bottom:12px">Every time you play, you'll get a brand-new randomised set of questions — mixed easy, medium and hard!</p>
+      <div class="topic-grid">
+        <div class="topic-card shapes"><div><b>📐 Area &amp; Perimeter</b><br><span style="opacity:.9;font-size:.85rem">Composite shapes, missing sides</span></div></div>
+        <div class="topic-card laws"><div><b>🧠 Laws of Arithmetic</b><br><span style="opacity:.9;font-size:.85rem">Commutative, associative &amp; order of ops</span></div></div>
+      </div>
+      <div class="row center" style="margin-top:14px">
+        <button class="btn-primary" id="startBtn" style="font-size:1.1rem;padding:14px 28px">🚀 Start New Quiz</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🏆 Your Badges</h3>
+      <div class="badges-shelf" style="margin-top:12px">
+        ${renderBadgeShelf(history)}
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📊 Your Past Attempts</h3>
+      <div style="margin-top:12px">
+      ${history.length===0 ? '<p>No attempts yet — play your first quiz!</p>' : history.slice(0,8).map(h => `
+        <div class="history-item">
+          <span>${new Date(h.date).toLocaleDateString()} ${new Date(h.date).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</span>
+          <span class="pill ${h.percent>=90?'gold':h.percent>=70?'green':'pink'}">${h.correct}/${h.total} · ${h.percent}%</span>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="footer-note">Works offline · Install this app to your home screen for the best experience · Made for a maths superstar 🌟</div>
+  `;
+
+  document.getElementById('startBtn').onclick = () => {
+    state = newQuizState();
+    saveJSON(LS_SAVE, state);
+    go('quiz');
+  };
+  const cbtn = document.getElementById('continueBtn');
+  if (cbtn) cbtn.onclick = () => { state = saved; go('quiz'); };
+  const dbtn = document.getElementById('discardBtn');
+  if (dbtn) dbtn.onclick = () => { localStorage.removeItem(LS_SAVE); render(); };
+}
+
+function computeBadgesForAttempt(report){
+  const badges = [];
+  if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
+  else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
+  else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
+  if (report.noRetries) badges.push({e:'🎯', n:'Sharp Shooter'});
+  if (report.usedRetries && report.percent >= 60) badges.push({e:'💪', n:'Comeback Kid'});
+  report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
+  badges.push({e:'✅', n:'Completed'});
+  return badges;
+}
+
+function renderBadgeShelf(history){
+  if (history.length===0) return '<p>Complete a quiz to start earning badges!</p>';
+  const all = [];
+  history.forEach(h => (h.badges||[]).forEach(b => all.push(b)));
+  const seen = new Set();
+  const unique = all.filter(b => { const k=b.n; if (seen.has(k)) return false; seen.add(k); return true; });
+  if (unique.length===0) return '<p>Complete a quiz to start earning badges!</p>';
+  return unique.map(b => `<div class="badge-chip">${b.e}</div>`).join('');
+}
+
+function renderQuiz(){
+  if (!state){ go('home'); return; }
+  const q = state.questions[state.index];
+  const total = totalCount();
+  const answered = answeredCount();
+  const correct = correctCount();
+  const percent = answered ? Math.round((correct/answered)*100) : 0;
+  const sec = SECTIONS.find(s=>s.key===q.section);
+  const secTotal = sectionQuestions(q.section).length;
+  const secAnswered = sectionAnsweredCount(q.section);
+
+  const existing = state.answers[q.id];
+  const resolved = existing && existing.resolved;
+
+  app.innerHTML = `
+    <div class="card progress-wrap">
+      <div class="row between">
+        <div class="progress-label">Overall Progress</div>
+        <div class="progress-label">${answered}/${total}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner overall" style="width:${(answered/total)*100}%"></div></div>
+      <div class="row between" style="margin-top:4px">
+        <div class="progress-label">${sec.emoji} ${sec.name}</div>
+        <div class="progress-label">${secAnswered}/${secTotal}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner section" style="width:${(secAnswered/secTotal)*100}%"></div></div>
+      <div class="score-strip" style="margin-top:6px">
+        <div class="score-tile"><div class="num">${correct}/${answered||0}</div><div class="lbl">Score</div></div>
+        <div class="score-tile"><div class="num">${percent}%</div><div class="lbl">Accuracy</div></div>
+        <div class="score-tile"><div class="num">${state.index+1}/${total}</div><div class="lbl">Question</div></div>
+      </div>
+    </div>
+
+    <div class="card qcard" id="qcard">
+      <div class="qtop">
+        <span class="difficulty-tag ${q.difficulty}">${q.difficulty}</span>
+        <span class="pill">${sec.emoji} ${sec.name}</span>
+      </div>
+      <div class="qprompt">${q.prompt}</div>
+      ${q.diagramSVG ? `<div class="diagram-wrap">${q.diagramSVG}</div>` : ''}
+      <div id="answerArea"></div>
+      <div id="feedbackArea"></div>
+      <div id="memoArea"></div>
+      <div class="nav-row">
+        <button class="arrow-btn" id="backBtn" ${state.index===0 ? 'disabled':''}>←</button>
+        <button class="btn-secondary" id="saveExitBtn">💾 Save &amp; Exit</button>
+        <button class="arrow-btn" id="fwdBtn" ${resolved ? '' : 'disabled'}>→</button>
+      </div>
+    </div>
+  `;
+
+  renderAnswerArea(q, existing);
+
+  document.getElementById('backBtn').onclick = () => { state.index = Math.max(0, state.index-1); saveJSON(LS_SAVE, state); render(); };
+  document.getElementById('fwdBtn').onclick = () => {
+    if (state.index === total-1){ finishQuiz(); return; }
+    state.index++; saveJSON(LS_SAVE, state); render();
+  };
+  document.getElementById('saveExitBtn').onclick = () => { saveJSON(LS_SAVE, state); go('home'); };
+}
+
+function renderAnswerArea(q, existing){
+  const answerArea = document.getElementById('answerArea');
+  const feedbackArea = document.getElementById('feedbackArea');
+  const memoArea = document.getElementById('memoArea');
+  const resolved = existing && existing.resolved;
+
+  if (q.type === 'mcq' || q.type === 'tf'){
+    answerArea.innerHTML = `<div class="choices">${q.choices.map((c,i)=>{
+      const letter = String.fromCharCode(65+i);
+      let cls = 'choice-btn';
+      if (resolved){
+        if (c === q.correctAnswer) cls += ' correct';
+        else if (existing.lastChosen === c) cls += ' incorrect';
+        else cls += ' disabled-other';
+      }
+      return `<button class="${cls}" data-choice="${esc(c)}" ${resolved?'disabled':''}><span class="choice-letter">${letter}</span><span>${c}</span></button>`;
+    }).join('')}</div>`;
+    if (!resolved){
+      answerArea.querySelectorAll('.choice-btn').forEach(btn => {
+        btn.onclick = () => submitAnswer(q, btn.getAttribute('data-choice'));
+      });
+    }
+  } else if (q.type === 'numeric'){
+    answerArea.innerHTML = `<div class="numeric-row">
+      <input type="number" id="numInput" placeholder="Type your answer" ${resolved?'disabled':''} value="${resolved?existing.lastChosen:''}" />
+      <button class="btn-primary" id="submitNum" ${resolved?'disabled':''}>Submit</button>
+    </div>`;
+    if (!resolved){
+      const submit = () => {
+        const v = document.getElementById('numInput').value;
+        if (v === '') return;
+        submitAnswer(q, Number(v));
+      };
+      document.getElementById('submitNum').onclick = submit;
+      document.getElementById('numInput').addEventListener('keydown', e => { if (e.key==='Enter') submit(); });
+    }
+  }
+
+  if (existing){
+    renderFeedback(q, existing, feedbackArea);
+    if (resolved) renderMemo(q, memoArea);
+  }
+}
+
+function renderFeedback(q, ans, container){
+  if (!ans.lastWasCorrect && !ans.resolved){
+    container.innerHTML = `<div class="feedback-banner incorrect">🤔 Not quite! Give it one more try.</div>`;
+  } else if (ans.resolved && ans.correct){
+    container.innerHTML = `<div class="feedback-banner correct">${ans.attempts===1 ? '🎉 Correct on the first try! Amazing!' : '✅ Correct! Well done for trying again.'}</div>`;
+  } else if (ans.resolved && !ans.correct){
+    container.innerHTML = `<div class="feedback-banner wrong-final">📚 Not this time — read the memo below to learn why.</div>`;
+  } else {
+    container.innerHTML = '';
+  }
+}
+
+function renderMemo(q, container){
+  container.innerHTML = `<div class="memo-box">
+    <h4>📝 Study Memo</h4>
+    <div class="ans-line">Correct answer: <b>${q.correctAnswer}</b></div>
+    <div class="explain">${q.explanation}</div>
+  </div>`;
+}
+
+function submitAnswer(q, chosenRaw){
+  const existing = state.answers[q.id] || {attempts:0, resolved:false};
+  existing.attempts += 1;
+  existing.lastChosen = chosenRaw;
+  const isCorrect = q.type === 'numeric'
+    ? Number(chosenRaw) === Number(q.correctAnswer)
+    : String(chosenRaw) === String(q.correctAnswer);
+
+  if (isCorrect){
+    existing.resolved = true;
+    existing.correct = true;
+    existing.lastWasCorrect = true;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    launchConfetti(existing.attempts===1 ? 60 : 35);
+    document.getElementById('qcard').style.animation = 'none';
+  } else if (existing.attempts >= 2){
+    existing.resolved = true;
+    existing.correct = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  } else {
+    existing.resolved = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  }
+  renderQuiz();
+}
+
+function finishQuiz(){
+  const total = totalCount();
+  const correct = correctCount();
+  const percent = Math.round((correct/total)*100);
+  const noRetries = Object.values(state.answers).every(a => a.attempts === 1);
+  const usedRetries = Object.values(state.answers).some(a => a.attempts > 1);
+
+  const sectionReports = SECTIONS.map(sec => {
+    const sq = sectionQuestions(sec.key);
+    const sc = sectionCorrectCount(sec.key);
+    return {key: sec.key, name: sec.name, emoji: sec.emoji, correct: sc, total: sq.length, percent: Math.round((sc/sq.length)*100)};
+  });
+
+  const report = {
+    date: Date.now(), correct, total, percent, noRetries, usedRetries, sectionReports,
+    questions: state.questions.map(q => ({
+      prompt: q.prompt, section: q.section, difficulty: q.difficulty,
+      chosen: state.answers[q.id] ? state.answers[q.id].lastChosen : null,
+      correctAnswer: q.correctAnswer, wasCorrect: state.answers[q.id] ? !!state.answers[q.id].correct : false,
+      explanation: q.explanation
+    }))
+  };
+  report.badges = computeBadgesForAttempt(report);
+
+  const xpEarned = Object.values(state.answers).reduce((s,a)=> s + (a.correct ? (a.attempts===1?10:5) : 0), 0);
+  addXP(xpEarned);
+  report.xpEarned = xpEarned;
+
+  pushHistory({date: report.date, correct, total, percent, badges: report.badges});
+  localStorage.removeItem(LS_SAVE);
+
+  window._lastReport = report;
+  go('results');
+}
+
+function renderResults(){
+  const report = window._lastReport;
+  if (!report){ go('home'); return; }
+  const stars = report.percent >= 90 ? '⭐⭐⭐' : report.percent >= 70 ? '⭐⭐' : report.percent >= 40 ? '⭐' : '🌱';
+
+  app.innerHTML = `
+    <div class="card results-card">
+      <h1>${report.percent === 100 ? '🏆 Cum Laude!' : report.percent >= 75 ? '🎉 Great Job!' : '💪 Keep Practising!'}</h1>
+      <div class="big-score">${report.correct}/${report.total}</div>
+      <div style="font-size:1.2rem;font-weight:800">${report.percent}% · +${report.xpEarned} XP</div>
+      <div class="stars-row">${stars}</div>
+      <div class="badges-shelf row center">${report.badges.map(b=>`<div class="badge-chip">${b.e}</div>`).join('')}</div>
+      <div class="section-report">
+        ${report.sectionReports.map(sr => `<div class="sr-row"><span>${sr.emoji} ${sr.name}</span><b>${sr.correct}/${sr.total} (${sr.percent}%)</b></div>`).join('')}
+      </div>
+      <div class="row center">
+        <button class="btn-primary" id="downloadBtn">⬇️ Download Summary</button>
+        <button class="btn-good" id="playAgainBtn">🔄 New Quiz</button>
+        <button class="btn-secondary" id="homeBtn">🏠 Home</button>
+      </div>
+    </div>
+  `;
+  if (report.percent >= 90) launchConfetti(140);
+
+  document.getElementById('downloadBtn').onclick = () => downloadSummary(report);
+  document.getElementById('playAgainBtn').onclick = () => { state = newQuizState(); saveJSON(LS_SAVE, state); go('quiz'); };
+  document.getElementById('homeBtn').onclick = () => go('home');
+}
+
+function downloadSummary(report){
+  const dateStr = new Date(report.date).toLocaleString();
+  const rows = report.questions.map((q,i) => `
+    <tr>
+      <td style="padding:8px;border:1px solid #ddd">${i+1}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.section === 'shapes' ? 'Area &amp; Perimeter' : 'Laws of Arithmetic'} (${q.difficulty})</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.prompt}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.chosen===null?'<i>no answer</i>':q.chosen}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.correctAnswer}</td>
+      <td style="padding:8px;border:1px solid #ddd;font-weight:bold;color:${q.wasCorrect?'#04473a':'#8a1f4c'}">${q.wasCorrect?'Correct':'Incorrect'}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.explanation}</td>
+    </tr>`).join('');
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Maths Quest Results – ${dateStr}</title>
+  <style>body{font-family:Arial,sans-serif;padding:20px;color:#232946}h1{color:#6c63ff}table{border-collapse:collapse;width:100%;font-size:14px}th{background:#eef1ff;padding:8px;border:1px solid #ddd;text-align:left}</style>
+  </head><body>
+  <h1>🌟 Maths Quest – Results</h1>
+  <p><b>Date:</b> ${dateStr}<br/><b>Score:</b> ${report.correct}/${report.total} (${report.percent}%)<br/><b>Badges earned:</b> ${report.badges.map(b=>b.n).join(', ')}</p>
+  <table><thead><tr><th>#</th><th>Topic</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th><th>Explanation / Memo</th></tr></thead>
+  <tbody>${rows}</tbody></table>
+  <p style="margin-top:20px;color:#6b7394">Generated by Maths Quest – keep practising and you'll master these in no time!</p>
+  </body></html>`;
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `maths-quest-results-${new Date(report.date).toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ===================== CONFETTI ===================== */
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+let confettiParticles = [];
+let confettiRAF = null;
+function launchConfetti(count){
+  const colors = ['#6c63ff','#ff6b9d','#ffb703','#06d6a0','#4cc9f0','#ef476f'];
+  for (let i=0;i<count;i++){
+    confettiParticles.push({
+      x: Math.random()*canvas.width, y: -20 - Math.random()*80,
+      vx: (Math.random()-0.5)*3, vy: 2+Math.random()*3,
+      size: 5+Math.random()*6, color: pick(colors), rot: Math.random()*360, vr:(Math.random()-0.5)*10,
+      life: 0, maxLife: 140+Math.random()*60
+    });
+  }
+  if (!confettiRAF) confettiLoop();
+}
+function confettiLoop(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confettiParticles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.03; p.rot += p.vr; p.life++;
+    ctx.save();
+    ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+    ctx.fillStyle = p.color; ctx.globalAlpha = Math.max(0, 1 - p.life/p.maxLife);
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+    ctx.restore();
+  });
+  confettiParticles = confettiParticles.filter(p => p.life < p.maxLife && p.y < canvas.height+40);
+  if (confettiParticles.length>0){
+    confettiRAF = requestAnimationFrame(confettiLoop);
+  } else {
+    confettiRAF = null;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+}
+
+/* ===================== SERVICE WORKER ===================== */
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+
+/* ===================== INIT ===================== */
+render();
+</script>
+</body>
+</html>

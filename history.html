@@ -123,12 +123,25 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 
 .hidden{display:none !important}
 #confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+
+.tab-bar-wrap{max-width:760px;margin:0 auto 10px;position:sticky;top:0;z-index:20}
+.tab-bar{display:flex;gap:6px;padding:7px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:16px;box-shadow:0 6px 18px rgba(120,80,30,.12);overflow-x:auto}
+.tab-link{flex:1;text-align:center;padding:9px 6px;border-radius:12px;font-weight:800;font-size:.82rem;text-decoration:none;color:var(--muted);white-space:nowrap}
+.tab-link.active{background:var(--purple);color:#fff}
 .footer-note{text-align:center;font-size:.78rem;color:var(--muted);padding-top:6px}
 .install-banner{background:#fff7e0;border:1px solid #ffe6a6;border-radius:16px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 </style>
 </head>
 <body>
 <canvas id="confetti-canvas"></canvas>
+<div class="tab-bar-wrap">
+  <nav class="tab-bar">
+    <a href="index.html" class="tab-link">🏠 Home</a>
+    <a href="maths.html" class="tab-link">🔢 Maths</a>
+    <a href="english.html" class="tab-link">📚 English</a>
+    <a href="history.html" class="tab-link active">🏺 History</a>
+  </nav>
+</div>
 <div class="app" id="app"></div>
 
 <script>
@@ -341,10 +354,6 @@ function renderHome(){
         <div>
           <h1>🏺 History Quest</h1>
           <p>Ancient Egypt &middot; 50 Questions</p>
-          <div class="switch-links">
-            <a class="switch-link" href="index.html">🔢 Switch to Maths Quest</a>
-            <a class="switch-link" href="english.html">📚 Switch to Word Quest</a>
-          </div>
         </div>
         <div class="level-box">
           <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>

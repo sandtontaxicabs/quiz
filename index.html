@@ -10,74 +10,55 @@
 <link rel="icon" href="icons/icon-192.png" />
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
 <style>
-:root{
-  --bg1:#eef2ff; --bg2:#fff0f6; --card:#ffffff; --ink:#232946; --muted:#6b7394;
-  --purple:#6c63ff; --pink:#ff6b9d; --gold:#ffb703; --green:#06d6a0; --blue:#4cc9f0; --red:#ef476f;
-  --shadow:0 14px 34px rgba(50,50,120,.14);
-  --radius:22px;
-}
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;font-family:"Baloo 2","Trebuchet MS","Segoe UI",Arial,sans-serif;color:var(--ink)}
-body{
-  background:
-    radial-gradient(circle at 8% 10%, #d9d4ff 0, transparent 40%),
-    radial-gradient(circle at 92% 15%, #ffd6e7 0, transparent 42%),
-    radial-gradient(circle at 50% 100%, #d4f7ec 0, transparent 45%),
-    linear-gradient(180deg,var(--bg1),var(--bg2));
-  padding:14px; padding-bottom:40px;
+html,body{margin:0;min-height:100%;font-family:"Baloo 2","Trebuchet MS","Segoe UI",Arial,sans-serif;color:#232946;background:#f7f7fb}
+body{padding:18px 14px 40px}
+.wrap{max-width:520px;margin:0 auto;display:grid;gap:16px}
+h1{font-size:1.6rem;margin:0 0 4px}
+p.sub{margin:0;color:#6b7394}
+.subject-btn{
+  display:block; width:100%; text-align:left; border:none; border-radius:18px;
+  padding:20px; cursor:pointer; font-family:inherit; color:#fff;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
 }
-.app{max-width:760px;margin:0 auto;display:grid;gap:14px}
-.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
-h1,h2,h3{margin:0}
-h1{font-size:clamp(1.4rem,5vw,2rem);line-height:1.1}
-p{margin:0;color:var(--muted)}
-.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.row.between{justify-content:space-between}
-.pill{padding:7px 13px;border-radius:999px;background:#eef1ff;font-weight:800;font-size:.85rem;display:inline-flex;gap:6px;align-items:center}
-.pill.gold{background:#fff4d6;color:#6f5200}
-
-.hero{background:linear-gradient(135deg,var(--purple),#9a90ff 60%, var(--pink));color:#fff;position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% -10%, rgba(255,255,255,.35), transparent 45%)}
-.hero h1{color:#fff}
-.hero p{color:rgba(255,255,255,.92)}
-
-.tab-bar-wrap{max-width:760px;margin:0 auto 10px;position:sticky;top:0;z-index:20}
-.tab-bar{display:flex;gap:6px;padding:7px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:16px;box-shadow:0 6px 18px rgba(50,50,120,.12);overflow-x:auto}
-.tab-link{flex:1;text-align:center;padding:9px 6px;border-radius:12px;font-weight:800;font-size:.82rem;text-decoration:none;color:var(--muted);white-space:nowrap}
-.tab-link.active{background:var(--purple);color:#fff}
-
-.subject-grid{display:grid;gap:14px}
-.subject-card{border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;color:#fff;position:relative;overflow:hidden;text-decoration:none;display:grid;gap:10px}
-.subject-card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% -10%, rgba(255,255,255,.28), transparent 50%);pointer-events:none}
-.subject-card.maths{background:linear-gradient(135deg,#6c63ff,#9a90ff 60%, #ff6b9d)}
-.subject-card.english{background:linear-gradient(135deg,#1b998b,#3ac0b3 60%, #ffb703)}
-.subject-card.history{background:linear-gradient(135deg,#c1780f,#d9a441 60%, #b0413e)}
-.subject-card .title{font-size:1.3rem;font-weight:900;display:flex;align-items:center;gap:8px}
-.subject-card .desc{color:rgba(255,255,255,.92);font-size:.92rem;line-height:1.4}
-.subject-card .meta{display:flex;flex-wrap:wrap;gap:8px}
-.subject-card .meta .pill{background:rgba(255,255,255,.22);color:#fff}
-.subject-card .open-btn{justify-self:start;background:rgba(255,255,255,.22);color:#fff;font-weight:900;padding:9px 16px;border-radius:12px;font-size:.9rem}
-.subject-card:hover .open-btn{background:rgba(255,255,255,.34)}
-
-.footer-note{text-align:center;font-size:.78rem;color:var(--muted);padding-top:6px}
+.subject-btn:active{transform:scale(.98)}
+.subject-btn.maths{background:#6c63ff}
+.subject-btn.english{background:#1b998b}
+.subject-btn.history{background:#b8860b}
+.subject-btn .title{font-size:1.25rem;font-weight:900;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.subject-btn .desc{font-size:.9rem;opacity:.95;line-height:1.4;margin-bottom:10px}
+.subject-btn .meta{font-size:.8rem;font-weight:700;opacity:.9}
+.subject-btn .open{margin-top:10px;font-weight:900;font-size:.92rem}
+.footer-note{text-align:center;font-size:.78rem;color:#8a90a8;padding-top:6px}
 </style>
 </head>
 <body>
-<div class="tab-bar-wrap">
-  <nav class="tab-bar">
-    <a href="index.html" class="tab-link active">🏠 Home</a>
-    <a href="maths.html" class="tab-link">🔢 Maths</a>
-    <a href="english.html" class="tab-link">📚 English</a>
-    <a href="history.html" class="tab-link">🏺 History</a>
-  </nav>
-</div>
-<div class="app" id="app">
-  <div class="card hero">
+<div class="wrap">
+  <div>
     <h1>🌈 Learning Quest Hub</h1>
-    <p>Pick a subject below to start a fresh, gamified quiz — instant marking, badges, XP and save &amp; continue in every one.</p>
+    <p class="sub">Tap a subject to start a fresh, gamified quiz.</p>
   </div>
 
-  <div class="subject-grid" id="subjectGrid"></div>
+  <button type="button" class="subject-btn maths" onclick="window.location.href='maths.html'">
+    <div class="title">🔢 Maths Quest</div>
+    <div class="desc">Area &amp; Perimeter and Laws of Arithmetic — composite shapes, missing sides, and mental-maths tricks.</div>
+    <div class="meta" id="metaMaths"></div>
+    <div class="open">Open Maths Quest →</div>
+  </button>
+
+  <button type="button" class="subject-btn english" onclick="window.location.href='english.html'">
+    <div class="title">📚 Word Quest</div>
+    <div class="desc">Fairy tale features, phrases &amp; clauses, sentences, verb tenses, pronouns, homophones and rhyme.</div>
+    <div class="meta" id="metaEnglish"></div>
+    <div class="open">Open Word Quest →</div>
+  </button>
+
+  <button type="button" class="subject-btn history" onclick="window.location.href='history.html'">
+    <div class="title">🏺 History Quest</div>
+    <div class="desc">50 questions on Ancient Egypt — the Nile, social structure, homes, farming and more.</div>
+    <div class="meta" id="metaHistory"></div>
+    <div class="open">Open History Quest →</div>
+  </button>
 
   <div class="footer-note">Works offline · Install this hub to your home screen · Progress is saved separately for each subject</div>
 </div>
@@ -89,44 +70,22 @@ function loadJSON(key, fallback){
 function levelFromXP(xp){ return Math.floor(xp/100) + 1; }
 
 const SUBJECTS = [
-  {
-    key:'maths', href:'maths.html', cls:'maths', emoji:'🔢',
-    title:'Maths Quest',
-    desc:'Area & Perimeter and Laws of Arithmetic — composite shapes, missing sides, and mental-maths tricks.',
-    xpKey:'mq_xp_v1', historyKey:'mq_history_v1'
-  },
-  {
-    key:'english', href:'english.html', cls:'english', emoji:'📚',
-    title:'Word Quest',
-    desc:'Fairy tale features, phrases & clauses, sentences, verb tenses, pronouns, homophones and rhyme.',
-    xpKey:'wq_xp_v1', historyKey:'wq_history_v1'
-  },
-  {
-    key:'history', href:'history.html', cls:'history', emoji:'🏺',
-    title:'History Quest',
-    desc:'50 questions on Ancient Egypt — the Nile, social structure, homes, farming and more.',
-    xpKey:'hq_xp_v1', historyKey:'hq_history_v1'
-  }
+  {metaId:'metaMaths', xpKey:'mq_xp_v1', historyKey:'mq_history_v1'},
+  {metaId:'metaEnglish', xpKey:'wq_xp_v1', historyKey:'wq_history_v1'},
+  {metaId:'metaHistory', xpKey:'hq_xp_v1', historyKey:'hq_history_v1'}
 ];
 
-const grid = document.getElementById('subjectGrid');
-grid.innerHTML = SUBJECTS.map(s => {
+SUBJECTS.forEach(s => {
   const xpData = loadJSON(s.xpKey, {xp:0});
   const level = levelFromXP(xpData.xp);
   const hist = loadJSON(s.historyKey, []);
   const attempts = hist.length;
   const best = attempts ? Math.max(...hist.map(h => h.percent)) : null;
-  return `
-    <a class="subject-card ${s.cls}" href="${s.href}">
-      <div class="title">${s.emoji} ${s.title}</div>
-      <div class="desc">${s.desc}</div>
-      <div class="meta">
-        <span class="pill">⭐ Level ${level}</span>
-        ${attempts ? `<span class="pill">📊 ${attempts} attempt${attempts===1?'':'s'}</span><span class="pill">🏆 Best ${best}%</span>` : `<span class="pill">🆕 Not started yet</span>`}
-      </div>
-      <span class="open-btn">Open ${s.title} →</span>
-    </a>`;
-}).join('');
+  const el = document.getElementById(s.metaId);
+  el.textContent = attempts
+    ? `Level ${level} · ${attempts} attempt${attempts===1?'':'s'} · Best ${best}%`
+    : `Level ${level} · Not started yet`;
+});
 </script>
 </body>
 </html>

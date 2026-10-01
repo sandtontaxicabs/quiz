@@ -25,6 +25,7 @@ p.sub{margin:0;color:#6b7394}
 .subject-btn.maths{background:#6c63ff}
 .subject-btn.english{background:#1b998b}
 .subject-btn.history{background:#b8860b}
+.subject-btn.science{background:#3a86ff}
 .subject-btn .title{font-size:1.25rem;font-weight:900;display:flex;align-items:center;gap:10px;margin-bottom:4px}
 .subject-btn .desc{font-size:.9rem;opacity:.95;line-height:1.4;margin-bottom:10px}
 .subject-btn .meta{font-size:.8rem;font-weight:700;opacity:.9}
@@ -60,6 +61,13 @@ p.sub{margin:0;color:#6b7394}
     <div class="open">Open History Quest →</div>
   </button>
 
+  <button type="button" class="subject-btn science" onclick="window.location.href='science.html'">
+    <div class="title">🔬 Science Quest</div>
+    <div class="desc">Forces, gravity, satellites and friction — normal force, applied forces, orbits and resistance.</div>
+    <div class="meta" id="metaScience"></div>
+    <div class="open">Open Science Quest →</div>
+  </button>
+
   <div class="footer-note">Works offline · Install this hub to your home screen · Progress is saved separately for each subject</div>
 </div>
 
@@ -72,7 +80,8 @@ function levelFromXP(xp){ return Math.floor(xp/100) + 1; }
 const SUBJECTS = [
   {metaId:'metaMaths', xpKey:'mq_xp_v1', historyKey:'mq_history_v1'},
   {metaId:'metaEnglish', xpKey:'wq_xp_v1', historyKey:'wq_history_v1'},
-  {metaId:'metaHistory', xpKey:'hq_xp_v1', historyKey:'hq_history_v1'}
+  {metaId:'metaHistory', xpKey:'hq_xp_v1', historyKey:'hq_history_v1'},
+  {metaId:'metaScience', xpKey:'sq_xp_v1', historyKey:'sq_history_v1'}
 ];
 
 SUBJECTS.forEach(s => {

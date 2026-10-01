@@ -1,4 +1,4 @@
-const CACHE_NAME = 'quiz-hub-v5';
+const CACHE_NAME = 'quiz-hub-v6';
 const ASSETS = [
   './',
   './index.html',
@@ -9,6 +9,8 @@ const ASSETS = [
   './english-manifest.json',
   './history.html',
   './history-manifest.json',
+  './science.html',
+  './science-manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png'

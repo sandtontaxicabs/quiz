@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Science Quest: Forces, Gravity &amp; Friction</title>
+<meta name="description" content="A colourful, gamified science quiz on forces, gravity, satellites and friction, with instant marking and badges." />
+<meta name="theme-color" content="#3a86ff" />
+<link rel="manifest" href="science-manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+:root{
+  --bg1:#eef4ff; --bg2:#f1ecff; --card:#ffffff; --ink:#1c2541; --muted:#5c6b8a;
+  --purple:#3a86ff; --pink:#8338ec; --gold:#ffbe0b; --green:#06d6a0; --blue:#4cc9f0; --red:#ff006e;
+  --shadow:0 14px 34px rgba(30,60,120,.14);
+  --radius:22px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:"Baloo 2","Trebuchet MS","Segoe UI",Arial,sans-serif;color:var(--ink)}
+body{
+  background:
+    radial-gradient(circle at 8% 10%, #dce8ff 0, transparent 40%),
+    radial-gradient(circle at 92% 15%, #e9ddff 0, transparent 42%),
+    radial-gradient(circle at 50% 100%, #d4f7ec 0, transparent 45%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  padding:14px; padding-bottom:40px;
+}
+.app{max-width:760px;margin:0 auto;display:grid;gap:14px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+h1,h2,h3{margin:0}
+h1{font-size:clamp(1.4rem,5vw,2rem);line-height:1.1}
+p{margin:0;color:var(--muted)}
+button{border:none;border-radius:16px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;
+  transition:transform .12s ease, box-shadow .2s ease, opacity .2s ease; box-shadow:0 8px 18px rgba(30,60,120,.16);
+  font-family:inherit;}
+button:hover{transform:translateY(-1px)}
+button:active{transform:translateY(1px) scale(.98)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#6fa8ff);color:#fff}
+.btn-secondary{background:#eaf1ff;color:var(--ink)}
+.btn-good{background:linear-gradient(135deg,var(--green),#3ee6b0);color:#04372c}
+.btn-warn{background:linear-gradient(135deg,var(--gold),#ffd166);color:#5b3d00}
+.btn-danger{background:linear-gradient(135deg,var(--red),#ff6fa8);color:#fff}
+.btn-ghost{background:transparent;color:var(--purple);box-shadow:none;text-decoration:underline;padding:6px 8px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row.between{justify-content:space-between}
+.row.center{justify-content:center}
+.pill{padding:7px 13px;border-radius:999px;background:#eaf1ff;font-weight:800;font-size:.85rem;display:inline-flex;gap:6px;align-items:center}
+.pill.gold{background:#fff4d6;color:#6f5200}
+.pill.green{background:#dcfff3;color:#04473a}
+.pill.pink{background:#ffe1ee;color:#8a1f4c}
+.badge-emoji{font-size:1.1em}
+
+/* Home screen */
+.hero{background:linear-gradient(135deg,var(--purple),#8b7bff 60%, var(--pink));color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% -10%, rgba(255,255,255,.35), transparent 45%)}
+.hero h1{color:#fff}
+.hero p{color:rgba(255,255,255,.92)}
+.level-box{background:rgba(255,255,255,.18);border-radius:16px;padding:10px 14px;backdrop-filter:blur(2px)}
+.xp-bar-outer{height:12px;border-radius:999px;background:rgba(255,255,255,.28);overflow:hidden;margin-top:6px}
+.xp-bar-inner{height:100%;background:linear-gradient(90deg,var(--gold),#fff3b0);border-radius:999px;transition:width .5s ease}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.topic-card{border-radius:18px;padding:12px;color:#fff;position:relative;overflow:hidden;min-height:80px;display:flex;flex-direction:column;justify-content:space-between;font-size:.88rem}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:14px;background:#f5f8ff;border:1px solid #e3eaff;font-size:.92rem}
+.history-item + .history-item{margin-top:8px}
+.badges-shelf{display:flex;flex-wrap:wrap;gap:8px}
+.badge-chip{background:#fff7e0;border:1px solid #ffe6a6;border-radius:14px;padding:8px 10px;font-size:1.4rem;position:relative}
+
+/* Quiz screen */
+.progress-wrap{display:grid;gap:8px}
+.progress-label{display:flex;justify-content:space-between;font-size:.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.bar-outer{height:14px;border-radius:999px;background:#eaf1ff;overflow:hidden;box-shadow:inset 0 0 0 1px #dde7ff}
+.bar-inner{height:100%;border-radius:999px;transition:width .45s cubic-bezier(.4,1.6,.6,1)}
+.bar-inner.overall{background:linear-gradient(90deg,var(--purple),var(--pink))}
+.bar-inner.section{background:linear-gradient(90deg,var(--blue),var(--green))}
+.score-strip{display:flex;gap:10px;flex-wrap:wrap}
+.score-tile{flex:1;min-width:110px;background:#f5f8ff;border-radius:16px;padding:10px 12px;text-align:center;border:1px solid #e3eaff}
+.score-tile .num{font-size:1.35rem;font-weight:900}
+.score-tile .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.03em}
+
+.qcard{padding:18px;display:grid;gap:16px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.difficulty-tag{font-size:.72rem;font-weight:900;text-transform:uppercase;padding:5px 10px;border-radius:999px;letter-spacing:.03em}
+.difficulty-tag.easy{background:#dcfff3;color:#04473a}
+.difficulty-tag.medium{background:#fff4d6;color:#6f5200}
+.difficulty-tag.hard{background:#ffe1ee;color:#8a1f4c}
+.qprompt{font-size:1.15rem;font-weight:800;line-height:1.5}
+.choices{display:grid;gap:10px}
+.choice-btn{text-align:left;background:#f5f8ff;border:2px solid #e3eaff;color:var(--ink);font-weight:700;padding:13px 15px;border-radius:16px;box-shadow:none;display:flex;align-items:center;gap:10px}
+.choice-btn:hover{border-color:#c7d7ff}
+.choice-btn.selected{border-color:var(--purple);background:#eaf1ff}
+.choice-btn.correct{border-color:var(--green);background:#dcfff3;color:#04473a}
+.choice-btn.incorrect{border-color:var(--red);background:#ffe1ee;color:#8a1f4c}
+.choice-btn.disabled-other{opacity:.55}
+.choice-letter{width:26px;height:26px;border-radius:50%;background:#e3eaff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;flex:none}
+.choice-btn.correct .choice-letter{background:var(--green);color:#fff}
+.choice-btn.incorrect .choice-letter{background:var(--red);color:#fff}
+
+.feedback-banner{border-radius:16px;padding:12px 14px;font-weight:800;display:flex;gap:10px;align-items:center;animation:pop .35s ease}
+.feedback-banner.correct{background:#dcfff3;color:#04473a}
+.feedback-banner.incorrect{background:#fff1d6;color:#6f5200}
+.feedback-banner.wrong-final{background:#ffe1ee;color:#8a1f4c}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.shake{animation:shake .4s ease}
+
+.memo-box{background:#f5f8ff;border:2px dashed #c7d7ff;border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.memo-box h4{margin:0;font-size:.95rem;color:var(--purple);display:flex;align-items:center;gap:6px}
+.memo-box .ans-line{font-weight:800}
+.memo-box .explain{color:var(--ink);line-height:1.5}
+
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.arrow-btn{width:52px;height:52px;border-radius:50%;font-size:1.3rem;display:flex;align-items:center;justify-content:center;background:#eaf1ff;color:var(--purple);box-shadow:0 6px 14px rgba(30,60,120,.14)}
+
+.results-card{text-align:center;display:grid;gap:14px}
+.big-score{font-size:3rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stars-row{font-size:2rem;letter-spacing:4px}
+.section-report{text-align:left;display:grid;gap:8px}
+.section-report .sr-row{display:flex;justify-content:space-between;background:#f5f8ff;border-radius:14px;padding:10px 12px;border:1px solid #e3eaff}
+
+.hidden{display:none !important}
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+
+.tab-bar-wrap{max-width:760px;margin:0 auto 10px}
+.tab-bar{display:flex;gap:6px;padding:7px;background:rgba(255,255,255,.92);border-radius:16px;box-shadow:0 6px 18px rgba(30,60,120,.12);overflow-x:auto}
+.tab-btn{flex:1;text-align:center;padding:8px 2px;border-radius:10px;font-weight:800;font-size:.68rem;border:none;background:transparent;color:var(--muted);white-space:nowrap;font-family:inherit;cursor:pointer}
+.tab-btn.active{background:var(--purple);color:#fff}
+.footer-note{text-align:center;font-size:.78rem;color:var(--muted);padding-top:6px}
+.install-banner{background:#fff7e0;border:1px solid #ffe6a6;border-radius:16px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="tab-bar-wrap">
+  <nav class="tab-bar">
+    <button type="button" class="tab-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='maths.html'">🔢 Maths</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='english.html'">📚 English</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='history.html'">🏺 History</button>
+    <button type="button" class="tab-btn active" onclick="window.location.href='science.html'">🔬 Science</button>
+  </nav>
+</div>
+<div class="app" id="app"></div>
+
+<script>
+/* ===================== UTILITIES ===================== */
+const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const pick = (arr) => arr[rnd(0, arr.length - 1)];
+const uid = () => Math.random().toString(36).slice(2, 10);
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=rnd(0,i); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ===================== FIXED QUESTION BANK: Forces, Gravity & Friction ===================== */
+const RAW_QUESTIONS = [
+  // --- Gravity Basics ---
+  {section:'gravity', difficulty:'easy', type:'tf', prompt:'Gravity is a force of attraction between two objects that have mass.', correctAnswer:'True',
+    explanation:'True. Gravity is a force of attraction between any two objects that have mass.'},
+  {section:'gravity', difficulty:'easy', type:'mcq', prompt:'What would happen to us without gravity?', choices:['We would fly off the Earth','We would become heavier','We would stop breathing','We would grow taller'], correctAnswer:'We would fly off the Earth',
+    explanation:'Without gravity, there would be nothing holding us down, and we would fly off the Earth.'},
+  {section:'gravity', difficulty:'easy', type:'mcq', prompt:'Which force pulls objects towards the centre of the Earth?', choices:['Gravity','Friction','Magnetism','Applied force'], correctAnswer:'Gravity',
+    explanation:'Gravity is the force that attracts or pulls objects towards the Earth.'},
+  {section:'gravity', difficulty:'medium', type:'tf', prompt:'Gravity only acts on objects that are moving, not on objects that are at rest.', correctAnswer:'False',
+    explanation:'False. Gravity works on objects both at rest and moving — for example, it still pulls down on a book resting on a table.'},
+  {section:'gravity', difficulty:'medium', type:'mcq', prompt:'Which property of an object affects how much gravity it exerts on another object?', choices:['Its mass','Its colour','Its temperature','Its shape only'], correctAnswer:'Its mass',
+    explanation:'The amount of gravity an object exerts depends on its mass — the more massive the object, the greater the force of gravity.'},
+  {section:'gravity', difficulty:'medium', type:'mcq', prompt:'If two objects are moved further apart, what happens to the force of gravity between them?', choices:['It gets weaker','It gets stronger','It stays exactly the same','It disappears completely'], correctAnswer:'It gets weaker',
+    explanation:'Gravity depends on distance — the further apart two objects are, the weaker the force of gravity between them.'},
+  {section:'gravity', difficulty:'hard', type:'mcq', prompt:'Why is the gravitational pull between two coins on a table too weak to ever notice?', choices:['Their mass is far too small','There is no gravity on tables','Coins are magnetic, not affected by gravity','Friction cancels out gravity'], correctAnswer:'Their mass is far too small',
+    explanation:'The amount of gravity an object exerts depends on its mass. Everyday objects like coins have very little mass, so the gravity between them is far too small to notice.'},
+
+  // --- Forces & Normal Force ---
+  {section:'forces', difficulty:'easy', type:'mcq', prompt:'What is a force?', choices:["A push or a pull that tries to change an object's position or shape",'A type of energy stored in food','A measurement of how hot something is','A type of liquid'], correctAnswer:"A push or a pull that tries to change an object's position or shape",
+    explanation:"A force is a push or a pull that tries to change the position or shape of an object."},
+  {section:'forces', difficulty:'easy', type:'mcq', prompt:'What do we call the support force that a table exerts upward on a book resting on it?', choices:['The normal force','An applied force','Air resistance','Magnetic force'], correctAnswer:'The normal force',
+    explanation:'The normal force is a support force — it is the push an object (like a table) gives upward against something resting on it.'},
+  {section:'forces', difficulty:'medium', type:'tf', prompt:'A book resting still on a table has no forces acting on it at all.', correctAnswer:'False',
+    explanation:'False. Even though the book is not moving, gravity is still pulling it down, and the normal force from the table is pushing it up.'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'Why does a book resting on a table not fall through the table?', choices:['The normal force from the table balances the pull of gravity','There is no gravity acting on the book','Friction holds the book in the air','The book has no mass'], correctAnswer:'The normal force from the table balances the pull of gravity',
+    explanation:'Gravity pulls the book down, but the normal force from the table pushes up with equal strength, so the book stays at rest.'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'In a force diagram, what do we use to show the size and direction of a force?', choices:['An arrow','A circle','A dotted line','A number only'], correctAnswer:'An arrow',
+    explanation:'In force diagrams, each force is shown as an arrow: the length shows its size and the direction it points shows its direction.'},
+  {section:'forces', difficulty:'medium', type:'tf', prompt:'When two forces acting on an object are equal in size, their arrows in a force diagram are drawn the same length.', correctAnswer:'True',
+    explanation:'True. When forces are equal in size, we draw their arrows the same length in a force diagram.'},
+  {section:'forces', difficulty:'hard', type:'mcq', prompt:'A book on a table has gravity pulling it down and the normal force pushing it up. What can we say about these two forces?', choices:['They are equal in size and opposite in direction','They are equal in size and in the same direction','The normal force is always bigger than gravity','Gravity is always bigger than the normal force'], correctAnswer:'They are equal in size and opposite in direction',
+    explanation:'For a book resting still on a table, gravity (down) and the normal force (up) are equal in size and opposite in direction, which is why the book does not move.'},
+
+  // --- Applied Forces & What Affects Gravity ---
+  {section:'applied', difficulty:'easy', type:'mcq', prompt:'Which of these is an example of an applied force?', choices:['Kicking a ball','A satellite orbiting Earth','A book resting quietly on a shelf','The Moon glowing at night'], correctAnswer:'Kicking a ball',
+    explanation:'Kicking a ball is an applied force — a force applied to an object by a person.'},
+  {section:'applied', difficulty:'easy', type:'mcq', prompt:'An applied force is a force that comes from:', choices:['A person or a machine pushing or pulling an object','Gravity alone','The object itself, with no outside cause','Outer space'], correctAnswer:'A person or a machine pushing or pulling an object',
+    explanation:'An applied force is any force applied to an object or person, for example by another person or a machine.'},
+  {section:'applied', difficulty:'medium', type:'mcq', prompt:'When you open a door by pulling the handle, what kind of force are you using?', choices:['An applied force','Gravity','Air resistance','A normal force'], correctAnswer:'An applied force',
+    explanation:'Pulling or pushing a door handle is an applied force — a force you apply to the door.'},
+  {section:'applied', difficulty:'medium', type:'tf', prompt:'All objects exert some amount of gravity on each other.', correctAnswer:'True',
+    explanation:'True. All objects exert gravity, though the amount depends on their mass and how far apart they are.'},
+  {section:'applied', difficulty:'medium', type:'mcq', prompt:'Which of these increases the force of gravity between two objects?', choices:['Increasing their mass','Increasing the distance between them','Changing their colour','Changing their temperature'], correctAnswer:'Increasing their mass',
+    explanation:'The force of gravity between two objects depends on their mass — the greater the mass, the greater the gravity between them.'},
+  {section:'applied', difficulty:'hard', type:'mcq', prompt:'Which pair of objects would have the strongest gravitational pull between them?', choices:['Two very massive objects that are close together','Two very massive objects that are far apart','Two light objects that are close together','Two light objects that are far apart'], correctAnswer:'Two very massive objects that are close together',
+    explanation:'Gravity is strongest when objects have a large mass and are close together — both factors increase the force of gravity.'},
+  {section:'applied', difficulty:'hard', type:'mcq', prompt:'A machine part pushes against another part to make it move. What kind of force is this?', choices:['An applied force','Gravity','Friction only','A normal force only'], correctAnswer:'An applied force',
+    explanation:'An applied force can come from a person or from a machine — whenever something pushes or pulls on an object, that is an applied force.'},
+
+  // --- Satellites & Orbits ---
+  {section:'satellites', difficulty:'easy', type:'mcq', prompt:'What do we call a body in space that orbits a larger body?', choices:['A satellite','A comet','A galaxy','A constellation'], correctAnswer:'A satellite',
+    explanation:'In space, a body that orbits a larger body is called a satellite.'},
+  {section:'satellites', difficulty:'easy', type:'mcq', prompt:'Which of these is a natural satellite of the Earth?', choices:['The Moon','The International Space Station','A weather satellite','A GPS satellite'], correctAnswer:'The Moon',
+    explanation:'The Moon is a natural satellite — the Moon and the Earth are attracted to each other by gravity.'},
+  {section:'satellites', difficulty:'easy', type:'mcq', prompt:'What is an artificial satellite?', choices:['An object made by humans that orbits a larger body','A natural object like the Moon','A type of rocket fuel','A kind of telescope on Earth'], correctAnswer:'An object made by humans that orbits a larger body',
+    explanation:'An artificial satellite is not a natural body like the Moon — it is an object made by humans that orbits the Earth.'},
+  {section:'satellites', difficulty:'medium', type:'mcq', prompt:'Which of these is NOT a common use of artificial satellites?', choices:['Growing crops','Transmitting TV signals','Recording weather information','Providing GPS location'], correctAnswer:'Growing crops',
+    explanation:'Artificial satellites are used to transmit TV signals, record weather information, and provide GPS — not for growing crops.'},
+  {section:'satellites', difficulty:'medium', type:'mcq', prompt:'What is special about the International Space Station?', choices:['Scientists live on it and carry out investigations in space','It is a natural satellite like the Moon','It only orbits the Moon, not the Earth','It cannot carry any people'], correctAnswer:'Scientists live on it and carry out investigations in space',
+    explanation:'The International Space Station is a satellite that has scientists living on it for extended periods, carrying out investigations and bringing their findings back to Earth.'},
+  {section:'satellites', difficulty:'medium', type:'tf', prompt:'South Africa uses a satellite called Intelsat 20 for digital television services.', correctAnswer:'True',
+    explanation:'True. South Africa uses the Intelsat 20 satellite for major digital satellite television services.'},
+  {section:'satellites', difficulty:'medium', type:'mcq', prompt:'How are artificial satellites launched into space?', choices:['By powerful rockets','By hot air balloons','By aeroplanes alone','By ships'], correctAnswer:'By powerful rockets',
+    explanation:'Artificial satellites are launched into space by powerful rockets, which give them enough speed to reach orbit.'},
+  {section:'satellites', difficulty:'hard', type:'mcq', prompt:"Why doesn't a satellite in orbit fall straight down to Earth?", choices:["It travels fast enough that its motion balances Earth's gravity pulling it in",'There is no gravity in space','It is pushed up by air resistance','It is attached to Earth by cables'], correctAnswer:"It travels fast enough that its motion balances Earth's gravity pulling it in",
+    explanation:"A satellite travels at an enormous speed. Gravity keeps pulling it towards Earth, but its forward motion keeps carrying it onward, so it keeps falling around the Earth in orbit rather than straight down."},
+
+  // --- Friction, Air & Water Resistance ---
+  {section:'friction', difficulty:'easy', type:'mcq', prompt:'What is friction?', choices:['A force between surfaces that are trying to slide past each other','A force that only exists in space','A type of magnetism','The force that makes objects heavier'], correctAnswer:'A force between surfaces that are trying to slide past each other',
+    explanation:'Friction is the force between surfaces that are trying to slide past each other.'},
+  {section:'friction', difficulty:'easy', type:'tf', prompt:'Friction acts on an object only while it is moving.', correctAnswer:'True',
+    explanation:'True. Friction acts on moving objects, working opposite to the direction of motion to slow them down.'},
+  {section:'friction', difficulty:'medium', type:'mcq', prompt:'In which direction does friction act on a moving object?', choices:['Opposite to the direction the object is moving','In the same direction as the motion','Straight downward only','Straight upward only'], correctAnswer:'Opposite to the direction the object is moving',
+    explanation:'Friction always acts in the direction opposite to the direction an object is moving, which slows it down.'},
+  {section:'friction', difficulty:'medium', type:'mcq', prompt:'What effect does friction have on a moving object?', choices:['It slows the object down','It speeds the object up','It makes the object heavier','It has no effect at all'], correctAnswer:'It slows the object down',
+    explanation:'Friction opposes motion, so it slows a moving object down.'},
+  {section:'friction', difficulty:'easy', type:'mcq', prompt:'What do we call the force that slows down objects moving through water?', choices:['Water resistance','Air resistance','The normal force','An applied force'], correctAnswer:'Water resistance',
+    explanation:'Water resistance is a force that slows down things that are moving through water.'},
+  {section:'friction', difficulty:'easy', type:'mcq', prompt:'What do we call the force that slows down objects moving through air?', choices:['Air resistance','Water resistance','Gravity','Magnetism'], correctAnswer:'Air resistance',
+    explanation:'Air resistance is a force that affects all objects moving through air, pushing against them and slowing their movement.'},
+  {section:'friction', difficulty:'medium', type:'tf', prompt:"Water resistance and air resistance are both sometimes called 'drag'.", correctAnswer:'True',
+    explanation:"True. Both water resistance and air resistance are sometimes called drag, because they drag back the moving object."},
+  {section:'friction', difficulty:'medium', type:'mcq', prompt:'Why are water resistance and air resistance both considered types of friction?', choices:['They are forces that oppose and slow down movement, like friction between solid surfaces','They only happen in outer space','They make objects move faster','They have nothing to do with movement'], correctAnswer:'They are forces that oppose and slow down movement, like friction between solid surfaces',
+    explanation:'Like friction between solid surfaces, water resistance and air resistance are forces that oppose and slow down movement.'},
+  {section:'friction', difficulty:'hard', type:'mcq', prompt:'A skydiver falling through the air and a swimmer moving through water are both being slowed down by:', choices:['A type of friction (air resistance or water resistance)','Gravity pulling them sideways','The normal force','An applied force from a machine'], correctAnswer:'A type of friction (air resistance or water resistance)',
+    explanation:'The skydiver experiences air resistance and the swimmer experiences water resistance — both are types of friction that oppose their movement.'}
+];
+
+/* ===================== QUIZ GENERATION ===================== */
+const SECTIONS = [
+  {key:'gravity', name:'Gravity Basics', emoji:'🍎', color:'linear-gradient(135deg,#3a86ff,#1d3557)'},
+  {key:'forces', name:'Forces &amp; Normal Force', emoji:'➡️', color:'linear-gradient(135deg,#8338ec,#5a189a)'},
+  {key:'applied', name:'Applied Forces', emoji:'⚽', color:'linear-gradient(135deg,#06d6a0,#1b998b)'},
+  {key:'satellites', name:'Satellites &amp; Orbits', emoji:'🛰️', color:'linear-gradient(135deg,#4cc9f0,#0077b6)'},
+  {key:'friction', name:'Friction &amp; Resistance', emoji:'🔥', color:'linear-gradient(135deg,#ff006e,#c9184a)'}
+];
+
+function generateQuiz(){
+  return shuffle(RAW_QUESTIONS).map(q => {
+    const question = { ...q, id: uid() };
+    if (question.type === 'mcq'){
+      question.choices = shuffle(question.choices);
+    } else {
+      question.choices = ['True','False'];
+    }
+    return question;
+  });
+}
+function sectionNameByKey(key){ const s = SECTIONS.find(x=>x.key===key); return s ? s.name.replace(/&amp;/g,'&') : key; }
+
+/* ===================== PERSISTENCE ===================== */
+const LS_SAVE = 'sq_saved_v1';
+const LS_HISTORY = 'sq_history_v1';
+const LS_XP = 'sq_xp_v1';
+
+function loadJSON(key, fallback){
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; }
+}
+function saveJSON(key, val){ try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
+
+function getXP(){ return loadJSON(LS_XP, {xp:0}); }
+function addXP(n){ const d = getXP(); d.xp += n; saveJSON(LS_XP, d); return d.xp; }
+function levelFromXP(xp){ return Math.floor(xp/100) + 1; }
+function xpIntoLevel(xp){ return xp % 100; }
+
+function getHistory(){ return loadJSON(LS_HISTORY, []); }
+function pushHistory(entry){ const h = getHistory(); h.unshift(entry); saveJSON(LS_HISTORY, h.slice(0,25)); }
+
+/* ===================== APP STATE ===================== */
+let state = null;
+
+function newQuizState(){
+  return {
+    startedAt: Date.now(),
+    questions: generateQuiz(),
+    index: 0,
+    answers: {},
+  };
+}
+
+function totalCount(){ return state.questions.length; }
+function answeredCount(){ return Object.values(state.answers).filter(a=>a.resolved).length; }
+function correctCount(){ return Object.values(state.answers).filter(a=>a.resolved && a.correct).length; }
+function sectionQuestions(sectionKey){ return state.questions.filter(q=>q.section===sectionKey); }
+function sectionAnsweredCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved).length; }
+function sectionCorrectCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved && state.answers[q.id].correct).length; }
+
+/* ===================== RENDERING ===================== */
+const app = document.getElementById('app');
+
+function go(view){ window.location.hash = view; render(); }
+
+function render(){
+  const hash = window.location.hash.replace('#','') || 'home';
+  if (hash === 'home') return renderHome();
+  if (hash === 'quiz') return renderQuiz();
+  if (hash === 'results') return renderResults();
+  renderHome();
+}
+window.addEventListener('hashchange', render);
+
+function renderHome(){
+  const saved = loadJSON(LS_SAVE, null);
+  const history = getHistory();
+  const xpData = getXP();
+  const level = levelFromXP(xpData.xp);
+  const pct = xpIntoLevel(xpData.xp);
+
+  app.innerHTML = `
+    <div class="card hero">
+      <div class="row between">
+        <div>
+          <h1>🔬 Science Quest</h1>
+          <p>Forces, Gravity &amp; Friction</p>
+        </div>
+        <div class="level-box">
+          <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>
+          <div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%"></div></div>
+          <div style="font-size:.72rem;opacity:.85;margin-top:2px">${pct}/100 XP to next level</div>
+        </div>
+      </div>
+    </div>
+
+    ${saved ? `
+    <div class="card install-banner">
+      <div><b>⏸️ You have a saved quiz in progress</b><br><span style="font-size:.85rem;color:var(--muted)">Question ${saved.index+1} of ${saved.questions.length}</span></div>
+      <div class="row">
+        <button class="btn-primary" id="continueBtn">Continue ▶</button>
+        <button class="btn-ghost" id="discardBtn">Discard</button>
+      </div>
+    </div>` : ''}
+
+    <div class="card">
+      <h3 style="margin-bottom:10px">Start a fresh quiz</h3>
+      <p style="margin-bottom:12px">Questions on forces, gravity, satellites and friction, freshly shuffled every time — mixed easy, medium and hard!</p>
+      <div class="topic-grid">
+        ${SECTIONS.map(s => `<div class="topic-card" style="background:${s.color}"><b>${s.emoji} ${s.name}</b></div>`).join('')}
+      </div>
+      <div class="row center" style="margin-top:14px">
+        <button class="btn-primary" id="startBtn" style="font-size:1.1rem;padding:14px 28px">🚀 Start New Quiz</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🏆 Your Badges</h3>
+      <div class="badges-shelf" style="margin-top:12px">
+        ${renderBadgeShelf(history)}
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📊 Your Past Attempts</h3>
+      <div style="margin-top:12px">
+      ${history.length===0 ? '<p>No attempts yet — play your first quiz!</p>' : history.slice(0,8).map(h => `
+        <div class="history-item">
+          <span>${new Date(h.date).toLocaleDateString()} ${new Date(h.date).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</span>
+          <span class="pill ${h.percent>=90?'gold':h.percent>=70?'green':'pink'}">${h.correct}/${h.total} · ${h.percent}%</span>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="footer-note">Works offline · Install this app to your home screen for the best experience · Made for a future scientist 🔬</div>
+  `;
+
+  document.getElementById('startBtn').onclick = () => {
+    state = newQuizState();
+    saveJSON(LS_SAVE, state);
+    go('quiz');
+  };
+  const cbtn = document.getElementById('continueBtn');
+  if (cbtn) cbtn.onclick = () => { state = saved; go('quiz'); };
+  const dbtn = document.getElementById('discardBtn');
+  if (dbtn) dbtn.onclick = () => { localStorage.removeItem(LS_SAVE); render(); };
+}
+
+function computeBadgesForAttempt(report){
+  const badges = [];
+  if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
+  else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
+  else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
+  if (report.noRetries) badges.push({e:'🎯', n:'Sharp Shooter'});
+  if (report.usedRetries && report.percent >= 60) badges.push({e:'💪', n:'Comeback Kid'});
+  report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
+  badges.push({e:'✅', n:'Completed'});
+  return badges;
+}
+
+function renderBadgeShelf(history){
+  if (history.length===0) return '<p>Complete a quiz to start earning badges!</p>';
+  const all = [];
+  history.forEach(h => (h.badges||[]).forEach(b => all.push(b)));
+  const seen = new Set();
+  const unique = all.filter(b => { const k=b.n; if (seen.has(k)) return false; seen.add(k); return true; });
+  if (unique.length===0) return '<p>Complete a quiz to start earning badges!</p>';
+  return unique.map(b => `<div class="badge-chip">${b.e}</div>`).join('');
+}
+
+function renderQuiz(){
+  if (!state){ go('home'); return; }
+  const q = state.questions[state.index];
+  const total = totalCount();
+  const answered = answeredCount();
+  const correct = correctCount();
+  const percent = answered ? Math.round((correct/answered)*100) : 0;
+  const sec = SECTIONS.find(s=>s.key===q.section);
+  const secTotal = sectionQuestions(q.section).length;
+  const secAnswered = sectionAnsweredCount(q.section);
+
+  const existing = state.answers[q.id];
+  const resolved = existing && existing.resolved;
+
+  app.innerHTML = `
+    <div class="card progress-wrap">
+      <div class="row between">
+        <div class="progress-label">Overall Progress</div>
+        <div class="progress-label">${answered}/${total}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner overall" style="width:${(answered/total)*100}%"></div></div>
+      <div class="row between" style="margin-top:4px">
+        <div class="progress-label">${sec.emoji} ${sectionNameByKey(sec.key)}</div>
+        <div class="progress-label">${secAnswered}/${secTotal}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner section" style="width:${(secAnswered/secTotal)*100}%"></div></div>
+      <div class="score-strip" style="margin-top:6px">
+        <div class="score-tile"><div class="num">${correct}/${answered||0}</div><div class="lbl">Score</div></div>
+        <div class="score-tile"><div class="num">${percent}%</div><div class="lbl">Accuracy</div></div>
+        <div class="score-tile"><div class="num">${state.index+1}/${total}</div><div class="lbl">Question</div></div>
+      </div>
+    </div>
+
+    <div class="card qcard" id="qcard">
+      <div class="qtop">
+        <span class="difficulty-tag ${q.difficulty}">${q.difficulty}</span>
+        <span class="pill">${sec.emoji} ${sectionNameByKey(sec.key)}</span>
+      </div>
+      <div class="qprompt">${q.prompt}</div>
+      <div id="answerArea"></div>
+      <div id="feedbackArea"></div>
+      <div id="memoArea"></div>
+      <div class="nav-row">
+        <button class="arrow-btn" id="backBtn" ${state.index===0 ? 'disabled':''}>←</button>
+        <button class="btn-secondary" id="saveExitBtn">💾 Save &amp; Exit</button>
+        <button class="arrow-btn" id="fwdBtn" ${resolved ? '' : 'disabled'}>→</button>
+      </div>
+    </div>
+  `;
+
+  renderAnswerArea(q, existing);
+
+  document.getElementById('backBtn').onclick = () => { state.index = Math.max(0, state.index-1); saveJSON(LS_SAVE, state); render(); };
+  document.getElementById('fwdBtn').onclick = () => {
+    if (state.index === total-1){ finishQuiz(); return; }
+    state.index++; saveJSON(LS_SAVE, state); render();
+  };
+  document.getElementById('saveExitBtn').onclick = () => { saveJSON(LS_SAVE, state); go('home'); };
+}
+
+function renderAnswerArea(q, existing){
+  const answerArea = document.getElementById('answerArea');
+  const feedbackArea = document.getElementById('feedbackArea');
+  const memoArea = document.getElementById('memoArea');
+  const resolved = existing && existing.resolved;
+
+  answerArea.innerHTML = `<div class="choices">${q.choices.map((c,i)=>{
+    const letter = String.fromCharCode(65+i);
+    let cls = 'choice-btn';
+    if (resolved){
+      if (c === q.correctAnswer) cls += ' correct';
+      else if (existing.lastChosen === c) cls += ' incorrect';
+      else cls += ' disabled-other';
+    }
+    return `<button class="${cls}" data-choice="${esc(c)}" ${resolved?'disabled':''}><span class="choice-letter">${letter}</span><span>${c}</span></button>`;
+  }).join('')}</div>`;
+  if (!resolved){
+    answerArea.querySelectorAll('.choice-btn').forEach(btn => {
+      btn.onclick = () => submitAnswer(q, btn.getAttribute('data-choice'));
+    });
+  }
+
+  if (existing){
+    renderFeedback(q, existing, feedbackArea);
+    if (resolved) renderMemo(q, memoArea);
+  }
+}
+
+function renderFeedback(q, ans, container){
+  if (!ans.lastWasCorrect && !ans.resolved){
+    container.innerHTML = `<div class="feedback-banner incorrect">🤔 Not quite! Give it one more try.</div>`;
+  } else if (ans.resolved && ans.correct){
+    container.innerHTML = `<div class="feedback-banner correct">${ans.attempts===1 ? '🎉 Correct on the first try! Amazing!' : '✅ Correct! Well done for trying again.'}</div>`;
+  } else if (ans.resolved && !ans.correct){
+    container.innerHTML = `<div class="feedback-banner wrong-final">📚 Not this time — read the memo below to learn why.</div>`;
+  } else {
+    container.innerHTML = '';
+  }
+}
+
+function renderMemo(q, container){
+  container.innerHTML = `<div class="memo-box">
+    <h4>📝 Study Memo</h4>
+    <div class="ans-line">Correct answer: <b>${q.correctAnswer}</b></div>
+    <div class="explain">${q.explanation}</div>
+  </div>`;
+}
+
+function submitAnswer(q, chosenRaw){
+  const existing = state.answers[q.id] || {attempts:0, resolved:false};
+  existing.attempts += 1;
+  existing.lastChosen = chosenRaw;
+  const isCorrect = String(chosenRaw) === String(q.correctAnswer);
+
+  if (isCorrect){
+    existing.resolved = true;
+    existing.correct = true;
+    existing.lastWasCorrect = true;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    launchConfetti(existing.attempts===1 ? 60 : 35);
+  } else if (existing.attempts >= 2){
+    existing.resolved = true;
+    existing.correct = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  } else {
+    existing.resolved = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  }
+  renderQuiz();
+}
+
+function finishQuiz(){
+  const total = totalCount();
+  const correct = correctCount();
+  const percent = Math.round((correct/total)*100);
+  const noRetries = Object.values(state.answers).every(a => a.attempts === 1);
+  const usedRetries = Object.values(state.answers).some(a => a.attempts > 1);
+
+  const sectionReports = SECTIONS.map(sec => {
+    const sq = sectionQuestions(sec.key);
+    const sc = sectionCorrectCount(sec.key);
+    return {key: sec.key, name: sectionNameByKey(sec.key), emoji: sec.emoji, correct: sc, total: sq.length, percent: Math.round((sc/sq.length)*100)};
+  });
+
+  const report = {
+    date: Date.now(), correct, total, percent, noRetries, usedRetries, sectionReports,
+    questions: state.questions.map(q => ({
+      prompt: q.prompt, section: q.section, difficulty: q.difficulty,
+      chosen: state.answers[q.id] ? state.answers[q.id].lastChosen : null,
+      correctAnswer: q.correctAnswer, wasCorrect: state.answers[q.id] ? !!state.answers[q.id].correct : false,
+      explanation: q.explanation
+    }))
+  };
+  report.badges = computeBadgesForAttempt(report);
+
+  const xpEarned = Object.values(state.answers).reduce((s,a)=> s + (a.correct ? (a.attempts===1?10:5) : 0), 0);
+  addXP(xpEarned);
+  report.xpEarned = xpEarned;
+
+  pushHistory({date: report.date, correct, total, percent, badges: report.badges});
+  localStorage.removeItem(LS_SAVE);
+
+  window._lastReport = report;
+  go('results');
+}
+
+function renderResults(){
+  const report = window._lastReport;
+  if (!report){ go('home'); return; }
+  const stars = report.percent >= 90 ? '⭐⭐⭐' : report.percent >= 70 ? '⭐⭐' : report.percent >= 40 ? '⭐' : '🌱';
+
+  app.innerHTML = `
+    <div class="card results-card">
+      <h1>${report.percent === 100 ? '🏆 Cum Laude!' : report.percent >= 75 ? '🎉 Great Job!' : '💪 Keep Practising!'}</h1>
+      <div class="big-score">${report.correct}/${report.total}</div>
+      <div style="font-size:1.2rem;font-weight:800">${report.percent}% · +${report.xpEarned} XP</div>
+      <div class="stars-row">${stars}</div>
+      <div class="badges-shelf row center">${report.badges.map(b=>`<div class="badge-chip">${b.e}</div>`).join('')}</div>
+      <div class="section-report">
+        ${report.sectionReports.map(sr => `<div class="sr-row"><span>${sr.emoji} ${sr.name}</span><b>${sr.correct}/${sr.total} (${sr.percent}%)</b></div>`).join('')}
+      </div>
+      <div class="row center">
+        <button class="btn-primary" id="downloadBtn">⬇️ Download Summary</button>
+        <button class="btn-good" id="playAgainBtn">🔄 New Quiz</button>
+        <button class="btn-secondary" id="homeBtn">🏠 Home</button>
+      </div>
+    </div>
+  `;
+  if (report.percent >= 90) launchConfetti(140);
+
+  document.getElementById('downloadBtn').onclick = () => downloadSummary(report);
+  document.getElementById('playAgainBtn').onclick = () => { state = newQuizState(); saveJSON(LS_SAVE, state); go('quiz'); };
+  document.getElementById('homeBtn').onclick = () => go('home');
+}
+
+function downloadSummary(report){
+  const dateStr = new Date(report.date).toLocaleString();
+  const rows = report.questions.map((q,i) => `
+    <tr>
+      <td style="padding:8px;border:1px solid #ddd">${i+1}</td>
+      <td style="padding:8px;border:1px solid #ddd">${sectionNameByKey(q.section)} (${q.difficulty})</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.prompt}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.chosen===null?'<i>no answer</i>':q.chosen}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.correctAnswer}</td>
+      <td style="padding:8px;border:1px solid #ddd;font-weight:bold;color:${q.wasCorrect?'#04473a':'#8a1f4c'}">${q.wasCorrect?'Correct':'Incorrect'}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.explanation}</td>
+    </tr>`).join('');
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Science Quest Results – ${dateStr}</title>
+  <style>body{font-family:Arial,sans-serif;padding:20px;color:#1c2541}h1{color:#3a86ff}table{border-collapse:collapse;width:100%;font-size:14px}th{background:#eaf1ff;padding:8px;border:1px solid #ddd;text-align:left}</style>
+  </head><body>
+  <h1>🔬 Science Quest – Results</h1>
+  <p><b>Date:</b> ${dateStr}<br/><b>Score:</b> ${report.correct}/${report.total} (${report.percent}%)<br/><b>Badges earned:</b> ${report.badges.map(b=>b.n).join(', ')}</p>
+  <table><thead><tr><th>#</th><th>Topic</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th><th>Explanation / Memo</th></tr></thead>
+  <tbody>${rows}</tbody></table>
+  <p style="margin-top:20px;color:#5c6b8a">Generated by Science Quest – keep exploring the forces around you!</p>
+  </body></html>`;
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `science-quest-results-${new Date(report.date).toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ===================== CONFETTI ===================== */
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+let confettiParticles = [];
+let confettiRAF = null;
+function launchConfetti(count){
+  const colors = ['#3a86ff','#8338ec','#ffbe0b','#06d6a0','#4cc9f0','#ff006e'];
+  for (let i=0;i<count;i++){
+    confettiParticles.push({
+      x: Math.random()*canvas.width, y: -20 - Math.random()*80,
+      vx: (Math.random()-0.5)*3, vy: 2+Math.random()*3,
+      size: 5+Math.random()*6, color: pick(colors), rot: Math.random()*360, vr:(Math.random()-0.5)*10,
+      life: 0, maxLife: 140+Math.random()*60
+    });
+  }
+  if (!confettiRAF) confettiLoop();
+}
+function confettiLoop(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confettiParticles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.03; p.rot += p.vr; p.life++;
+    ctx.save();
+    ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+    ctx.fillStyle = p.color; ctx.globalAlpha = Math.max(0, 1 - p.life/p.maxLife);
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+    ctx.restore();
+  });
+  confettiParticles = confettiParticles.filter(p => p.life < p.maxLife && p.y < canvas.height+40);
+  if (confettiParticles.length>0){
+    confettiRAF = requestAnimationFrame(confettiLoop);
+  } else {
+    confettiRAF = null;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+}
+
+/* ===================== SERVICE WORKER ===================== */
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+
+/* ===================== INIT ===================== */
+render();
+</script>
+</body>
+</html>

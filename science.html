@@ -184,6 +184,12 @@ const RAW_QUESTIONS = [
     explanation:'True. When forces are equal in size, we draw their arrows the same length in a force diagram.'},
   {section:'forces', difficulty:'hard', type:'mcq', prompt:'A book on a table has gravity pulling it down and the normal force pushing it up. What can we say about these two forces?', choices:['They are equal in size and opposite in direction','They are equal in size and in the same direction','The normal force is always bigger than gravity','Gravity is always bigger than the normal force'], correctAnswer:'They are equal in size and opposite in direction',
     explanation:'For a book resting still on a table, gravity (down) and the normal force (up) are equal in size and opposite in direction, which is why the book does not move.'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:"A cyclist is riding forward. At the point where the tyre touches the ground, which force pushes the bicycle forward?", choices:['Friction between the tyre and the ground','Gravity','The normal force','Air resistance'], correctAnswer:'Friction between the tyre and the ground',
+    explanation:'The grip (friction) between the tyre and the ground is what pushes the bicycle forward as the wheels turn.'},
+  {section:'forces', difficulty:'easy', type:'mcq', prompt:"As a cyclist rides along, which force constantly pulls them straight down?", choices:['Gravity','Friction','The normal force','Upthrust'], correctAnswer:'Gravity',
+    explanation:'Gravity is always pulling the cyclist (and everything else) straight down towards the Earth.'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:"What force pushes up on a cyclist's wheels from the ground below?", choices:['The normal force','Gravity','Air resistance','Upthrust'], correctAnswer:'The normal force',
+    explanation:"The normal force is the ground pushing up on the bicycle's wheels, balancing the pull of gravity."},
 
   // --- Applied Forces & What Affects Gravity ---
   {section:'applied', difficulty:'easy', type:'mcq', prompt:'Which of these is an example of an applied force?', choices:['Kicking a ball','A satellite orbiting Earth','A book resting quietly on a shelf','The Moon glowing at night'], correctAnswer:'Kicking a ball',
@@ -200,6 +206,10 @@ const RAW_QUESTIONS = [
     explanation:'Gravity is strongest when objects have a large mass and are close together — both factors increase the force of gravity.'},
   {section:'applied', difficulty:'hard', type:'mcq', prompt:'A machine part pushes against another part to make it move. What kind of force is this?', choices:['An applied force','Gravity','Friction only','A normal force only'], correctAnswer:'An applied force',
     explanation:'An applied force can come from a person or from a machine — whenever something pushes or pulls on an object, that is an applied force.'},
+  {section:'applied', difficulty:'medium', type:'mcq', prompt:"Which extra force will slow a cyclist down on a windy day, blowing against them?", choices:['Air resistance','Upthrust','The normal force','Magnetism'], correctAnswer:'Air resistance',
+    explanation:'Air resistance pushes against anything moving through air, including a cyclist riding into the wind, slowing them down.'},
+  {section:'applied', difficulty:'hard', type:'mcq', prompt:"What must a cyclist do to keep moving forward at a steady speed despite air resistance pushing against them?", choices:['Apply a greater forward force (pedal harder)','Stop pedalling completely','Reduce their own weight to zero','Turn off gravity'], correctAnswer:'Apply a greater forward force (pedal harder)',
+    explanation:'To overcome a bigger opposing force like air resistance, the cyclist must apply a bigger forward applied force — for example, by pedalling harder.'},
 
   // --- Satellites & Orbits ---
   {section:'satellites', difficulty:'easy', type:'mcq', prompt:'What do we call a body in space that orbits a larger body?', choices:['A satellite','A comet','A galaxy','A constellation'], correctAnswer:'A satellite',
@@ -237,7 +247,55 @@ const RAW_QUESTIONS = [
   {section:'friction', difficulty:'medium', type:'mcq', prompt:'Why are water resistance and air resistance both considered types of friction?', choices:['They are forces that oppose and slow down movement, like friction between solid surfaces','They only happen in outer space','They make objects move faster','They have nothing to do with movement'], correctAnswer:'They are forces that oppose and slow down movement, like friction between solid surfaces',
     explanation:'Like friction between solid surfaces, water resistance and air resistance are forces that oppose and slow down movement.'},
   {section:'friction', difficulty:'hard', type:'mcq', prompt:'A skydiver falling through the air and a swimmer moving through water are both being slowed down by:', choices:['A type of friction (air resistance or water resistance)','Gravity pulling them sideways','The normal force','An applied force from a machine'], correctAnswer:'A type of friction (air resistance or water resistance)',
-    explanation:'The skydiver experiences air resistance and the swimmer experiences water resistance — both are types of friction that oppose their movement.'}
+    explanation:'The skydiver experiences air resistance and the swimmer experiences water resistance — both are types of friction that oppose their movement.'},
+  {section:'friction', difficulty:'easy', type:'mcq', prompt:'What force pushes upward on an object floating in water?', choices:['Upthrust','Friction','The normal force','Air resistance'], correctAnswer:'Upthrust',
+    explanation:'Upthrust is the upward force that water (or any fluid) exerts on an object floating or submerged in it.'},
+  {section:'friction', difficulty:'medium', type:'tf', prompt:'A floating log has two forces acting on it: gravity pulling it down and upthrust pushing it up.', correctAnswer:'True',
+    explanation:'True. A floating log has gravity pulling it down and upthrust from the water pushing it up.'},
+  {section:'friction', difficulty:'medium', type:'mcq', prompt:'A log floats steadily in water, neither sinking nor rising. What can we say about the forces acting on it?', choices:['Gravity and upthrust are balanced (equal and opposite)','Only gravity is acting on the log','Only upthrust is acting on the log','Friction is the only force acting on the log'], correctAnswer:'Gravity and upthrust are balanced (equal and opposite)',
+    explanation:'When an object floats steadily, the downward pull of gravity and the upward push of upthrust are balanced — equal in size and opposite in direction.'},
+
+  // --- Magnets & Magnetic Materials ---
+  {section:'magnets', difficulty:'easy', type:'mcq', prompt:'Which of these materials is attracted to a magnet?', choices:['Steel','Rubber','Wood','Plastic'], correctAnswer:'Steel',
+    explanation:'Steel is a magnetic material, so it is attracted to magnets. Rubber, wood and plastic are not magnetic.'},
+  {section:'magnets', difficulty:'easy', type:'mcq', prompt:'Which of these materials is attracted to a magnet?', choices:['Iron','Gold','Wool','Rubber'], correctAnswer:'Iron',
+    explanation:'Iron is a magnetic material. Gold, wool and rubber are not attracted to magnets.'},
+  {section:'magnets', difficulty:'easy', type:'tf', prompt:'A cast iron pot is attracted to a magnet.', correctAnswer:'True',
+    explanation:'True. Cast iron is a magnetic material, so a cast iron pot is attracted to a magnet.'},
+  {section:'magnets', difficulty:'medium', type:'tf', prompt:'Aluminium is a metal, so it is always attracted to a magnet.', correctAnswer:'False',
+    explanation:"False. Not all metals are magnetic — aluminium is a metal, but it is not attracted to magnets."},
+  {section:'magnets', difficulty:'medium', type:'mcq', prompt:'Which of these metals is NOT attracted to a magnet?', choices:['Gold','Steel','Iron','Nickel'], correctAnswer:'Gold',
+    explanation:'Gold is a metal, but it is not magnetic. Steel, iron and nickel are all magnetic materials.'},
+  {section:'magnets', difficulty:'easy', type:'mcq', prompt:'Which of these objects would NOT be picked up by a magnet?', choices:['A rubber tyre','An iron nail','A steel paperclip','A cast iron pot'], correctAnswer:'A rubber tyre',
+    explanation:'A rubber tyre is made of a non-magnetic material, so a magnet will not pick it up. Iron nails, steel paperclips and cast iron pots are all magnetic.'},
+  {section:'magnets', difficulty:'medium', type:'mcq', prompt:'What is the magnetic pointer inside a compass attracted to?', choices:["The Earth's magnetic north pole",'The sun','The nearest iron object','The centre of the Earth'], correctAnswer:"The Earth's magnetic north pole",
+    explanation:"A compass needle is attracted to the Earth's magnetic north pole, which is why it always points north."},
+  {section:'magnets', difficulty:'medium', type:'mcq', prompt:'How can you magnetise a steel needle to make a simple compass?', choices:['Stroke it repeatedly in the same direction with one pole of a magnet','Heat it over a flame','Freeze it in ice','Paint it with magnetic paint'], correctAnswer:'Stroke it repeatedly in the same direction with one pole of a magnet',
+    explanation:'Stroking a steel needle repeatedly in the same direction with one pole of a bar magnet will magnetise the needle.'},
+  {section:'magnets', difficulty:'medium', type:'mcq', prompt:'Why might you test a newly magnetised needle by trying to pick up paper clips with it?', choices:['To check that the needle had actually become magnetic','To clean the needle','To make the needle heavier','To find the Earth\'s south pole'], correctAnswer:'To check that the needle had actually become magnetic',
+    explanation:'If the needle can pick up paper clips, that proves it has become magnetic.'},
+  {section:'magnets', difficulty:'hard', type:'mcq', prompt:'Why is it a good idea to keep a homemade compass away from metal objects?', choices:['Nearby metal could attract the needle and give a wrong reading','Metal objects destroy compasses instantly','Metal makes the needle disappear','Metal objects are always magnetic'], correctAnswer:'Nearby metal could attract the needle and give a wrong reading',
+    explanation:'A magnetised needle can be attracted to nearby metal objects, which would pull it away from pointing at the Earth\'s magnetic north pole and give an incorrect reading.'},
+  {section:'magnets', difficulty:'hard', type:'mcq', prompt:'Why is a polystyrene cup a good choice for floating a homemade compass needle?', choices:['Polystyrene is not magnetic, so it will not affect the compass reading','Polystyrene is the strongest material available','Polystyrene makes the needle magnetic','Polystyrene is attracted to the north pole'], correctAnswer:'Polystyrene is not magnetic, so it will not affect the compass reading',
+    explanation:'Polystyrene is a non-magnetic material, so it will not interfere with the magnetised needle as it turns to point north.'},
+
+  // --- Magnetic Force Investigations ---
+  {section:'magnetforce', difficulty:'easy', type:'mcq', prompt:"In Marcus's experiment, how did he compare the strength of two magnets?", choices:['By testing how many layers of card the magnet could attract a screw through','By weighing the magnets','By measuring the colour of the magnets','By counting the magnets\' poles'], correctAnswer:'By testing how many layers of card the magnet could attract a screw through',
+    explanation:'Marcus placed layers of card between each magnet and a steel screw, to see through how many layers the magnet could still attract the screw.'},
+  {section:'magnetforce', difficulty:'medium', type:'mcq', prompt:"Marcus's magnet stuck to the screw through 3 layers of card using Magnet A, but not using Magnet B. What does this tell us?", choices:['Magnet A is stronger than Magnet B','Magnet B is stronger than Magnet A','Both magnets are equally strong','Neither magnet is magnetic'], correctAnswer:'Magnet A is stronger than Magnet B',
+    explanation:'Since Magnet A could still attract the screw through more layers of card than Magnet B, Magnet A has the stronger magnetic force.'},
+  {section:'magnetforce', difficulty:'medium', type:'mcq', prompt:"Which of these would make Marcus's magnet test a fair test?", choices:['Using the same screw and the same size of card each time','Using a different screw for each magnet','Using thicker card for one magnet than the other','Testing the magnets on different days in different rooms'], correctAnswer:'Using the same screw and the same size of card each time',
+    explanation:'In a fair test, only the thing being tested (the magnet) should change — everything else, like the screw and the card, should stay the same.'},
+  {section:'magnetforce', difficulty:'hard', type:'mcq', prompt:"Could Marcus have used a plastic button instead of a steel screw to test the magnets?", choices:['No, because a plastic button is not magnetic and would not be attracted at all','Yes, because plastic is always magnetic','Yes, because the test does not need a magnetic object','No, because plastic buttons are too heavy'], correctAnswer:'No, because a plastic button is not magnetic and would not be attracted at all',
+    explanation:'A plastic button is not made of a magnetic material, so it would never be attracted to either magnet, no matter how strong — the test needs a magnetic object like a steel screw.'},
+  {section:'magnetforce', difficulty:'medium', type:'mcq', prompt:"In Arun and Marcus's investigation with two bar magnets, what did they measure to compare the magnets' strength?", choices:['The distance at which the magnet started to attract a paper clip','The weight of the paper clip','The colour of the paper clip','The temperature of the magnet'], correctAnswer:'The distance at which the magnet started to attract a paper clip',
+    explanation:'They used a ruler to measure the distance from which each magnet\'s pole began to attract a metal paper clip — the further the distance, the stronger the magnet.'},
+  {section:'magnetforce', difficulty:'medium', type:'mcq', prompt:"Why did Arun and Marcus take three readings for each pole of each magnet?", choices:['To get a reliable average and reduce the effect of errors','Because the first two readings are never correct','To make the experiment take longer','Because magnets change strength every time they are used'], correctAnswer:'To get a reliable average and reduce the effect of errors',
+    explanation:'Taking several readings and calculating an average (mean) makes results more reliable, by reducing the effect of any one measurement being slightly off.'},
+  {section:'magnetforce', difficulty:'hard', type:'mcq', prompt:"Why did Arun and Marcus use a metal paper clip instead of a plastic one to test the magnets?", choices:['A metal paper clip is attracted to a magnet, but a plastic one would not be','Metal paper clips are heavier and easier to see','Plastic paper clips are too expensive','Metal paper clips are magnetic themselves, like the magnet'], correctAnswer:'A metal paper clip is attracted to a magnet, but a plastic one would not be',
+    explanation:'The paper clip needs to be made of a magnetic material so that it can be attracted to the magnets being tested — a plastic clip would not respond to the magnet at all.'},
+  {section:'magnetforce', difficulty:'easy', type:'tf', prompt:'The stronger a magnet is, the further away it can attract a magnetic object.', correctAnswer:'True',
+    explanation:'True. A stronger magnet has a bigger area of magnetic force around it, so it can attract a magnetic object from further away.'}
 ];
 
 /* ===================== QUIZ GENERATION ===================== */
@@ -246,7 +304,9 @@ const SECTIONS = [
   {key:'forces', name:'Forces &amp; Normal Force', emoji:'➡️', color:'linear-gradient(135deg,#8338ec,#5a189a)'},
   {key:'applied', name:'Applied Forces', emoji:'⚽', color:'linear-gradient(135deg,#06d6a0,#1b998b)'},
   {key:'satellites', name:'Satellites &amp; Orbits', emoji:'🛰️', color:'linear-gradient(135deg,#4cc9f0,#0077b6)'},
-  {key:'friction', name:'Friction &amp; Resistance', emoji:'🔥', color:'linear-gradient(135deg,#ff006e,#c9184a)'}
+  {key:'friction', name:'Friction, Resistance &amp; Upthrust', emoji:'🔥', color:'linear-gradient(135deg,#ff006e,#c9184a)'},
+  {key:'magnets', name:'Magnets &amp; Magnetic Materials', emoji:'🧲', color:'linear-gradient(135deg,#fb5607,#d00000)'},
+  {key:'magnetforce', name:'Magnetic Force Investigations', emoji:'🧪', color:'linear-gradient(135deg,#ffbe0b,#fb8500)'}
 ];
 
 function generateQuiz(){

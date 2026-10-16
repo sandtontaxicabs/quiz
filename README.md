@@ -5,7 +5,7 @@
 - **`maths.html` — Maths Quest** (Grade 5/6, Cambridge Primary Mathematics): Area & Perimeter (composite "L-shaped" rectangles, missing side lengths) and Laws of Arithmetic (commutative/associative laws, order of operations, mental-maths regrouping)
 - **`english.html` — Word Quest** (Cambridge Stage 5 English, "Tell It Another Way"): fairy tale features, phrases & clauses, simple/complex sentences, verb tenses, pronouns & possessive adjectives, homophones & homonyms, rhyme & sound devices
 - **`history.html` — History Quest**: 50 questions on Ancient Egypt — the Nile, its importance and uses, social structure, homes & buildings, and farming & food
-- **`science.html` — Science Quest**: forces, gravity, the normal force, applied forces, satellites & orbits, and friction/air/water resistance
+- **`science.html` — Science Quest**: 65 questions on forces & magnetism — gravity, the normal force, applied forces, satellites & orbits, friction/air/water resistance & upthrust, multiple forces, magnets & magnetic materials, and magnetic force investigations
 
 ## Shared features
 

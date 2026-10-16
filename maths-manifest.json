@@ -1,0 +1,17 @@
+{
+  "name": "Maths Quest: Area, Perimeter & Number Laws",
+  "short_name": "Maths Quest",
+  "description": "An interactive gamified maths quiz for Area & Perimeter and Laws of Arithmetic, with instant marking, badges and progress tracking.",
+  "start_url": "./maths.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#eef5ff",
+  "theme_color": "#6c63ff",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

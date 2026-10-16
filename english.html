@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Word Quest: Tell It Another Way</title>
+<meta name="description" content="A colourful, gamified Stage 5 English progression test on fairy tale features, phrases and clauses, verb tenses, pronouns and homophones, with instant marking and badges." />
+<meta name="theme-color" content="#1b998b" />
+<link rel="manifest" href="english-manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+:root{
+  --bg1:#eafff9; --bg2:#fff7e6; --card:#ffffff; --ink:#232946; --muted:#6b7394;
+  --purple:#1b998b; --pink:#ff6b9d; --gold:#ffb703; --green:#06d6a0; --blue:#4cc9f0; --red:#ef476f;
+  --shadow:0 14px 34px rgba(50,50,120,.14);
+  --radius:22px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:"Baloo 2","Trebuchet MS","Segoe UI",Arial,sans-serif;color:var(--ink)}
+body{
+  background:
+    radial-gradient(circle at 8% 10%, #cdf7ec 0, transparent 40%),
+    radial-gradient(circle at 92% 15%, #ffe9c2 0, transparent 42%),
+    radial-gradient(circle at 50% 100%, #d4ecf7 0, transparent 45%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  padding:14px; padding-bottom:40px;
+}
+.app{max-width:760px;margin:0 auto;display:grid;gap:14px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+h1,h2,h3{margin:0}
+h1{font-size:clamp(1.4rem,5vw,2rem);line-height:1.1}
+p{margin:0;color:var(--muted)}
+button{border:none;border-radius:16px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;
+  transition:transform .12s ease, box-shadow .2s ease, opacity .2s ease; box-shadow:0 8px 18px rgba(70,84,150,.16);
+  font-family:inherit;}
+button:hover{transform:translateY(-1px)}
+button:active{transform:translateY(1px) scale(.98)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#3ee6c8);color:#fff}
+.btn-secondary{background:#eaf9f6;color:var(--ink)}
+.btn-good{background:linear-gradient(135deg,var(--green),#3ee6b0);color:#04372c}
+.btn-warn{background:linear-gradient(135deg,var(--gold),#ffd166);color:#5b3d00}
+.btn-danger{background:linear-gradient(135deg,var(--red),#ff8fa3);color:#fff}
+.btn-ghost{background:transparent;color:var(--purple);box-shadow:none;text-decoration:underline;padding:6px 8px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row.between{justify-content:space-between}
+.row.center{justify-content:center}
+.pill{padding:7px 13px;border-radius:999px;background:#eaf9f6;font-weight:800;font-size:.85rem;display:inline-flex;gap:6px;align-items:center}
+.pill.gold{background:#fff4d6;color:#6f5200}
+.pill.green{background:#dcfff3;color:#04473a}
+.pill.pink{background:#ffe4ee;color:#8a1f4c}
+.badge-emoji{font-size:1.1em}
+
+/* Home screen */
+.hero{background:linear-gradient(135deg,var(--purple),#3ac0b3 60%, var(--gold));color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% -10%, rgba(255,255,255,.35), transparent 45%)}
+.hero h1{color:#fff}
+.hero p{color:rgba(255,255,255,.92)}
+.level-box{background:rgba(255,255,255,.18);border-radius:16px;padding:10px 14px;backdrop-filter:blur(2px)}
+.xp-bar-outer{height:12px;border-radius:999px;background:rgba(255,255,255,.28);overflow:hidden;margin-top:6px}
+.xp-bar-inner{height:100%;background:linear-gradient(90deg,var(--gold),#fff3b0);border-radius:999px;transition:width .5s ease}
+.switch-link{font-size:.8rem;color:rgba(255,255,255,.9);text-decoration:underline;font-weight:700}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.topic-card{border-radius:18px;padding:12px;color:#fff;position:relative;overflow:hidden;min-height:88px;display:flex;flex-direction:column;justify-content:space-between;font-size:.92rem}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:14px;background:#f4fbfa;border:1px solid #e2f3ef;font-size:.92rem}
+.history-item + .history-item{margin-top:8px}
+.badges-shelf{display:flex;flex-wrap:wrap;gap:8px}
+.badge-chip{background:#fff7e0;border:1px solid #ffe6a6;border-radius:14px;padding:8px 10px;font-size:1.4rem;position:relative}
+
+/* Quiz screen */
+.progress-wrap{display:grid;gap:8px}
+.progress-label{display:flex;justify-content:space-between;font-size:.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.bar-outer{height:14px;border-radius:999px;background:#eaf9f6;overflow:hidden;box-shadow:inset 0 0 0 1px #dcf3ee}
+.bar-inner{height:100%;border-radius:999px;transition:width .45s cubic-bezier(.4,1.6,.6,1)}
+.bar-inner.overall{background:linear-gradient(90deg,var(--purple),var(--gold))}
+.bar-inner.section{background:linear-gradient(90deg,var(--blue),var(--green))}
+.score-strip{display:flex;gap:10px;flex-wrap:wrap}
+.score-tile{flex:1;min-width:110px;background:#f4fbfa;border-radius:16px;padding:10px 12px;text-align:center;border:1px solid #e2f3ef}
+.score-tile .num{font-size:1.35rem;font-weight:900}
+.score-tile .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.03em}
+
+.qcard{padding:18px;display:grid;gap:16px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.difficulty-tag{font-size:.72rem;font-weight:900;text-transform:uppercase;padding:5px 10px;border-radius:999px;letter-spacing:.03em}
+.difficulty-tag.easy{background:#dcfff3;color:#04473a}
+.difficulty-tag.medium{background:#fff4d6;color:#6f5200}
+.difficulty-tag.hard{background:#ffe1e8;color:#8a1f4c}
+.qprompt{font-size:1.1rem;font-weight:800;line-height:1.5}
+.story-box{background:#fbfaf3;border:2px solid #f0e6c8;border-radius:16px;padding:14px 16px;font-style:italic;line-height:1.6;color:#4a4530}
+.choices{display:grid;gap:10px}
+.choice-btn{text-align:left;background:#f4fbfa;border:2px solid #dff0ec;color:var(--ink);font-weight:700;padding:13px 15px;border-radius:16px;box-shadow:none;display:flex;align-items:center;gap:10px}
+.choice-btn:hover{border-color:#bfe6dd}
+.choice-btn.selected{border-color:var(--purple);background:#eafaf6}
+.choice-btn.correct{border-color:var(--green);background:#dcfff3;color:#04473a}
+.choice-btn.incorrect{border-color:var(--red);background:#ffe1e8;color:#8a1f4c}
+.choice-btn.disabled-other{opacity:.55}
+.choice-letter{width:26px;height:26px;border-radius:50%;background:#dff0ec;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;flex:none}
+.choice-btn.correct .choice-letter{background:var(--green);color:#fff}
+.choice-btn.incorrect .choice-letter{background:var(--red);color:#fff}
+
+.feedback-banner{border-radius:16px;padding:12px 14px;font-weight:800;display:flex;gap:10px;align-items:center;animation:pop .35s ease}
+.feedback-banner.correct{background:#dcfff3;color:#04473a}
+.feedback-banner.incorrect{background:#fff1d6;color:#6f5200}
+.feedback-banner.wrong-final{background:#ffe1e8;color:#8a1f4c}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.shake{animation:shake .4s ease}
+
+.memo-box{background:#f4fbfa;border:2px dashed #bfe6dd;border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.memo-box h4{margin:0;font-size:.95rem;color:var(--purple);display:flex;align-items:center;gap:6px}
+.memo-box .ans-line{font-weight:800}
+.memo-box .explain{color:var(--ink);line-height:1.5}
+
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.arrow-btn{width:52px;height:52px;border-radius:50%;font-size:1.3rem;display:flex;align-items:center;justify-content:center;background:#eaf9f6;color:var(--purple);box-shadow:0 6px 14px rgba(70,84,150,.14)}
+
+.results-card{text-align:center;display:grid;gap:14px}
+.big-score{font-size:3rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stars-row{font-size:2rem;letter-spacing:4px}
+.section-report{text-align:left;display:grid;gap:8px}
+.section-report .sr-row{display:flex;justify-content:space-between;background:#f4fbfa;border-radius:14px;padding:10px 12px;border:1px solid #e2f3ef}
+
+.hidden{display:none !important}
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+
+.tab-bar-wrap{max-width:760px;margin:0 auto 10px}
+.tab-bar{display:flex;gap:6px;padding:7px;background:rgba(255,255,255,.92);border-radius:16px;box-shadow:0 6px 18px rgba(50,50,120,.12);overflow-x:auto}
+.tab-btn{flex:1;text-align:center;padding:8px 2px;border-radius:10px;font-weight:800;font-size:.68rem;border:none;background:transparent;color:var(--muted);white-space:nowrap;font-family:inherit;cursor:pointer}
+.tab-btn.active{background:var(--purple);color:#fff}
+.footer-note{text-align:center;font-size:.78rem;color:var(--muted);padding-top:6px}
+.install-banner{background:#fff7e0;border:1px solid #ffe6a6;border-radius:16px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+u{text-decoration-thickness:2px;text-decoration-color:var(--purple)}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="tab-bar-wrap">
+  <nav class="tab-bar">
+    <button type="button" class="tab-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='maths.html'">🔢 Maths</button>
+    <button type="button" class="tab-btn active" onclick="window.location.href='english.html'">📚 English</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='history.html'">🏺 History</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='science.html'">🔬 Science</button>
+  </nav>
+</div>
+<div class="app" id="app"></div>
+
+<script>
+/* ===================== UTILITIES ===================== */
+const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const pick = (arr) => arr[rnd(0, arr.length - 1)];
+const uid = () => Math.random().toString(36).slice(2, 10);
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=rnd(0,i); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+/* ===================== NAME / WORD BANKS (for surface variety only) ===================== */
+const NAMES = ['Amara','Leo','Priya','Tomas','Nia','Kwame','Elif','Mateo','Suri','Jonas','Hana','Ravi','Zola','Iris','Boyan'];
+const KINGDOMS = ['Windermere','Sablewood','Aurelia','Marrowvale','Thistledown','Emberholt'];
+const CREATURES = ['fox','owl','hare','badger','wolf','raven'];
+const NOUNS = ['locket','lantern','compass','ribbon','mirror','key'];
+
+/* ===================== SECTION 1: FAIRY TALE FEATURES ===================== */
+const FEATURES = [
+  {key:'timeless', label:'a timeless setting, such as "Once upon a time"'},
+  {key:'royal', label:'royal characters, such as a king, queen, prince or princess'},
+  {key:'magic', label:'a magical or enchanted object'},
+  {key:'wicked', label:'a wicked stepmother or stepsister'},
+  {key:'task', label:'a task or test that a character must complete'},
+  {key:'three', label:'the number three (three sons, three wishes, three tries)'},
+  {key:'transform', label:'a transformation, where someone or something changes form'},
+  {key:'goodwins', label:'good, kindness or cleverness triumphing over wickedness or greed'}
+];
+
+const TALES = [
+  {
+    theme: 'cleverness and hard work are rewarded',
+    features: ['timeless','royal','magic','task','three','goodwins'],
+    build: (v) => `Once upon a time, in the kingdom of ${v.kingdom}, lived a weaver's daughter named ${v.name}. The old prince announced he would marry whoever could weave three impossible cloths: one from morning mist, one from starlight, and one from the first winter frost. Many tried and failed, but ${v.name} worked patiently at her enchanted loom for three long nights. When she presented the shimmering cloths, the prince realised her patience and skill were rarer than any treasure, and they were married at once.`
+  },
+  {
+    theme: 'kindness is rewarded, while jealousy and greed are punished',
+    features: ['timeless','wicked','magic','three','transform','goodwins'],
+    build: (v) => `Once upon a time, a girl named ${v.name} lived with her cruel stepmother, who forced her to fetch water from a deep, whispering well every morning. For three mornings, ${v.name} greeted the old woman who lived beside the well and shared her bread, though she had little enough herself. On the third morning, the old woman revealed she was an enchanted spirit, and blessed ${v.name} so that flowers bloomed wherever she walked. When the jealous stepmother sent her own daughter to seek the same reward, the girl was rude to the old woman, and toads fell from her mouth whenever she spoke instead.`
+  },
+  {
+    theme: 'true kindness can break even the strongest curse',
+    features: ['timeless','royal','magic','transform','three','goodwins'],
+    build: (v) => `Once upon a time, a proud prince named ${v.name} mocked a traveller who came to his gate seeking shelter. The traveller was secretly an enchantress, and she cursed him to become a ${v.creature} every night until someone loved him despite his fate. For three long years, he lived half as a prince and half as a ${v.creature}, until a kind villager found him shivering in the snow and cared for him without ever asking what he was. Her kindness broke the curse at once, and the prince never mocked another traveller again.`
+  },
+  {
+    theme: 'cleverness is worth more than wealth',
+    features: ['timeless','royal','task','three','goodwins'],
+    build: (v) => `Once upon a time, a king in ${v.kingdom} wished to find the wisest person in his land to advise him. He set three riddles for anyone brave enough to try: what grows faster the more it is cut, what can be caught but never thrown, and what has a heart that never beats. Many wealthy nobles guessed wildly and failed, but a young apprentice named ${v.name} answered all three correctly: hair, a cold, and an artichoke. The king was so delighted by ${v.name}'s clever mind that he made ${v.name} his most trusted advisor.`
+  },
+  {
+    theme: 'greed leads to loss, while generosity leads to happiness',
+    features: ['timeless','magic','wicked','goodwins'],
+    build: (v) => `Once upon a time, two sisters found an enchanted ${v.noun} washed up on the riverbank. The elder sister, who was greedy and unkind, kept it hidden and wished only for gold, and gold alone filled her house until she could barely move between the piles. The younger sister found a second ${v.noun} nearby and used her wish to share warmth and food with the whole village through a long winter. The villagers loved her dearly, while her sister sat alone, rich but friendless, surrounded by cold, gleaming coins.`
+  }
+];
+
+function tellFeature(present){ return present ? 'does' : 'does not'; }
+
+function genTaleQuestion(difficulty){
+  const tale = pick(TALES);
+  const v = { name: pick(NAMES), kingdom: pick(KINGDOMS), creature: pick(CREATURES), noun: pick(NOUNS) };
+  const text = tale.build(v);
+  const presentSet = new Set(tale.features);
+
+  if (difficulty === 'easy'){
+    const feature = pick(FEATURES);
+    const isPresent = presentSet.has(feature.key);
+    return {
+      id: uid(), section:'tales', difficulty, type:'tf',
+      prompt: `<div class="story-box">${text}</div><br>True or False: this story includes <b>${feature.label}</b>.`,
+      choices: ['True','False'], correctAnswer: isPresent ? 'True' : 'False',
+      explanation: isPresent
+        ? `This is <b>True</b>. Reread the story — it clearly includes ${feature.label}.`
+        : `This is <b>False</b>. This particular story does not include ${feature.label}, even though many fairy tales do.`
+    };
+  }
+
+  if (difficulty === 'medium'){
+    const presentFeatures = FEATURES.filter(f => presentSet.has(f.key));
+    const absentFeatures = FEATURES.filter(f => !presentSet.has(f.key));
+    const correct = pick(presentFeatures);
+    const distractors = shuffle(absentFeatures).slice(0, 3);
+    const options = shuffle([correct, ...distractors]).map(f => f.label);
+    return {
+      id: uid(), section:'tales', difficulty, type:'mcq',
+      prompt: `<div class="story-box">${text}</div><br>Which traditional tale feature <b>is</b> included in this story?`,
+      choices: options, correctAnswer: correct.label,
+      explanation: `The story includes ${correct.label}. The other options are common fairy tale features too, but they don't appear in this particular story.`
+    };
+  }
+
+  // hard: theme identification
+  const otherThemes = shuffle(TALES.filter(t => t.theme !== tale.theme).map(t => t.theme)).slice(0,3);
+  const options = shuffle([tale.theme, ...otherThemes]);
+  return {
+    id: uid(), section:'tales', difficulty, type:'mcq',
+    prompt: `<div class="story-box">${text}</div><br>What is the <b>main theme</b> (the big lesson) of this story?`,
+    choices: options.map(t => cap(t)), correctAnswer: cap(tale.theme),
+    explanation: `The theme is that <b>${tale.theme}</b>. Look at what happens to the characters by the end of the story — that usually reveals the lesson the tale is teaching.`
+  };
+}
+
+/* ===================== SECTION 2: PHRASES & CLAUSES ===================== */
+const PHRASE_CLAUSE_TEMPLATES = [
+  { answer:'Phrase', build:(v)=>`${v.Name} tiptoed <u>up the creaking stairs</u> without making a sound.`,
+    reason:(v)=>`"up the creaking stairs" is a <b>phrase</b> — it adds detail but has no subject and verb of its own.` },
+  { answer:'Clause', build:(v)=>`${v.Name} found the ${v.noun} <u>that ${v.pronoun} had lost</u> the day before.`,
+    reason:(v)=>`"that ${v.pronoun} had lost" is a <b>clause</b> — it has its own subject ("${v.pronoun}") and verb ("had lost").` },
+  { answer:'Phrase', build:(v)=>`The ${v.creature} <u>hiding behind the old oak tree</u> held its breath.`,
+    reason:(v)=>`"hiding behind the old oak tree" is a <b>phrase</b> — "hiding" here has no subject of its own, so it can't be a clause.` },
+  { answer:'Clause', build:(v)=>`${v.Name} smiled bravely <u>although ${v.pronoun} was frightened</u>.`,
+    reason:(v)=>`"although ${v.pronoun} was frightened" is a <b>clause</b> — it has a subject ("${v.pronoun}") and a verb ("was").` },
+  { answer:'Phrase', build:(v)=>`They discovered <u>a dusty, forgotten ${v.noun}</u> hidden in the attic.`,
+    reason:(v)=>`"a dusty, forgotten ${v.noun}" is a <b>phrase</b> — a group of words built around a noun, with no verb.` },
+  { answer:'Clause', build:(v)=>`<u>Because the ${v.creature} was sleeping</u>, the travellers crept past quietly.`,
+    reason:(v)=>`"Because the ${v.creature} was sleeping" is a <b>clause</b> — it has a subject ("the ${v.creature}") and a verb ("was sleeping").` },
+  { answer:'Phrase', build:(v)=>`${v.Name} waited <u>with growing excitement</u> for the results.`,
+    reason:(v)=>`"with growing excitement" is a <b>phrase</b> — it describes how ${v.Name} waited, but has no subject and verb of its own.` }
+];
+
+function genPhraseClauseQuestion(difficulty){
+  const pool = difficulty === 'easy' ? PHRASE_CLAUSE_TEMPLATES.slice(0,3)
+    : difficulty === 'medium' ? PHRASE_CLAUSE_TEMPLATES.slice(2,5)
+    : PHRASE_CLAUSE_TEMPLATES.slice(4);
+  const t = pick(pool.length ? pool : PHRASE_CLAUSE_TEMPLATES);
+  const name = pick(NAMES);
+  const v = { Name: name, pronoun: pick(['she','he']), creature: pick(CREATURES), noun: pick(NOUNS) };
+  const sentence = t.build(v);
+  return {
+    id: uid(), section:'phrases', difficulty, type:'mcq',
+    prompt: `Is the <u>underlined</u> part of this sentence a phrase or a clause?<br><br><span style="font-size:1.05rem">${sentence}</span>`,
+    choices: ['Phrase','Clause'], correctAnswer: t.answer,
+    explanation: t.reason(v) + ` Remember: a <b>clause</b> always has both a subject and a verb; a <b>phrase</b> is missing one or the other.`
+  };
+}
+
+/* ===================== SECTION 3: VERB TENSES ===================== */
+function genTenseQuestion(difficulty){
+  const name = pick(NAMES);
+  const names2 = shuffle(NAMES).slice(0,2);
+  const creature = pick(CREATURES);
+
+  if (difficulty === 'easy'){
+    const subjectOptions = [
+      {text: name, be:'is'},
+      {text: 'I', be:'am'},
+      {text: `${names2[0]} and ${names2[1]}`, be:'are'},
+      {text: 'You', be:'are'}
+    ];
+    const s = pick(subjectOptions);
+    const verb = pick(['baking a pie','singing a song','climbing the tower','searching for treasure']);
+    const choices = shuffle(['is','are','am','was']);
+    return {
+      id: uid(), section:'tenses', difficulty, type:'mcq',
+      prompt: `Choose the correct form of <b>to be</b> to show this is happening <b>right now</b>:<br><br>"${s.text} ___ ${verb}."`,
+      choices, correctAnswer: s.be,
+      explanation: `"${s.text} ${s.be} ${verb}" is correct. The continuous present tense (helping verb + "-ing") shows something happening right now, and the helping verb must match the subject.`
+    };
+  }
+
+  if (difficulty === 'medium'){
+    const pair = pick([
+      {simple:'bakes bread', cont:'baking bread'},
+      {simple:'visits the market', cont:'visiting the market'},
+      {simple:'feeds the chickens', cont:'feeding the chickens'},
+      {simple:'writes in her journal', cont:'writing in her journal'}
+    ]);
+    const simpleSentence = `${name} ${pair.simple} every morning.`;
+    const contSentence = `${name} is ${pair.cont} right now.`;
+    const isAFirst = Math.random() < 0.5;
+    const optionA = isAFirst ? simpleSentence : contSentence;
+    const optionB = isAFirst ? contSentence : simpleSentence;
+    const correctOption = isAFirst ? 'Sentence B' : 'Sentence A';
+    return {
+      id: uid(), section:'tenses', difficulty, type:'mcq',
+      prompt: `Which sentence describes something happening <b>right now</b>?<br><br>Sentence A: "${optionA}"<br>Sentence B: "${optionB}"`,
+      choices: ['Sentence A','Sentence B'], correctAnswer: correctOption,
+      explanation: `The continuous form ("is ${pair.cont}") shows something happening right now. The simple present form ("${pair.simple} every morning") shows something that happens repeatedly, like a habit or routine.`
+    };
+  }
+
+  // hard: plural / tricky subjects
+  const subjects = [
+    {text:`The two ${creature}s`, be:'are'},
+    {text:'The whole class', be:'is'},
+    {text:`${names2[0]}, ${names2[1]} and their dog`, be:'are'},
+    {text:'Everybody in the hall', be:'is'}
+  ];
+  const s = pick(subjects);
+  const verb = pick(['waiting quietly','watching the stage','listening carefully']);
+  const choices = shuffle(['is','are','was','be']);
+  return {
+    id: uid(), section:'tenses', difficulty, type:'mcq',
+    prompt: `Choose the correct form of <b>to be</b> for this tricky subject:<br><br>"${s.text} ___ ${verb}."`,
+    choices, correctAnswer: s.be,
+    explanation: `"${s.text} ${s.be} ${verb}" is correct. Watch out — some subjects look plural or singular but need extra thought (like "the whole class", which is one group, so it takes "is").`
+  };
+}
+
+/* ===================== SECTION 4: PRONOUNS & POSSESSIVE ADJECTIVES ===================== */
+const POSSESSIVE_PRONOUNS = ['mine','yours','hers','ours','theirs'];
+const POSSESSIVE_ADJECTIVES = ['my','your','her','our','their'];
+
+function genPronounQuestion(difficulty){
+  if (difficulty !== 'hard'){
+    const isPronoun = Math.random() < 0.5;
+    const word = isPronoun ? pick(POSSESSIVE_PRONOUNS) : pick(POSSESSIVE_ADJECTIVES);
+    const noun = pick(NOUNS);
+    const name = pick(NAMES);
+    let sentence;
+    if (isPronoun){
+      sentence = difficulty === 'easy'
+        ? `This ${noun} is not mine — it must be <u>${word}</u>.`
+        : `${name} searched everywhere, but the missing ${noun} turned out to be <u>${word}</u> all along.`;
+    } else {
+      sentence = difficulty === 'easy'
+        ? `${name} quietly picked up <u>${word}</u> ${noun} and walked away.`
+        : `Before the storm arrived, ${name} had already hidden <u>${word}</u> ${noun} beneath the old floorboards.`;
+    }
+    return {
+      id: uid(), section:'pronouns', difficulty, type:'mcq',
+      prompt: `Is the <u>underlined</u> word a pronoun or a possessive adjective?<br><br>${sentence}`,
+      choices: ['Pronoun','Possessive adjective'], correctAnswer: isPronoun ? 'Pronoun' : 'Possessive adjective',
+      explanation: isPronoun
+        ? `"${word}" is a <b>pronoun</b> — it stands in place of a noun completely (it doesn't sit in front of one).`
+        : `"${word}" is a <b>possessive adjective</b> — it sits directly in front of a noun ("${word} ${noun}") to describe who it belongs to.`
+    };
+  }
+
+  // hard: ambiguity
+  const [nameA, nameB] = shuffle(NAMES).slice(0,2);
+  const pronoun = pick(['he','she','they']);
+  const verb = pick(['had won the race','was telling the truth','should go first']);
+  const sentence = `${nameA} told ${nameB} that ${pronoun} ${verb}.`;
+  const options = shuffle([
+    `It is unclear — "${pronoun}" could mean either ${nameA} or ${nameB}`,
+    `It definitely means ${nameA}`,
+    `It definitely means ${nameB}`,
+    `It means both ${nameA} and ${nameB} together`
+  ]);
+  const correct = `It is unclear — "${pronoun}" could mean either ${nameA} or ${nameB}`;
+  return {
+    id: uid(), section:'pronouns', difficulty, type:'mcq',
+    prompt: `Read this sentence carefully:<br><br>"${sentence}"<br><br>What is the problem with the pronoun "${pronoun}" here?`,
+    choices: options, correctAnswer: correct,
+    explanation: `This sentence is <b>ambiguous</b> — we can't tell whether "${pronoun}" refers to ${nameA} or ${nameB}. To fix it, a writer should replace the pronoun with the correct name, e.g. "${nameA} told ${nameB} that ${nameB} ${verb}."`
+  };
+}
+
+/* ===================== SECTION 5: HOMOPHONES & HOMONYMS ===================== */
+const THEIR_THERE_TEMPLATES = [
+  { blank:'their', build:(v)=>`The children could not find ___ shoes anywhere.` },
+  { blank:'there', build:(v)=>`Please put the basket down over ___.` },
+  { blank:"they're", build:(v)=>`I think ___ going to be late for the ball.` },
+  { blank:'their', build:(v)=>`${v.name} and ${v.name2} shared ___ last piece of bread.` },
+  { blank:'there', build:(v)=>`Is anybody ___ to help us find the way?` },
+  { blank:"they're", build:(v)=>`My cousins said ___ planning a big surprise.` }
+];
+
+const HOMONYMS = {
+  bow: [
+    { sense:'a knot with two loops, used to tie shoes or ribbon', sentence:(v)=>`${v.name} tied a neat <b>bow</b> on the present before hiding it.` },
+    { sense:'to bend forward at the waist to show respect', sentence:(v)=>`The knight had to <b>bow</b> before he could speak to the queen.` },
+    { sense:'a weapon used with arrows to shoot', sentence:(v)=>`The hunter raised his <b>bow</b> and took careful aim.` }
+  ],
+  spring: [
+    { sense:'the season between winter and summer', sentence:(v)=>`The flowers always bloom in early <b>spring</b>.` },
+    { sense:'to jump suddenly', sentence:(v)=>`The cat was ready to <b>spring</b> at any moment.` },
+    { sense:'a coiled piece of metal', sentence:(v)=>`A rusty <b>spring</b> inside the old clock had finally snapped.` }
+  ],
+  well: [
+    { sense:'a deep hole dug to reach water', sentence:(v)=>`They lowered the bucket into the old stone <b>well</b>.` },
+    { sense:'in good health', sentence:(v)=>`${v.name} did not feel <b>well</b> after eating too many berries.` },
+    { sense:'done skilfully', sentence:(v)=>`${v.name} played the flute very <b>well</b> at the festival.` }
+  ],
+  match: [
+    { sense:'a short stick used to light a fire', sentence:(v)=>`${v.name} struck a <b>match</b> to light the candle.` },
+    { sense:'a game or contest between two sides', sentence:(v)=>`Everyone gathered to watch the final <b>match</b>.` },
+    { sense:'something that goes well with another thing', sentence:(v)=>`The ribbon was a perfect <b>match</b> for her dress.` }
+  ],
+  right: [
+    { sense:'correct, or without mistakes', sentence:(v)=>`${v.name} was the only one who guessed the <b>right</b> answer.` },
+    { sense:'the opposite direction to left', sentence:(v)=>`Turn <b>right</b> at the crooked old signpost.` },
+    { sense:'something a person is entitled to', sentence:(v)=>`Every villager had the <b>right</b> to speak at the meeting.` }
+  ],
+  plot: [
+    { sense:'the main events of a story', sentence:(v)=>`The <b>plot</b> of the tale twisted in a way nobody expected.` },
+    { sense:'a small area of ground', sentence:(v)=>`They grew vegetables on a small <b>plot</b> behind the cottage.` },
+    { sense:'a secret plan, often to cause trouble', sentence:(v)=>`The guards uncovered a <b>plot</b> against the young king.` }
+  ]
+};
+
+function genHomophoneQuestion(difficulty){
+  if (difficulty !== 'hard'){
+    const t = pick(THEIR_THERE_TEMPLATES);
+    const v = { name: pick(NAMES), name2: pick(NAMES) };
+    const sentence = t.build(v);
+    const choices = shuffle(['their','there',"they're"]);
+    return {
+      id: uid(), section:'homophones', difficulty, type:'mcq',
+      prompt: `Which word correctly completes this sentence?<br><br>"${sentence.replace('___','_____')}"`,
+      choices, correctAnswer: t.blank,
+      explanation: t.blank === 'their'
+        ? `"their" is a <b>possessive adjective</b> — it shows something belongs to them.`
+        : t.blank === 'there'
+          ? `"there" is an <b>adverb of place</b> — it points to a location.`
+          : `"they're" is a <b>contraction</b> of "they are".`
+    };
+  }
+
+  const word = pick(Object.keys(HOMONYMS));
+  const senses = HOMONYMS[word];
+  const correctSense = pick(senses);
+  const v = { name: pick(NAMES) };
+  const sentence = correctSense.sentence(v);
+  const distractors = shuffle(senses.filter(s => s !== correctSense)).map(s => s.sense);
+  const choices = shuffle([correctSense.sense, ...distractors]);
+  return {
+    id: uid(), section:'homophones', difficulty, type:'mcq',
+    prompt: `The word "<b>${word}</b>" is a <b>homonym</b> — it has more than one meaning. In this sentence, what does it mean?<br><br>"${sentence}"`,
+    choices, correctAnswer: correctSense.sense,
+    explanation: `Here, "${word}" means <b>${correctSense.sense}</b>. Homonyms are spelled and pronounced the same, so you must use the rest of the sentence to work out which meaning is being used.`
+  };
+}
+
+/* ===================== SECTION 6: SIMPLE & COMPLEX SENTENCES ===================== */
+const CONNECTIVES = ['because','although','when','if','while','since'];
+
+function genSentenceQuestion(difficulty){
+  const name = pick(NAMES);
+  const creature = pick(CREATURES);
+
+  if (difficulty === 'easy'){
+    const isComplex = Math.random() < 0.5;
+    const connective = pick(CONNECTIVES);
+    const simple = `${name} closed the old gate quietly.`;
+    const complex = `${name} closed the old gate quietly ${connective} the ${creature} was still sleeping nearby.`;
+    const sentence = isComplex ? complex : simple;
+    return {
+      id: uid(), section:'sentences', difficulty, type:'mcq',
+      prompt: `Is this a <b>simple</b> or <b>complex</b> sentence?<br><br>"${sentence}"`,
+      choices: ['Simple','Complex'], correctAnswer: isComplex ? 'Complex' : 'Simple',
+      explanation: isComplex
+        ? `This is a <b>complex</b> sentence — it has a main clause and a dependent clause joined by the connective "${connective}".`
+        : `This is a <b>simple</b> sentence — it has just one clause, with a single subject and verb, and no connective joining a second clause.`
+    };
+  }
+
+  if (difficulty === 'medium'){
+    const scenarios = [
+      { a:`${name} grabbed an umbrella`, b:'it had started to rain', correct:'because' },
+      { a:`${name} kept walking`, b:'the path grew darker and darker', correct:'although' },
+      { a:`the villagers cheered`, b:'the young hero returned home', correct:'when' },
+      { a:`the ${creature} will hide`, b:'a stranger comes near', correct:'if' }
+    ];
+    const s = pick(scenarios);
+    const wrongOptions = shuffle(CONNECTIVES.filter(c => c !== s.correct)).slice(0,3);
+    const choices = shuffle([s.correct, ...wrongOptions]);
+    return {
+      id: uid(), section:'sentences', difficulty, type:'mcq',
+      prompt: `Which connective best joins these two ideas into one complex sentence?<br><br>"${cap(s.a)} ___ ${s.b}."`,
+      choices, correctAnswer: s.correct,
+      explanation: `"${cap(s.a)} ${s.correct} ${s.b}." makes the most sense. Connectives like "${CONNECTIVES.join('", "')}" join a main clause to a dependent clause to build a complex sentence.`
+    };
+  }
+
+  // hard: identify the dependent clause
+  const connective = pick(CONNECTIVES);
+  const mainClause = `${name} still remembered the old song`;
+  const dependentClause = `${connective} many years had passed`;
+  const sentence = `${cap(mainClause)}, ${dependentClause}.`;
+  const options = shuffle([
+    cap(dependentClause),
+    cap(mainClause),
+    `${connective}`,
+    `${name} remembered`
+  ]);
+  return {
+    id: uid(), section:'sentences', difficulty, type:'mcq',
+    prompt: `Which part of this sentence is the <b>dependent (subordinate) clause</b>?<br><br>"${sentence}"`,
+    choices: options, correctAnswer: cap(dependentClause),
+    explanation: `"${cap(dependentClause)}" is the dependent clause — it starts with the connective "${connective}" and cannot stand alone as a full sentence, even though it has its own subject and verb.`
+  };
+}
+
+/* ===================== SECTION 7: RHYME & SOUND DEVICES ===================== */
+const RHYME_PAIRS = {
+  full: [['night','light'], ['spite','fright'], ['sleet','meat'], ['sort','thought'], ['groan','phone']],
+  half: [['groan','shone'], ['jostle','hassle'], ['bag','bug'], ['weir','spears'], ['cow','show']]
+};
+
+function genPoetryQuestion(difficulty){
+  if (difficulty === 'easy'){
+    const isFull = Math.random() < 0.5;
+    const pair = pick(isFull ? RHYME_PAIRS.full : RHYME_PAIRS.half);
+    return {
+      id: uid(), section:'poetry', difficulty, type:'mcq',
+      prompt: `Are these two words a <b>full rhyme</b> or a <b>half rhyme</b>?<br><br>"${pair[0]}" and "${pair[1]}"`,
+      choices: ['Full rhyme','Half rhyme'], correctAnswer: isFull ? 'Full rhyme' : 'Half rhyme',
+      explanation: isFull
+        ? `"${pair[0]}" and "${pair[1]}" are a <b>full rhyme</b> — their word endings sound exactly the same.`
+        : `"${pair[0]}" and "${pair[1]}" are a <b>half rhyme</b> — only their final sounds are similar, not identical.`
+    };
+  }
+
+  if (difficulty === 'medium'){
+    const examples = [
+      { line:'The girl had pearls in her curls.', device:'Assonance', why:'the words "girl", "pearls" and "curls" share the same vowel sound.' },
+      { line:'The slippery snake slithered silently.', device:'Alliteration', why:'several words in a row start with the same "s" sound.' },
+      { line:'I am the daughter of Earth and Water.', device:'Assonance', why:'"daughter" and "Water" share the same vowel sound, close together in the line.' },
+      { line:'Busy bees buzzed beside the bushes.', device:'Alliteration', why:'several words in a row start with the same "b" sound.' }
+    ];
+    const ex = pick(examples);
+    const choices = shuffle(['Assonance','Alliteration','Full rhyme','Half rhyme']);
+    return {
+      id: uid(), section:'poetry', difficulty, type:'mcq',
+      prompt: `Which sound device is used in this line?<br><br>"${ex.line}"`,
+      choices, correctAnswer: ex.device,
+      explanation: `This is <b>${ex.device}</b> — ${ex.why}`
+    };
+  }
+
+  // hard: internal rhyme vs end rhyme
+  const isInternal = Math.random() < 0.5;
+  const line = isInternal
+    ? 'The daughter of the water danced lightly through the night.'
+    : 'They shut the old road through the woods,\nweather and rain have undone the goods.';
+  const label = isInternal ? 'Internal rhyme' : 'End rhyme';
+  const choices = ['Internal rhyme','End rhyme'];
+  return {
+    id: uid(), section:'poetry', difficulty, type:'mcq',
+    prompt: `What type of rhyme is used here?<br><br><span style="white-space:pre-line">"${line}"</span>`,
+    choices, correctAnswer: label,
+    explanation: isInternal
+      ? `This is <b>internal rhyme</b> — "daughter" and "water" rhyme with each other within the same line.`
+      : `This is <b>end rhyme</b> — the rhyming words ("woods" and "goods") fall at the ends of the lines.`
+  };
+}
+
+/* ===================== QUIZ GENERATION ===================== */
+const SECTIONS = [
+  {key:'tales', name:'Fairy Tale Features', emoji:'📖', gen: genTaleQuestion, color:'linear-gradient(135deg,#4cc9f0,#4361ee)'},
+  {key:'phrases', name:'Phrases &amp; Clauses', emoji:'✂️', gen: genPhraseClauseQuestion, color:'linear-gradient(135deg,#06d6a0,#1b998b)'},
+  {key:'sentences', name:'Simple &amp; Complex Sentences', emoji:'🔀', gen: genSentenceQuestion, color:'linear-gradient(135deg,#118ab2,#073b4c)'},
+  {key:'tenses', name:'Verb Tenses', emoji:'⏳', gen: genTenseQuestion, color:'linear-gradient(135deg,#ff9f1c,#ffbf69)'},
+  {key:'pronouns', name:'Pronouns &amp; Adjectives', emoji:'🔗', gen: genPronounQuestion, color:'linear-gradient(135deg,#ff6b9d,#c9184a)'},
+  {key:'homophones', name:'Homophones &amp; Homonyms', emoji:'🔤', gen: genHomophoneQuestion, color:'linear-gradient(135deg,#9d4edd,#5a189a)'},
+  {key:'poetry', name:'Rhyme &amp; Sound Devices', emoji:'🎵', gen: genPoetryQuestion, color:'linear-gradient(135deg,#e63946,#f1a208)'}
+];
+const DIFF_PLAN = ['easy','medium','hard']; // per section, 3 each = 21 total
+
+function generateQuiz(){
+  const questions = [];
+  SECTIONS.forEach(sec => {
+    shuffle(DIFF_PLAN).forEach(diff => { questions.push(sec.gen(diff)); });
+  });
+  return questions;
+}
+function interleave(questions){
+  const bySection = {};
+  questions.forEach(q => { (bySection[q.section] = bySection[q.section]||[]).push(q); });
+  const keys = Object.keys(bySection);
+  const out = [];
+  let i = 0;
+  while (out.length < questions.length){
+    keys.forEach(k => { if (bySection[k][i]) out.push(bySection[k][i]); });
+    i++;
+  }
+  return out;
+}
+function sectionNameByKey(key){ const s = SECTIONS.find(x=>x.key===key); return s ? s.name.replace(/&amp;/g,'&') : key; }
+
+/* ===================== PERSISTENCE ===================== */
+const LS_SAVE = 'wq_saved_v1';
+const LS_HISTORY = 'wq_history_v1';
+const LS_XP = 'wq_xp_v1';
+
+function loadJSON(key, fallback){
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; }
+}
+function saveJSON(key, val){ try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
+
+function getXP(){ return loadJSON(LS_XP, {xp:0}); }
+function addXP(n){ const d = getXP(); d.xp += n; saveJSON(LS_XP, d); return d.xp; }
+function levelFromXP(xp){ return Math.floor(xp/100) + 1; }
+function xpIntoLevel(xp){ return xp % 100; }
+
+function getHistory(){ return loadJSON(LS_HISTORY, []); }
+function pushHistory(entry){ const h = getHistory(); h.unshift(entry); saveJSON(LS_HISTORY, h.slice(0,25)); }
+
+/* ===================== APP STATE ===================== */
+let state = null;
+
+function newQuizState(){
+  return {
+    startedAt: Date.now(),
+    questions: interleave(generateQuiz()),
+    index: 0,
+    answers: {},
+  };
+}
+
+function totalCount(){ return state.questions.length; }
+function answeredCount(){ return Object.values(state.answers).filter(a=>a.resolved).length; }
+function correctCount(){ return Object.values(state.answers).filter(a=>a.resolved && a.correct).length; }
+function sectionQuestions(sectionKey){ return state.questions.filter(q=>q.section===sectionKey); }
+function sectionAnsweredCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved).length; }
+function sectionCorrectCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved && state.answers[q.id].correct).length; }
+
+/* ===================== RENDERING ===================== */
+const app = document.getElementById('app');
+
+function go(view){ window.location.hash = view; render(); }
+
+function render(){
+  const hash = window.location.hash.replace('#','') || 'home';
+  if (hash === 'home') return renderHome();
+  if (hash === 'quiz') return renderQuiz();
+  if (hash === 'results') return renderResults();
+  renderHome();
+}
+window.addEventListener('hashchange', render);
+
+function renderHome(){
+  const saved = loadJSON(LS_SAVE, null);
+  const history = getHistory();
+  const xpData = getXP();
+  const level = levelFromXP(xpData.xp);
+  const pct = xpIntoLevel(xpData.xp);
+
+  app.innerHTML = `
+    <div class="card hero">
+      <div class="row between">
+        <div>
+          <h1>📚 Word Quest</h1>
+          <p>Stage 5 English &middot; Tell It Another Way</p>
+        </div>
+        <div class="level-box">
+          <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>
+          <div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%"></div></div>
+          <div style="font-size:.72rem;opacity:.85;margin-top:2px">${pct}/100 XP to next level</div>
+        </div>
+      </div>
+    </div>
+
+    ${saved ? `
+    <div class="card install-banner">
+      <div><b>⏸️ You have a saved test in progress</b><br><span style="font-size:.85rem;color:var(--muted)">Question ${saved.index+1} of ${saved.questions.length}</span></div>
+      <div class="row">
+        <button class="btn-primary" id="continueBtn">Continue ▶</button>
+        <button class="btn-ghost" id="discardBtn">Discard</button>
+      </div>
+    </div>` : ''}
+
+    <div class="card">
+      <h3 style="margin-bottom:10px">Start a fresh progression test</h3>
+      <p style="margin-bottom:12px">Every time you play, you'll get brand-new stories and questions — mixed easy, medium and hard!</p>
+      <div class="topic-grid">
+        ${SECTIONS.map(s => `<div class="topic-card" style="background:${s.color}"><b>${s.emoji} ${s.name}</b></div>`).join('')}
+      </div>
+      <div class="row center" style="margin-top:14px">
+        <button class="btn-primary" id="startBtn" style="font-size:1.1rem;padding:14px 28px">🚀 Start New Test</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🏆 Your Badges</h3>
+      <div class="badges-shelf" style="margin-top:12px">
+        ${renderBadgeShelf(history)}
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📊 Your Past Attempts</h3>
+      <div style="margin-top:12px">
+      ${history.length===0 ? '<p>No attempts yet — take your first test!</p>' : history.slice(0,8).map(h => `
+        <div class="history-item">
+          <span>${new Date(h.date).toLocaleDateString()} ${new Date(h.date).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</span>
+          <span class="pill ${h.percent>=90?'gold':h.percent>=70?'green':'pink'}">${h.correct}/${h.total} · ${h.percent}%</span>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="footer-note">Works offline · Install this app to your home screen for the best experience · Made for a future author 📚</div>
+  `;
+
+  document.getElementById('startBtn').onclick = () => {
+    state = newQuizState();
+    saveJSON(LS_SAVE, state);
+    go('quiz');
+  };
+  const cbtn = document.getElementById('continueBtn');
+  if (cbtn) cbtn.onclick = () => { state = saved; go('quiz'); };
+  const dbtn = document.getElementById('discardBtn');
+  if (dbtn) dbtn.onclick = () => { localStorage.removeItem(LS_SAVE); render(); };
+}
+
+function computeBadgesForAttempt(report){
+  const badges = [];
+  if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
+  else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
+  else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
+  if (report.noRetries) badges.push({e:'🎯', n:'Sharp Shooter'});
+  if (report.usedRetries && report.percent >= 60) badges.push({e:'💪', n:'Comeback Kid'});
+  report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
+  badges.push({e:'✅', n:'Completed'});
+  return badges;
+}
+
+function renderBadgeShelf(history){
+  if (history.length===0) return '<p>Complete a test to start earning badges!</p>';
+  const all = [];
+  history.forEach(h => (h.badges||[]).forEach(b => all.push(b)));
+  const seen = new Set();
+  const unique = all.filter(b => { const k=b.n; if (seen.has(k)) return false; seen.add(k); return true; });
+  if (unique.length===0) return '<p>Complete a test to start earning badges!</p>';
+  return unique.map(b => `<div class="badge-chip">${b.e}</div>`).join('');
+}
+
+function renderQuiz(){
+  if (!state){ go('home'); return; }
+  const q = state.questions[state.index];
+  const total = totalCount();
+  const answered = answeredCount();
+  const correct = correctCount();
+  const percent = answered ? Math.round((correct/answered)*100) : 0;
+  const sec = SECTIONS.find(s=>s.key===q.section);
+  const secTotal = sectionQuestions(q.section).length;
+  const secAnswered = sectionAnsweredCount(q.section);
+
+  const existing = state.answers[q.id];
+  const resolved = existing && existing.resolved;
+
+  app.innerHTML = `
+    <div class="card progress-wrap">
+      <div class="row between">
+        <div class="progress-label">Overall Progress</div>
+        <div class="progress-label">${answered}/${total}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner overall" style="width:${(answered/total)*100}%"></div></div>
+      <div class="row between" style="margin-top:4px">
+        <div class="progress-label">${sec.emoji} ${sec.name}</div>
+        <div class="progress-label">${secAnswered}/${secTotal}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner section" style="width:${(secAnswered/secTotal)*100}%"></div></div>
+      <div class="score-strip" style="margin-top:6px">
+        <div class="score-tile"><div class="num">${correct}/${answered||0}</div><div class="lbl">Score</div></div>
+        <div class="score-tile"><div class="num">${percent}%</div><div class="lbl">Accuracy</div></div>
+        <div class="score-tile"><div class="num">${state.index+1}/${total}</div><div class="lbl">Question</div></div>
+      </div>
+    </div>
+
+    <div class="card qcard" id="qcard">
+      <div class="qtop">
+        <span class="difficulty-tag ${q.difficulty}">${q.difficulty}</span>
+        <span class="pill">${sec.emoji} ${sec.name}</span>
+      </div>
+      <div class="qprompt">${q.prompt}</div>
+      <div id="answerArea"></div>
+      <div id="feedbackArea"></div>
+      <div id="memoArea"></div>
+      <div class="nav-row">
+        <button class="arrow-btn" id="backBtn" ${state.index===0 ? 'disabled':''}>←</button>
+        <button class="btn-secondary" id="saveExitBtn">💾 Save &amp; Exit</button>
+        <button class="arrow-btn" id="fwdBtn" ${resolved ? '' : 'disabled'}>→</button>
+      </div>
+    </div>
+  `;
+
+  renderAnswerArea(q, existing);
+
+  document.getElementById('backBtn').onclick = () => { state.index = Math.max(0, state.index-1); saveJSON(LS_SAVE, state); render(); };
+  document.getElementById('fwdBtn').onclick = () => {
+    if (state.index === total-1){ finishQuiz(); return; }
+    state.index++; saveJSON(LS_SAVE, state); render();
+  };
+  document.getElementById('saveExitBtn').onclick = () => { saveJSON(LS_SAVE, state); go('home'); };
+}
+
+function renderAnswerArea(q, existing){
+  const answerArea = document.getElementById('answerArea');
+  const feedbackArea = document.getElementById('feedbackArea');
+  const memoArea = document.getElementById('memoArea');
+  const resolved = existing && existing.resolved;
+
+  answerArea.innerHTML = `<div class="choices">${q.choices.map((c,i)=>{
+    const letter = String.fromCharCode(65+i);
+    let cls = 'choice-btn';
+    if (resolved){
+      if (c === q.correctAnswer) cls += ' correct';
+      else if (existing.lastChosen === c) cls += ' incorrect';
+      else cls += ' disabled-other';
+    }
+    return `<button class="${cls}" data-choice="${esc(c)}" ${resolved?'disabled':''}><span class="choice-letter">${letter}</span><span>${c}</span></button>`;
+  }).join('')}</div>`;
+  if (!resolved){
+    answerArea.querySelectorAll('.choice-btn').forEach(btn => {
+      btn.onclick = () => submitAnswer(q, btn.getAttribute('data-choice'));
+    });
+  }
+
+  if (existing){
+    renderFeedback(q, existing, feedbackArea);
+    if (resolved) renderMemo(q, memoArea);
+  }
+}
+
+function renderFeedback(q, ans, container){
+  if (!ans.lastWasCorrect && !ans.resolved){
+    container.innerHTML = `<div class="feedback-banner incorrect">🤔 Not quite! Give it one more try.</div>`;
+  } else if (ans.resolved && ans.correct){
+    container.innerHTML = `<div class="feedback-banner correct">${ans.attempts===1 ? '🎉 Correct on the first try! Amazing!' : '✅ Correct! Well done for trying again.'}</div>`;
+  } else if (ans.resolved && !ans.correct){
+    container.innerHTML = `<div class="feedback-banner wrong-final">📚 Not this time — read the memo below to learn why.</div>`;
+  } else {
+    container.innerHTML = '';
+  }
+}
+
+function renderMemo(q, container){
+  container.innerHTML = `<div class="memo-box">
+    <h4>📝 Study Memo</h4>
+    <div class="ans-line">Correct answer: <b>${q.correctAnswer}</b></div>
+    <div class="explain">${q.explanation}</div>
+  </div>`;
+}
+
+function submitAnswer(q, chosenRaw){
+  const existing = state.answers[q.id] || {attempts:0, resolved:false};
+  existing.attempts += 1;
+  existing.lastChosen = chosenRaw;
+  const isCorrect = String(chosenRaw) === String(q.correctAnswer);
+
+  if (isCorrect){
+    existing.resolved = true;
+    existing.correct = true;
+    existing.lastWasCorrect = true;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    launchConfetti(existing.attempts===1 ? 60 : 35);
+  } else if (existing.attempts >= 2){
+    existing.resolved = true;
+    existing.correct = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  } else {
+    existing.resolved = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  }
+  renderQuiz();
+}
+
+function finishQuiz(){
+  const total = totalCount();
+  const correct = correctCount();
+  const percent = Math.round((correct/total)*100);
+  const noRetries = Object.values(state.answers).every(a => a.attempts === 1);
+  const usedRetries = Object.values(state.answers).some(a => a.attempts > 1);
+
+  const sectionReports = SECTIONS.map(sec => {
+    const sq = sectionQuestions(sec.key);
+    const sc = sectionCorrectCount(sec.key);
+    return {key: sec.key, name: sectionNameByKey(sec.key), emoji: sec.emoji, correct: sc, total: sq.length, percent: Math.round((sc/sq.length)*100)};
+  });
+
+  const report = {
+    date: Date.now(), correct, total, percent, noRetries, usedRetries, sectionReports,
+    questions: state.questions.map(q => ({
+      prompt: q.prompt, section: q.section, difficulty: q.difficulty,
+      chosen: state.answers[q.id] ? state.answers[q.id].lastChosen : null,
+      correctAnswer: q.correctAnswer, wasCorrect: state.answers[q.id] ? !!state.answers[q.id].correct : false,
+      explanation: q.explanation
+    }))
+  };
+  report.badges = computeBadgesForAttempt(report);
+
+  const xpEarned = Object.values(state.answers).reduce((s,a)=> s + (a.correct ? (a.attempts===1?10:5) : 0), 0);
+  addXP(xpEarned);
+  report.xpEarned = xpEarned;
+
+  pushHistory({date: report.date, correct, total, percent, badges: report.badges});
+  localStorage.removeItem(LS_SAVE);
+
+  window._lastReport = report;
+  go('results');
+}
+
+function renderResults(){
+  const report = window._lastReport;
+  if (!report){ go('home'); return; }
+  const stars = report.percent >= 90 ? '⭐⭐⭐' : report.percent >= 70 ? '⭐⭐' : report.percent >= 40 ? '⭐' : '🌱';
+
+  app.innerHTML = `
+    <div class="card results-card">
+      <h1>${report.percent === 100 ? '🏆 Cum Laude!' : report.percent >= 75 ? '🎉 Great Job!' : '💪 Keep Practising!'}</h1>
+      <div class="big-score">${report.correct}/${report.total}</div>
+      <div style="font-size:1.2rem;font-weight:800">${report.percent}% · +${report.xpEarned} XP</div>
+      <div class="stars-row">${stars}</div>
+      <div class="badges-shelf row center">${report.badges.map(b=>`<div class="badge-chip">${b.e}</div>`).join('')}</div>
+      <div class="section-report">
+        ${report.sectionReports.map(sr => `<div class="sr-row"><span>${sr.emoji} ${sr.name}</span><b>${sr.correct}/${sr.total} (${sr.percent}%)</b></div>`).join('')}
+      </div>
+      <div class="row center">
+        <button class="btn-primary" id="downloadBtn">⬇️ Download Summary</button>
+        <button class="btn-good" id="playAgainBtn">🔄 New Test</button>
+        <button class="btn-secondary" id="homeBtn">🏠 Home</button>
+      </div>
+    </div>
+  `;
+  if (report.percent >= 90) launchConfetti(140);
+
+  document.getElementById('downloadBtn').onclick = () => downloadSummary(report);
+  document.getElementById('playAgainBtn').onclick = () => { state = newQuizState(); saveJSON(LS_SAVE, state); go('quiz'); };
+  document.getElementById('homeBtn').onclick = () => go('home');
+}
+
+function downloadSummary(report){
+  const dateStr = new Date(report.date).toLocaleString();
+  const rows = report.questions.map((q,i) => `
+    <tr>
+      <td style="padding:8px;border:1px solid #ddd">${i+1}</td>
+      <td style="padding:8px;border:1px solid #ddd">${sectionNameByKey(q.section)} (${q.difficulty})</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.prompt}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.chosen===null?'<i>no answer</i>':q.chosen}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.correctAnswer}</td>
+      <td style="padding:8px;border:1px solid #ddd;font-weight:bold;color:${q.wasCorrect?'#04473a':'#8a1f4c'}">${q.wasCorrect?'Correct':'Incorrect'}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.explanation}</td>
+    </tr>`).join('');
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Word Quest Results – ${dateStr}</title>
+  <style>body{font-family:Arial,sans-serif;padding:20px;color:#232946}h1{color:#1b998b}table{border-collapse:collapse;width:100%;font-size:14px}th{background:#eaf9f6;padding:8px;border:1px solid #ddd;text-align:left}</style>
+  </head><body>
+  <h1>📚 Word Quest – Results</h1>
+  <p><b>Date:</b> ${dateStr}<br/><b>Score:</b> ${report.correct}/${report.total} (${report.percent}%)<br/><b>Badges earned:</b> ${report.badges.map(b=>b.n).join(', ')}</p>
+  <table><thead><tr><th>#</th><th>Topic</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th><th>Explanation / Memo</th></tr></thead>
+  <tbody>${rows}</tbody></table>
+  <p style="margin-top:20px;color:#6b7394">Generated by Word Quest – keep reading and writing and you'll master these in no time!</p>
+  </body></html>`;
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `word-quest-results-${new Date(report.date).toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ===================== CONFETTI ===================== */
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+let confettiParticles = [];
+let confettiRAF = null;
+function launchConfetti(count){
+  const colors = ['#1b998b','#ff6b9d','#ffb703','#06d6a0','#4cc9f0','#9d4edd'];
+  for (let i=0;i<count;i++){
+    confettiParticles.push({
+      x: Math.random()*canvas.width, y: -20 - Math.random()*80,
+      vx: (Math.random()-0.5)*3, vy: 2+Math.random()*3,
+      size: 5+Math.random()*6, color: pick(colors), rot: Math.random()*360, vr:(Math.random()-0.5)*10,
+      life: 0, maxLife: 140+Math.random()*60
+    });
+  }
+  if (!confettiRAF) confettiLoop();
+}
+function confettiLoop(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confettiParticles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.03; p.rot += p.vr; p.life++;
+    ctx.save();
+    ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+    ctx.fillStyle = p.color; ctx.globalAlpha = Math.max(0, 1 - p.life/p.maxLife);
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+    ctx.restore();
+  });
+  confettiParticles = confettiParticles.filter(p => p.life < p.maxLife && p.y < canvas.height+40);
+  if (confettiParticles.length>0){
+    confettiRAF = requestAnimationFrame(confettiLoop);
+  } else {
+    confettiRAF = null;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+}
+
+/* ===================== SERVICE WORKER ===================== */
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+
+/* ===================== INIT ===================== */
+render();
+</script>
+</body>
+</html>

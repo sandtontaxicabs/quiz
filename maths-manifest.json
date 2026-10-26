@@ -1,7 +1,7 @@
 {
-  "name": "Maths Quest: Area, Perimeter & Number Laws",
+  "name": "Maths Quest: Term 3 Topics",
   "short_name": "Maths Quest",
-  "description": "An interactive gamified maths quiz for Area & Perimeter and Laws of Arithmetic, with instant marking, badges and progress tracking.",
+  "description": "An interactive gamified maths quiz covering Area & Perimeter, Laws of Arithmetic, Equivalent Fractions, Ratio & Proportion, and 3D Shapes & Nets, with instant marking, badges and progress tracking.",
   "start_url": "./maths.html",
   "scope": "./",
   "display": "standalone",

@@ -1,0 +1,5 @@
+name = "grade5-maths-quiz"
+compatibility_date = "2026-09-26"
+
+[assets]
+directory = "./"

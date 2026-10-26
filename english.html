@@ -594,7 +594,7 @@ const SECTIONS = [
   {key:'homophones', name:'Homophones &amp; Homonyms', emoji:'🔤', gen: genHomophoneQuestion, color:'linear-gradient(135deg,#9d4edd,#5a189a)'},
   {key:'poetry', name:'Rhyme &amp; Sound Devices', emoji:'🎵', gen: genPoetryQuestion, color:'linear-gradient(135deg,#e63946,#f1a208)'}
 ];
-const DIFF_PLAN = ['easy','medium','hard']; // per section, 3 each = 21 total
+const DIFF_PLAN = ['medium','hard','hard']; // per section, 3 each = 21 total (skewed harder)
 
 function generateQuiz(){
   const questions = [];
@@ -746,8 +746,6 @@ function computeBadgesForAttempt(report){
   if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
   else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
   else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
-  if (report.noRetries) badges.push({e:'🎯', n:'Sharp Shooter'});
-  if (report.usedRetries && report.percent >= 60) badges.push({e:'💪', n:'Comeback Kid'});
   report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
   badges.push({e:'✅', n:'Completed'});
   return badges;
@@ -884,7 +882,7 @@ function submitAnswer(q, chosenRaw){
     state.answers[q.id] = existing;
     saveJSON(LS_SAVE, state);
     launchConfetti(existing.attempts===1 ? 60 : 35);
-  } else if (existing.attempts >= 2){
+  } else if (existing.attempts >= 1){
     existing.resolved = true;
     existing.correct = false;
     existing.lastWasCorrect = false;

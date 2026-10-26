@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>History Quest: Ancient Egypt</title>
-<meta name="description" content="A colourful, gamified Ancient Egypt history quiz with 50 questions, instant marking and badges." />
+<meta name="description" content="A colourful, gamified Ancient Egypt history quiz, skewed toward medium/hard questions, with instant marking and badges." />
 <meta name="theme-color" content="#b8860b" />
 <link rel="manifest" href="history-manifest.json" />
 <link rel="icon" href="icons/icon-192.png" />
@@ -279,7 +279,12 @@ const SECTIONS = [
 ];
 
 function generateQuiz(){
-  return shuffle(RAW_QUESTIONS).map(q => {
+  // Skew harder: keep all medium/hard questions, but only a reduced random sample of easy ones.
+  const easyQs = RAW_QUESTIONS.filter(q => q.difficulty === 'easy');
+  const otherQs = RAW_QUESTIONS.filter(q => q.difficulty !== 'easy');
+  const keepEasyCount = Math.max(3, Math.ceil(easyQs.length * 0.4));
+  const pool = [...shuffle(easyQs).slice(0, keepEasyCount), ...otherQs];
+  return shuffle(pool).map(q => {
     const question = { ...q, id: uid() };
     if (question.type === 'mcq'){
       question.choices = shuffle(question.choices);
@@ -375,7 +380,7 @@ function renderHome(){
 
     <div class="card">
       <h3 style="margin-bottom:10px">Start a fresh quiz</h3>
-      <p style="margin-bottom:12px">50 questions about Ancient Egypt, freshly shuffled every time — mixed easy, medium and hard!</p>
+      <p style="margin-bottom:12px">A large bank of questions about Ancient Egypt, freshly shuffled every time — skewed toward medium and hard!</p>
       <div class="topic-grid">
         ${SECTIONS.map(s => `<div class="topic-card" style="background:${s.color}"><b>${s.emoji} ${s.name}</b></div>`).join('')}
       </div>
@@ -420,8 +425,6 @@ function computeBadgesForAttempt(report){
   if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
   else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
   else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
-  if (report.noRetries) badges.push({e:'🎯', n:'Sharp Shooter'});
-  if (report.usedRetries && report.percent >= 60) badges.push({e:'💪', n:'Comeback Kid'});
   report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
   badges.push({e:'✅', n:'Completed'});
   return badges;
@@ -558,7 +561,7 @@ function submitAnswer(q, chosenRaw){
     state.answers[q.id] = existing;
     saveJSON(LS_SAVE, state);
     launchConfetti(existing.attempts===1 ? 60 : 35);
-  } else if (existing.attempts >= 2){
+  } else if (existing.attempts >= 1){
     existing.resolved = true;
     existing.correct = false;
     existing.lastWasCorrect = false;

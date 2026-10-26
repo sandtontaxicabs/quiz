@@ -679,7 +679,7 @@ const SECTIONS = [
   {key:'ratio',     name:'Ratio &amp; Proportion', emoji:'⚖️', gen: genRatioQuestion},
   {key:'shapes3d',  name:'3D Shapes &amp; Nets', emoji:'🧊', gen: gen3DShapeQuestion}
 ];
-const DIFF_PLAN = ['easy','easy','medium','medium','hard','hard']; // per section, 6 each = 30 total
+const DIFF_PLAN = ['easy','medium','medium','hard','hard','hard']; // per section, 6 each = 30 total (skewed harder)
 
 function generateQuiz(){
   const questions = [];
@@ -838,8 +838,6 @@ function computeBadgesForAttempt(report){
   if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
   else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
   else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
-  if (report.noRetries) badges.push({e:'🎯', n:'Sharp Shooter'});
-  if (report.usedRetries && report.percent >= 60) badges.push({e:'💪', n:'Comeback Kid'});
   report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
   badges.push({e:'✅', n:'Completed'});
   return badges;
@@ -996,7 +994,7 @@ function submitAnswer(q, chosenRaw){
     saveJSON(LS_SAVE, state);
     launchConfetti(existing.attempts===1 ? 60 : 35);
     document.getElementById('qcard').style.animation = 'none';
-  } else if (existing.attempts >= 2){
+  } else if (existing.attempts >= 1){
     existing.resolved = true;
     existing.correct = false;
     existing.lastWasCorrect = false;

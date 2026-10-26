@@ -310,7 +310,12 @@ const SECTIONS = [
 ];
 
 function generateQuiz(){
-  return shuffle(RAW_QUESTIONS).map(q => {
+  // Skew harder: keep all medium/hard questions, but only a reduced random sample of easy ones.
+  const easyQs = RAW_QUESTIONS.filter(q => q.difficulty === 'easy');
+  const otherQs = RAW_QUESTIONS.filter(q => q.difficulty !== 'easy');
+  const keepEasyCount = Math.max(3, Math.ceil(easyQs.length * 0.4));
+  const pool = [...shuffle(easyQs).slice(0, keepEasyCount), ...otherQs];
+  return shuffle(pool).map(q => {
     const question = { ...q, id: uid() };
     if (question.type === 'mcq'){
       question.choices = shuffle(question.choices);
@@ -451,8 +456,6 @@ function computeBadgesForAttempt(report){
   if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
   else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
   else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
-  if (report.noRetries) badges.push({e:'🎯', n:'Sharp Shooter'});
-  if (report.usedRetries && report.percent >= 60) badges.push({e:'💪', n:'Comeback Kid'});
   report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
   badges.push({e:'✅', n:'Completed'});
   return badges;
@@ -589,7 +592,7 @@ function submitAnswer(q, chosenRaw){
     state.answers[q.id] = existing;
     saveJSON(LS_SAVE, state);
     launchConfetti(existing.attempts===1 ? 60 : 35);
-  } else if (existing.attempts >= 2){
+  } else if (existing.attempts >= 1){
     existing.resolved = true;
     existing.correct = false;
     existing.lastWasCorrect = false;

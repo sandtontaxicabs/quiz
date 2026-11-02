@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Maths Quest: Term 3 Topics</title>
-<meta name="description" content="A colourful, gamified maths quiz covering Area &amp; Perimeter, Laws of Arithmetic, Equivalent Fractions, Ratio &amp; Proportion, and 3D Shapes &amp; Nets, with instant marking and badges." />
+<meta name="description" content="A colourful, gamified 50-question maths quiz covering Area &amp; Perimeter, Laws of Arithmetic, Equivalent Fractions, Ratio &amp; Proportion, 3D Shapes &amp; Nets, and Probability, with a Grade 6 stretch tier, instant marking and badges." />
 <meta name="theme-color" content="#6c63ff" />
 <link rel="manifest" href="maths-manifest.json" />
 <link rel="icon" href="icons/icon-192.png" />
@@ -68,6 +68,7 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .topic-card.fractions{background:linear-gradient(135deg,#ff6b9d,#c9184a)}
 .topic-card.ratio{background:linear-gradient(135deg,#ffb703,#fb8500)}
 .topic-card.shapes3d{background:linear-gradient(135deg,#8338ec,#5a189a)}
+.topic-card.probability{background:linear-gradient(135deg,#2a9d8f,#264653)}
 .history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:14px;background:#f8f9ff;border:1px solid #eceffb;font-size:.92rem}
 .history-item + .history-item{margin-top:8px}
 .badges-shelf{display:flex;flex-wrap:wrap;gap:8px}
@@ -92,6 +93,7 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .difficulty-tag.easy{background:#dcfff3;color:#04473a}
 .difficulty-tag.medium{background:#fff4d6;color:#6f5200}
 .difficulty-tag.hard{background:#ffe1e8;color:#8a1f4c}
+.difficulty-tag.grade6{background:linear-gradient(135deg,#232946,#5a189a);color:#fff}
 .qprompt{font-size:1.15rem;font-weight:800;line-height:1.4}
 .qprompt .math{font-family:"Cambria Math","Georgia",serif}
 .diagram-wrap{display:flex;justify-content:center;padding:6px 0}
@@ -671,38 +673,160 @@ function gen3DShapeQuestion(difficulty){
   return genNetValidityQuestion(difficulty);
 }
 
+/* ===================== QUESTION BANK: SECTION "probability" (Probability) ===================== */
+const PROB_TERMS = ['Impossible','Unlikely','Even chance','Likely','Certain'];
+const PROB_SCENARIOS = [
+  {text:'Rolling a 9 on a normal six-sided dice.', term:'Impossible'},
+  {text:'Getting a number from 1 to 6 when you roll a six-sided dice.', term:'Certain'},
+  {text:'Flipping a fair coin and it landing on heads.', term:'Even chance'},
+  {text:'Picking a red sweet from a bag with 1 red sweet and 9 blue sweets.', term:'Unlikely'},
+  {text:'Picking a blue sweet from a bag with 9 blue sweets and 1 red sweet.', term:'Likely'},
+  {text:'Scoring an odd number (1, 3 or 5) on a normal six-sided dice.', term:'Even chance'},
+  {text:'Scoring a number greater than 6 on a normal six-sided dice.', term:'Impossible'},
+  {text:'Scoring a number less than 5 on a normal six-sided dice.', term:'Likely'},
+  {text:'Picking a shirt with spots from a drawer with 5 spotty shirts and 5 striped shirts.', term:'Even chance'},
+  {text:'Picking a day of the week that starts with the letter "Z".', term:'Impossible'}
+];
+function genClassifyQuestion(difficulty){
+  const item = pick(PROB_SCENARIOS);
+  return {
+    id: uid(), section:'probability', difficulty, type:'mcq',
+    prompt: `How likely is this event?<br><i>${item.text}</i>`,
+    diagramSVG: null,
+    choices: shuffle(PROB_TERMS), correctAnswer: item.term,
+    explanation: `${item.text} → this is <b>${item.term}</b>.`
+  };
+}
+function genScaleLetterQuestion(difficulty){
+  const letters = shuffle(['A','B','C','D','E']);
+  const mapping = {}; PROB_TERMS.forEach((t,i) => mapping[t] = letters[i]);
+  const askTerm = pick(PROB_TERMS);
+  const mapLines = PROB_TERMS.map(t => `${mapping[t]} = ${t.toLowerCase()}`).join(', ');
+  return {
+    id: uid(), section:'probability', difficulty, type:'mcq',
+    prompt: `On this likelihood scale: ${mapLines}.<br>Which letter represents "<b>${askTerm}</b>"?`,
+    diagramSVG: null,
+    choices: shuffle(letters), correctAnswer: mapping[askTerm],
+    explanation: `${askTerm} is matched to letter <b>${mapping[askTerm]}</b> on this scale.`
+  };
+}
+function genTallyQuestion(difficulty){
+  const total = pick([20,25,40,50]);
+  const heads = rnd(Math.round(total*0.2), Math.round(total*0.8));
+  const tails = total - heads;
+  const exact = (heads*100) % total === 0;
+  const percent = exact ? (heads*100)/total : Math.round((heads/total)*1000)/10;
+  return {
+    id: uid(), section:'probability', difficulty, type:'numeric',
+    prompt: `A coin was flipped ${total} times.<br>Heads: ${heads} &nbsp; Tails: ${tails}<br>What percentage of the flips were heads? ${exact ? '(Give a whole number.)' : '(Round to 1 decimal place.)'}`,
+    diagramSVG: null,
+    correctAnswer: percent,
+    explanation: `${heads} out of ${total} flips were heads.<br>${heads}/${total} × 100 = <b>${percent}%</b>.`
+  };
+}
+function genFractionProbQuestion(difficulty){
+  if (Math.random() < 0.5){
+    const favourableDesc = pick([
+      {n:3, label:'an even number (2, 4 or 6)'},
+      {n:3, label:'an odd number (1, 3 or 5)'},
+      {n:2, label:'a number greater than 4 (5 or 6)'},
+      {n:1, label:'a 6'}
+    ]);
+    const num = favourableDesc.n, den = 6;
+    const g = gcd(num,den), sn = num/g, sd = den/g;
+    const correct = `${sn}/${sd}`;
+    const distractorSet = new Set([`${num}/${den}`, `${sn+1}/${sd}`, `${sn}/${sd+1}`]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'probability', difficulty, type:'mcq',
+      prompt: `A fair six-sided dice is rolled once. What is the probability of scoring <b>${favourableDesc.label}</b>? Give your answer as a fraction in its simplest form.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `There are ${num} favourable outcomes out of ${den} possible outcomes: ${num}/${den}.<br>Simplified (÷${g}): <b>${sn}/${sd}</b>.`
+    };
+  }
+  const red = rnd(1,6), blue = rnd(1,6), green = rnd(0,4);
+  const total = red+blue+green;
+  const askColor = pick(green>0 ? ['red','blue','green'] : ['red','blue']);
+  const favourable = askColor==='red' ? red : askColor==='blue' ? blue : green;
+  const g = gcd(favourable,total), sn = favourable/g, sd = total/g;
+  const correct = `${sn}/${sd}`;
+  const distractorSet = new Set([`${favourable}/${total}`, `${sn+1}/${sd}`, `${sn}/${sd+1}`]);
+  distractorSet.delete(correct);
+  const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+  const bagDesc = `${red} red, ${blue} blue${green>0 ? `, ${green} green` : ''}`;
+  return {
+    id: uid(), section:'probability', difficulty, type:'mcq',
+    prompt: `A bag contains ${bagDesc} sweets (${total} in total). One sweet is picked at random. What is the probability it is <b>${askColor}</b>? Give your answer as a fraction in its simplest form.`,
+    diagramSVG: null,
+    choices, correctAnswer: correct,
+    explanation: `${favourable} out of ${total} sweets are ${askColor}: ${favourable}/${total}.<br>Simplified (÷${g}): <b>${sn}/${sd}</b>.`
+  };
+}
+function genDeeperProbQuestion(difficulty){
+  if (Math.random() < 0.5){
+    const counts = {red: rnd(3,8), blue: rnd(3,8), green: rnd(2,6)};
+    const removeColor = pick(['red','blue','green']);
+    const removeAmount = rnd(1, Math.max(1, counts[removeColor]-1));
+    const before = {...counts};
+    counts[removeColor] -= removeAmount;
+    const total = counts.red + counts.blue + counts.green;
+    const askColor = pick(['red','blue','green']);
+    const favourable = counts[askColor];
+    const g = gcd(favourable, total), sn = g ? favourable/g : 0, sd = g ? total/g : total;
+    const correct = `${sn}/${sd}`;
+    const distractorSet = new Set([`${favourable}/${total}`, `${sn+1}/${sd}`, `${sn}/${Math.max(1,sd-1)}`]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'probability', difficulty, type:'mcq',
+      prompt: `A bag starts with ${before.red} red, ${before.blue} blue and ${before.green} green sweets. Priya removes ${removeAmount} ${removeColor} sweet${removeAmount>1?'s':''} and eats ${removeAmount>1?'them':'it'}.<br>Now one sweet is picked at random from what's left. What is the probability it is <b>${askColor}</b>? Give your answer as a fraction in its simplest form.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `After removing ${removeAmount} ${removeColor} sweet${removeAmount>1?'s':''}, there are ${counts.red} red, ${counts.blue} blue and ${counts.green} green sweets left (${total} in total).<br>P(${askColor}) = ${favourable}/${total} = <b>${sn}/${sd}</b>${g>1?` (simplified ÷${g})`:''}.`
+    };
+  }
+  const total = pick([40,50,80,100]);
+  const heads = rnd(Math.round(total*0.05), Math.round(total*0.95));
+  const percent = Math.round((heads/total)*1000)/10;
+  let term;
+  if (percent <= 5) term = 'Impossible';
+  else if (percent <= 35) term = 'Unlikely';
+  else if (percent <= 65) term = 'Even chance';
+  else if (percent <= 95) term = 'Likely';
+  else term = 'Certain';
+  return {
+    id: uid(), section:'probability', difficulty, type:'mcq',
+    prompt: `A coin was flipped ${total} times and landed on heads ${heads} times.<br>First work out the percentage of heads, then decide: based on that percentage, was getting heads on this coin <b>impossible, unlikely, an even chance, likely, or certain</b>?`,
+    diagramSVG: null,
+    choices: shuffle(PROB_TERMS), correctAnswer: term,
+    explanation: `${heads}/${total} × 100 = ${percent}%.<br>A result around ${percent}% counts as <b>${term}</b> on the likelihood scale.`
+  };
+}
+function genProbabilityQuestion(difficulty){
+  if (difficulty === 'easy') return pick([genClassifyQuestion, genScaleLetterQuestion])(difficulty);
+  if (difficulty === 'medium') return pick([genScaleLetterQuestion, genTallyQuestion, genClassifyQuestion])(difficulty);
+  if (difficulty === 'hard') return pick([genFractionProbQuestion, genTallyQuestion])(difficulty);
+  return genDeeperProbQuestion(difficulty); // grade6 — deeper, multi-step reasoning
+}
+
 /* ===================== QUIZ GENERATION ===================== */
 const SECTIONS = [
-  {key:'shapes',    name:'Area & Perimeter', emoji:'📐', gen: genShapeQuestion},
-  {key:'laws',      name:'Laws of Arithmetic', emoji:'🧠', gen: genLawsQuestion},
-  {key:'fractions', name:'Equivalent Fractions', emoji:'🍕', gen: genFractionQuestion},
-  {key:'ratio',     name:'Ratio &amp; Proportion', emoji:'⚖️', gen: genRatioQuestion},
-  {key:'shapes3d',  name:'3D Shapes &amp; Nets', emoji:'🧊', gen: gen3DShapeQuestion}
+  {key:'shapes',      name:'Area & Perimeter', emoji:'📐', gen: genShapeQuestion},
+  {key:'laws',        name:'Laws of Arithmetic', emoji:'🧠', gen: genLawsQuestion},
+  {key:'fractions',   name:'Equivalent Fractions', emoji:'🍕', gen: genFractionQuestion},
+  {key:'ratio',       name:'Ratio &amp; Proportion', emoji:'⚖️', gen: genRatioQuestion},
+  {key:'shapes3d',    name:'3D Shapes &amp; Nets', emoji:'🧊', gen: gen3DShapeQuestion},
+  {key:'probability', name:'Probability', emoji:'🎲', gen: genProbabilityQuestion}
 ];
-const DIFF_PLAN = ['easy','medium','medium','hard','hard','hard']; // per section, 6 each = 30 total (skewed harder)
+// Overall quiz-wide difficulty mix (not per-section): 50 questions total.
+const GLOBAL_DIFF_COUNTS = {hard:25, medium:10, easy:10, grade6:5};
 
 function generateQuiz(){
-  const questions = [];
-  SECTIONS.forEach(sec => {
-    const plan = shuffle(DIFF_PLAN);
-    plan.forEach(diff => {
-      const q = sec.gen(diff);
-      questions.push(q);
-    });
-  });
-  return questions; // 12 total, alternating not required; we interleave for engagement
-}
-function interleave(questions){
-  const bySection = {};
-  questions.forEach(q => { (bySection[q.section] = bySection[q.section]||[]).push(q); });
-  const keys = Object.keys(bySection);
-  const out = [];
-  let i = 0;
-  while (out.length < questions.length){
-    keys.forEach(k => { if (bySection[k][i]) out.push(bySection[k][i]); });
-    i++;
-  }
-  return out;
+  const pool = [];
+  Object.entries(GLOBAL_DIFF_COUNTS).forEach(([diff,n]) => { for (let i=0;i<n;i++) pool.push(diff); });
+  return shuffle(pool).map(diff => pick(SECTIONS).gen(diff));
 }
 
 /* ===================== PERSISTENCE ===================== */
@@ -729,7 +853,7 @@ let state = null; // active quiz state
 function newQuizState(){
   return {
     startedAt: Date.now(),
-    questions: interleave(generateQuiz()),
+    questions: generateQuiz(),
     index: 0,
     answers: {}, // qid -> {chosen, correct, attempts, resolved}
   };
@@ -768,7 +892,7 @@ function renderHome(){
       <div class="row between">
         <div>
           <h1>🌟 Maths Quest</h1>
-          <p>Area &amp; Perimeter · Laws of Arithmetic · Fractions · Ratio · 3D Shapes</p>
+          <p>Area &amp; Perimeter · Laws · Fractions · Ratio · 3D Shapes · Probability · 50 Qs · Grade 6 stretch</p>
         </div>
         <div class="level-box">
           <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>
@@ -789,13 +913,14 @@ function renderHome(){
 
     <div class="card">
       <h3 style="margin-bottom:10px">Start a fresh quiz</h3>
-      <p style="margin-bottom:12px">Every time you play, you'll get a brand-new randomised set of questions — mixed easy, medium and hard!</p>
+      <p style="margin-bottom:12px">Every time you play, you'll get 50 brand-new randomised questions — 50% hard, 20% medium, 20% easy, and 10% Grade 6 stretch questions for deeper thinking!</p>
       <div class="topic-grid">
         <div class="topic-card shapes"><div><b>📐 Area &amp; Perimeter</b><br><span style="opacity:.9;font-size:.85rem">Composite shapes, missing sides</span></div></div>
         <div class="topic-card laws"><div><b>🧠 Laws of Arithmetic</b><br><span style="opacity:.9;font-size:.85rem">BODMAS, commutative &amp; associative laws</span></div></div>
         <div class="topic-card fractions"><div><b>🍕 Equivalent Fractions</b><br><span style="opacity:.9;font-size:.85rem">Missing numbers, simplifying</span></div></div>
         <div class="topic-card ratio"><div><b>⚖️ Ratio &amp; Proportion</b><br><span style="opacity:.9;font-size:.85rem">Simplifying, sharing, percentages</span></div></div>
         <div class="topic-card shapes3d"><div><b>🧊 3D Shapes &amp; Nets</b><br><span style="opacity:.9;font-size:.85rem">Faces, vertices, cube nets</span></div></div>
+        <div class="topic-card probability"><div><b>🎲 Probability</b><br><span style="opacity:.9;font-size:.85rem">Likelihood, fractions, percentages</span></div></div>
       </div>
       <div class="row center" style="margin-top:14px">
         <button class="btn-primary" id="startBtn" style="font-size:1.1rem;padding:14px 28px">🚀 Start New Quiz</button>
@@ -888,7 +1013,7 @@ function renderQuiz(){
 
     <div class="card qcard" id="qcard">
       <div class="qtop">
-        <span class="difficulty-tag ${q.difficulty}">${q.difficulty}</span>
+        <span class="difficulty-tag ${q.difficulty}">${q.difficulty === 'grade6' ? 'Grade 6 ⭐' : q.difficulty}</span>
         <span class="pill">${sec.emoji} ${sec.name}</span>
       </div>
       <div class="qprompt">${q.prompt}</div>
@@ -1023,8 +1148,8 @@ function finishQuiz(){
   const sectionReports = SECTIONS.map(sec => {
     const sq = sectionQuestions(sec.key);
     const sc = sectionCorrectCount(sec.key);
-    return {key: sec.key, name: sec.name, emoji: sec.emoji, correct: sc, total: sq.length, percent: Math.round((sc/sq.length)*100)};
-  });
+    return {key: sec.key, name: sec.name, emoji: sec.emoji, correct: sc, total: sq.length, percent: sq.length ? Math.round((sc/sq.length)*100) : 0};
+  }).filter(sr => sr.total > 0);
 
   const report = {
     date: Date.now(), correct, total, percent, noRetries, usedRetries, sectionReports,

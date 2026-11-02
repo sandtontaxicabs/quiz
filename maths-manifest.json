@@ -1,7 +1,7 @@
 {
   "name": "Maths Quest: Term 3 Topics",
   "short_name": "Maths Quest",
-  "description": "An interactive gamified maths quiz covering Area & Perimeter, Laws of Arithmetic, Equivalent Fractions, Ratio & Proportion, and 3D Shapes & Nets, with instant marking, badges and progress tracking.",
+  "description": "A 50-question interactive gamified maths quiz covering Area & Perimeter, Laws of Arithmetic, Equivalent Fractions, Ratio & Proportion, 3D Shapes & Nets, and Probability, with a Grade 6 stretch tier, instant marking, badges and progress tracking.",
   "start_url": "./maths.html",
   "scope": "./",
   "display": "standalone",

@@ -2,899 +2,99 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Grade 5 Mixed Operations Quest</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Learning Quest Hub</title>
+<meta name="description" content="Choose a subject: Maths Quest, Word Quest or History Quest — gamified quizzes with instant marking and badges." />
+<meta name="theme-color" content="#6c63ff" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
 <style>
-:root{
-  --bg1:#f7fbff; --bg2:#eef5ff; --card:#ffffff; --ink:#1f2a44; --muted:#61708a;
-  --accent:#6c63ff; --accent2:#ff8fab; --accent3:#06d6a0; --accent4:#ffd166;
-  --grid:#d5dff4; --gridDark:#97a8d6; --good:#ddfff5; --bad:#fff1f4; --shadow:0 14px 38px rgba(33,57,112,.12);
-  --radius:20px; --cell:34px;
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:"Baloo 2","Trebuchet MS","Segoe UI",Arial,sans-serif;color:#232946;background:#f7f7fb}
+body{padding:18px 14px 40px}
+.wrap{max-width:520px;margin:0 auto;display:grid;gap:16px}
+h1{font-size:1.6rem;margin:0 0 4px}
+p.sub{margin:0;color:#6b7394}
+.subject-btn{
+  display:block; width:100%; text-align:left; border:none; border-radius:18px;
+  padding:20px; cursor:pointer; font-family:inherit; color:#fff;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
 }
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:"Trebuchet MS","Segoe UI",Arial,sans-serif;color:var(--ink);
-background:linear-gradient(180deg,var(--bg1),var(--bg2))}
-body{padding:12px}
-.app{max-width:1100px;margin:0 auto;display:grid;gap:14px}
-.card,.hero,.overlay-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
-.hero{padding:16px;display:grid;gap:14px}
-.hero h1{margin:0;font-size:clamp(1.45rem,5vw,2.35rem);line-height:1.07}
-.hero p{margin:0;color:var(--muted)}
-.badges,.actions,.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.badge,.pill{padding:8px 12px;border-radius:999px;background:#eef3ff;font-weight:800;font-size:.9rem}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.stat{background:#f8fbff;border:1px solid #e2ebff;border-radius:16px;padding:12px}
-.stat .label{font-size:.78rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.04em}
-.stat .value{font-size:1.2rem;font-weight:900;margin-top:3px}
-button{border:none;border-radius:14px;padding:11px 14px;font-size:.96rem;font-weight:900;cursor:pointer;transition:transform .15s ease, box-shadow .2s ease, opacity .2s ease;box-shadow:0 8px 18px rgba(70,84,150,.14)}
-button:hover{transform:translateY(-1px)} button:active{transform:translateY(1px)} button:disabled{opacity:.55;cursor:not-allowed}
-.primary{background:var(--accent);color:#fff}.secondary{background:#edf1ff;color:var(--ink)}
-.good{background:#dbfff5;color:#04473a}.warn{background:#fff4cb;color:#6f5200}.danger{background:#ffe8ee;color:#9c1d47}
-.question-card{padding:14px;display:grid;gap:12px}
-.qtop{display:grid;gap:10px}
-.qtitle{font-size:1.18rem;font-weight:900}
-.small{color:var(--muted);font-size:.92rem;font-weight:700}
-.mobile-stack{display:grid;gap:12px}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;padding:10px;background:#f8fbff;border:1px solid #e2ebff;border-radius:16px}
-.toolbar button{padding:9px 11px;font-size:.9rem;border-radius:12px;box-shadow:none}
-.toolbar .active{outline:3px solid rgba(108,99,255,.16)}
-.grid-shell{overflow:auto;padding:8px;background:#f9fbff;border:1px solid #e4ecff;border-radius:18px}
-.grid-board{display:grid;grid-template-columns:repeat(10,var(--cell));grid-auto-rows:var(--cell);width:max-content;background:#fff;border:2px solid var(--gridDark);margin:0 auto;user-select:none}
-.cell{width:var(--cell);height:var(--cell);border-right:1px solid var(--grid);border-bottom:1px solid var(--grid);display:flex;align-items:center;justify-content:center;position:relative;font-size:1.06rem;font-family:"Georgia","Times New Roman",serif;background:#fff;cursor:text;outline:none;overflow:hidden}
-.cell:nth-child(10n){border-right:none}.cell.last-row{border-bottom:none}
-.cell.selected{background:#eef4ff;box-shadow:inset 0 0 0 2px #7aa5ff}
-.cell.bold{font-weight:900}
-.cell.underline .char{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px}
-.cell.bb1{box-shadow: inset 0 -2px 0 #3d4f7f}
-.cell.bb2{box-shadow: inset 0 -3px 0 #3d4f7f}
-.cell.bb3{box-shadow: inset 0 -4px 0 #3d4f7f}
-.cell.arrow::after{content:"↓";position:absolute;top:1px;right:3px;font-size:.85rem;color:#d7263d;animation:bounce 1s infinite}
-.cell .char{line-height:1}
-.keypad{display:grid;grid-template-columns:repeat(5,minmax(52px,1fr));gap:8px}
-.key{background:#fff;color:var(--ink);border:1px solid #e1e8ff;padding:11px 10px;border-radius:14px;text-align:center;font-weight:900;box-shadow:none}
-.feedback{display:none;gap:10px;background:#f9fcff;border:1px solid #d9e8ff;border-radius:18px;padding:14px}
-.feedback.show{display:grid}
-.feedback.goodTone{background:#f2fffa;border-color:#c8f6e4}
-.feedback.badTone{background:#fff7fa;border-color:#ffd5e2}
-.memo-paper{background:#fff;border:1px solid #dde6fb;border-radius:16px;padding:10px;overflow:auto}
-.mini-grid{display:grid;grid-template-columns:repeat(10,28px);grid-auto-rows:28px;width:max-content;margin:0 auto;border:2px solid var(--gridDark);background:#fff}
-.sheet-cell{width:28px;height:28px;border-right:1px solid var(--grid);border-bottom:1px solid var(--grid);display:flex;align-items:center;justify-content:center;position:relative;font-family:"Georgia","Times New Roman",serif}
-.sheet-cell:nth-child(10n){border-right:none}.sheet-cell.last{border-bottom:none}
-.sheet-cell.bold{font-weight:900}.sheet-cell.underline .text{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px}
-.sheet-cell.bb1{box-shadow: inset 0 -2px 0 #3d4f7f}.sheet-cell.bb2{box-shadow: inset 0 -3px 0 #3d4f7f}.sheet-cell.bb3{box-shadow: inset 0 -4px 0 #3d4f7f}
-.sheet-cell.arrow::after{content:"↓";position:absolute;top:1px;right:2px;font-size:.78rem;color:#d7263d}
-.result-card{display:none;padding:14px;gap:14px}.result-card.show{display:grid}
-.attempt-list{display:grid;gap:14px}.attempt-item{background:#fff;border:1px solid #dde5ff;border-radius:18px;padding:14px}
-.grade-big{font-size:2.3rem;font-weight:1000}
-.overlay{position:fixed;inset:0;background:rgba(19,27,51,.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
-.overlay.show{display:flex}
-.overlay-card{padding:22px;max-width:420px;width:min(100%,420px);text-align:center;position:relative;overflow:hidden}
-.overlay-card h2{margin:0 0 10px;font-size:1.6rem}
-.overlay-card p{margin:0 0 16px;color:var(--muted);font-weight:700}
-.sparkle,.confetti-piece{position:absolute;border-radius:8px;opacity:.86;animation:pop 1.1s ease forwards}
-@keyframes pop{0%{transform:translateY(0) rotate(0) scale(.7);opacity:0}15%{opacity:1}100%{transform:translateY(-180px) rotate(260deg) scale(1.1);opacity:0}}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(3px)}}
-@media(min-width:900px){
-  body{padding:18px}
-  .hero{grid-template-columns:1.4fr 1fr}
-  .mobile-stack{grid-template-columns:1fr .95fr}
-}
+.subject-btn:active{transform:scale(.98)}
+.subject-btn.maths{background:#6c63ff}
+.subject-btn.english{background:#1b998b}
+.subject-btn.history{background:#b8860b}
+.subject-btn.science{background:#3a86ff}
+.subject-btn .title{font-size:1.25rem;font-weight:900;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.subject-btn .desc{font-size:.9rem;opacity:.95;line-height:1.4;margin-bottom:10px}
+.subject-btn .meta{font-size:.8rem;font-weight:700;opacity:.9}
+.subject-btn .open{margin-top:10px;font-weight:900;font-size:.92rem}
+.footer-note{text-align:center;font-size:.78rem;color:#8a90a8;padding-top:6px}
 </style>
 </head>
 <body>
-<div class="app">
-  <section class="hero">
-    <div>
-      <h1>🌈 Grade 5 Mixed Operations Quest</h1>
-      <p>One question at a time, colourful squared-paper working, instant memo, auto-save, and a child-friendly flow for focused practice.</p>
-      <div class="badges">
-        <span class="badge">25 questions</span>
-        <span class="badge">New on reset</span>
-        <span class="badge">Mobile first</span>
-        <span class="badge">Instant memo</span>
-      </div>
-    </div>
-    <div class="card" style="padding:14px;">
-      <div class="stats">
-        <div class="stat"><div class="label">Streak</div><div class="value" id="streakValue">0 🔥</div></div>
-        <div class="stat"><div class="label">Progress</div><div class="value" id="progressValue">0 / 25</div></div>
-        <div class="stat"><div class="label">Score</div><div class="value" id="scoreValue">0</div></div>
-      </div>
-      <div class="actions" style="margin-top:12px">
-        <button class="primary" id="continueBtn">▶ Continue</button>
-        <button class="secondary" id="freshBtn">🌈 Start fresh</button>
-        <button class="warn" id="resetBtn">🔄 New set</button>
-      </div>
-      <div class="small" id="saveStatus" style="margin-top:10px">No saved quiz found yet.</div>
-    </div>
-  </section>
-
-  <section class="card question-card">
-    <div class="qtop">
-      <div class="qtitle" id="questionTitle">✏️ Question 1 of 25</div>
-      <div class="row">
-        <div class="pill" id="difficultyPill">Warm-up</div>
-        <div class="pill" id="statusPill">Not submitted</div>
-        <div class="pill" id="typePill">Long division</div>
-      </div>
-      <div class="small" id="problemText">The question is placed directly on the top of the grid so working can continue underneath it.</div>
-    </div>
-
-    <div class="mobile-stack">
-      <div class="card" style="padding:12px;">
-        <div class="toolbar">
-          <button class="secondary" id="boldBtn"><b>B</b> Bold</button>
-          <button class="secondary" id="underlineBtn"><u>U</u> Underline</button>
-          <button class="secondary" id="bb1Btn">▁ Border 1</button>
-          <button class="secondary" id="bb2Btn">▂ Border 2</button>
-          <button class="secondary" id="bb3Btn">▃ Border 3</button>
-          <button class="secondary" id="arrowBtn">↓ Bring down</button>
-          <button class="secondary" id="clearCellBtn">⌫ Cell</button>
-          <button class="secondary" id="clearGridBtn">🧽 Grid</button>
-          <button class="secondary" id="exampleBtn">💡 Example</button>
-        </div>
-        <div class="small" style="margin:10px 0 0">Tap a square, then type. Press <b>Enter</b> to move down one cell like Excel.</div>
-        <div class="grid-shell" style="margin-top:12px;">
-          <div class="grid-board" id="gridBoard" aria-label="answer grid"></div>
-        </div>
-      </div>
-
-      <div class="card" style="padding:12px;">
-        <div class="small" style="margin-bottom:10px;">Keypad</div>
-        <div class="keypad">
-          <button class="key" data-key="1">1</button><button class="key" data-key="2">2</button><button class="key" data-key="3">3</button><button class="key" data-key="4">4</button><button class="key" data-key="5">5</button>
-          <button class="key" data-key="6">6</button><button class="key" data-key="7">7</button><button class="key" data-key="8">8</button><button class="key" data-key="9">9</button><button class="key" data-key="0">0</button>
-          <button class="key" data-key=".">.</button><button class="key" data-key="/">/</button><button class="key" data-key="R">R</button><button class="key" data-key="-">−</button><button class="key" data-key="↓">↓</button>
-        </div>
-        <div class="actions" style="margin-top:14px;">
-          <button class="secondary" id="prevBtn">⬅ Previous</button>
-          <button class="primary" id="submitBtn">✅ Submit</button>
-          <button class="good" id="nextBtn">Next ➡</button>
-          <button class="warn" id="finishBtn">🏁 Final mark</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="feedback" id="feedbackBox">
-      <div class="row">
-        <div class="pill" id="answerPill">Answer:</div>
-        <div class="pill" id="markPill">Mark:</div>
-      </div>
-      <div style="font-weight:900;font-size:1.12rem" id="feedbackTitle">Memo</div>
-      <div class="small" id="feedbackText">Full working will appear here after submission.</div>
-      <div class="memo-paper" id="memoPaper"></div>
-    </div>
-  </section>
-
-  <section class="card result-card" id="resultCard">
-    <div class="mobile-stack">
-      <div class="card" style="padding:14px;">
-        <div class="small">Final mark</div>
-        <div class="grade-big" id="finalPercentage">0%</div>
-        <div style="font-size:1.2rem;font-weight:900" id="finalFraction">0 / 25</div>
-        <p id="finalComment" class="small" style="margin-top:8px"></p>
-        <div class="actions">
-          <button class="secondary" id="reviewBtn">📘 Review</button>
-          <button class="primary" id="downloadBtn">⬇ Download</button>
-          <button class="good" id="shareBtn">📤 Share</button>
-          <button class="warn" id="newSetAfterResultBtn">🎲 New quiz</button>
-        </div>
-      </div>
-      <div class="card" style="padding:14px;">
-        <div class="stats">
-          <div class="stat"><div class="label">Correct</div><div class="value" id="correctCount">0</div></div>
-          <div class="stat"><div class="label">Wrong</div><div class="value" id="wrongCount">0</div></div>
-          <div class="stat"><div class="label">Best streak</div><div class="value" id="bestStreak">0</div></div>
-        </div>
-        <div class="small" style="margin-top:12px">You can still move back and forward after final submission and review every memo.</div>
-      </div>
-    </div>
-    <div class="attempt-list" id="attemptList"></div>
-  </section>
-</div>
-<div id="fatalErrorBanner" style="display:none;max-width:1100px;margin:14px auto 0;background:#fff3f6;border:1px solid #ffc7d6;color:#7b1636;padding:14px 16px;border-radius:16px;font-weight:800;box-shadow:0 10px 24px rgba(123,22,54,.08)">The quiz hit a loading error. Please start a fresh quiz. If this keeps happening, use the latest file version.</div>
-
-<div class="overlay" id="overlay">
-  <div class="overlay-card" id="overlayCard">
-    <h2 id="overlayTitle">Great job!</h2>
-    <p id="overlayText">Keep going 🚀</p>
-    <button class="primary" id="overlayCloseBtn">Continue</button>
+<div class="wrap">
+  <div>
+    <h1>🌈 Learning Quest Hub</h1>
+    <p class="sub">Tap a subject to start a fresh, gamified quiz.</p>
   </div>
+
+  <button type="button" class="subject-btn maths" onclick="window.location.href='maths.html'">
+    <div class="title">🔢 Maths Quest</div>
+    <div class="desc">Area &amp; Perimeter and Laws of Arithmetic — composite shapes, missing sides, and mental-maths tricks.</div>
+    <div class="meta" id="metaMaths"></div>
+    <div class="open">Open Maths Quest →</div>
+  </button>
+
+  <button type="button" class="subject-btn english" onclick="window.location.href='english.html'">
+    <div class="title">📚 Word Quest</div>
+    <div class="desc">Fairy tale features, phrases &amp; clauses, sentences, verb tenses, pronouns, homophones and rhyme.</div>
+    <div class="meta" id="metaEnglish"></div>
+    <div class="open">Open Word Quest →</div>
+  </button>
+
+  <button type="button" class="subject-btn history" onclick="window.location.href='history.html'">
+    <div class="title">🏺 History Quest</div>
+    <div class="desc">50 questions on Ancient Egypt — the Nile, social structure, homes, farming and more.</div>
+    <div class="meta" id="metaHistory"></div>
+    <div class="open">Open History Quest →</div>
+  </button>
+
+  <button type="button" class="subject-btn science" onclick="window.location.href='science.html'">
+    <div class="title">🔬 Science Quest</div>
+    <div class="desc">Forces, gravity, satellites and friction — normal force, applied forces, orbits and resistance.</div>
+    <div class="meta" id="metaScience"></div>
+    <div class="open">Open Science Quest →</div>
+  </button>
+
+  <div class="footer-note">Works offline · Install this hub to your home screen · Progress is saved separately for each subject</div>
 </div>
 
 <script>
-(() => {
-  const ROWS = 15, COLS = 10, TOTAL_QUESTIONS = 25, STORAGE_KEY = 'g5_mixed_ops_quiz_v4';
-  window.addEventListener('error', (event) => {
-    const banner = document.getElementById('fatalErrorBanner');
-    if (banner) {
-      banner.style.display = 'block';
-      const msg = event && event.message ? event.message : 'Unknown error';
-      banner.textContent = `The quiz hit a loading error: ${msg}. Please start a fresh quiz or use the newest build.`;
-    }
-  });
-  const els = {
-    gridBoard: document.getElementById('gridBoard'),
-    questionTitle: document.getElementById('questionTitle'),
-    difficultyPill: document.getElementById('difficultyPill'),
-    statusPill: document.getElementById('statusPill'),
-    typePill: document.getElementById('typePill'),
-    problemText: document.getElementById('problemText'),
-    prevBtn: document.getElementById('prevBtn'),
-    nextBtn: document.getElementById('nextBtn'),
-    submitBtn: document.getElementById('submitBtn'),
-    finishBtn: document.getElementById('finishBtn'),
-    boldBtn: document.getElementById('boldBtn'),
-    underlineBtn: document.getElementById('underlineBtn'),
-    bb1Btn: document.getElementById('bb1Btn'),
-    bb2Btn: document.getElementById('bb2Btn'),
-    bb3Btn: document.getElementById('bb3Btn'),
-    arrowBtn: document.getElementById('arrowBtn'),
-    clearCellBtn: document.getElementById('clearCellBtn'),
-    clearGridBtn: document.getElementById('clearGridBtn'),
-    exampleBtn: document.getElementById('exampleBtn'),
-    feedbackBox: document.getElementById('feedbackBox'),
-    feedbackTitle: document.getElementById('feedbackTitle'),
-    feedbackText: document.getElementById('feedbackText'),
-    memoPaper: document.getElementById('memoPaper'),
-    answerPill: document.getElementById('answerPill'),
-    markPill: document.getElementById('markPill'),
-    streakValue: document.getElementById('streakValue'),
-    progressValue: document.getElementById('progressValue'),
-    scoreValue: document.getElementById('scoreValue'),
-    saveStatus: document.getElementById('saveStatus'),
-    continueBtn: document.getElementById('continueBtn'),
-    freshBtn: document.getElementById('freshBtn'),
-    resetBtn: document.getElementById('resetBtn'),
-    resultCard: document.getElementById('resultCard'),
-    finalPercentage: document.getElementById('finalPercentage'),
-    finalFraction: document.getElementById('finalFraction'),
-    finalComment: document.getElementById('finalComment'),
-    correctCount: document.getElementById('correctCount'),
-    wrongCount: document.getElementById('wrongCount'),
-    bestStreak: document.getElementById('bestStreak'),
-    attemptList: document.getElementById('attemptList'),
-    reviewBtn: document.getElementById('reviewBtn'),
-    downloadBtn: document.getElementById('downloadBtn'),
-    shareBtn: document.getElementById('shareBtn'),
-    newSetAfterResultBtn: document.getElementById('newSetAfterResultBtn'),
-    overlay: document.getElementById('overlay'),
-    overlayCard: document.getElementById('overlayCard'),
-    overlayTitle: document.getElementById('overlayTitle'),
-    overlayText: document.getElementById('overlayText'),
-    overlayCloseBtn: document.getElementById('overlayCloseBtn')
-  };
+function loadJSON(key, fallback){
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; }
+}
+function levelFromXP(xp){ return Math.floor(xp/100) + 1; }
 
-  const state = {
-    quizId:'', questions:[], currentIndex:0, selectedCell:0, currentStreak:0, bestStreak:0,
-    finished:false, lastCelebratedMilestones:[]
-  };
+const SUBJECTS = [
+  {metaId:'metaMaths', xpKey:'mq_xp_v1', historyKey:'mq_history_v1'},
+  {metaId:'metaEnglish', xpKey:'wq_xp_v1', historyKey:'wq_history_v1'},
+  {metaId:'metaHistory', xpKey:'hq_xp_v1', historyKey:'hq_history_v1'},
+  {metaId:'metaScience', xpKey:'sq_xp_v1', historyKey:'sq_history_v1'}
+];
 
-  function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-  function pick(arr){ return arr[rand(0,arr.length-1)]; }
-  function uid(){ return 'q'+Math.random().toString(36).slice(2,11); }
-  function difficultyFor(i){ return i < 8 ? 'Warm-up' : i < 17 ? 'Growing' : 'Challenge'; }
-  function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
-  function createBlankGrid(){ return Array.from({length:ROWS*COLS},()=>({char:'',bold:false,underline:false,bottomBorder:0,arrow:false,locked:false})); }
-  function idxOf(row,col){ return row*COLS+col; }
-  function inBounds(r,c){ return r>=0 && r<ROWS && c>=0 && c<COLS; }
-  function getCell(grid,r,c){ return inBounds(r,c) ? grid[idxOf(r,c)] : null; }
-  function setCell(grid,r,c,char,opts={}){
-    if(!inBounds(r,c)) return;
-    const cur = grid[idxOf(r,c)];
-    grid[idxOf(r,c)] = {...cur, char, ...opts};
-  }
-  function currentQuestion(){ return state.questions[state.currentIndex]; }
-
-  function stampText(grid,row,col,text,opts={}){
-    [...String(text)].forEach((ch,i)=> setCell(grid,row,col+i,ch,opts));
-  }
-
-  function generateLongDivision(index){
-    const divisor = rand(2,9);
-    const dividend = rand(10000,99999);
-    const quotient = Math.floor(dividend/divisor);
-    const remainder = dividend % divisor;
-    return {
-      id:uid(), type:'long_division', typeLabel:'Long division', difficulty:difficultyFor(index),
-      prompt:`Solve ${divisor} ⟌ ${dividend}. Show full long division working.`,
-      divisor, dividend, quotient, remainder,
-      expected: `${quotient} R${remainder}`,
-      grid:createBlankGrid(), submitted:false, correct:false, score:0, parsedAnswer:null,
-      example: makeLongDivisionExample(divisor)
-    };
-  }
-
-  function makeLongDivisionExample(divisor){
-    const dividend = rand(10000,99999);
-    return { divisor, dividend, quotient:Math.floor(dividend/divisor), remainder:dividend%divisor };
-  }
-
-  function generateShortDivision(index){
-    const divisor = rand(2,9);
-    const dividend = rand(2,9) * divisor * rand(10,99) + rand(0, divisor-1);
-    const quotient = Math.floor(dividend/divisor), remainder = dividend % divisor;
-    return {
-      id:uid(), type:'short_division', typeLabel:'Short division', difficulty:difficultyFor(index),
-      prompt:`Use short division to work out ${dividend} ÷ ${divisor}.`,
-      divisor, dividend, quotient, remainder,
-      expected:`${quotient} R${remainder}`,
-      grid:createBlankGrid(), submitted:false, correct:false, score:0, parsedAnswer:null,
-      example: { divisor, dividend: rand(100,999), quotient:0, remainder:0 }
-    };
-  }
-
-  function generateVerticalMultiplication(index){
-    const a = rand(1000,9999), b = rand(10,99);
-    return {
-      id:uid(), type:'vertical_multiplication', typeLabel:'Vertical multiplication', difficulty:difficultyFor(index),
-      prompt:`Work out ${a} × ${b} using vertical multiplication.`,
-      a,b, product:a*b, expected:String(a*b),
-      grid:createBlankGrid(), submitted:false, correct:false, score:0, parsedAnswer:null,
-      example:{a:rand(1000,9999), b:rand(10,99)}
-    };
-  }
-
-  function generateFractionDecimal(index){
-    const denominators = [2,4,5,8,10];
-    const d = pick(denominators);
-    const whole = rand(1,9);
-    const n = whole * d;
-    const decimal = (n/d).toFixed(d===8 ? 3 : (String(d).includes('4')?2:1)).replace(/\.?0+$/,'');
-    return {
-      id:uid(), type:'fraction_decimal', typeLabel:'Fraction to decimal', difficulty:difficultyFor(index),
-      prompt:`Convert ${n}/${d} to a decimal using short division.`,
-      numerator:n, denominator:d, decimal, expected:decimal,
-      grid:createBlankGrid(), submitted:false, correct:false, score:0, parsedAnswer:null,
-      example:{numerator:rand(1,9)*d, denominator:d}
-    };
-  }
-
-  function generateQuestions(){
-    const qs = [];
-    for(let i=0;i<10;i++) qs.push(generateLongDivision(i));
-    for(let i=10;i<15;i++) qs.push(generateShortDivision(i));
-    for(let i=15;i<20;i++) qs.push(generateVerticalMultiplication(i));
-    for(let i=20;i<25;i++) qs.push(generateFractionDecimal(i));
-    return shuffle(qs).map((q,i)=>({...q, difficulty:difficultyFor(i)}));
-  }
-
-  function shuffle(arr){
-    const a = [...arr];
-    for(let i=a.length-1;i>0;i--){ const j=rand(0,i); [a[i],a[j]]=[a[j],a[i]]; }
-    return a;
-  }
-
-  function stampQuestionOnGrid(q){
-    const g = q.grid = createBlankGrid();
-    if(q.type==='long_division'){
-      const dividend = String(q.dividend);
-      const divisor = String(q.divisor);
-      const startCol = Math.max(2, COLS - dividend.length - 1);
-      stampText(g,0,startCol,dividend,{locked:true,bold:true});
-      setCell(g,0,startCol-1,'⟌',{locked:true,bold:true});
-      stampText(g,0,startCol-1-divisor.length,divisor,{locked:true,bold:true});
-      for(let c=startCol; c<Math.min(COLS,startCol+dividend.length); c++){
-        getCell(g,0,c).bottomBorder = 2; getCell(g,0,c).locked = true;
-      }
-    }else if(q.type==='short_division'){
-      const text = `${q.dividend} ÷ ${q.divisor}`;
-      stampText(g,0,Math.max(0,Math.floor((COLS-text.length)/2)),text,{locked:true,bold:true});
-    }else if(q.type==='vertical_multiplication'){
-      const a = String(q.a), b = String(q.b), width = Math.max(a.length,b.length+1);
-      const start = COLS - width - 1;
-      stampText(g,0,start + (width-a.length),a,{locked:true,bold:true});
-      stampText(g,1,start,'× '+String(q.b),{locked:true,bold:true});
-      for(let c=start;c<start+width;c++){ getCell(g,1,c).bottomBorder = 2; getCell(g,1,c).locked = true; }
-    }else if(q.type==='fraction_decimal'){
-      const text = `${q.numerator}/${q.denominator} =`;
-      stampText(g,0,1,text,{locked:true,bold:true});
-    }
-  }
-
-  function prepareQuestions(questions){
-    questions.forEach(q=>{
-      if(!Array.isArray(q.grid) || q.grid.length !== ROWS*COLS || !q.grid.some(cell=>cell.locked)) stampQuestionOnGrid(q);
-      else q.grid = q.grid.map(c=>({char:c.char||'',bold:!!c.bold,underline:!!c.underline,bottomBorder:c.bottomBorder||0,arrow:!!c.arrow,locked:!!c.locked}));
-    });
-    return questions;
-  }
-
-  function saveState(){
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    els.saveStatus.textContent = 'Your quiz is auto-saved on this device. 💾';
-    updateHeaderStats();
-  }
-  function loadSavedState(){
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return null;
-    try{ return JSON.parse(raw); }catch{return null;}
-  }
-
-  function startFreshQuiz(){
-    state.quizId = uid();
-    state.questions = prepareQuestions(generateQuestions());
-    state.currentIndex = 0; state.selectedCell = findFirstEditableCell(state.questions[0].grid); state.currentStreak = 0;
-    state.bestStreak = 0; state.finished = false; state.lastCelebratedMilestones = [];
-    saveState(); render();
-    showOverlay('New quiz ready! 🌈','A fresh mixed set of long division, short division, multiplication, and fraction-to-decimal questions is ready.');
-  }
-
-  function hydrateState(saved){
-    Object.assign(state,saved);
-    if(!Array.isArray(state.questions) || state.questions.length !== TOTAL_QUESTIONS){ startFreshQuiz(); return; }
-    state.questions = prepareQuestions(state.questions);
-    if(typeof state.selectedCell!=='number') state.selectedCell = findFirstEditableCell(currentQuestion().grid);
-    render();
-  }
-
-  function findFirstEditableCell(grid){
-    const i = grid.findIndex(c=>!c.locked);
-    return i === -1 ? 0 : i;
-  }
-
-  function updateHeaderStats(){
-    const answered = state.questions.filter(q=>q.submitted).length;
-    const score = state.questions.reduce((a,q)=>a+(q.score||0),0);
-    els.progressValue.textContent = `${answered} / ${TOTAL_QUESTIONS}`;
-    els.scoreValue.textContent = `${score}`;
-    els.streakValue.textContent = `${state.currentStreak} 🔥`;
-    els.saveStatus.textContent = localStorage.getItem(STORAGE_KEY) ? 'Saved quiz found on this device. You can continue or start fresh. 💾' : 'No saved quiz found yet.';
-  }
-
-  function renderGrid(){
-    const q = currentQuestion();
-    els.gridBoard.innerHTML = '';
-    q.grid.forEach((cell,idx)=>{
-      const d = document.createElement('div');
-      d.className = 'cell'
-        + (idx===state.selectedCell?' selected':'')
-        + (cell.bold?' bold':'')
-        + (cell.underline?' underline':'')
-        + (cell.bottomBorder?` bb${cell.bottomBorder}`:'')
-        + (cell.arrow?' arrow':'')
-        + (idx >= (ROWS-1)*COLS ? ' last-row':'');
-      d.dataset.index = idx;
-      d.innerHTML = `<span class="char">${escapeHtml(cell.char||'')}</span>`;
-      d.addEventListener('click',()=>{ state.selectedCell = idx; renderGrid(); });
-      els.gridBoard.appendChild(d);
-    });
-    updateFormatButtons();
-  }
-
-  function renderQuestion(){
-    const q = currentQuestion();
-    els.questionTitle.textContent = `✏️ Question ${state.currentIndex+1} of ${TOTAL_QUESTIONS}`;
-    els.problemText.textContent = q.prompt;
-    els.difficultyPill.textContent = `Level: ${q.difficulty}`;
-    els.statusPill.textContent = q.submitted ? (q.correct?'Correct ✅':'Marked ❗') : 'Not submitted';
-    els.typePill.textContent = q.typeLabel;
-    els.prevBtn.disabled = state.currentIndex===0;
-    els.nextBtn.disabled = state.currentIndex===TOTAL_QUESTIONS-1;
-    els.submitBtn.disabled = q.submitted;
-    renderGrid();
-    renderFeedback();
-  }
-
-  function renderFeedback(){
-    const q = currentQuestion();
-    if(!q.submitted){ els.feedbackBox.className='feedback'; return; }
-    els.feedbackBox.className = `feedback show ${q.correct ? 'goodTone':'badTone'}`;
-    els.feedbackTitle.textContent = q.correct ? '✅ Correct! Memo and full working' : '❌ Memo and correction guide';
-    els.feedbackText.textContent = q.correct ? 'Excellent. Compare your layout with the memo below.' : 'Study the memo carefully, then use a fresh quiz to try again.';
-    els.answerPill.textContent = `Answer: ${q.expected}`;
-    els.markPill.textContent = `Mark: ${q.score}/1`;
-    els.memoPaper.innerHTML = buildMemoHtml(q);
-  }
-
-  function renderResultCard(){
-    if(!state.finished){ els.resultCard.classList.remove('show'); return; }
-    els.resultCard.classList.add('show');
-    const correct = state.questions.filter(q=>q.correct).length;
-    const wrong = TOTAL_QUESTIONS - correct;
-    const pct = Math.round((correct/TOTAL_QUESTIONS)*100);
-    els.finalPercentage.textContent = `${pct}%`;
-    els.finalFraction.textContent = `${correct} / ${TOTAL_QUESTIONS}`;
-    els.correctCount.textContent = String(correct);
-    els.wrongCount.textContent = String(wrong);
-    els.bestStreak.textContent = String(state.bestStreak);
-    els.finalComment.textContent = awardComment(pct);
-    els.attemptList.innerHTML = state.questions.map((q,i)=>`
-      <div class="attempt-item">
-        <div class="row" style="justify-content:space-between">
-          <div>
-            <div class="small">Question ${i+1}</div>
-            <div style="font-weight:900">${escapeHtml(q.prompt)}</div>
-          </div>
-          <div class="row">
-            <div class="pill">${q.correct?'Correct ✅':'Wrong ❌'}</div>
-            <div class="pill">${escapeHtml(q.expected)}</div>
-          </div>
-        </div>
-        <div class="small" style="margin:10px 0 6px">Student attempt</div>
-        <div class="memo-paper">${buildMiniGridHtml(q.grid)}</div>
-        <div class="small" style="margin:10px 0 6px">Memo</div>
-        <div class="memo-paper">${buildMemoHtml(q)}</div>
-        <div class="actions" style="margin-top:10px"><button class="secondary" onclick="reviewQuestion(${i})">🔎 Open this question</button></div>
-      </div>`).join('');
-  }
-
-  function awardComment(pct){
-    if(pct>=90) return '🏆 Cum Laude performance! Brilliant focus and excellent working.';
-    if(pct>=80) return '🌟 Distinction! Strong methods and neat problem solving.';
-    if(pct>=70) return '👏 Great work! Your confidence is growing.';
-    if(pct>=50) return '👍 Solid effort. Review the memo and keep practising.';
-    return '💪 Keep going. Every question grows your skill.';
-  }
-
-  function render(){ updateHeaderStats(); renderQuestion(); renderResultCard(); }
-
-  function updateFormatButtons(){
-    const cell = currentQuestion().grid[state.selectedCell] || {};
-    els.boldBtn.classList.toggle('active', !!cell.bold);
-    els.underlineBtn.classList.toggle('active', !!cell.underline);
-    els.bb1Btn.classList.toggle('active', cell.bottomBorder===1);
-    els.bb2Btn.classList.toggle('active', cell.bottomBorder===2);
-    els.bb3Btn.classList.toggle('active', cell.bottomBorder===3);
-    els.arrowBtn.classList.toggle('active', !!cell.arrow);
-  }
-
-  function moveSelection(delta){
-    state.selectedCell = Math.max(0, Math.min(ROWS*COLS-1, state.selectedCell + delta));
-    renderGrid();
-  }
-
-  function moveToNextEditable(step=1){
-    let idx = state.selectedCell;
-    for(let i=0;i<ROWS*COLS;i++){
-      idx = Math.max(0, Math.min(ROWS*COLS-1, idx + step));
-      if(!currentQuestion().grid[idx].locked){ state.selectedCell = idx; break; }
-    }
-    renderGrid();
-  }
-
-  function setCellChar(char){
-    const q=currentQuestion(); if(q.submitted) return;
-    const cell=q.grid[state.selectedCell]; if(cell.locked) return moveToNextEditable(1);
-    if(char==='↓'){ cell.arrow = !cell.arrow; saveState(); renderGrid(); return; }
-    cell.char = char;
-    saveState();
-    moveToNextEditable(1);
-  }
-
-  function clearSelectedCell(){
-    const q=currentQuestion(); if(q.submitted) return;
-    const c=q.grid[state.selectedCell]; if(c.locked) return;
-    q.grid[state.selectedCell] = {...c,char:'',bold:false,underline:false,bottomBorder:0,arrow:false};
-    saveState(); renderGrid();
-  }
-
-  function clearGrid(){
-    const q=currentQuestion(); if(q.submitted) return;
-    const old = q.grid;
-    q.grid = old.map(c=> c.locked ? {...c} : {char:'',bold:false,underline:false,bottomBorder:0,arrow:false,locked:false});
-    state.selectedCell = findFirstEditableCell(q.grid);
-    saveState(); renderGrid();
-  }
-
-  function toggleFormat(type){
-    const q=currentQuestion(); if(q.submitted) return;
-    const c=q.grid[state.selectedCell]; if(c.locked) return;
-    c[type] = !c[type]; saveState(); renderGrid();
-  }
-
-  function setBottomBorder(level){
-    const q=currentQuestion(); if(q.submitted) return;
-    const c=q.grid[state.selectedCell]; if(c.locked) return;
-    c.bottomBorder = c.bottomBorder===level ? 0 : level;
-    saveState(); renderGrid();
-  }
-
-  function toggleArrow(){
-    const q=currentQuestion(); if(q.submitted) return;
-    const c=q.grid[state.selectedCell]; if(c.locked) return;
-    c.arrow = !c.arrow; saveState(); renderGrid();
-  }
-
-  function parseAnswer(q){
-    const text = q.grid.filter(c=>!c.locked && c.char).map(c=>c.char).join('');
-    const lines = [];
-    for(let r=0;r<ROWS;r++){
-      let line='';
-      for(let c=0;c<COLS;c++){
-        const cell=q.grid[idxOf(r,c)];
-        if(cell.locked) continue;
-        line += cell.char || '';
-      }
-      line = line.trim();
-      if(line) lines.push(line);
-    }
-    const joined = lines.join(' ').replace(/−/g,'-');
-    if(q.type==='long_division' || q.type==='short_division'){
-      let m = joined.match(/(\d+)\s*R\s*(\d+)/i);
-      if(m) return {value:`${parseInt(m[1],10)} R${parseInt(m[2],10)}`, raw:joined};
-      m = joined.match(/(\d+)/);
-      if(m) return {value:`${parseInt(m[1],10)} R0`, raw:joined};
-      return null;
-    }
-    if(q.type==='vertical_multiplication'){
-      const m = joined.match(/(\d{2,7})/);
-      return m ? {value:String(parseInt(m[1],10)), raw:joined} : null;
-    }
-    if(q.type==='fraction_decimal'){
-      const m = joined.match(/(\d+(?:\.\d+)?)/);
-      return m ? {value:stripZeros(m[1]), raw:joined} : null;
-    }
-    return null;
-  }
-
-  function stripZeros(s){ return String(Number(s)).replace(/\.0+$/,''); }
-
-  function markCurrentQuestion(){
-    const q=currentQuestion(); if(q.submitted) return;
-    q.parsedAnswer = parseAnswer(q);
-    q.submitted = true; q.submittedAt = new Date().toISOString();
-    q.correct = !!q.parsedAnswer && normalizeAnswer(q.parsedAnswer.value) === normalizeAnswer(q.expected);
-    q.score = q.correct ? 1 : 0;
-    if(q.correct){ state.currentStreak += 1; state.bestStreak = Math.max(state.bestStreak, state.currentStreak); }
-    else state.currentStreak = 0;
-    saveState(); render(); celebrateQuestion(q.correct); celebrateMilestones();
-  }
-
-  function normalizeAnswer(v){ return String(v).replace(/\s+/g,' ').trim().toUpperCase(); }
-
-  function celebrateQuestion(correct){
-    if(correct){
-      showOverlay('Correct! 🎉', state.currentStreak>=2 ? `Awesome! You are on a ${state.currentStreak}-question streak! 🔥` : 'Nice working! Keep that neat maths flowing.');
-    } else {
-      showOverlay('Not quite yet 💡','Check the memo carefully. Every correction helps your brain grow stronger.');
-    }
-  }
-
-  function celebrateMilestones(){
-    const answered = state.questions.filter(q=>q.submitted).length;
-    const pctDone = Math.floor((answered/TOTAL_QUESTIONS)*100);
-    const scorePct = Math.round((state.questions.filter(q=>q.correct).length/TOTAL_QUESTIONS)*100);
-    [20,40,60,80].forEach(m=>{
-      if(pctDone>=m && !state.lastCelebratedMilestones.includes(`progress-${m}`)){
-        state.lastCelebratedMilestones.push(`progress-${m}`);
-        showOverlay('Keep going! 🚀',`You have completed ${m}% of the quiz. Brilliant effort!`);
-      }
-    });
-    if(scorePct>=80 && !state.lastCelebratedMilestones.includes('distinction')){
-      state.lastCelebratedMilestones.push('distinction'); showOverlay('Distinction pace! 🌟','Your score is in distinction range. Stay focused!');
-    }
-    if(scorePct>=90 && !state.lastCelebratedMilestones.includes('cumlaude')){
-      state.lastCelebratedMilestones.push('cumlaude'); showOverlay('Cum Laude pace! 🏆','Phenomenal work. You are flying!');
-    }
-    saveState();
-  }
-
-  function showOverlay(title,text){
-    els.overlayTitle.textContent=title; els.overlayText.textContent=text; els.overlay.classList.add('show'); launchConfetti();
-  }
-  function closeOverlay(){
-    els.overlay.classList.remove('show');
-    els.overlayCard.querySelectorAll('.sparkle,.confetti-piece').forEach(n=>n.remove());
-  }
-  function launchConfetti(){
-    els.overlayCard.querySelectorAll('.sparkle,.confetti-piece').forEach(n=>n.remove());
-    const colors=['#6c63ff','#ff8fab','#06d6a0','#ffd166','#7aa5ff'];
-    for(let i=0;i<18;i++){
-      const d=document.createElement('div');
-      d.className = i%2===0 ? 'sparkle' : 'confetti-piece';
-      d.style.width = `${rand(8,16)}px`; d.style.height = `${rand(8,16)}px`; d.style.background = colors[rand(0,colors.length-1)];
-      d.style.left = `${rand(5,95)}%`; d.style.bottom = `${rand(0,20)}px`; d.style.animationDelay = `${Math.random()*0.35}s`;
-      els.overlayCard.appendChild(d);
-    }
-  }
-
-  function buildMemoHtml(q){
-    return buildMiniGridHtml(createMemoGrid(q));
-  }
-
-  function createMemoGrid(q){
-    const g = createBlankGrid();
-    if(q.type==='long_division'){
-      stampText(g,0,0,String(q.divisor),{bold:true});
-      setCell(g,0,1,'⟌',{bold:true});
-      stampText(g,0,2,String(q.dividend),{bold:true});
-      for(let c=2;c<2+String(q.dividend).length;c++) getCell(g,0,c).bottomBorder = 2;
-      stampText(g,1,2,String(q.quotient),{bold:true});
-      const steps = longDivisionSteps(q.dividend,q.divisor);
-      let row=2;
-      steps.forEach((s,idx)=>{
-        stampText(g,row,Math.max(0,2+s.col-String(s.product).length+1),String(s.product));
-        setCell(g,row,Math.max(0,1+s.col-String(s.product).length+1),'−');
-        for(let c=Math.max(0,2+s.col-String(s.product).length+1); c<=2+s.col; c++) if(inBounds(row,c)) getCell(g,row,c).bottomBorder = 1;
-        stampText(g,row+1,Math.max(0,2+s.col-String(s.remainderShown).length+1),String(s.remainderShown));
-        if(s.bringDown!==null){
-          const col = 2+s.col+1;
-          if(inBounds(row+1,col)) getCell(g,row+1,col).arrow = true;
-          stampText(g,row+2,Math.max(0,col-String(s.nextPartial).length+1),String(s.nextPartial));
-          row += 3;
-        }else row += 2;
-      });
-      stampText(g,Math.min(ROWS-1,row),2,`Ans ${q.expected}`,{bold:true});
-    } else if(q.type==='short_division'){
-      stampText(g,0,1,`${q.dividend} ÷ ${q.divisor}`,{bold:true});
-      stampText(g,2,1,`Answer ${q.expected}`,{bold:true});
-      stampText(g,4,1,`Check: ${q.divisor} × ${q.quotient} + ${q.remainder} = ${q.dividend}`,{});
-    } else if(q.type==='vertical_multiplication'){
-      const a=String(q.a), b=String(q.b), width=Math.max(a.length,b.length+1, String(q.product).length);
-      const start = Math.max(1,COLS-width-1);
-      stampText(g,0,start + width-a.length, a, {bold:true});
-      stampText(g,1,start, '× '+b, {bold:true});
-      for(let c=start;c<start+width;c++) getCell(g,1,c).bottomBorder = 2;
-      const units = q.a * (q.b % 10), tens = q.a * Math.floor(q.b / 10);
-      stampText(g,2,start + width-String(units).length, String(units), {});
-      stampText(g,3,start + width-String(tens).length - 1, String(tens), {});
-      if(inBounds(3,start+width)) getCell(g,3,start+width-1).arrow = true;
-      for(let c=start;c<start+width;c++) if(inBounds(3,c)) getCell(g,3,c).bottomBorder = 1;
-      stampText(g,4,start + width-String(q.product).length, String(q.product), {bold:true});
-      stampText(g,6,1,`Answer ${q.product}`,{bold:true});
-    } else if(q.type==='fraction_decimal'){
-      stampText(g,0,1,`${q.numerator}/${q.denominator} = ${q.decimal}`,{bold:true});
-      stampText(g,2,1,`Short division: ${q.denominator} ⟌ ${q.numerator}.0`,{});
-      stampText(g,4,1,`Answer ${q.decimal}`,{bold:true});
-    }
-    return g;
-  }
-
-  function longDivisionSteps(dividend, divisor){
-    const digits = String(dividend).split('').map(Number);
-    let partial = 0, steps = [];
-    for(let i=0;i<digits.length;i++){
-      partial = partial*10 + digits[i];
-      const qd = Math.floor(partial/divisor);
-      if(qd===0 && steps.length===0) continue;
-      const product = qd*divisor;
-      const remainder = partial-product;
-      const bringDown = i < digits.length-1 ? digits[i+1] : null;
-      const nextPartial = bringDown!==null ? remainder*10 + bringDown : null;
-      steps.push({partial, product, remainderShown: remainder, bringDown, nextPartial, col:i});
-      partial = remainder;
-    }
-    return steps;
-  }
-
-  function buildMiniGridHtml(grid){
-    return `<div class="mini-grid">${
-      grid.map((c,idx)=>`<div class="sheet-cell ${(c.bold?'bold ':'')}${(c.underline?'underline ':'')}${c.bottomBorder?`bb${c.bottomBorder} `:''}${c.arrow?'arrow ':''}${idx >= (ROWS-1)*COLS ? 'last':''}"><span class="text">${escapeHtml(c.char||'')}</span></div>`).join('')
-    }</div>`;
-  }
-
-  function finishQuiz(){
-    const unsubmitted = state.questions.filter(q=>!q.submitted).length;
-    if(unsubmitted>0){ showOverlay('Almost there! 📝', `You still have ${unsubmitted} question${unsubmitted===1?'':'s'} not submitted.`); return; }
-    state.finished = true; saveState(); render();
-    const pct = Math.round((state.questions.filter(q=>q.correct).length/TOTAL_QUESTIONS)*100);
-    showOverlay(pct>=90?'Cum Laude! 🏆':pct>=80?'Distinction! 🌟':'Quiz finished! 🎓', awardComment(pct));
-    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
-  }
-
-  function reviewQuestion(i){ state.currentIndex=i; state.finished=false; render(); window.scrollTo({top:0,behavior:'smooth'}); }
-  window.reviewQuestion = reviewQuestion;
-
-  function buildAttemptExport(){
-    const correct = state.questions.filter(q=>q.correct).length;
-    const pct = Math.round((correct/TOTAL_QUESTIONS)*100);
-    return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Grade 5 Quiz Attempt</title>
-    <style>body{font-family:Arial,sans-serif;padding:20px;background:#f6f8ff;color:#1f2a44}.item{background:#fff;border:1px solid #dde5ff;border-radius:16px;padding:16px;margin-bottom:18px}.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#edf2ff;font-weight:700;margin-right:8px}.small{color:#61708a;font-weight:700}.grid{font-family:monospace;white-space:pre-wrap;background:#fff;border:1px solid #ddd;padding:10px;border-radius:10px}</style>
-    </head><body><h1>Grade 5 Mixed Operations Quest</h1><p><strong>Final mark:</strong> ${correct}/${TOTAL_QUESTIONS} (${pct}%)</p>${
-      state.questions.map((q,i)=>`<div class="item"><div class="badge">Question ${i+1}</div><div class="badge">${q.correct?'Correct':'Wrong'}</div><p><strong>${escapeHtml(q.prompt)}</strong></p><p class="small">Expected: ${escapeHtml(q.expected)}</p>${buildMiniGridHtml(q.grid)}<div style="margin-top:10px">${buildMemoHtml(q)}</div></div>`).join('')
-    }</body></html>`;
-  }
-
-  function downloadAttempt(){
-    const html = buildAttemptExport();
-    const blob = new Blob([html], {type:'text/html'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'grade5-mixed-operations-attempt.html';
-    a.click();
-    URL.revokeObjectURL(a.href);
-  }
-
-  async function shareAttempt(){
-    const html = buildAttemptExport();
-    const file = new File([html], 'grade5-mixed-operations-attempt.html', {type:'text/html'});
-    if(navigator.canShare && navigator.canShare({files:[file]})){
-      await navigator.share({title:'Grade 5 Quiz Attempt', text:'My quiz attempt', files:[file]});
-    } else {
-      downloadAttempt();
-      showOverlay('Share helper 📤','Direct sharing is not supported here, so the attempt was downloaded instead.');
-    }
-  }
-
-  function showExample(){
-    const q = currentQuestion();
-    let exampleText = '';
-    if(q.type==='long_division'){
-      const ex = q.example;
-      exampleText = `${ex.divisor} ⟌ ${ex.dividend} = ${Math.floor(ex.dividend/ex.divisor)} R${ex.dividend%ex.divisor}`;
-      els.memoPaper.innerHTML = buildMemoHtml({...q, ...ex, type:'long_division', expected:`${Math.floor(ex.dividend/ex.divisor)} R${ex.dividend%ex.divisor}`});
-    } else if(q.type==='short_division'){
-      const d = q.divisor, dividend = rand(100,999), ans = Math.floor(dividend/d), rem = dividend%d;
-      exampleText = `${dividend} ÷ ${d} = ${ans} R${rem}`;
-      els.memoPaper.innerHTML = buildMemoHtml({...q, dividend, divisor:d, quotient:ans, remainder:rem, expected:`${ans} R${rem}`, type:'short_division'});
-    } else if(q.type==='vertical_multiplication'){
-      const a = rand(1000,9999), b = rand(10,99);
-      exampleText = `${a} × ${b} = ${a*b}`;
-      els.memoPaper.innerHTML = buildMemoHtml({...q, a, b, product:a*b, expected:String(a*b), type:'vertical_multiplication'});
-    } else if(q.type==='fraction_decimal'){
-      const d = q.denominator, n = rand(1,9)*d, dec = stripZeros((n/d).toString());
-      exampleText = `${n}/${d} = ${dec}`;
-      els.memoPaper.innerHTML = buildMemoHtml({...q, numerator:n, denominator:d, decimal:dec, expected:dec, type:'fraction_decimal'});
-    }
-    els.feedbackBox.className='feedback show';
-    els.feedbackTitle.textContent='Example with different digits';
-    els.feedbackText.textContent='This example uses different digits from the quiz question.';
-    els.answerPill.textContent=`Answer: ${exampleText.split(' = ')[1]}`;
-    els.markPill.textContent='Example only';
-    showOverlay('Example worked solution 💡', exampleText);
-  }
-
-  function bindEvents(){
-    document.querySelectorAll('.key').forEach(btn=> btn.addEventListener('click',()=> setCellChar(btn.dataset.key==='-'?'−':btn.dataset.key)));
-
-    els.prevBtn.addEventListener('click',()=>{ state.currentIndex=Math.max(0,state.currentIndex-1); state.selectedCell=findFirstEditableCell(currentQuestion().grid); saveState(); render(); });
-    els.nextBtn.addEventListener('click',()=>{ state.currentIndex=Math.min(TOTAL_QUESTIONS-1,state.currentIndex+1); state.selectedCell=findFirstEditableCell(currentQuestion().grid); saveState(); render(); });
-    els.submitBtn.addEventListener('click', markCurrentQuestion);
-    els.finishBtn.addEventListener('click', finishQuiz);
-    els.boldBtn.addEventListener('click',()=>toggleFormat('bold'));
-    els.underlineBtn.addEventListener('click',()=>toggleFormat('underline'));
-    els.bb1Btn.addEventListener('click',()=>setBottomBorder(1));
-    els.bb2Btn.addEventListener('click',()=>setBottomBorder(2));
-    els.bb3Btn.addEventListener('click',()=>setBottomBorder(3));
-    els.arrowBtn.addEventListener('click',toggleArrow);
-    els.clearCellBtn.addEventListener('click',clearSelectedCell);
-    els.clearGridBtn.addEventListener('click',clearGrid);
-    els.exampleBtn.addEventListener('click',showExample);
-    els.continueBtn.addEventListener('click',()=>{ const saved = loadSavedState(); if(saved) hydrateState(saved); else startFreshQuiz(); });
-    els.freshBtn.addEventListener('click',startFreshQuiz);
-    els.resetBtn.addEventListener('click',startFreshQuiz);
-    els.newSetAfterResultBtn.addEventListener('click',startFreshQuiz);
-    els.reviewBtn.addEventListener('click',()=>{ state.finished=false; saveState(); render(); window.scrollTo({top:0,behavior:'smooth'}); });
-    els.downloadBtn.addEventListener('click',downloadAttempt);
-    els.shareBtn.addEventListener('click',shareAttempt);
-    els.overlayCloseBtn.addEventListener('click',closeOverlay);
-    els.overlay.addEventListener('click',(e)=>{ if(e.target===els.overlay) closeOverlay(); });
-
-    window.addEventListener('keydown',(e)=>{
-      const q = currentQuestion(); if(!q) return;
-      if(els.overlay.classList.contains('show') && e.key==='Escape'){ closeOverlay(); return; }
-      if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Enter'].includes(e.key)) e.preventDefault();
-      if(e.key==='ArrowLeft') moveSelection(-1);
-      if(e.key==='ArrowRight') moveSelection(1);
-      if(e.key==='ArrowUp') moveSelection(-COLS);
-      if(e.key==='ArrowDown') moveSelection(COLS);
-      if(e.key==='Enter') moveSelection(COLS);
-      if(q.submitted) return;
-      if(/^[0-9Rr./-]$/.test(e.key)){ setCellChar(e.key.toUpperCase()==='R'?'R':(e.key==='-'?'−':e.key)); }
-      if(e.key==='Backspace' || e.key==='Delete'){ e.preventDefault(); clearSelectedCell(); }
-      if(e.ctrlKey && e.key.toLowerCase()==='b'){ e.preventDefault(); toggleFormat('bold'); }
-      if(e.ctrlKey && e.key.toLowerCase()==='u'){ e.preventDefault(); toggleFormat('underline'); }
-    });
-  }
-
-  function init(){
-    bindEvents();
-    const saved = loadSavedState();
-    if(saved) hydrateState(saved); else startFreshQuiz();
-  }
-
-  try {
-    init();
-  } catch (err) {
-    const banner = document.getElementById('fatalErrorBanner');
-    if (banner) {
-      banner.style.display = 'block';
-      banner.textContent = `The quiz hit a startup error: ${err && err.message ? err.message : err}. Please start a fresh quiz or use the newest build.`;
-    }
-    throw err;
-  }
-})();
+SUBJECTS.forEach(s => {
+  const xpData = loadJSON(s.xpKey, {xp:0});
+  const level = levelFromXP(xpData.xp);
+  const hist = loadJSON(s.historyKey, []);
+  const attempts = hist.length;
+  const best = attempts ? Math.max(...hist.map(h => h.percent)) : null;
+  const el = document.getElementById(s.metaId);
+  el.textContent = attempts
+    ? `Level ${level} · ${attempts} attempt${attempts===1?'':'s'} · Best ${best}%`
+    : `Level ${level} · Not started yet`;
+});
 </script>
 </body>
 </html>

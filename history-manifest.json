@@ -1,0 +1,17 @@
+{
+  "name": "History Quest: Ancient Egypt",
+  "short_name": "History Quest",
+  "description": "A colourful, gamified 50-question Ancient Egypt history quiz with instant marking and badges.",
+  "start_url": "./history.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fff7e6",
+  "theme_color": "#b8860b",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

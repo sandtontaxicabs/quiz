@@ -141,8 +141,8 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .install-banner{background:#fff7e0;border:1px solid #ffe6a6;border-radius:16px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 
 .tab-bar-wrap{max-width:760px;margin:0 auto 10px}
-.tab-bar{display:flex;gap:6px;padding:7px;background:rgba(255,255,255,.92);border-radius:16px;box-shadow:0 6px 18px rgba(50,50,120,.12);overflow-x:auto}
-.tab-btn{flex:1;text-align:center;padding:8px 2px;border-radius:10px;font-weight:800;font-size:.68rem;border:none;background:transparent;color:var(--muted);white-space:nowrap;font-family:inherit;cursor:pointer}
+.tab-bar{display:flex;gap:2px;padding:4px;background:rgba(255,255,255,.92);border-radius:16px;box-shadow:0 6px 18px rgba(50,50,120,.12);overflow-x:auto}
+.tab-btn{flex:1;text-align:center;padding:6px 0;border-radius:8px;font-weight:800;font-size:.56rem;border:none;background:transparent;color:var(--muted);white-space:nowrap;font-family:inherit;cursor:pointer}
 .tab-btn.active{background:var(--purple);color:#fff}
 </style>
 </head>
@@ -155,6 +155,7 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
     <button type="button" class="tab-btn" onclick="window.location.href='english.html'">📚 English</button>
     <button type="button" class="tab-btn" onclick="window.location.href='history.html'">🏺 History</button>
     <button type="button" class="tab-btn" onclick="window.location.href='science.html'">🔬 Science</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='geography.html'">🌍 Geography</button>
   </nav>
 </div>
 <div class="app" id="app"></div>
@@ -492,9 +493,110 @@ function genFractionQuestion(difficulty){
 
 /* ===================== QUESTION BANK: SECTION "ratio" (Ratio & Proportion) ===================== */
 function genRatioQuestion(difficulty){
-  const kind = difficulty === 'easy' ? pick(['simplifyRatio','equivRatio'])
-    : difficulty === 'medium' ? pick(['equivRatio','shareRatio','proportionPercent'])
-    : pick(['shareRatio','proportionPercent','shareRatio']);
+  const kind = difficulty === 'easy' ? pick(['simplifyRatio','equivRatio','proportionFraction'])
+    : difficulty === 'medium' ? pick(['equivRatio','shareRatio','proportionPercent','beadsRatio','trueFalseProportion'])
+    : pick(['shareRatio','proportionPercent','beadsRatio','reorderRatio3']);
+
+  if (kind === 'proportionFraction'){
+    const ctx = pick([
+      {unit:'days', whole:'week', total:7},
+      {unit:'hours', whole:'day', total:24},
+      {unit:'months', whole:'year', total:12}
+    ]);
+    const part = rnd(1, ctx.total-1);
+    const correct = `${part}/${ctx.total}`;
+    const distractorSet = new Set([`${part+1}/${ctx.total}`, `${Math.max(1,part-1)}/${ctx.total}`, `${part}/${ctx.total+1}`]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'ratio', difficulty, type:'mcq',
+      prompt: `Zanele spends ${part} ${ctx.unit} out of every ${ctx.total} ${ctx.unit} in a ${ctx.whole} doing homework. What proportion of the ${ctx.whole} does she spend on homework? Write your answer as a fraction.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `${part} out of ${ctx.total} as a fraction is <b>${part}/${ctx.total}</b>.`
+    };
+  }
+
+  if (kind === 'beadsRatio'){
+    const colorA = pick(['black','red','blue']);
+    const colorB = pick(['white','yellow','green'].filter(c => c !== colorA));
+    const countA = rnd(3,9), countB = rnd(1,5);
+    const total = countA + countB;
+    if (Math.random() < 0.5){
+      const correct = `${countA}:${countB}`;
+      const distractorSet = new Set([`${countB}:${countA}`, `${countA}:${countB+1}`, `${countA+1}:${countB}`]);
+      distractorSet.delete(correct);
+      const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+      return {
+        id: uid(), section:'ratio', difficulty, type:'mcq',
+        prompt: `A necklace has ${countA} ${colorA} beads and ${countB} ${colorB} beads. What is the ratio of ${colorA} beads to ${colorB} beads?`,
+        diagramSVG: null,
+        choices, correctAnswer: correct,
+        explanation: `There are ${countA} ${colorA} beads and ${countB} ${colorB} beads, so the ratio of ${colorA} to ${colorB} is <b>${countA}:${countB}</b>.`
+      };
+    }
+    const g = gcd(countA,total), sn = countA/g, sd = total/g;
+    const correct = `${sn}/${sd}`;
+    const distractorSet = new Set([`${countA}/${total}`, `${sn+1}/${sd}`, `${sn}/${sd+1}`]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'ratio', difficulty, type:'mcq',
+      prompt: `A necklace has ${countA} ${colorA} beads and ${countB} ${colorB} beads (${total} beads in total). What proportion of the beads are ${colorA}? Give your answer as a fraction in its simplest form.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `${countA} out of ${total} beads are ${colorA}: ${countA}/${total}.<br>Simplified (÷${g}): <b>${sn}/${sd}</b>.`
+    };
+  }
+
+  if (kind === 'reorderRatio3'){
+    const names = ['orange','blue','green'];
+    const counts = {orange: rnd(1,6), blue: rnd(1,6), green: rnd(1,6)};
+    const orderAsked = shuffle(names);
+    const correct = orderAsked.map(n => counts[n]).join(':');
+    const perms = [
+      names.map(n => counts[n]).join(':'),
+      [...names].reverse().map(n => counts[n]).join(':'),
+      shuffle(names).map(n => counts[n]).join(':')
+    ];
+    const distractorSet = new Set(perms);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'ratio', difficulty, type:'mcq',
+      prompt: `A bag contains ${counts.orange} orange, ${counts.blue} blue and ${counts.green} green counters. What is the ratio of ${orderAsked.join(' : ')}?`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `In the order ${orderAsked.join(':')}, the counts are ${orderAsked.map(n => counts[n]).join(':')}.<br>So the ratio of ${orderAsked.join(' : ')} is <b>${correct}</b>.`
+    };
+  }
+
+  if (kind === 'trueFalseProportion'){
+    const colorA = pick(['blue','red']);
+    const colorB = pick(['green','yellow'].filter(c => c !== colorA));
+    const countA = rnd(5,15), countB = rnd(2,10);
+    const total = countA + countB;
+    const g = gcd(countB,total);
+    const simpB = `${countB/g}/${total/g}`;
+    const trueFrac = `${countB}/${total}`;
+    const makeTrue = Math.random() < 0.5;
+    let claim;
+    if (makeTrue){
+      claim = Math.random() < 0.5 ? trueFrac : simpB;
+    } else {
+      const delta = pick([1,-1,2,-2].filter(d => countB+d > 0 && countB+d !== countB));
+      claim = `${countB+delta}/${total}`;
+    }
+    const [cn,cd] = claim.split('/').map(Number);
+    const isTrue = (cn*total === countB*cd);
+    return {
+      id: uid(), section:'ratio', difficulty, type:'tf',
+      prompt: `Sam has ${countA} ${colorA} pens and ${countB} ${colorB} pens.<br>True or False: <b>${claim}</b> of the pens are ${colorB}.`,
+      diagramSVG: null,
+      choices: ['True','False'], correctAnswer: isTrue ? 'True' : 'False',
+      explanation: `${countB} out of ${total} pens are ${colorB}, which as a fraction is ${countB}/${total}${g>1?` = ${simpB} in simplest form`:''}.<br>${isTrue ? `${claim} matches this, so it is True.` : `${claim} does not match this, so it is False.`}`
+    };
+  }
 
   if (kind === 'simplifyRatio'){
     let a0,b0;
@@ -648,6 +750,47 @@ function genObjectMatchQuestion(difficulty){
   };
 }
 
+function genNetClassifyQuestion(difficulty){
+  const net = pick(NET_LIBRARY);
+  const labelMap = {closed:'Net of a cube', open:'Net of an open cube', invalid:'Not a net of a cube'};
+  const correct = labelMap[net.kind];
+  const reasonMap = {
+    closed: `This net has exactly 6 squares arranged so each one folds up to cover a different face, with no gaps and no overlaps — it's a <b>net of a cube</b>.`,
+    open: `This net has only 5 squares, so when folded it makes a box with one face missing — it's a <b>net of an open cube</b>.`,
+    invalid: `Even though it has 6 squares, when folded this arrangement causes faces to overlap or leaves faces uncovered — so it's <b>not a net of a cube</b>.`
+  };
+  return {
+    id: uid(), section:'shapes3d', difficulty, type:'mcq',
+    prompt: `Look at this net. Is it a net of a cube, a net of an open cube, or not a net of a cube at all?`,
+    diagramSVG: netSVG(net.cells),
+    choices: shuffle(Object.values(labelMap)), correctAnswer: correct,
+    explanation: reasonMap[net.kind]
+  };
+}
+
+const NAME_SHAPE_LIBRARY = [
+  {desc:'I have 1 square face and 4 triangular faces that meet at a point.', name:'Square-based pyramid'},
+  {desc:'I have 2 circular faces and 1 curved rectangular face.', name:'Cylinder'},
+  {desc:'I have 2 triangular faces and 3 rectangular faces.', name:'Triangular prism'},
+  {desc:'I have 2 pentagon faces and 5 rectangular faces.', name:'Pentagonal prism'},
+  {desc:'I have 2 hexagon faces and 6 rectangular faces.', name:'Hexagonal prism'},
+  {desc:'I have 6 identical square faces.', name:'Cube'},
+  {desc:'I have 6 rectangular faces, and my opposite faces are equal in size.', name:'Cuboid'},
+  {desc:'I have 1 flat circular face and 1 curved surface that comes to a point.', name:'Cone'}
+];
+function genNameShapeQuestion(difficulty){
+  const item = pick(NAME_SHAPE_LIBRARY);
+  const otherNames = shuffle(NAME_SHAPE_LIBRARY.map(x => x.name).filter(n => n !== item.name)).slice(0,3);
+  const choices = shuffle([item.name, ...otherNames]);
+  return {
+    id: uid(), section:'shapes3d', difficulty, type:'mcq',
+    prompt: `${item.desc}<br>What 3D shape am I?`,
+    diagramSVG: null,
+    choices, correctAnswer: item.name,
+    explanation: `A shape with these faces is called a <b>${item.name}</b>.`
+  };
+}
+
 const SHAPE_PREFIXES = [{p:'Tri', n:3},{p:'Pent', n:5},{p:'Hex', n:6},{p:'Oct', n:8}];
 function genPrefixQuestion(difficulty){
   const item = pick(SHAPE_PREFIXES);
@@ -664,12 +807,14 @@ function genPrefixQuestion(difficulty){
 }
 
 function gen3DShapeQuestion(difficulty){
-  const kind = difficulty === 'easy' ? pick(['shapeFact','shapeFact','objectMatch','prefix'])
-    : difficulty === 'medium' ? pick(['shapeFact','objectMatch','prefix','netValidity'])
-    : pick(['netValidity','shapeFact','netValidity']);
+  const kind = difficulty === 'easy' ? pick(['shapeFact','shapeFact','objectMatch','prefix','nameShape'])
+    : difficulty === 'medium' ? pick(['shapeFact','objectMatch','prefix','netValidity','netClassify','nameShape'])
+    : pick(['netValidity','netClassify','shapeFact','nameShape']);
   if (kind === 'shapeFact') return genShapeFactQuestion(difficulty);
   if (kind === 'objectMatch') return genObjectMatchQuestion(difficulty);
   if (kind === 'prefix') return genPrefixQuestion(difficulty);
+  if (kind === 'netClassify') return genNetClassifyQuestion(difficulty);
+  if (kind === 'nameShape') return genNameShapeQuestion(difficulty);
   return genNetValidityQuestion(difficulty);
 }
 

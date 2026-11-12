@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Learning Quest Hub</title>
-<meta name="description" content="Choose a subject: Maths Quest, Word Quest or History Quest — gamified quizzes with instant marking and badges." />
+<meta name="description" content="Choose a subject: Maths Quest, Word Quest, History Quest, Science Quest or Geography Quest — gamified quizzes with instant marking and badges." />
 <meta name="theme-color" content="#6c63ff" />
 <link rel="manifest" href="manifest.json" />
 <link rel="icon" href="icons/icon-192.png" />
@@ -26,6 +26,7 @@ p.sub{margin:0;color:#6b7394}
 .subject-btn.english{background:#1b998b}
 .subject-btn.history{background:#b8860b}
 .subject-btn.science{background:#3a86ff}
+.subject-btn.geography{background:#2a9d8f}
 .subject-btn .title{font-size:1.25rem;font-weight:900;display:flex;align-items:center;gap:10px;margin-bottom:4px}
 .subject-btn .desc{font-size:.9rem;opacity:.95;line-height:1.4;margin-bottom:10px}
 .subject-btn .meta{font-size:.8rem;font-weight:700;opacity:.9}
@@ -68,6 +69,13 @@ p.sub{margin:0;color:#6b7394}
     <div class="open">Open Science Quest →</div>
   </button>
 
+  <button type="button" class="subject-btn geography" onclick="window.location.href='geography.html'">
+    <div class="title">🌍 Geography Quest</div>
+    <div class="desc">South Africa's climate regions, natural vegetation, fynbos, forests and savannah grassland.</div>
+    <div class="meta" id="metaGeography"></div>
+    <div class="open">Open Geography Quest →</div>
+  </button>
+
   <div class="footer-note">Works offline · Install this hub to your home screen · Progress is saved separately for each subject</div>
 </div>
 
@@ -81,7 +89,8 @@ const SUBJECTS = [
   {metaId:'metaMaths', xpKey:'mq_xp_v1', historyKey:'mq_history_v1'},
   {metaId:'metaEnglish', xpKey:'wq_xp_v1', historyKey:'wq_history_v1'},
   {metaId:'metaHistory', xpKey:'hq_xp_v1', historyKey:'hq_history_v1'},
-  {metaId:'metaScience', xpKey:'sq_xp_v1', historyKey:'sq_history_v1'}
+  {metaId:'metaScience', xpKey:'sq_xp_v1', historyKey:'sq_history_v1'},
+  {metaId:'metaGeography', xpKey:'gq_xp_v1', historyKey:'gq_history_v1'}
 ];
 
 SUBJECTS.forEach(s => {

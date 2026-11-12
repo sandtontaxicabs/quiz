@@ -1,11 +1,12 @@
 # Learning Quest Hub
 
-`index.html` is a plain hub page with one button per subject — no default subject. Each subject page also has a persistent tab bar (Home / Maths / English / History / Science) so you can jump between them from anywhere.
+`index.html` is a plain hub page with one button per subject — no default subject. Each subject page also has a persistent tab bar (Home / Maths / English / History / Science / Geography) so you can jump between them from anywhere.
 
-- **`maths.html` — Maths Quest** (Cambridge Primary Mathematics Stage 5, Term 3): 50 questions per attempt across Area & Perimeter, Laws of Arithmetic (incl. BODMAS and missing-operator puzzles), Equivalent Fractions, Ratio & Proportion, 3D Shapes & Nets, and Probability (likelihood terms, likelihood scales, tally percentages, probability as a simplified fraction). Overall difficulty mix is skewed hard: 50% hard, 20% medium, 20% easy, and 10% "Grade 6" stretch questions requiring deeper multi-step reasoning.
+- **`maths.html` — Maths Quest** (Cambridge Primary Mathematics Stage 5, Term 3): 50 questions per attempt across Area & Perimeter, Laws of Arithmetic (incl. BODMAS and missing-operator puzzles), Equivalent Fractions, Ratio & Proportion (incl. bead/counter ratios and proportions-as-fractions), 3D Shapes & Nets (incl. net-of-a-cube/open-cube/not-a-cube classification and naming prisms by their faces), and Probability (likelihood terms, likelihood scales, tally percentages, probability as a simplified fraction). Overall difficulty mix is skewed hard: 50% hard, 20% medium, 20% easy, and 10% "Grade 6" stretch questions requiring deeper multi-step reasoning.
 - **`english.html` — Word Quest** (Cambridge Stage 5 English, "Tell It Another Way"): fairy tale features, phrases & clauses, simple/complex sentences, verb tenses, pronouns & possessive adjectives, homophones & homonyms, rhyme & sound devices
 - **`history.html` — History Quest**: 50 questions on Ancient Egypt — the Nile, its importance and uses, social structure, homes & buildings, and farming & food
 - **`science.html` — Science Quest**: 65 questions on forces & magnetism — gravity, the normal force, applied forces, satellites & orbits, friction/air/water resistance & upthrust, multiple forces, magnets & magnetic materials, and magnetic force investigations
+- **`geography.html` — Geography Quest**: 44 questions on South Africa's climate regions (Karoo, Namaqualand, Drakensberg, Kalahari, Western Cape), natural vegetation key terms, fynbos/forests/plants, and savannah grassland, with a "Grade 6" stretch tier and single-attempt marking
 
 ## Shared features
 
@@ -29,4 +30,4 @@ Serve the folder with any static file server, e.g.:
 python3 -m http.server 8080
 ```
 
-Then visit `http://localhost:8080` (the hub), or go straight to `http://localhost:8080/maths.html`, `/english.html`, `/history.html`, or `/science.html`.
+Then visit `http://localhost:8080` (the hub), or go straight to `http://localhost:8080/maths.html`, `/english.html`, `/history.html`, `/science.html`, or `/geography.html`.

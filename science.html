@@ -150,7 +150,7 @@ const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const pick = (arr) => arr[rnd(0, arr.length - 1)];
 const uid = () => Math.random().toString(36).slice(2, 10);
 function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=rnd(0,i); [a[i],a[j]]=[a[j],a[i]];} return a; }
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 /* ===================== FIXED QUESTION BANK: Forces, Gravity & Friction ===================== */
 const RAW_QUESTIONS = [

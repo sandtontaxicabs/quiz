@@ -167,7 +167,7 @@ const pick = (arr) => arr[rnd(0, arr.length - 1)];
 const uid = () => Math.random().toString(36).slice(2, 10);
 function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=rnd(0,i); [a[i],a[j]]=[a[j],a[i]];} return a; }
 function fmt(n){ return Number.isInteger(n) ? n : Math.round(n*100)/100; }
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); return b===0 ? a : gcd(b, a%b); }
 
 /* ===================== SHAPE (SVG) HELPERS ===================== */

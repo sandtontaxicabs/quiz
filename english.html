@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Word Quest: Tell It Another Way</title>
-<meta name="description" content="A colourful, gamified Stage 5 English progression test on fairy tale features, phrases and clauses, verb tenses, pronouns and homophones, with instant marking and badges." />
+<title>Word Quest: Cambridge Primary English Stage 5</title>
+<meta name="description" content="A colourful, gamified Cambridge Primary English Stage 5 progression test covering Reading Comprehension (narrative, non-fiction, persuasive, poetry), Grammar &amp; Punctuation, and Vocabulary &amp; Spelling, with instant marking, Cambridge performance bands and badges." />
 <meta name="theme-color" content="#1b998b" />
 <link rel="manifest" href="english-manifest.json" />
 <link rel="icon" href="icons/icon-192.png" />
@@ -229,7 +229,7 @@ function genTaleQuestion(difficulty){
     const feature = pick(FEATURES);
     const isPresent = presentSet.has(feature.key);
     return {
-      id: uid(), section:'tales', difficulty, type:'tf',
+      id: uid(), section:'reading', difficulty, type:'tf',
       prompt: `<div class="story-box">${text}</div><br>True or False: this story includes <b>${feature.label}</b>.`,
       choices: ['True','False'], correctAnswer: isPresent ? 'True' : 'False',
       explanation: isPresent
@@ -245,7 +245,7 @@ function genTaleQuestion(difficulty){
     const distractors = shuffle(absentFeatures).slice(0, 3);
     const options = shuffle([correct, ...distractors]).map(f => f.label);
     return {
-      id: uid(), section:'tales', difficulty, type:'mcq',
+      id: uid(), section:'reading', difficulty, type:'mcq',
       prompt: `<div class="story-box">${text}</div><br>Which traditional tale feature <b>is</b> included in this story?`,
       choices: options, correctAnswer: correct.label,
       explanation: `The story includes ${correct.label}. The other options are common fairy tale features too, but they don't appear in this particular story.`
@@ -256,7 +256,7 @@ function genTaleQuestion(difficulty){
   const otherThemes = shuffle(TALES.filter(t => t.theme !== tale.theme).map(t => t.theme)).slice(0,3);
   const options = shuffle([tale.theme, ...otherThemes]);
   return {
-    id: uid(), section:'tales', difficulty, type:'mcq',
+    id: uid(), section:'reading', difficulty, type:'mcq',
     prompt: `<div class="story-box">${text}</div><br>What is the <b>main theme</b> (the big lesson) of this story?`,
     choices: options.map(t => cap(t)), correctAnswer: cap(tale.theme),
     explanation: `The theme is that <b>${tale.theme}</b>. Look at what happens to the characters by the end of the story — that usually reveals the lesson the tale is teaching.`
@@ -290,7 +290,7 @@ function genPhraseClauseQuestion(difficulty){
   const v = { Name: name, pronoun: pick(['she','he']), creature: pick(CREATURES), noun: pick(NOUNS) };
   const sentence = t.build(v);
   return {
-    id: uid(), section:'phrases', difficulty, type:'mcq',
+    id: uid(), section:'grammar', difficulty, type:'mcq',
     prompt: `Is the <u>underlined</u> part of this sentence a phrase or a clause?<br><br><span style="font-size:1.05rem">${sentence}</span>`,
     choices: ['Phrase','Clause'], correctAnswer: t.answer,
     explanation: t.reason(v) + ` Remember: a <b>clause</b> always has both a subject and a verb; a <b>phrase</b> is missing one or the other.`
@@ -314,7 +314,7 @@ function genTenseQuestion(difficulty){
     const verb = pick(['baking a pie','singing a song','climbing the tower','searching for treasure']);
     const choices = shuffle(['is','are','am','was']);
     return {
-      id: uid(), section:'tenses', difficulty, type:'mcq',
+      id: uid(), section:'grammar', difficulty, type:'mcq',
       prompt: `Choose the correct form of <b>to be</b> to show this is happening <b>right now</b>:<br><br>"${s.text} ___ ${verb}."`,
       choices, correctAnswer: s.be,
       explanation: `"${s.text} ${s.be} ${verb}" is correct. The continuous present tense (helping verb + "-ing") shows something happening right now, and the helping verb must match the subject.`
@@ -335,7 +335,7 @@ function genTenseQuestion(difficulty){
     const optionB = isAFirst ? contSentence : simpleSentence;
     const correctOption = isAFirst ? 'Sentence B' : 'Sentence A';
     return {
-      id: uid(), section:'tenses', difficulty, type:'mcq',
+      id: uid(), section:'grammar', difficulty, type:'mcq',
       prompt: `Which sentence describes something happening <b>right now</b>?<br><br>Sentence A: "${optionA}"<br>Sentence B: "${optionB}"`,
       choices: ['Sentence A','Sentence B'], correctAnswer: correctOption,
       explanation: `The continuous form ("is ${pair.cont}") shows something happening right now. The simple present form ("${pair.simple} every morning") shows something that happens repeatedly, like a habit or routine.`
@@ -353,7 +353,7 @@ function genTenseQuestion(difficulty){
   const verb = pick(['waiting quietly','watching the stage','listening carefully']);
   const choices = shuffle(['is','are','was','be']);
   return {
-    id: uid(), section:'tenses', difficulty, type:'mcq',
+    id: uid(), section:'grammar', difficulty, type:'mcq',
     prompt: `Choose the correct form of <b>to be</b> for this tricky subject:<br><br>"${s.text} ___ ${verb}."`,
     choices, correctAnswer: s.be,
     explanation: `"${s.text} ${s.be} ${verb}" is correct. Watch out — some subjects look plural or singular but need extra thought (like "the whole class", which is one group, so it takes "is").`
@@ -381,7 +381,7 @@ function genPronounQuestion(difficulty){
         : `Before the storm arrived, ${name} had already hidden <u>${word}</u> ${noun} beneath the old floorboards.`;
     }
     return {
-      id: uid(), section:'pronouns', difficulty, type:'mcq',
+      id: uid(), section:'grammar', difficulty, type:'mcq',
       prompt: `Is the <u>underlined</u> word a pronoun or a possessive adjective?<br><br>${sentence}`,
       choices: ['Pronoun','Possessive adjective'], correctAnswer: isPronoun ? 'Pronoun' : 'Possessive adjective',
       explanation: isPronoun
@@ -409,7 +409,7 @@ function genPronounQuestion(difficulty){
   ]);
   const correct = `It is unclear — "${pronoun}" could mean either ${nameA} or ${nameB}`;
   return {
-    id: uid(), section:'pronouns', difficulty, type:'mcq',
+    id: uid(), section:'grammar', difficulty, type:'mcq',
     prompt: `Read this sentence carefully:<br><br>"${sentence}"<br><br>What is the problem with the pronoun "${pronoun}" here?`,
     choices: options, correctAnswer: correct,
     explanation: `This sentence is <b>ambiguous</b> — we can't tell whether "${pronoun}" refers to ${nameA} or ${nameB}. To fix it, a writer should replace the pronoun with the correct name, e.g. "${nameA} told ${nameB} that ${nameB} ${verb}."`
@@ -466,7 +466,7 @@ function genHomophoneQuestion(difficulty){
     const sentence = t.build(v);
     const choices = shuffle(['their','there',"they're"]);
     return {
-      id: uid(), section:'homophones', difficulty, type:'mcq',
+      id: uid(), section:'vocabulary', difficulty, type:'mcq',
       prompt: `Which word correctly completes this sentence?<br><br>"${sentence.replace('___','_____')}"`,
       choices, correctAnswer: t.blank,
       explanation: t.blank === 'their'
@@ -485,7 +485,7 @@ function genHomophoneQuestion(difficulty){
   const distractors = shuffle(senses.filter(s => s !== correctSense)).map(s => s.sense);
   const choices = shuffle([correctSense.sense, ...distractors]);
   return {
-    id: uid(), section:'homophones', difficulty, type:'mcq',
+    id: uid(), section:'vocabulary', difficulty, type:'mcq',
     prompt: `The word "<b>${word}</b>" is a <b>homonym</b> — it has more than one meaning. In this sentence, what does it mean?<br><br>"${sentence}"`,
     choices, correctAnswer: correctSense.sense,
     explanation: `Here, "${word}" means <b>${correctSense.sense}</b>. Homonyms are spelled and pronounced the same, so you must use the rest of the sentence to work out which meaning is being used.`
@@ -506,7 +506,7 @@ function genSentenceQuestion(difficulty){
     const complex = `${name} closed the old gate quietly ${connective} the ${creature} was still sleeping nearby.`;
     const sentence = isComplex ? complex : simple;
     return {
-      id: uid(), section:'sentences', difficulty, type:'mcq',
+      id: uid(), section:'grammar', difficulty, type:'mcq',
       prompt: `Is this a <b>simple</b> or <b>complex</b> sentence?<br><br>"${sentence}"`,
       choices: ['Simple','Complex'], correctAnswer: isComplex ? 'Complex' : 'Simple',
       explanation: isComplex
@@ -526,7 +526,7 @@ function genSentenceQuestion(difficulty){
     const wrongOptions = shuffle(CONNECTIVES.filter(c => c !== s.correct)).slice(0,3);
     const choices = shuffle([s.correct, ...wrongOptions]);
     return {
-      id: uid(), section:'sentences', difficulty, type:'mcq',
+      id: uid(), section:'grammar', difficulty, type:'mcq',
       prompt: `Which connective best joins these two ideas into one complex sentence?<br><br>"${cap(s.a)} ___ ${s.b}."`,
       choices, correctAnswer: s.correct,
       explanation: `"${cap(s.a)} ${s.correct} ${s.b}." makes the most sense. Connectives like "${CONNECTIVES.join('", "')}" join a main clause to a dependent clause to build a complex sentence.`
@@ -545,7 +545,7 @@ function genSentenceQuestion(difficulty){
     `${name} remembered`
   ]);
   return {
-    id: uid(), section:'sentences', difficulty, type:'mcq',
+    id: uid(), section:'grammar', difficulty, type:'mcq',
     prompt: `Which part of this sentence is the <b>dependent (subordinate) clause</b>?<br><br>"${sentence}"`,
     choices: options, correctAnswer: cap(dependentClause),
     explanation: `"${cap(dependentClause)}" is the dependent clause — it starts with the connective "${connective}" and cannot stand alone as a full sentence, even though it has its own subject and verb.`
@@ -563,7 +563,7 @@ function genPoetryQuestion(difficulty){
     const isFull = Math.random() < 0.5;
     const pair = pick(isFull ? RHYME_PAIRS.full : RHYME_PAIRS.half);
     return {
-      id: uid(), section:'poetry', difficulty, type:'mcq',
+      id: uid(), section:'reading', difficulty, type:'mcq',
       prompt: `Are these two words a <b>full rhyme</b> or a <b>half rhyme</b>?<br><br>"${pair[0]}" and "${pair[1]}"`,
       choices: ['Full rhyme','Half rhyme'], correctAnswer: isFull ? 'Full rhyme' : 'Half rhyme',
       explanation: isFull
@@ -582,7 +582,7 @@ function genPoetryQuestion(difficulty){
     const ex = pick(examples);
     const choices = shuffle(['Assonance','Alliteration','Full rhyme','Half rhyme']);
     return {
-      id: uid(), section:'poetry', difficulty, type:'mcq',
+      id: uid(), section:'reading', difficulty, type:'mcq',
       prompt: `Which sound device is used in this line?<br><br>"${ex.line}"`,
       choices, correctAnswer: ex.device,
       explanation: `This is <b>${ex.device}</b> — ${ex.why}`
@@ -597,7 +597,7 @@ function genPoetryQuestion(difficulty){
   const label = isInternal ? 'Internal rhyme' : 'End rhyme';
   const choices = ['Internal rhyme','End rhyme'];
   return {
-    id: uid(), section:'poetry', difficulty, type:'mcq',
+    id: uid(), section:'reading', difficulty, type:'mcq',
     prompt: `What type of rhyme is used here?<br><br><span style="white-space:pre-line">"${line}"</span>`,
     choices, correctAnswer: label,
     explanation: isInternal
@@ -606,17 +606,226 @@ function genPoetryQuestion(difficulty){
   };
 }
 
+/* ===================== SECTION 8: READING COMPREHENSION (fixed passages) =====================
+   Cambridge Primary English Stage 5 "Reading" strand: narrative is covered
+   procedurally above (Fairy Tale Features / Rhyme & Sound Devices); these
+   fixed non-fiction and persuasive passages fill the genuine exam-style gap
+   of short-passage comprehension with retrieval, inference, vocabulary-in-
+   context and author's-purpose questions. */
+const PASSAGES = [
+  {
+    type: 'Non-fiction (information text)',
+    text: `Honeybees are remarkable insects that play a vital role in our ecosystem. A single bee colony can contain up to 60,000 bees, each with its own job. Worker bees collect nectar and pollen from flowers, visiting as many as 2,000 flowers in a single day. As they move from flower to flower, pollen sticks to their legs and bodies, helping to pollinate plants so they can produce seeds and fruit. Without bees, many of the fruits and vegetables we eat would become far harder to grow. Sadly, bee populations around the world have been shrinking due to habitat loss, pesticides and disease, which is why many scientists and gardeners are now working hard to protect them.`,
+    questions: [
+      {type:'retrieval', q:'According to the text, how many flowers can a worker bee visit in a single day?', choices:['Up to 2,000','Exactly 60,000','About 100','Only one'], correct:'Up to 2,000', why:'The text states worker bees visit "as many as 2,000 flowers in a single day."'},
+      {type:'inference', q:'What can you infer would happen to many fruits and vegetables if bee populations disappeared completely?', choices:['They would become far harder to grow','They would grow bigger and faster','Nothing would change at all','They would no longer need sunlight'], correct:'They would become far harder to grow', why:'The text says "without bees, many of the fruits and vegetables we eat would become far harder to grow" — this is a direct inference from that sentence.'},
+      {type:'vocab', q:'In this text, what does the word "vital" mean?', choices:['Extremely important','Very small','Dangerous','Temporary'], correct:'Extremely important', why:'"Vital" means extremely important or essential — bees play a vital (essential) role in the ecosystem.'},
+      {type:'purpose', q:'What is the main purpose of this text?', choices:['To inform the reader about bees and why they matter','To persuade the reader to buy honey','To tell an entertaining story about a bee','To give step-by-step instructions for beekeeping'], correct:'To inform the reader about bees and why they matter', why:'This is a non-fiction information text — it explains facts about bees without trying to persuade or tell a story.'}
+    ]
+  },
+  {
+    type: 'Non-fiction (information text)',
+    text: `Volcanoes are formed when hot, molten rock, called magma, pushes up through a crack in the Earth's crust. When a volcano erupts, magma rises to the surface and is then called lava. Some eruptions are slow and gentle, with lava flowing steadily down the sides of the volcano. Others are violent and sudden, throwing ash, rock and gas high into the sky within minutes. Mount Vesuvius, in Italy, famously erupted in the year 79 AD, burying the nearby city of Pompeii under metres of ash. Scientists today use special instruments to monitor active volcanoes, watching for small earthquakes and changes in gas levels that can warn of an eruption before it happens.`,
+    questions: [
+      {type:'retrieval', q:'What is magma called once it reaches the surface during an eruption?', choices:['Lava','Ash','Crust','Gas'], correct:'Lava', why:'The text says "magma rises to the surface and is then called lava."'},
+      {type:'inference', q:'Based on the text, why might scientists want to monitor small earthquakes near a volcano?', choices:['Because they can warn of an eruption before it happens','Because earthquakes make volcanoes disappear','Because earthquakes have nothing to do with volcanoes','Because it helps grow more lava'], correct:'Because they can warn of an eruption before it happens', why:'The text explains scientists watch for small earthquakes and gas changes "that can warn of an eruption before it happens."'},
+      {type:'vocab', q:'In this text, what does the word "monitor" mean?', choices:['To watch closely over time','To destroy completely','To bury under ash','To erupt suddenly'], correct:'To watch closely over time', why:'"Monitor" means to watch or check something closely over a period of time — scientists monitor volcanoes for warning signs.'},
+      {type:'purpose', q:'What is the main purpose of this text?', choices:['To explain facts about how volcanoes work','To persuade people to visit Pompeii','To tell a made-up story about a volcano','To give a recipe'], correct:'To explain facts about how volcanoes work', why:'This is an information text that explains the science behind volcanoes.'}
+    ]
+  },
+  {
+    type: 'Persuasive text',
+    text: `Our school playground has not been updated in over ten years, and it is time for that to change. The old swings are rusty, the slide has a crack right down the middle, and there is not nearly enough equipment for every pupil to use at break time. A new, modern playground would give every student the chance to play safely and actively every single day. Studies show that children who are active during the school day concentrate better in lessons and feel happier overall. Other schools in our area have already upgraded their playgrounds and have seen pupils enjoying break time far more. Surely our school deserves the same opportunity. We are asking the school board to approve funding for a new playground this year — our pupils' health and happiness depend on it.`,
+    questions: [
+      {type:'retrieval', q:'According to the text, what is wrong with the slide?', choices:['It has a crack right down the middle','It is too tall','It was removed last year','It is made of wood'], correct:'It has a crack right down the middle', why:'The text states "the slide has a crack right down the middle."'},
+      {type:'inference', q:'Why does the writer mention that other schools have already upgraded their playgrounds?', choices:['To show it is possible and has worked well elsewhere, strengthening their argument','To complain about those other schools','To prove that playgrounds are not important','To describe a different topic entirely'], correct:'To show it is possible and has worked well elsewhere, strengthening their argument', why:'Persuasive writers often use examples of others succeeding to strengthen their argument and make their request seem reasonable.'},
+      {type:'vocab', q:'In this text, what does the phrase "depend on it" suggest about the pupils\' health and happiness?', choices:['That they rely heavily on this happening','That they are unrelated to the playground','That they will improve no matter what','That the writer is unsure about the outcome'], correct:'That they rely heavily on this happening', why:'"Depend on it" is a strong persuasive phrase suggesting the outcome relies heavily on the playground being approved.'},
+      {type:'purpose', q:'What is the main purpose of this text?', choices:['To persuade the school board to fund a new playground','To inform readers about playground history','To entertain readers with a funny story','To give instructions for building a swing'], correct:'To persuade the school board to fund a new playground', why:'This text uses persuasive techniques (facts, comparisons, an emotional appeal) to convince the reader to take action.'}
+    ]
+  },
+  {
+    type: 'Persuasive text',
+    text: `Every classroom in our school should have a reading corner stocked with a wide variety of books. Reading for pleasure has been proven to improve vocabulary, concentration and imagination far more effectively than reading alone from a textbook. Many pupils simply do not have access to exciting books at home, and a well-stocked reading corner would give every single one of them the chance to discover a story they truly love. It would not cost very much either — a few shelves, some cushions, and a small budget for books is all that is needed. Imagine a classroom where pupils are excited to read during their free time, rather than being told they have to. This small change could make an enormous difference to how much our pupils enjoy learning. Please consider setting aside a small budget so every classroom can have its own reading corner.`,
+    questions: [
+      {type:'retrieval', q:'According to the text, what three things does a reading corner need?', choices:['A few shelves, some cushions, and a small budget for books','A new building and ten new teachers','Only a computer and a desk','A large library with thousands of books'], correct:'A few shelves, some cushions, and a small budget for books', why:'The text states "a few shelves, some cushions, and a small budget for books is all that is needed."'},
+      {type:'inference', q:'Why does the writer mention that many pupils do not have exciting books at home?', choices:['To show why a reading corner at school would make a real difference for them','To suggest that pupils should buy their own books','To complain about pupils\' families','To change the subject of the text'], correct:'To show why a reading corner at school would make a real difference for them', why:'This detail strengthens the argument by showing the reading corner would benefit pupils who might otherwise have no access to books.'},
+      {type:'vocab', q:'In this text, what does "enormous" mean?', choices:['Extremely large','Very small','Unimportant','Temporary'], correct:'Extremely large', why:'"Enormous" means extremely large — the writer claims the reading corner could make an extremely large difference.'},
+      {type:'purpose', q:'What is the main purpose of this text?', choices:['To persuade the reader to fund reading corners in classrooms','To inform the reader about how libraries work','To tell a story about a pupil who loves books','To describe the history of reading'], correct:'To persuade the reader to fund reading corners in classrooms', why:'This text uses persuasive techniques to convince the reader to approve a budget for reading corners.'}
+    ]
+  }
+];
+
+function genPassageQuestion(difficulty){
+  const passage = pick(PASSAGES);
+  const kindsByDifficulty = difficulty === 'easy' ? ['retrieval']
+    : difficulty === 'medium' ? ['retrieval','vocab','purpose']
+    : ['inference','vocab'];
+  const pool = passage.questions.filter(pq => kindsByDifficulty.includes(pq.type));
+  const pq = pick(pool.length ? pool : passage.questions);
+  const choices = shuffle(pq.choices);
+  return {
+    id: uid(), section:'reading', difficulty, type:'mcq',
+    prompt: `<div class="story-box">${passage.text}</div><br><span class="pill">${passage.type}</span><br><br>${pq.q}`,
+    choices, correctAnswer: pq.correct,
+    explanation: pq.why
+  };
+}
+
+function genReadingQuestion(difficulty){
+  const kind = pick(['tale','tale','poetry','passage','passage']);
+  if (kind === 'tale') return genTaleQuestion(difficulty);
+  if (kind === 'poetry') return genPoetryQuestion(difficulty);
+  return genPassageQuestion(difficulty);
+}
+
+/* ===================== SECTION 9: PUNCTUATION ===================== */
+function genPunctuationQuestion(difficulty){
+  const kind = difficulty === 'easy' ? pick(['apostropheContraction','apostrophePossessionSingular'])
+    : difficulty === 'medium' ? pick(['apostrophePossessionPlural','commaList'])
+    : pick(['directSpeech','apostrophePossessionPlural']);
+
+  if (kind === 'apostropheContraction'){
+    const pairs = [['did not',"didn't"],['is not',"isn't"],['they are',"they're"],['I am',"I'm"],['we will',"we'll"],['cannot',"can't"],['should not',"shouldn't"],['will not',"won't"]];
+    const [full, contracted] = pick(pairs);
+    const distractorSet = new Set([contracted.replace("'",''), full.replace(' ','') , full]);
+    distractorSet.delete(contracted);
+    const choices = shuffle([contracted, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'grammar', difficulty, type:'mcq',
+      prompt: `Which is the correct contraction of "<b>${full}</b>"?`,
+      choices, correctAnswer: contracted,
+      explanation: `"${full}" contracts to <b>${contracted}</b> — the apostrophe replaces the missing letter(s).`
+    };
+  }
+
+  if (kind === 'apostrophePossessionSingular'){
+    const name = pick(NAMES);
+    const noun = pick(NOUNS);
+    const correct = `${name}'s ${noun}`;
+    const distractors = [`${name}s' ${noun}`, `${name}s ${noun}`, `${name}' ${noun}`];
+    const choices = shuffle([correct, ...distractors]);
+    return {
+      id: uid(), section:'grammar', difficulty, type:'mcq',
+      prompt: `How do you correctly show that the ${noun} belongs to ${name} (one person)?`,
+      choices, correctAnswer: correct,
+      explanation: `For one person's possession, add <b>'s</b> after the name: "${correct}".`
+    };
+  }
+
+  if (kind === 'apostrophePossessionPlural'){
+    const creature = pick(CREATURES);
+    const plural = creature + 's';
+    const noun = pick(NOUNS);
+    const correct = `the ${plural}' ${noun}s`;
+    const distractors = [`the ${plural}'s ${noun}s`, `the ${creature}'s ${noun}s`, `the ${plural} ${noun}s`];
+    const choices = shuffle([correct, ...distractors]);
+    return {
+      id: uid(), section:'grammar', difficulty, type:'mcq',
+      prompt: `How do you correctly show that several ${plural} share ${noun}s (plural possession)?`,
+      choices, correctAnswer: correct,
+      explanation: `When a plural noun already ends in "s", add just an apostrophe after the "s": "${correct}".`
+    };
+  }
+
+  if (kind === 'commaList'){
+    const items = shuffle(['apples','pears','berries','grapes','plums','figs']).slice(0,4);
+    const correct = `${items[0]}, ${items[1]}, ${items[2]} and ${items[3]}`;
+    const wrong1 = `${items[0]} ${items[1]} ${items[2]} and ${items[3]}`;
+    const wrong2 = `${items[0]}, ${items[1]}, ${items[2]}, and, ${items[3]}`;
+    const wrong3 = `${items[0]}; ${items[1]}; ${items[2]} and ${items[3]}`;
+    const choices = shuffle([correct, wrong1, wrong2, wrong3]);
+    return {
+      id: uid(), section:'grammar', difficulty, type:'mcq',
+      prompt: `Which list is punctuated correctly?`,
+      choices, correctAnswer: correct,
+      explanation: `In a list, separate each item with a comma, but don't put a comma directly before "and" at the end: "${correct}".`
+    };
+  }
+
+  // directSpeech
+  const name = pick(NAMES);
+  const words = pick(['We should leave now','This is incredible','The door was locked','Nobody had seen the letter']);
+  const correct = `"${words}," said ${name}.`;
+  const wrong1 = `"${words}." said ${name}.`;
+  const wrong2 = `${words}," said ${name}.`;
+  const wrong3 = `"${words}," said ${name}`;
+  const choices = shuffle([correct, wrong1, wrong2, wrong3]);
+  return {
+    id: uid(), section:'grammar', difficulty, type:'mcq',
+    prompt: `Which sentence punctuates the direct speech correctly?`,
+    choices, correctAnswer: correct,
+    explanation: `When speech comes before "said ${name}", end the spoken words with a comma inside the closing speech mark, then a full stop at the very end: ${correct}`
+  };
+}
+
+function genGrammarQuestion(difficulty){
+  const kind = pick(['phrase','sentence','tense','pronoun','punctuation']);
+  if (kind === 'phrase') return genPhraseClauseQuestion(difficulty);
+  if (kind === 'sentence') return genSentenceQuestion(difficulty);
+  if (kind === 'tense') return genTenseQuestion(difficulty);
+  if (kind === 'pronoun') return genPronounQuestion(difficulty);
+  return genPunctuationQuestion(difficulty);
+}
+
+/* ===================== SECTION 10: VOCABULARY IN CONTEXT & SPELLING ===================== */
+const VOCAB_CONTEXT = [
+  { word:'reluctant', sentence:(v)=>`${v.name} was <b>reluctant</b> to leave the warm fire and step out into the storm.`, meaning:'unwilling or hesitant', distractors:['extremely eager','completely forgetful','very loud'] },
+  { word:'enormous', sentence:(v)=>`The <b>enormous</b> whale glided silently beneath their small boat.`, meaning:'extremely large', distractors:['extremely tiny','very colourful','rather ordinary'] },
+  { word:'ancient', sentence:(v)=>`They discovered an <b>ancient</b> manuscript hidden behind the library wall.`, meaning:'very old', distractors:['brand new','slightly damaged','very expensive'] },
+  { word:'furious', sentence:(v)=>`${v.name} was <b>furious</b> when the plan fell apart at the last moment.`, meaning:'extremely angry', distractors:['extremely happy','very tired','completely calm'] },
+  { word:'cautious', sentence:(v)=>`Being <b>cautious</b>, ${v.name} tested each step of the old bridge before crossing.`, meaning:'careful to avoid danger', distractors:['reckless and careless','very fast','extremely loud'] },
+  { word:'generous', sentence:(v)=>`The <b>generous</b> farmer shared half of his harvest with the village.`, meaning:'willing to give freely', distractors:['unwilling to share','very quiet','extremely tall'] },
+  { word:'gloomy', sentence:(v)=>`The <b>gloomy</b> sky made everyone feel a little uneasy.`, meaning:'dark and depressing', distractors:['bright and cheerful','extremely hot','perfectly clear'] },
+  { word:'curious', sentence:(v)=>`${v.name} was too <b>curious</b> to resist peeking through the locked door.`, meaning:'eager to learn or know something', distractors:['completely uninterested','very frightened','extremely tired'] }
+];
+function genVocabInContextQuestion(difficulty){
+  const item = pick(VOCAB_CONTEXT);
+  const v = { name: pick(NAMES) };
+  const sentence = item.sentence(v);
+  const choices = shuffle([item.meaning, ...item.distractors]);
+  return {
+    id: uid(), section:'vocabulary', difficulty, type:'mcq',
+    prompt: `What does the word "<b>${item.word}</b>" mean in this sentence?<br><br>${sentence}`,
+    choices, correctAnswer: item.meaning,
+    explanation: `In this sentence, "${item.word}" means <b>${item.meaning}</b>. Use the surrounding words and the overall feel of the sentence to work out an unfamiliar word's meaning.`
+  };
+}
+
+const SPELLING_WORDS = [
+  {correct:'necessary', wrong:['neccessary','necesary','neccesary']},
+  {correct:'separate', wrong:['seperate','separete','seperrate']},
+  {correct:'definitely', wrong:['definately','definatly','definitly']},
+  {correct:'believe', wrong:['beleive','belive','beleve']},
+  {correct:'beginning', wrong:['begining','beggining','beginnning']},
+  {correct:'occurred', wrong:['occured','ocurred','occurrred']},
+  {correct:'immediately', wrong:['immediatly','imediately','immediatley']},
+  {correct:'disappear', wrong:['dissapear','disapear','dissappear']}
+];
+function genSpellingQuestion(difficulty){
+  const item = pick(SPELLING_WORDS);
+  const choices = shuffle([item.correct, ...shuffle(item.wrong).slice(0,3)]);
+  return {
+    id: uid(), section:'vocabulary', difficulty, type:'mcq',
+    prompt: `Which of these is spelled correctly?`,
+    choices, correctAnswer: item.correct,
+    explanation: `The correct spelling is <b>${item.correct}</b>. This is a commonly misspelled word — it can help to break it into smaller parts or say it aloud slowly.`
+  };
+}
+
+function genVocabularyQuestion(difficulty){
+  const kind = pick(['homophone','vocab','spelling']);
+  if (kind === 'homophone') return genHomophoneQuestion(difficulty);
+  if (kind === 'vocab') return genVocabInContextQuestion(difficulty);
+  return genSpellingQuestion(difficulty);
+}
+
 /* ===================== QUIZ GENERATION ===================== */
 const SECTIONS = [
-  {key:'tales', name:'Fairy Tale Features', emoji:'📖', gen: genTaleQuestion, color:'linear-gradient(135deg,#4cc9f0,#4361ee)'},
-  {key:'phrases', name:'Phrases &amp; Clauses', emoji:'✂️', gen: genPhraseClauseQuestion, color:'linear-gradient(135deg,#06d6a0,#1b998b)'},
-  {key:'sentences', name:'Simple &amp; Complex Sentences', emoji:'🔀', gen: genSentenceQuestion, color:'linear-gradient(135deg,#118ab2,#073b4c)'},
-  {key:'tenses', name:'Verb Tenses', emoji:'⏳', gen: genTenseQuestion, color:'linear-gradient(135deg,#ff9f1c,#ffbf69)'},
-  {key:'pronouns', name:'Pronouns &amp; Adjectives', emoji:'🔗', gen: genPronounQuestion, color:'linear-gradient(135deg,#ff6b9d,#c9184a)'},
-  {key:'homophones', name:'Homophones &amp; Homonyms', emoji:'🔤', gen: genHomophoneQuestion, color:'linear-gradient(135deg,#9d4edd,#5a189a)'},
-  {key:'poetry', name:'Rhyme &amp; Sound Devices', emoji:'🎵', gen: genPoetryQuestion, color:'linear-gradient(135deg,#e63946,#f1a208)'}
+  {key:'reading', name:'Reading Comprehension', emoji:'📖', gen: genReadingQuestion, color:'linear-gradient(135deg,#4cc9f0,#4361ee)'},
+  {key:'grammar', name:'Grammar &amp; Punctuation', emoji:'✂️', gen: genGrammarQuestion, color:'linear-gradient(135deg,#06d6a0,#1b998b)'},
+  {key:'vocabulary', name:'Vocabulary &amp; Spelling', emoji:'🔤', gen: genVocabularyQuestion, color:'linear-gradient(135deg,#9d4edd,#5a189a)'}
 ];
-const DIFF_PLAN = ['medium','hard','hard']; // per section, 3 each = 21 total (skewed harder)
+const DIFF_PLAN = ['easy','easy','medium','medium','medium','hard','hard','hard']; // per section, 8 each = 24 total (skewed harder)
 
 function generateQuiz(){
   const questions = [];
@@ -757,7 +966,7 @@ function renderHome(){
       <div class="row between">
         <div>
           <h1>📚 Word Quest</h1>
-          <p>Stage 5 English &middot; Tell It Another Way</p>
+          <p>Cambridge Primary English Stage 5 &middot; Reading &middot; Grammar &amp; Punctuation &middot; Vocabulary &amp; Spelling</p>
         </div>
         <div class="level-box">
           <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>
@@ -778,7 +987,7 @@ function renderHome(){
 
     <div class="card">
       <h3 style="margin-bottom:10px">Start a fresh progression test</h3>
-      <p style="margin-bottom:12px">Every time you play, you'll get brand-new stories and questions — mixed easy, medium and hard!</p>
+      <p style="margin-bottom:12px">24 questions per attempt across Reading Comprehension (narrative, non-fiction, persuasive and poetry passages), Grammar &amp; Punctuation, and Vocabulary &amp; Spelling — mirroring Cambridge Primary Checkpoint/Progression Test style, skewed toward medium and hard.</p>
       <div class="topic-grid">
         ${SECTIONS.map(s => `<div class="topic-card" style="background:${s.color}"><b>${s.emoji} ${s.name}</b></div>`).join('')}
       </div>
@@ -800,7 +1009,7 @@ function renderHome(){
       ${history.length===0 ? '<p>No attempts yet — take your first test!</p>' : history.slice(0,8).map(h => `
         <div class="history-item">
           <span>${new Date(h.date).toLocaleDateString()} ${new Date(h.date).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</span>
-          <span class="pill ${h.percent>=90?'gold':h.percent>=70?'green':'pink'}">${h.correct}/${h.total} · ${h.percent}%</span>
+          <span class="pill ${h.percent>=90?'gold':h.percent>=60?'green':'pink'}">${h.correct}/${h.total} · ${h.percent}% · ${(h.band||'')}</span>
         </div>`).join('')}
       </div>
     </div>
@@ -818,11 +1027,22 @@ function renderHome(){
   if (dbtn) dbtn.onclick = () => { localStorage.removeItem(LS_SAVE); render(); };
 }
 
+/* Cambridge Primary performance bands (used since the May 2023 series):
+   Unclassified < Basic < Aspiring < Good < High < Outstanding. */
+const CAMBRIDGE_BANDS = [
+  {min:90, name:'Outstanding', e:'🏅'},
+  {min:75, name:'High', e:'🎖️'},
+  {min:60, name:'Good', e:'⭐'},
+  {min:40, name:'Aspiring', e:'🌤️'},
+  {min:20, name:'Basic', e:'🌱'},
+  {min:0,  name:'Unclassified', e:'📘'}
+];
+function bandForPercent(percent){ return CAMBRIDGE_BANDS.find(b => percent >= b.min); }
+
 function computeBadgesForAttempt(report){
   const badges = [];
-  if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
-  else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
-  else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
+  const band = bandForPercent(report.percent);
+  badges.push({e: band.e, n: band.name});
   report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
   badges.push({e:'✅', n:'Completed'});
   return badges;
@@ -1015,7 +1235,7 @@ function finishQuiz(){
   addXP(xpEarned);
   report.xpEarned = xpEarned;
 
-  pushHistory({date: report.date, correct, total, percent, badges: report.badges});
+  pushHistory({date: report.date, correct, total, percent, badges: report.badges, band: bandForPercent(percent).name});
   localStorage.removeItem(LS_SAVE);
 
   window._lastReport = report;
@@ -1026,10 +1246,12 @@ function renderResults(){
   const report = window._lastReport;
   if (!report){ go('home'); return; }
   const stars = report.percent >= 90 ? '⭐⭐⭐' : report.percent >= 70 ? '⭐⭐' : report.percent >= 40 ? '⭐' : '🌱';
+  const band = bandForPercent(report.percent);
 
   app.innerHTML = `
     <div class="card results-card">
-      <h1>${report.percent === 100 ? '🏆 Cum Laude!' : report.percent >= 75 ? '🎉 Great Job!' : '💪 Keep Practising!'}</h1>
+      <h1>${band.e} ${band.name}</h1>
+      <p style="margin-bottom:4px">Cambridge Primary performance band</p>
       <div class="big-score">${report.correct}/${report.total}</div>
       <div style="font-size:1.2rem;font-weight:800">${report.percent}% · +${report.xpEarned} XP</div>
       <div class="stars-row">${stars}</div>

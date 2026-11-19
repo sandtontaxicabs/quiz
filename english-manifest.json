@@ -1,7 +1,7 @@
 {
-  "name": "Word Quest: Tell It Another Way",
+  "name": "Word Quest: Cambridge Primary English Stage 5",
   "short_name": "Word Quest",
-  "description": "A colourful, gamified Stage 5 English progression test on fairy tale features, phrases and clauses, sentences, verb tenses, pronouns and homophones, with instant marking and badges.",
+  "description": "A colourful, gamified Cambridge Primary English Stage 5 progression test covering Reading Comprehension, Grammar & Punctuation, and Vocabulary & Spelling, with instant marking, Cambridge performance bands and badges.",
   "start_url": "./english.html",
   "scope": "./",
   "display": "standalone",

@@ -109,6 +109,21 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .memo-box h4{margin:0;font-size:.95rem;color:var(--purple);display:flex;align-items:center;gap:6px}
 .memo-box .ans-line{font-weight:800}
 .memo-box .explain{color:var(--ink);line-height:1.5}
+.palette-card{padding:14px}
+.palette-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
+.palette-btn{padding:9px 0;border-radius:8px;font-size:.8rem;font-weight:800;background:#eef1ff;color:var(--ink);box-shadow:none;border:2px solid transparent}
+.palette-btn.current{border-color:var(--purple)}
+.palette-btn.correct{background:#dcfff3}
+.palette-btn.incorrect{background:#ffe1e8}
+.review-item{border:1px solid #eceffb;border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.review-item.incorrect{border-color:#ffd0da;background:#fff8f9}
+.review-item.correct{border-color:#c9f3e3;background:#f7fffb}
+.review-q-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.review-topic{font-size:.72rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.03em;margin-bottom:4px}
+.review-prompt{font-weight:700;margin-bottom:6px}
+.review-answers{margin-bottom:6px}
+.review-explain{color:var(--muted);font-size:.88rem;line-height:1.5}
+
 
 .nav-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .arrow-btn{width:52px;height:52px;border-radius:50%;font-size:1.3rem;display:flex;align-items:center;justify-content:center;background:#eaf1ff;color:var(--purple);box-shadow:0 6px 14px rgba(30,60,120,.14)}
@@ -350,6 +365,7 @@ function pushHistory(entry){ const h = getHistory(); h.unshift(entry); saveJSON(
 let state = null;
 
 function newQuizState(){
+  paletteOpen = false;
   return {
     startedAt: Date.now(),
     questions: generateQuiz(),
@@ -375,9 +391,63 @@ function render(){
   if (hash === 'home') return renderHome();
   if (hash === 'quiz') return renderQuiz();
   if (hash === 'results') return renderResults();
+  if (hash === 'review') return renderReview();
   renderHome();
 }
 window.addEventListener('hashchange', render);
+
+/* ===================== QUESTION PALETTE (jump to any question) ===================== */
+let paletteOpen = false;
+function paletteHTML(){
+  const items = state.questions.map((q,i) => {
+    const ans = state.answers[q.id];
+    let cls = 'palette-btn';
+    if (i === state.index) cls += ' current';
+    if (ans && ans.resolved) cls += ans.correct ? ' correct' : ' incorrect';
+    return `<button type="button" class="${cls}" data-idx="${i}">${i+1}</button>`;
+  }).join('');
+  return `<div class="palette-grid">${items}</div>`;
+}
+function jumpToQuestion(i){ state.index = i; paletteOpen = false; saveJSON(LS_SAVE, state); render(); }
+
+/* ===================== POST-QUIZ REVIEW (all / correct only / incorrect only) ===================== */
+let reviewFilter = 'all';
+function renderReview(){
+  const report = window._lastReport;
+  if (!report){ go('home'); return; }
+  const filtered = report.questions
+    .map((q,i) => ({...q, num:i+1}))
+    .filter(q => reviewFilter==='all' ? true : reviewFilter==='correct' ? q.wasCorrect : !q.wasCorrect);
+  const correctCountR = report.questions.filter(q=>q.wasCorrect).length;
+  const incorrectCountR = report.questions.length - correctCountR;
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="row between" style="margin-bottom:10px">
+        <h3>🔍 Review Your Answers</h3>
+        <button class="btn-secondary" id="backResultsBtn">← Back to Results</button>
+      </div>
+      <div class="row" style="gap:8px;margin-bottom:14px">
+        <button class="${reviewFilter==='all'?'btn-primary':'btn-secondary'}" data-filter="all">All (${report.questions.length})</button>
+        <button class="${reviewFilter==='correct'?'btn-primary':'btn-secondary'}" data-filter="correct">✅ Correct (${correctCountR})</button>
+        <button class="${reviewFilter==='incorrect'?'btn-primary':'btn-secondary'}" data-filter="incorrect">❌ Incorrect (${incorrectCountR})</button>
+      </div>
+      ${filtered.length===0 ? '<p>No questions match this filter.</p>' : filtered.map(q => `
+        <div class="review-item ${q.wasCorrect?'correct':'incorrect'}">
+          <div class="review-q-head"><b>Q${q.num}</b> <span class="pill ${q.wasCorrect?'green':'pink'}">${q.wasCorrect?'Correct':'Incorrect'}</span></div>
+          <div class="review-topic">${sectionNameByKey(q.section)} · ${q.difficulty}</div>
+          <div class="review-prompt">${q.prompt}</div>
+          <div class="review-answers">Your answer: <b>${q.chosen===null?'<i>no answer</i>':q.chosen}</b>${q.wasCorrect?'':`<br>Correct answer: <b>${q.correctAnswer}</b>`}</div>
+          <div class="review-explain">${q.explanation}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('backResultsBtn').onclick = () => go('results');
+  document.querySelectorAll('[data-filter]').forEach(btn => {
+    btn.onclick = () => { reviewFilter = btn.getAttribute('data-filter'); renderReview(); };
+  });
+}
 
 function renderHome(){
   const saved = loadJSON(LS_SAVE, null);
@@ -503,7 +573,10 @@ function renderQuiz(){
         <div class="score-tile"><div class="num">${percent}%</div><div class="lbl">Accuracy</div></div>
         <div class="score-tile"><div class="num">${state.index+1}/${total}</div><div class="lbl">Question</div></div>
       </div>
+      <button class="btn-ghost" id="paletteBtn" style="justify-self:start">🗂️ Jump to any question</button>
     </div>
+
+    ${paletteOpen ? `<div class="card palette-card">${paletteHTML()}</div>` : ''}
 
     <div class="card qcard" id="qcard">
       <div class="qtop">
@@ -530,6 +603,12 @@ function renderQuiz(){
     state.index++; saveJSON(LS_SAVE, state); render();
   };
   document.getElementById('saveExitBtn').onclick = () => { saveJSON(LS_SAVE, state); go('home'); };
+  document.getElementById('paletteBtn').onclick = () => { paletteOpen = !paletteOpen; renderQuiz(); };
+  if (paletteOpen){
+    document.querySelectorAll('.palette-btn').forEach(btn => {
+      btn.onclick = () => jumpToQuestion(Number(btn.getAttribute('data-idx')));
+    });
+  }
 }
 
 function renderAnswerArea(q, existing){
@@ -664,6 +743,7 @@ function renderResults(){
       </div>
       <div class="row center">
         <button class="btn-primary" id="downloadBtn">⬇️ Download Summary</button>
+        <button class="btn-warn" id="reviewBtn">🔍 Review Answers</button>
         <button class="btn-good" id="playAgainBtn">🔄 New Quiz</button>
         <button class="btn-secondary" id="homeBtn">🏠 Home</button>
       </div>
@@ -672,6 +752,7 @@ function renderResults(){
   if (report.percent >= 90) launchConfetti(140);
 
   document.getElementById('downloadBtn').onclick = () => downloadSummary(report);
+  document.getElementById('reviewBtn').onclick = () => { reviewFilter = 'all'; go('review'); };
   document.getElementById('playAgainBtn').onclick = () => { state = newQuizState(); saveJSON(LS_SAVE, state); go('quiz'); };
   document.getElementById('homeBtn').onclick = () => go('home');
 }

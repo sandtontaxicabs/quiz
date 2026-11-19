@@ -19,6 +19,8 @@
 - One question at a time, with back/forward navigation
 - Downloadable results summary (questions, your answers, correct answers, explanations)
 - Attempt history saved locally across sessions, per subject
+- A "🗂️ Jump to any question" palette during the quiz, colour-coded by answered/correct/incorrect, to jump straight to any question
+- A post-quiz "🔍 Review Answers" screen with an All / Correct only / Incorrect only filter, so you can see exactly where you went wrong
 - Works offline as an installable PWA (each subject also has its own manifest for installing just that one app)
 - Navigation is button-based throughout (not plain links) for reliable taps on mobile
 

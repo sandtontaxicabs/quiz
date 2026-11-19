@@ -758,12 +758,92 @@ function genPunctuationQuestion(difficulty){
   };
 }
 
+const POS_NAMES = ['Noun','Pronoun','Verb','Adjective','Adverb','Preposition','Conjunction','Interjection'];
+const POS_DEF = {
+  Noun: 'a word for a person, place, thing or idea',
+  Pronoun: 'a word that replaces a noun (like he, she, it, they, nobody)',
+  Verb: 'a word for an action or a state of being',
+  Adjective: 'a word that describes a noun',
+  Adverb: 'a word that describes a verb, adjective or another adverb (often ending in -ly)',
+  Preposition: 'a word that shows how a noun or pronoun relates to another word, often about place or time',
+  Conjunction: 'a word that joins words, phrases or clauses together',
+  Interjection: 'a short word or phrase that expresses sudden emotion'
+};
+const POS_TEMPLATES = [
+  {pos:'Noun', target:'map', build:(v)=>`${v.Name} discovered an ancient <u>map</u> inside the chest.`},
+  {pos:'Noun', target:'village', build:(v)=>`The whole <u>village</u> gathered to watch the fireworks.`},
+  {pos:'Pronoun', target:'nobody', build:(v)=>`${v.Name} called out, but <u>nobody</u> answered.`},
+  {pos:'Pronoun', target:'her', build:(v)=>`The letter was addressed to <u>her</u>, not to ${v.Name}.`},
+  {pos:'Verb', target:'vanished', build:(v)=>`The ${v.creature} <u>vanished</u> into the swirling mist.`},
+  {pos:'Verb', target:'whispered', build:(v)=>`${v.Name} <u>whispered</u> the secret password at the gate.`},
+  {pos:'Adjective', target:'brilliant', build:(v)=>`${v.Name} wore a <u>brilliant</u> cloak woven from starlight.`},
+  {pos:'Adjective', target:'rickety', build:(v)=>`They crossed the <u>rickety</u> old bridge very carefully.`},
+  {pos:'Adverb', target:'silently', build:(v)=>`${v.Name} tiptoed <u>silently</u> past the sleeping guard.`},
+  {pos:'Adverb', target:'extremely', build:(v)=>`The ${v.creature} was <u>extremely</u> suspicious of strangers.`},
+  {pos:'Preposition', target:'beneath', build:(v)=>`The key was hidden <u>beneath</u> the loose floorboard.`},
+  {pos:'Preposition', target:'during', build:(v)=>`${v.Name} waited patiently <u>during</u> the long storm.`},
+  {pos:'Conjunction', target:'but', build:(v)=>`${v.Name} wanted to leave, <u>but</u> the gates were locked.`},
+  {pos:'Conjunction', target:'because', build:(v)=>`They searched everywhere <u>because</u> the map was missing.`},
+  {pos:'Interjection', target:'Hooray', build:(v)=>`<u>"Hooray!"</u> shouted the crowd as the hero returned.`},
+  {pos:'Interjection', target:'Ouch', build:(v)=>`<u>"Ouch!"</u> cried ${v.Name} after stepping on a thorn.`}
+];
+function genPOSIdentifyQuestion(difficulty){
+  const t = pick(POS_TEMPLATES);
+  const v = { Name: pick(NAMES), creature: pick(CREATURES) };
+  const sentence = t.build(v);
+  const otherPos = shuffle(POS_NAMES.filter(p => p !== t.pos)).slice(0,3);
+  const choices = shuffle([t.pos, ...otherPos]);
+  return {
+    id: uid(), section:'grammar', difficulty, type:'mcq',
+    prompt: `What part of speech is the <u>underlined</u> word in this sentence?<br><br>${sentence}`,
+    choices, correctAnswer: t.pos,
+    explanation: `"${t.target}" is a <b>${t.pos}</b> — ${POS_DEF[t.pos]}.`
+  };
+}
+const MULTI_POS_WORDS = [
+  {word:'light', sentences:[
+    {pos:'Noun', s:'The lighthouse sent a beam of <b>light</b> across the dark water.'},
+    {pos:'Adjective', s:'She carried only a <b>light</b> bag for the long journey.'},
+    {pos:'Verb', s:'Could you <b>light</b> the lantern before it gets dark?'}
+  ]},
+  {word:'run', sentences:[
+    {pos:'Noun', s:'They went for a quick <b>run</b> before breakfast.'},
+    {pos:'Verb', s:'The children began to <b>run</b> across the field.'}
+  ]},
+  {word:'fast', sentences:[
+    {pos:'Adjective', s:'That is a remarkably <b>fast</b> horse.'},
+    {pos:'Adverb', s:'The horse galloped <b>fast</b> across the plain.'}
+  ]},
+  {word:'well', sentences:[
+    {pos:'Noun', s:'They lowered a bucket into the old stone <b>well</b>.'},
+    {pos:'Adverb', s:'She played the violin very <b>well</b>.'},
+    {pos:'Interjection', s:'<b>Well</b>, I suppose we should get going.'}
+  ]}
+];
+function genPOSApplicationQuestion(difficulty){
+  const item = pick(MULTI_POS_WORDS);
+  const sentenceInfo = pick(item.sentences);
+  const otherPos = shuffle(POS_NAMES.filter(p => p !== sentenceInfo.pos)).slice(0,3);
+  const choices = shuffle([sentenceInfo.pos, ...otherPos]);
+  return {
+    id: uid(), section:'grammar', difficulty, type:'mcq',
+    prompt: `The word "<b>${item.word}</b>" can be used as different parts of speech depending on how it is used. What part of speech is "<b>${item.word}</b>" in this sentence?<br><br>${sentenceInfo.s}`,
+    choices, correctAnswer: sentenceInfo.pos,
+    explanation: `Here, "${item.word}" is being used as a <b>${sentenceInfo.pos}</b> — ${POS_DEF[sentenceInfo.pos]}. The same word can act as a different part of speech depending on how it functions in the sentence.`
+  };
+}
+function genPartsOfSpeechQuestion(difficulty){
+  if (difficulty === 'hard' && Math.random() < 0.5) return genPOSApplicationQuestion(difficulty);
+  return genPOSIdentifyQuestion(difficulty);
+}
+
 function genGrammarQuestion(difficulty){
-  const kind = pick(['phrase','sentence','tense','pronoun','punctuation']);
+  const kind = pick(['phrase','sentence','tense','pronoun','punctuation','partsOfSpeech','partsOfSpeech']);
   if (kind === 'phrase') return genPhraseClauseQuestion(difficulty);
   if (kind === 'sentence') return genSentenceQuestion(difficulty);
   if (kind === 'tense') return genTenseQuestion(difficulty);
   if (kind === 'pronoun') return genPronounQuestion(difficulty);
+  if (kind === 'partsOfSpeech') return genPartsOfSpeechQuestion(difficulty);
   return genPunctuationQuestion(difficulty);
 }
 

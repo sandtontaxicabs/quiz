@@ -376,9 +376,15 @@ function genPronounQuestion(difficulty){
   }
 
   // hard: ambiguity
+  // Use only "they" (never "he"/"she") so the ambiguity is never accidentally
+  // resolved by a name's perceived gender, and only verbs describing a single
+  // person's action (never "had won the race" etc.) so "both together" is
+  // never a genuinely plausible reading.
   const [nameA, nameB] = shuffle(NAMES).slice(0,2);
-  const pronoun = pick(['he','she','they']);
-  const verb = pick(['had won the race','was telling the truth','should go first']);
+  const pronoun = 'they';
+  // Every verb form below is invariant whether the subject is "they" (singular
+  // they) or a specific name, so the explanation's fix-sentence stays correct too.
+  const verb = pick(['should go first','had broken the window','needed to apologise first','had been chosen as team captain','should clean up the mess alone','had taken the last biscuit']);
   const sentence = `${nameA} told ${nameB} that ${pronoun} ${verb}.`;
   const options = shuffle([
     `It is unclear — "${pronoun}" could mean either ${nameA} or ${nameB}`,

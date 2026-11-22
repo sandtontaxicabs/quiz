@@ -1,7 +1,7 @@
 {
-  "name": "Science Quest: Forces, Gravity & Friction",
+  "name": "Science Quest: Grade 5 End-of-Year Exam Scope",
   "short_name": "Science Quest",
-  "description": "A colourful, gamified science quiz on forces, gravity, satellites and friction, with instant marking and badges.",
+  "description": "A colourful, gamified Grade 5 Natural Sciences exam-scope quiz covering plant reproduction, sound, states of matter, the digestive system, forces, and seasons & adaptations, with instant marking and badges.",
   "start_url": "./science.html",
   "scope": "./",
   "display": "standalone",

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Geography Quest: South Africa's Climate &amp; Vegetation</title>
-<meta name="description" content="A colourful, gamified South African geography quiz covering climate regions, natural vegetation, fynbos, forests and savannah grassland." />
+<title>Geography Quest: Grade 5 End-of-Year Exam Scope</title>
+<meta name="description" content="A colourful, gamified Grade 5 Geography quiz covering physical features, rivers, South Africa's neighbouring countries, weather and climate, interpreting weather maps, minerals mined in South Africa, safety of miners and coal formation, with comprehension-style paragraphs." />
 <meta name="theme-color" content="#2a9d8f" />
 <link rel="manifest" href="geography-manifest.json" />
 <link rel="icon" href="icons/icon-192.png" />
@@ -110,6 +110,10 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .memo-box h4{margin:0;font-size:.95rem;color:var(--purple);display:flex;align-items:center;gap:6px}
 .memo-box .ans-line{font-weight:800}
 .memo-box .explain{color:var(--ink);line-height:1.5}
+.paragraph-box{background:#f2faf7;border:2px solid #d9efe8;border-radius:18px;padding:14px 16px;display:grid;gap:6px}
+.paragraph-box h4{margin:0;font-size:.9rem;color:var(--purple);display:flex;align-items:center;gap:6px}
+.paragraph-box .paragraph-text{color:var(--ink);line-height:1.65;font-size:.92rem}
+.locked-note{font-size:.76rem;color:var(--muted);text-align:center}
 .palette-card{padding:14px}
 .palette-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
 .palette-btn{padding:9px 0;border-radius:8px;font-size:.8rem;font-weight:800;background:#eef1ff;color:var(--ink);box-shadow:none;border:2px solid transparent}
@@ -168,126 +172,272 @@ const uid = () => Math.random().toString(36).slice(2, 10);
 function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=rnd(0,i); [a[i],a[j]]=[a[j],a[i]];} return a; }
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
-/* ===================== FIXED QUESTION BANK: South Africa's Climate & Vegetation ===================== */
+/* ===================== FIXED QUESTION BANK: Grade 5 End-of-Year Exam Scope =====================
+   Scope (from the official exam scope table): Physical features, Rivers, South
+   Africa's neighbouring countries, Weather and Climate, Interpreting weather
+   maps, Minerals mined in South Africa, Safety of miners, Coal formation.
+   Each question belongs to one of the 8 topics in SECTIONS below, each of
+   which carries its own educational paragraph (shown with every question
+   drawn from that topic) — comprehension-style, matching History Quest. Each
+   quiz attempt draws a random, topic-balanced sample of 50 from this larger
+   pool, so repeated attempts are not identical. */
 const RAW_QUESTIONS = [
-  // --- Climate Regions of South Africa ---
-  {section:'climate', difficulty:'easy', type:'mcq', prompt:'Which mountain region in South Africa has cold winters with snow on its peaks, and warm, wet summers?', choices:['Drakensberg','Kalahari','Karoo','Namaqualand'], correctAnswer:'Drakensberg',
-    explanation:'The Drakensberg is a mountain range where snow falls on the peaks in winter, while summers are warm and wet.'},
-  {section:'climate', difficulty:'easy', type:'mcq', prompt:"Which region has a Mediterranean-type climate, with most of its rain falling in winter instead of summer?", choices:['Western Cape','Kalahari','Karoo','Drakensberg'], correctAnswer:'Western Cape',
-    explanation:'The Western Cape has a Mediterranean climate: warm, dry summers and cool, wet winters — unlike most of South Africa, which gets its rain in summer.'},
-  {section:'climate', difficulty:'medium', type:'mcq', prompt:'Which semi-desert region in the centre of South Africa has hot, dry summers and cold winters, sometimes with frost?', choices:['Karoo','Western Cape','Drakensberg','Highveld'], correctAnswer:'Karoo',
-    explanation:'The Karoo is a semi-desert region with hot, dry summers and cold winters that can bring frost.'},
-  {section:'climate', difficulty:'medium', type:'mcq', prompt:'Namaqualand, in the Northern Cape, is extremely dry for most of the year but famous for which natural event each spring?', choices:['A spectacular bloom of wildflowers','Heavy summer snowfall','Yearly flooding of its rivers','Tropical rainstorms'], correctAnswer:'A spectacular bloom of wildflowers',
-    explanation:'Namaqualand is one of the driest parts of South Africa, but after rare rains it bursts into a spectacular display of spring wildflowers.'},
-  {section:'climate', difficulty:'medium', type:'tf', prompt:'The Kalahari has hot, dry summers and cold, dry winters.', correctAnswer:'True',
-    explanation:'True. The Kalahari is a semi-desert with hot, dry summers and cold, dry winters.'},
-  {section:'climate', difficulty:'medium', type:'tf', prompt:'Most of South Africa, including the Western Cape, receives its rain mainly in summer.', correctAnswer:'False',
-    explanation:'False. Most of South Africa is a summer-rainfall region, but the Western Cape is the exception — it receives most of its rain in winter.'},
-  {section:'climate', difficulty:'hard', type:'mcq', prompt:'Why does the Drakensberg region usually receive more rain than nearby lower-lying areas?', choices:['Its higher altitude forces air to rise and cool, causing rain','It is closer to the equator','It has more rivers flowing through it','It is closer to the sea'], correctAnswer:'Its higher altitude forces air to rise and cool, causing rain',
-    explanation:'At higher altitudes, moist air is forced upward, where it cools and forms rain clouds — this is why mountain regions like the Drakensberg get more rain.'},
-  {section:'climate', difficulty:'hard', type:'mcq', prompt:'Which of these regions is best described as having a desert or semi-desert climate?', choices:['Kalahari','Western Cape','Drakensberg','KwaZulu-Natal coast'], correctAnswer:'Kalahari',
-    explanation:'The Kalahari is a semi-desert region, unlike the Western Cape, Drakensberg or the subtropical KwaZulu-Natal coast.'},
-  {section:'climate', difficulty:'easy', type:'tf', prompt:'Snow can fall on the Drakensberg mountains in winter.', correctAnswer:'True',
-    explanation:'True. The high peaks of the Drakensberg can receive snow in winter.'},
-  {section:'climate', difficulty:'medium', type:'mcq', prompt:"Which of these best describes Namaqualand's climate?", choices:['Very dry (arid) for most of the year','Tropical and humid all year','Cold and snowy all year','Wet throughout the year'], correctAnswer:'Very dry (arid) for most of the year',
-    explanation:'Namaqualand is an arid (very dry) region for most of the year, receiving very little rainfall.'},
-  {section:'climate', difficulty:'grade6', type:'mcq', prompt:'Most of South Africa receives rain mainly in summer, but one region is the opposite, receiving rain mainly in winter. Which region is this exception?', choices:['Western Cape','Kalahari','Karoo','Drakensberg'], correctAnswer:'Western Cape',
-    explanation:"The Western Cape is the exception to South Africa's usual summer-rainfall pattern — it has a Mediterranean climate with winter rain instead."},
+  // --- Physical Features (14) ---
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is a physical map?', choices:['A map which shows natural features like mountains, deserts, rivers and lakes','A map which only shows roads and borders','A map of the stars','A map that shows only cities'], correctAnswer:'A map which shows natural features like mountains, deserts, rivers and lakes',
+    explanation:'A physical map shows natural features such as mountains, deserts, rivers and lakes, rather than man-made things like roads and borders.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is altitude?', choices:['The height of a place above sea level','The temperature of a place','The width of a river','The distance to the nearest city'], correctAnswer:'The height of a place above sea level',
+    explanation:'Altitude is the height of a place above sea level.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What does "sea level" mean?', choices:['The height at which the sea touches the land, used as the starting point for measuring height','The deepest point in the ocean','The height of the tallest mountain','The average temperature of the sea'], correctAnswer:'The height at which the sea touches the land, used as the starting point for measuring height',
+    explanation:'Sea level is the height at which the sea touches the land, and it is used as the starting point (0 metres) for measuring the height of everywhere else.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'What is a plateau?', choices:['A high, flat, inland area of a country','Low-lying land near the sea','A dent in the coastline','A small river'], correctAnswer:'A high, flat, inland area of a country',
+    explanation:'A plateau is a high, flat, inland area of a country.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'What is a coastal plain?', choices:['Low-lying land that is close to the sea','A high mountain range','A deep river valley','An underground cave'], correctAnswer:'Low-lying land that is close to the sea',
+    explanation:'A coastal plain is low-lying land that is close to the sea.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'What is an escarpment?', choices:['Where land rises steeply between the coastal plain and the plateau, mainly made up of mountain ranges','A flat area with no hills at all','A type of river mouth','A kind of desert'], correctAnswer:'Where land rises steeply between the coastal plain and the plateau, mainly made up of mountain ranges',
+    explanation:'An escarpment is where land rises steeply between the coastal plain and the plateau, and is mainly made up of mountain ranges.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is a mountain range?', choices:['A group or line of mountains','A single tall mountain','A type of desert','A river that flows through mountains'], correctAnswer:'A group or line of mountains',
+    explanation:'A mountain range is a group or line of mountains.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is the highest point at the top of a mountain called?', choices:['A peak','A plateau','A valley','A cape'], correctAnswer:'A peak',
+    explanation:'The highest point at the top of a mountain is called a peak.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'Which mountain is the highest peak in Africa?', choices:['Mount Kilimanjaro, in Tanzania','Mount Kenya, in Kenya','Table Mountain, in South Africa','The Drakensberg, in South Africa'], correctAnswer:'Mount Kilimanjaro, in Tanzania',
+    explanation:'Mount Kilimanjaro, in Tanzania, is the highest peak in Africa at 5,895 metres above sea level.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'Which mountain range is the highest in Southern Africa?', choices:['The Drakensberg (uKhahlamba)','Table Mountain','The Namib range','The Cape Fold range'], correctAnswer:'The Drakensberg (uKhahlamba)',
+    explanation:'The Drakensberg, also known as uKhahlamba, is the highest mountain range in Southern Africa.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is a hill?', choices:['A raised area of land that is not as large as a mountain','A dent in the coastline','A type of river','A flat plateau'], correctAnswer:'A raised area of land that is not as large as a mountain',
+    explanation:'A hill is a raised area of land that is not as large as a mountain.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is a valley?', choices:['A low area of land between hills or mountains','The highest point of a mountain','A piece of land that juts into the sea','A type of desert'], correctAnswer:'A low area of land between hills or mountains',
+    explanation:'A valley is a low area of land found between hills or mountains.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'What do we call a piece of land that juts out into the sea?', choices:['A cape','A bay','A plateau','An escarpment'], correctAnswer:'A cape',
+    explanation:'A cape is a piece of land that juts out into the sea.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'What do we call a dent or curve in the coastline?', choices:['A bay','A cape','A valley','A peak'], correctAnswer:'A bay',
+    explanation:'A bay is a dent or curve in the coastline.'},
 
-  // --- Vegetation & Key Terms ---
-  {section:'vegetation', difficulty:'easy', type:'mcq', prompt:'What is natural vegetation?', choices:['Trees, grass and plants that grow without being planted by humans','Crops planted by farmers','Flowers sold in a shop','Trees planted in a garden'], correctAnswer:'Trees, grass and plants that grow without being planted by humans',
-    explanation:'Natural vegetation is plants, trees and grass that grow on their own, without being planted or grown by humans.'},
-  {section:'vegetation', difficulty:'easy', type:'mcq', prompt:'What is climate?', choices:['The average weather conditions of a place over a long period of time','The weather on one single day','The number of people living in a place','The height of a mountain'], correctAnswer:'The average weather conditions of a place over a long period of time',
-    explanation:"Climate is the average weather conditions of a place over a long period of time — not just one day's weather."},
-  {section:'vegetation', difficulty:'easy', type:'mcq', prompt:'What is annual rainfall?', choices:['The total amount of rain that falls in a place over one year','The rain that falls in a single storm','The amount of snow that falls','The number of rainy days in a week'], correctAnswer:'The total amount of rain that falls in a place over one year',
-    explanation:'Annual rainfall is the total amount of rain that falls in a place over one year.'},
-  {section:'vegetation', difficulty:'medium', type:'mcq', prompt:'What is a savannah grassland?', choices:['A grassland area that also has trees and other smaller bushes growing in it','A grassland with no trees or bushes at all','A forest with no grass','A desert with sand dunes'], correctAnswer:'A grassland area that also has trees and other smaller bushes growing in it',
-    explanation:'A savannah is a grassland area that also has trees and other smaller bushes growing among the grass.'},
-  {section:'vegetation', difficulty:'medium', type:'tf', prompt:'Climate describes the weather of just one single day.', correctAnswer:'False',
-    explanation:'False. Weather describes conditions on a single day; climate describes the average pattern over many years.'},
-  {section:'vegetation', difficulty:'medium', type:'tf', prompt:'Natural vegetation includes crops and flowers that were planted and grown by humans.', correctAnswer:'False',
-    explanation:'False. Natural vegetation grows on its own — it does not include plants that humans planted and grew.'},
-  {section:'vegetation', difficulty:'medium', type:'mcq', prompt:'What is the main difference between weather and climate?', choices:['Weather is day-to-day conditions, while climate is the average pattern over many years','Weather and climate mean exactly the same thing','Climate only refers to temperature','Weather only happens in summer'], correctAnswer:'Weather is day-to-day conditions, while climate is the average pattern over many years',
-    explanation:'Weather changes day to day, while climate is the average pattern of weather in a place over a long period of time.'},
-  {section:'vegetation', difficulty:'hard', type:'mcq', prompt:"A region's total rainfall for the year is measured and recorded. What is this measurement called?", choices:['Annual rainfall','Daily rainfall','Climate change','Natural vegetation'], correctAnswer:'Annual rainfall',
-    explanation:'The total rainfall recorded for a place over a full year is called its annual rainfall.'},
-  {section:'vegetation', difficulty:'easy', type:'tf', prompt:'A savannah grassland has no trees growing in it at all.', correctAnswer:'False',
-    explanation:'False. A savannah is a grassland that does have trees and smaller bushes growing in it.'},
-  {section:'vegetation', difficulty:'medium', type:'mcq', prompt:"Why is it important to understand a region's climate when studying its natural vegetation?", choices:["Because plants must adapt to a region's rainfall and temperature patterns to survive there",'Because climate has no effect on which plants grow','Because all plants can grow in any climate','Because vegetation controls the climate'], correctAnswer:"Because plants must adapt to a region's rainfall and temperature patterns to survive there",
-    explanation:'The plants that grow naturally in a region must be able to survive its particular rainfall and temperature patterns — this is why climate and vegetation are closely linked.'},
-  {section:'vegetation', difficulty:'grade6', type:'mcq', prompt:'A region has very low annual rainfall, hot summers and cold winters. Based on this climate alone, which vegetation type is LEAST likely to grow there naturally?', choices:['Dense tropical rainforest','Hardy succulents','Short, dry grasses','Thorny shrubs'], correctAnswer:'Dense tropical rainforest',
-    explanation:'Dense tropical rainforest needs very high rainfall all year round, so it could not survive in a region with very low annual rainfall — hardy succulents, dry grasses and thorny shrubs are much better adapted to dry climates.'},
+  // --- Rivers (14) ---
+  {section:'rivers', difficulty:'easy', type:'mcq', prompt:'Where does a river begin?', choices:['At its source','At its mouth','At a dam','At the equator'], correctAnswer:'At its source',
+    explanation:'A river begins at its source, usually high up in the mountains.'},
+  {section:'rivers', difficulty:'easy', type:'mcq', prompt:'What is a small river called?', choices:['A stream','A tributary','A catchment','A delta'], correctAnswer:'A stream',
+    explanation:'A small river is called a stream.'},
+  {section:'rivers', difficulty:'easy', type:'mcq', prompt:'What is a tributary?', choices:['A stream or river that flows into a bigger river','The place where a river ends','A type of dam','A type of lake'], correctAnswer:'A stream or river that flows into a bigger river',
+    explanation:'A tributary is a stream or river that flows into a bigger river.'},
+  {section:'rivers', difficulty:'easy', type:'mcq', prompt:'What do we call the point where a river flows into the sea?', choices:['Its mouth','Its source','Its tributary','Its catchment'], correctAnswer:'Its mouth',
+    explanation:'The point where a river flows into the sea (or a lake or another river) is called its mouth.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'What is a catchment area?', choices:['The area of land drained by a river and its tributaries','The place where a river begins','A type of waterfall','A man-made canal'], correctAnswer:'The area of land drained by a river and its tributaries',
+    explanation:'A catchment area is the area of land drained by a river and its tributaries.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'What do we call all the rivers and streams that drain into one river, together with the land they flow through?', choices:['A river system','A catchment only','A delta','An estuary'], correctAnswer:'A river system',
+    explanation:'All the rivers and streams that drain into one river, together with the land they flow through, is called a river system.'},
+  {section:'rivers', difficulty:'easy', type:'mcq', prompt:'Do rivers ever flow uphill?', choices:['No, rivers always flow from a higher place to a lower place','Yes, rivers often flow uphill','Only during floods','Only in deserts'], correctAnswer:'No, rivers always flow from a higher place to a lower place',
+    explanation:'Rivers always flow downwards, from a higher place to a lower place, never uphill.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'Which South African river is the longest river entirely within South Africa, and forms the border with Namibia?', choices:['The Orange (Gariep) River','The Limpopo River','The Vaal River','The Tugela River'], correctAnswer:'The Orange (Gariep) River',
+    explanation:'The Orange (Gariep) River is the longest river entirely within South Africa, and forms part of the border with Namibia.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:"Which river forms South Africa's northern border with Zimbabwe and Botswana?", choices:['The Limpopo River','The Orange River','The Vaal River','The Nile'], correctAnswer:'The Limpopo River',
+    explanation:"The Limpopo River forms South Africa's northern border with Zimbabwe and Botswana."},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'Which river is the longest river on the entire African continent?', choices:['The Nile','The Congo','The Orange','The Limpopo'], correctAnswer:'The Nile',
+    explanation:'The Nile, in the north of Africa, is the longest river on the entire continent.'},
+  {section:'rivers', difficulty:'hard', type:'mcq', prompt:'Which African river is unusual because it crosses the equator twice?', choices:['The Congo River','The Nile','The Orange River','The Zambezi'], correctAnswer:'The Congo River',
+    explanation:'The Congo River is unusual because it is the only major river in the world that crosses the equator twice.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'What is the Vaal River?', choices:['A major tributary of the Orange River','The longest river in Africa','A desert in Namibia','A lake in Tanzania'], correctAnswer:'A major tributary of the Orange River',
+    explanation:'The Vaal River is a major tributary of the Orange River.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'Why is river water often stored behind a dam, like the Vaal Dam in Gauteng?', choices:['To provide water for homes, industry and irrigating farmland in drier areas','To stop the river flowing to the sea completely','To create a new mountain range','To cool down the climate'], correctAnswer:'To provide water for homes, industry and irrigating farmland in drier areas',
+    explanation:'Dams like the Vaal Dam store river water to provide water for homes, industry, and irrigating farmland in drier areas.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'In which country does the Orange-Gariep River begin (its source)?', choices:['Lesotho','Namibia','Botswana','Zimbabwe'], correctAnswer:'Lesotho',
+    explanation:'The Orange-Gariep River begins (has its source) in Lesotho.'},
 
-  // --- Fynbos, Forests & Plants ---
-  {section:'fynbos', difficulty:'easy', type:'mcq', prompt:'What is the name given to the natural vegetation of low bushes and shrubs found on Table Mountain and much of the Western Cape?', choices:['Fynbos','Savannah','Rainforest','Grassland'], correctAnswer:'Fynbos',
-    explanation:'Fynbos is the unique natural vegetation of low bushes and shrubs found on Table Mountain and across much of the Western Cape.'},
-  {section:'fynbos', difficulty:'easy', type:'mcq', prompt:'What is the largest natural forest in South Africa called?', choices:['Tsitsikamma Forest','Kruger Forest','Kalahari Forest','Drakensberg Forest'], correctAnswer:'Tsitsikamma Forest',
-    explanation:"The Tsitsikamma Forest, along South Africa's southern coast, is the country's largest natural forest."},
-  {section:'fynbos', difficulty:'easy', type:'mcq', prompt:'Which of these is an example of a succulent plant?', choices:['Aloe','Protea','Baobab tree','Acacia tree'], correctAnswer:'Aloe',
-    explanation:'Aloe is a classic example of a succulent plant — it stores water in its thick, fleshy leaves.'},
-  {section:'fynbos', difficulty:'easy', type:'mcq', prompt:'Which of these plants is an example of fynbos?', choices:['Protea','Aloe','Baobab tree','Grass'], correctAnswer:'Protea',
-    explanation:'The protea is a well-known fynbos plant, found in the Western Cape.'},
-  {section:'fynbos', difficulty:'medium', type:'mcq', prompt:'How do succulent plants, like aloe, survive in dry climates?', choices:['They store water in their thick leaves','They grow very tall to reach rain clouds','They have no leaves at all','They only grow in winter'], correctAnswer:'They store water in their thick leaves',
-    explanation:'Succulents like aloe survive dry climates by storing water in their thick, fleshy leaves.'},
-  {section:'fynbos', difficulty:'medium', type:'mcq', prompt:'How do baobab trees survive hot, dry summers?', choices:['They store water in their trunks','They store water in their leaves','They grow extra-long roots to the surface','They shed all their bark'], correctAnswer:'They store water in their trunks',
-    explanation:'Baobab trees have thick trunks that store large amounts of water, helping them survive hot, dry summers.'},
-  {section:'fynbos', difficulty:'medium', type:'mcq', prompt:'Grasses are able to grow tall mainly in areas that...', choices:['receive plenty of rain throughout the year','never receive any rain','are covered in snow all year','have no sunlight'], correctAnswer:'receive plenty of rain throughout the year',
-    explanation:'Grasses grow tall where they receive plenty of rain throughout the year — without enough water, they stay short.'},
-  {section:'fynbos', difficulty:'medium', type:'mcq', prompt:'Proteas are able to grow tall mainly...', choices:['after the summer rain','during a drought','in deep snow','underwater'], correctAnswer:'after the summer rain',
-    explanation:'Proteas grow tall after the summer rain provides them with enough water.'},
-  {section:'fynbos', difficulty:'hard', type:'mcq', prompt:'Baobab trees can survive very hot, dry summers, but they still need rain in a particular season to survive long-term. Which season is this?', choices:['Winter','Summer','There is no season they need rain in','Autumn only'], correctAnswer:'Winter',
-    explanation:'Even though baobabs survive hot, dry summers by storing water, they still rely on winter rain to replenish their water stores.'},
-  {section:'fynbos', difficulty:'medium', type:'tf', prompt:'Fynbos is found only on Table Mountain and nowhere else in South Africa.', correctAnswer:'False',
-    explanation:'False. While Table Mountain is famous for its fynbos, this vegetation type is found across much of the Western Cape, not just on Table Mountain.'},
-  {section:'fynbos', difficulty:'grade6', type:'mcq', prompt:'A plant stores most of its water in its leaves rather than its trunk or roots. Based on this, which type of plant is it most likely to be, and in what kind of climate would it survive best?', choices:['A succulent, surviving best in a hot, dry climate','A forest tree, surviving best in a wet climate','A grass, surviving best in a cold climate','A fynbos shrub, surviving best underwater'], correctAnswer:'A succulent, surviving best in a hot, dry climate',
-    explanation:'Storing water in thick leaves is the key adaptation of succulents (like aloe), which allows them to survive in hot, dry climates where water is scarce.'},
+  // --- South Africa's Neighbouring Countries (14) ---
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'How many countries share a land border with South Africa?', choices:['Six','Four','Eight','Ten'], correctAnswer:'Six',
+    explanation:'South Africa shares a land border with six neighbouring countries: Namibia, Botswana, Zimbabwe, Mozambique, Eswatini and Lesotho.'},
+  {section:'neighbouringCountries', difficulty:'medium', type:'mcq', prompt:"Which TWO of South Africa's neighbouring countries are landlocked?", choices:['Lesotho and Eswatini','Namibia and Mozambique','Botswana and Zimbabwe','Zimbabwe and Mozambique'], correctAnswer:'Lesotho and Eswatini',
+    explanation:'Lesotho and Eswatini are landlocked, meaning they have no direct access to the sea.'},
+  {section:'neighbouringCountries', difficulty:'medium', type:'mcq', prompt:'What does "landlocked" mean?', choices:['Completely surrounded by other countries, with no direct access to the sea','Surrounded entirely by the ocean','A country with no mountains','A country with no rivers'], correctAnswer:'Completely surrounded by other countries, with no direct access to the sea',
+    explanation:'Landlocked means a country is completely surrounded by other countries and has no direct access to the sea.'},
+  {section:'neighbouringCountries', difficulty:'hard', type:'mcq', prompt:'Which country is Lesotho completely surrounded by?', choices:['South Africa alone','South Africa and Mozambique','Namibia alone','Botswana and Zimbabwe'], correctAnswer:'South Africa alone',
+    explanation:'Lesotho is unusual because it is surrounded entirely by South Africa alone.'},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Zimbabwe?', choices:['Harare','Gaborone','Windhoek','Maputo'], correctAnswer:'Harare',
+    explanation:"Zimbabwe's capital city is Harare."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Botswana?', choices:['Gaborone','Harare','Windhoek','Mbabane'], correctAnswer:'Gaborone',
+    explanation:"Botswana's capital city is Gaborone."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Namibia?', choices:['Windhoek','Harare','Maputo','Maseru'], correctAnswer:'Windhoek',
+    explanation:"Namibia's capital city is Windhoek."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Mozambique?', choices:['Maputo','Windhoek','Gaborone','Mbabane'], correctAnswer:'Maputo',
+    explanation:"Mozambique's capital city is Maputo."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Eswatini (formerly Swaziland)?', choices:['Mbabane','Maseru','Harare','Maputo'], correctAnswer:'Mbabane',
+    explanation:"Eswatini's capital city is Mbabane."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Lesotho?', choices:['Maseru','Mbabane','Gaborone','Windhoek'], correctAnswer:'Maseru',
+    explanation:"Lesotho's capital city is Maseru."},
+  {section:'neighbouringCountries', difficulty:'medium', type:'mcq', prompt:'How many capital cities does South Africa have?', choices:['Three','One','Two','Four'], correctAnswer:'Three',
+    explanation:'South Africa unusually has three capital cities: Pretoria, Cape Town and Bloemfontein.'},
+  {section:'neighbouringCountries', difficulty:'medium', type:'mcq', prompt:"Which South African capital is where parliament sits?", choices:['Cape Town','Pretoria','Bloemfontein','Durban'], correctAnswer:'Cape Town',
+    explanation:'Cape Town is the legislative capital, where parliament sits.'},
+  {section:'neighbouringCountries', difficulty:'medium', type:'mcq', prompt:"Which of these IS one of South Africa's neighbouring countries?", choices:['Mozambique','Zambia','Malawi','Kenya'], correctAnswer:'Mozambique',
+    explanation:"Mozambique is one of South Africa's six neighbouring countries. Zambia, Malawi and Kenya do not share a border with South Africa."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is a border?', choices:['The line that divides one country from another','The capital city of a country','A type of river','A type of mountain'], correctAnswer:'The line that divides one country from another',
+    explanation:'A border is the line that divides one country from another, and can follow a river, a mountain range, or a straight agreed line.'},
 
-  // --- Savannah Grassland ---
-  {section:'savannah', difficulty:'easy', type:'mcq', prompt:'What type of vegetation area has grass along with trees and smaller bushes growing in it?', choices:['Savannah','Desert','Rainforest','Fynbos'], correctAnswer:'Savannah',
-    explanation:'A savannah is a grassland area that also has trees and smaller bushes growing among the grass.'},
-  {section:'savannah', difficulty:'easy', type:'mcq', prompt:'Roughly how much of South Africa is covered by savannah vegetation?', choices:['Almost a third','Almost all of it','Less than one tenth','Exactly half'], correctAnswer:'Almost a third',
-    explanation:'Savannahs cover almost a third of South Africa.'},
-  {section:'savannah', difficulty:'easy', type:'tf', prompt:'The savannah is warm throughout the year.', correctAnswer:'True',
-    explanation:'True. The savannah stays warm throughout the year.'},
-  {section:'savannah', difficulty:'medium', type:'mcq', prompt:'When does the savannah usually receive most of its rainfall?', choices:['During summer','During winter','It never rains in the savannah','Equally all year round'], correctAnswer:'During summer',
-    explanation:'The savannah usually receives its rainfall during the summer season.'},
-  {section:'savannah', difficulty:'medium', type:'mcq', prompt:'Which animals are commonly found eating the tall grasses of the savannah?', choices:['Springbok, buffalo and wildebeest','Penguins and seals','Polar bears and seals','Kangaroos and koalas'], correctAnswer:'Springbok, buffalo and wildebeest',
-    explanation:'Grass-eating animals such as springbok, buffalo and wildebeest commonly feed on the tall grasses of the savannah.'},
-  {section:'savannah', difficulty:'medium', type:'mcq', prompt:'Why are fire outbreaks common in savannah areas?', choices:['Because of the hot, dry conditions, especially in the dry winter','Because it rains too much','Because there is no grass to burn','Because savannahs are always cold'], correctAnswer:'Because of the hot, dry conditions, especially in the dry winter',
-    explanation:'Fire outbreaks are common in savannahs because of the hot, dry conditions, especially during the dry winter season.'},
-  {section:'savannah', difficulty:'medium', type:'mcq', prompt:'How do many savannah plants survive fires?', choices:['By storing water and nutrients underground, and some have thick, protective bark','By growing underwater','By having no roots at all','By only growing in winter'], correctAnswer:'By storing water and nutrients underground, and some have thick, protective bark',
-    explanation:'Savannah plants survive fires by storing water and nutrients in their roots underground, and some trees also have thick bark to protect their stems.'},
-  {section:'savannah', difficulty:'medium', type:'mcq', prompt:'How do acacia trees survive drought conditions in the savannah?', choices:['They have long tap roots that can find water deep underground','They have no roots at all','They only grow during floods','They store water in their flowers'], correctAnswer:'They have long tap roots that can find water deep underground',
-    explanation:'Acacia trees have long tap roots that reach deep underground to find water, helping them survive drought conditions.'},
-  {section:'savannah', difficulty:'medium', type:'mcq', prompt:'What helps protect acacia trees from being eaten by most animals?', choices:['Sharp thorns','A thick layer of ice','Bright flashing colours','Loud noises'], correctAnswer:'Sharp thorns',
-    explanation:'Acacia trees have sharp thorns that stop most animals from eating their leaves.'},
-  {section:'savannah', difficulty:'hard', type:'mcq', prompt:'Which of these savannah animals are predators that feed on plant-eating animals?', choices:['Lions, cheetahs and hyenas','Giraffes, zebras and antelope','Springbok and buffalo','Wildebeest and rhinos'], correctAnswer:'Lions, cheetahs and hyenas',
-    explanation:'Lions, cheetahs and hyenas are predators in the savannah that feed on plant-eating animals such as antelope and zebra.'},
-  {section:'savannah', difficulty:'grade6', type:'mcq', prompt:'Giraffes are able to eat acacia leaves even though the tree is covered in sharp thorns, while most other savannah animals avoid eating them. What does this suggest about giraffes?', choices:['Giraffes have special adaptations (such as a long, tough tongue) that let them cope with the thorns','Giraffes are immune to all plant defences','Acacia trees have no thorns at all','Giraffes never eat acacia leaves'], correctAnswer:'Giraffes have special adaptations (such as a long, tough tongue) that let them cope with the thorns',
-    explanation:'Giraffes have evolved special adaptations — such as a long, tough, flexible tongue and thick saliva — that let them carefully eat acacia leaves around the thorns, something most other savannah animals cannot do.'}
+  // --- Weather and Climate (14) ---
+  {section:'weatherClimate', difficulty:'easy', type:'mcq', prompt:'What is weather?', choices:['What the atmosphere or air is like at a particular place on a particular day','The average conditions of an area over many years','A type of mountain','A type of river'], correctAnswer:'What the atmosphere or air is like at a particular place on a particular day',
+    explanation:'Weather is what the atmosphere or air is like at a particular place on a particular day.'},
+  {section:'weatherClimate', difficulty:'easy', type:'mcq', prompt:'What is climate?', choices:['The average weather conditions of an area over a long period of time','What the weather is like on one single day','A type of natural vegetation','A kind of mineral'], correctAnswer:'The average weather conditions of an area over a long period of time',
+    explanation:'Climate is the average weather conditions of an area over a long period of time.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'What is the main difference between weather and climate?', choices:['Weather describes a single day, while climate describes average conditions over many years','They mean exactly the same thing','Weather only applies to deserts','Climate only applies to oceans'], correctAnswer:'Weather describes a single day, while climate describes average conditions over many years',
+    explanation:'Weather describes conditions on a single day, while climate describes average conditions over a long period of time.'},
+  {section:'weatherClimate', difficulty:'easy', type:'mcq', prompt:'Name the main elements of weather.', choices:['Temperature, rainfall, wind, cloud cover and humidity','Mountains, rivers and lakes','Minerals and rocks','Countries and borders'], correctAnswer:'Temperature, rainfall, wind, cloud cover and humidity',
+    explanation:'The main elements of weather are temperature, rainfall, wind, cloud cover and humidity.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'What does "humidity" measure?', choices:['How much moisture (water) is in the air','How hot the air is','How fast the wind is blowing','How much rain fell yesterday'], correctAnswer:'How much moisture (water) is in the air',
+    explanation:'Humidity measures how much moisture (water) is in the air.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'Which climate type does the Western Cape have, with hot dry summers and cold wet winters?', choices:['A Mediterranean climate','A desert climate','A subtropical climate','A polar climate'], correctAnswer:'A Mediterranean climate',
+    explanation:'The Western Cape has a Mediterranean climate, with hot, dry summers and cold, wet winters.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:"When does most of the Western Cape's rain fall?", choices:['In winter','In summer','All year equally','It never rains there'], correctAnswer:'In winter',
+    explanation:"Most of the Western Cape's rain falls in winter."},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'What is the climate like on the Eastern Cape and KwaZulu-Natal coasts?', choices:['Hot, wet summers and warm winters, with rain on the coast all year','Very hot and dry, with almost no rain','Cold and snowy all year','Hot and dry in summer, cold and dry in winter'], correctAnswer:'Hot, wet summers and warm winters, with rain on the coast all year',
+    explanation:'The Eastern Cape and KwaZulu-Natal coasts have hot, wet summers and warm winters, with some rainfall on the coast all year.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'What is the climate like in the Limpopo and Mpumalanga area bordering Mozambique?', choices:['Very hot with wet summers and warm, dry winters','Very cold with snow most of the year','Dry with almost no rain at all','Mild and rainy all year round'], correctAnswer:'Very hot with wet summers and warm, dry winters',
+    explanation:'The Limpopo and Mpumalanga area bordering Mozambique is very hot with wet summers and warm, dry winters.'},
+  {section:'weatherClimate', difficulty:'easy', type:'mcq', prompt:'What is the climate like in the Northern Cape?', choices:['Very hot and dry, with very little rain all year','Cold and wet all year','Hot and wet all year','Mild with heavy snow'], correctAnswer:'Very hot and dry, with very little rain all year',
+    explanation:'The Northern Cape is very hot and dry, with very little rain all year.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'What is the climate like in the western parts of the Free State and North West?', choices:['Hot and dry in summer, cold and dry in winter','Hot and wet all year','Cold and wet all year','Mild and humid all year'], correctAnswer:'Hot and dry in summer, cold and dry in winter',
+    explanation:'The western parts of the Free State and North West are hot and dry in summer, and cold and dry in winter.'},
+  {section:'weatherClimate', difficulty:'hard', type:'mcq', prompt:'How does climate affect an area?', choices:['It affects what natural vegetation can grow and what kind of farming people can do there','It has no effect on vegetation or farming at all','It only affects the colour of the soil','It only affects which minerals are found there'], correctAnswer:'It affects what natural vegetation can grow and what kind of farming people can do there',
+    explanation:'Climate affects what kind of natural vegetation can grow in an area, and what kind of farming people can do there.'},
+  {section:'weatherClimate', difficulty:'easy', type:'mcq', prompt:'True or false: South Africa has only one climate region.', choices:['False — South Africa has several different climate regions','True — the whole country has exactly the same climate','False — South Africa has no climate at all','True, but only in winter'], correctAnswer:'False — South Africa has several different climate regions',
+    explanation:'South Africa has several different climate regions, from the Mediterranean Western Cape to the hot, dry Northern Cape.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'Which instrument measures humidity?', choices:['A hygrometer','A thermometer','A barometer','A wind vane'], correctAnswer:'A hygrometer',
+    explanation:'A hygrometer is the instrument used to measure humidity.'},
+
+  // --- Interpreting Weather Maps (12) ---
+  {section:'interpretingWeatherMaps', difficulty:'easy', type:'mcq', prompt:'What is a forecast?', choices:['What the weather is going to be like on a following day','A record of yesterday\'s weather only','A type of map showing mountains','A type of weather instrument'], correctAnswer:'What the weather is going to be like on a following day',
+    explanation:'A forecast is what the weather is going to be like on a following day.'},
+  {section:'interpretingWeatherMaps', difficulty:'easy', type:'mcq', prompt:'What do we call people who study the weather and make forecasts?', choices:['Meteorologists','Geographers','Geologists','Astronomers'], correctAnswer:'Meteorologists',
+    explanation:'People who study the weather and make forecasts are called meteorologists.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'What is shown on a weather map, besides the expected temperature?', choices:['Symbols such as a sun, clouds or raindrops showing expected weather','Only the names of rivers','Only the height of mountains','Only the names of minerals'], correctAnswer:'Symbols such as a sun, clouds or raindrops showing expected weather',
+    explanation:'Weather maps show symbols such as a sun, clouds or raindrops, along with the expected temperature, for different places.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'What does "cloud cover" describe?', choices:['How much of the sky is covered by cloud','How fast clouds are moving','How high up clouds are','How much rain fell'], correctAnswer:'How much of the sky is covered by cloud',
+    explanation:'Cloud cover describes how much of the sky is covered by cloud.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'On a weather map, a city shown with a sun symbol and a high temperature number is likely to be…', choices:['Hot and sunny','Cold and snowy','Cool and rainy','Windy and cloudy'], correctAnswer:'Hot and sunny',
+    explanation:'A sun symbol with a high temperature number on a weather map shows that a city is expected to be hot and sunny.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'On a weather map, a city shown with a rain symbol and a lower temperature number is likely to be…', choices:['Cooler and wetter','Hot and dry','Extremely hot','Snowy and freezing'], correctAnswer:'Cooler and wetter',
+    explanation:'A rain symbol with a lower temperature number on a weather map shows that a city is expected to be cooler and wetter.'},
+  {section:'interpretingWeatherMaps', difficulty:'easy', type:'mcq', prompt:'Which instrument measures temperature?', choices:['A thermometer','A rain gauge','A wind vane','A barometer'], correctAnswer:'A thermometer',
+    explanation:'A thermometer measures temperature.'},
+  {section:'interpretingWeatherMaps', difficulty:'easy', type:'mcq', prompt:'Which instrument measures rainfall?', choices:['A rain gauge','A thermometer','An anemometer','A barometer'], correctAnswer:'A rain gauge',
+    explanation:'A rain gauge measures rainfall, recorded in millimetres (mm).'},
+  {section:'interpretingWeatherMaps', difficulty:'easy', type:'mcq', prompt:'Which instrument measures wind direction?', choices:['A wind vane','An anemometer','A thermometer','A hygrometer'], correctAnswer:'A wind vane',
+    explanation:'A wind vane measures wind direction.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'Which instrument measures wind speed?', choices:['An anemometer','A wind vane','A rain gauge','A barometer'], correctAnswer:'An anemometer',
+    explanation:'An anemometer measures wind speed.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'Which instrument measures air pressure?', choices:['A barometer','A thermometer','A hygrometer','A wind vane'], correctAnswer:'A barometer',
+    explanation:'A barometer measures air pressure.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'Why are weather maps useful?', choices:['They show what the weather conditions in different places in a country will be like','They only show where minerals are found','They only show rivers and mountains','They are not useful at all'], correctAnswer:'They show what the weather conditions in different places in a country will be like',
+    explanation:'Weather maps are useful for showing what the weather conditions in different places in a country will be like.'},
+
+  // --- Minerals Mined in South Africa (14) ---
+  {section:'mineralsMined', difficulty:'easy', type:'mcq', prompt:'What are minerals?', choices:['Useful, non-living substances found in rocks under the ground','Living organisms found in soil','A type of cloud','A type of river'], correctAnswer:'Useful, non-living substances found in rocks under the ground',
+    explanation:'Minerals are useful, non-living substances found in rocks under the ground.'},
+  {section:'mineralsMined', difficulty:'easy', type:'mcq', prompt:'What is gold mainly used for?', choices:['Jewellery','Building roads','Making paper','Growing crops'], correctAnswer:'Jewellery',
+    explanation:'Gold is mainly used for jewellery.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is platinum used for, besides jewellery?', choices:['The car industry and electrical industries','Building roads only','Making paper only','Growing crops'], correctAnswer:'The car industry and electrical industries',
+    explanation:'Platinum is used in jewellery, the car industry and electrical industries.'},
+  {section:'mineralsMined', difficulty:'easy', type:'mcq', prompt:'What are diamonds used for, besides jewellery?', choices:['Cutting machines','Making electricity only','Growing crops','Building bridges only'], correctAnswer:'Cutting machines',
+    explanation:'Diamonds are used for jewellery and in cutting machines.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is coal mainly used to do?', choices:['Generate electrical power','Make jewellery','Grow crops','Purify water'], correctAnswer:'Generate electrical power',
+    explanation:'Coal is mainly used to generate electrical power.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is iron mainly used for?', choices:['Buildings, vehicles and machines','Jewellery only','Growing food','Making paper'], correctAnswer:'Buildings, vehicles and machines',
+    explanation:'Iron is used for buildings, vehicles, machines and making other metals.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is copper mainly used for?', choices:['Pipes and electrical wires','Growing crops','Making tar for roads','Building mountains'], correctAnswer:'Pipes and electrical wires',
+    explanation:'Copper is mainly used for pipes, electrical wires and making jewellery.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is manganese mainly used for?', choices:['Batteries and cans','Growing crops','Making paper','Building roads'], correctAnswer:'Batteries and cans',
+    explanation:'Manganese is mainly used for batteries, cans and making other metals.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'Why are minerals called a non-renewable resource?', choices:['Because once they are used up, they cannot be replaced or regrown','Because they are found everywhere','Because they are always free to mine','Because they can be grown again quickly'], correctAnswer:'Because once they are used up, they cannot be replaced or regrown',
+    explanation:'Minerals are non-renewable because once they are used up, they cannot be replaced or regrown by nature or by people.'},
+  {section:'mineralsMined', difficulty:'easy', type:'mcq', prompt:'Which of these is a renewable resource, unlike minerals?', choices:['Water','Gold','Coal','Diamonds'], correctAnswer:'Water',
+    explanation:'Water is a renewable resource, unlike non-renewable minerals like gold, coal and diamonds.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is open pit (surface) mining?', choices:['Removing layers of soil and rock from the surface to reach minerals close to the surface','Digging tunnels deep underground','Growing crops on top of minerals','Using only chemicals to dissolve rock'], correctAnswer:'Removing layers of soil and rock from the surface to reach minerals close to the surface',
+    explanation:'Open pit (surface) mining removes layers of soil and rock from the surface to reach minerals close to the surface.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is underground (shaft or deep-level) mining?', choices:['Digging long tunnels deep underground to reach minerals that lie far below the surface','Removing soil from the surface only','Using boats to collect minerals from rivers','Growing minerals in greenhouses'], correctAnswer:'Digging long tunnels deep underground to reach minerals that lie far below the surface',
+    explanation:'Underground (shaft or deep-level) mining involves digging long tunnels deep underground to reach minerals far below the surface.'},
+  {section:'mineralsMined', difficulty:'hard', type:'mcq', prompt:"Why are some of South Africa's underground mines considered remarkable?", choices:['They are among the deepest mines in the world, reaching several kilometres below the ground','They are the only mines in the world','They produce no waste at all','They only operate for one day a year'], correctAnswer:'They are among the deepest mines in the world, reaching several kilometres below the ground',
+    explanation:"South Africa has some of the deepest mines in the world, with some shaft mines reaching several kilometres below the ground."},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is chrome mainly used for?', choices:['Making other metals and alloy parts of machines','Jewellery only','Growing crops','Making paper'], correctAnswer:'Making other metals and alloy parts of machines',
+    explanation:'Chrome is mainly used for making other metals and alloy parts of machines.'},
+
+  // --- Safety of Miners / Impact of Mining (10) ---
+  {section:'safetyOfMiners', difficulty:'easy', type:'mcq', prompt:'Why must mines follow strict safety rules?', choices:['To protect miners from accidents, collapses and exposure to harmful dust or gases','To make mining take longer','To stop minerals being found','To increase the price of minerals'], correctAnswer:'To protect miners from accidents, collapses and exposure to harmful dust or gases',
+    explanation:'Mines must follow strict safety rules to protect miners from accidents, collapses and exposure to harmful dust or gases.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'What do mining companies often do with the waste rock and sand produced by mining?', choices:['Dump it in piles called mine dumps','Sell it as jewellery','Bury it in the ocean','Turn it into food'], correctAnswer:'Dump it in piles called mine dumps',
+    explanation:'Mining companies often dump waste rock and sand in piles called mine dumps.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'What can happen when a mine is no longer used and a large hole fills with water?', choices:['Poisonous chemicals like acid and uranium can dissolve into the water','The hole disappears completely','The water becomes drinkable immediately','Nothing happens to the water'], correctAnswer:'Poisonous chemicals like acid and uranium can dissolve into the water',
+    explanation:'When a mine is no longer used, poisonous chemicals like acid and uranium that were trapped underground can dissolve into the water that fills the hole.'},
+  {section:'safetyOfMiners', difficulty:'hard', type:'mcq', prompt:'How can pollution from a mine eventually reach rivers and lakes far away?', choices:['Polluted groundwater can flow underground for hundreds of kilometres', 'Pollution only ever stays in one exact spot','Wind carries all pollution away instantly','Pollution evaporates and disappears'], correctAnswer:'Polluted groundwater can flow underground for hundreds of kilometres',
+    explanation:'Polluted groundwater can flow for hundreds of kilometres underground, eventually reaching rivers and lakes.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'Why have farmers sometimes been warned not to let animals drink from certain rivers?', choices:['Because the water has been polluted by mining waste','Because the rivers have dried up completely','Because the water is too cold','Because the animals prefer rain water'], correctAnswer:'Because the water has been polluted by mining waste',
+    explanation:'Farmers have sometimes been warned not to let their animals drink from rivers polluted by mining waste.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'Why is asbestos now considered dangerous, even though it was once used as a building material?', choices:['Asbestos fibres can damage the lungs and cause cancer','Asbestos is too heavy to use','Asbestos is too expensive','Asbestos cannot be mined safely at all'], correctAnswer:'Asbestos fibres can damage the lungs and cause cancer',
+    explanation:'Asbestos fibres can damage the lungs and cause cancer, which is why it is no longer used as a building material.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'What can chemicals and dust from mining damage, besides water?', choices:['Natural vegetation and wildlife habitats','Only the sky','Only underground rocks','Nothing else at all'], correctAnswer:'Natural vegetation and wildlife habitats',
+    explanation:'Chemicals and dust from mining can damage natural vegetation and the habitats that wildlife depend on.'},
+  {section:'safetyOfMiners', difficulty:'hard', type:'mcq', prompt:'Why is water pollution from mining an especially serious problem in South Africa?', choices:['Because about 98% of South Africa is already arid or dry, with existing water shortages','Because South Africa has no rivers at all','Because South Africa has too much water already','Because mining is banned in South Africa'], correctAnswer:'Because about 98% of South Africa is already arid or dry, with existing water shortages',
+    explanation:'Water pollution from mining is especially serious in South Africa because about 98% of the country is already arid or dry, meaning there are water shortages.'},
+  {section:'safetyOfMiners', difficulty:'easy', type:'mcq', prompt:'What can air pollution from mining dust and fumes cause?', choices:['Disease','Better crop growth','Cooler weather','More rainfall'], correctAnswer:'Disease',
+    explanation:'Air pollution from mining dust and fumes can cause disease.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'Besides people, who else is affected by mining pollution reaching rivers and lakes?', choices:['Animals and farming (crops)','Only the mining company','Nobody else is affected','Only people in other countries'], correctAnswer:'Animals and farming (crops)',
+    explanation:'Mining pollution that reaches rivers and lakes affects not only people, but also animals and farming.'},
+
+  // --- Coal Formation (9) ---
+  {section:'coalFormation', difficulty:'easy', type:'mcq', prompt:'What is the first step in coal formation?', choices:['Dying trees and other plants fall into swamps and are gradually covered by mud','Coal is mined from deep underground','Rocks melt into liquid','Rivers flood the land'], correctAnswer:'Dying trees and other plants fall into swamps and are gradually covered by mud',
+    explanation:'Coal formation begins when dying trees and other plants fall into swamps and are gradually covered by mud.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'What does the second step of coal formation produce?', choices:['Peat (from rotting plant layers hardening and drying under mud)','Diamonds','Gold dust','Iron ore'], correctAnswer:'Peat (from rotting plant layers hardening and drying under mud)',
+    explanation:'In the second step, the rotting plant layers harden and dry out under the mud, forming peat.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'What finally turns peat into coal?', choices:['The weight and pressure of soil above, plus heat, as it is buried deeper underground','Cold temperatures freezing the peat','Wind blowing over the peat','Animals walking over the peat'], correctAnswer:'The weight and pressure of soil above, plus heat, as it is buried deeper underground',
+    explanation:'As layers of peat become buried deeper, the weight and pressure of the soil above, along with heat, turns the peat into coal.'},
+  {section:'coalFormation', difficulty:'easy', type:'mcq', prompt:'Why is coal called a non-renewable resource?', choices:['Because once it is burned, it cannot be replaced within a human lifetime','Because it is not found in South Africa','Because it is too expensive to mine','Because it burns too quickly to be useful'], correctAnswer:'Because once it is burned, it cannot be replaced within a human lifetime',
+    explanation:'Coal is non-renewable because once it is burned, it cannot be replaced within a human lifetime — it takes millions of years to form.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'Besides generating electricity, what else is coal used to make?', choices:['Tar for roads, plastic and soap','Only jewellery','Only glass','Only food'], correctAnswer:'Tar for roads, plastic and soap',
+    explanation:'Besides generating electricity, coal is also used to make products such as tar for roads, plastic and soap.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'Roughly how long does it take for coal to form?', choices:['Millions of years','A few days','About ten years','About one hundred years'], correctAnswer:'Millions of years',
+    explanation:'Coal formation is a very slow natural process that takes millions of years.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'Which South African province produces the most electricity from coal?', choices:['Mpumalanga','Western Cape','Northern Cape','KwaZulu-Natal'], correctAnswer:'Mpumalanga',
+    explanation:'Mpumalanga, which has large coal fields, produces the most electricity from coal of any South African province.'},
+  {section:'coalFormation', difficulty:'easy', type:'mcq', prompt:'Where does coal formation begin?', choices:['In swamps or wetlands, with dying plants','In the ocean','On top of mountains','In deserts'], correctAnswer:'In swamps or wetlands, with dying plants',
+    explanation:'Coal formation begins in swamps or wetlands, where dying plants fall and are gradually covered by mud.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'Name a South African province, besides Mpumalanga, where coal fields are found.', choices:['Limpopo','Western Cape','Northern Cape','North West'], correctAnswer:'Limpopo',
+    explanation:'Besides Mpumalanga, coal fields are also found in Limpopo, the Free State, KwaZulu-Natal and the Eastern Cape.'}
 ];
 
 /* ===================== QUIZ GENERATION ===================== */
 const SECTIONS = [
-  {key:'climate',    name:"Climate Regions of SA", emoji:'🌍', color:'linear-gradient(135deg,#4cc9f0,#1d3557)'},
-  {key:'vegetation', name:'Vegetation &amp; Key Terms', emoji:'🌿', color:'linear-gradient(135deg,#06d6a0,#1b998b)'},
-  {key:'fynbos',     name:'Fynbos, Forests &amp; Plants', emoji:'🌵', color:'linear-gradient(135deg,#ffb703,#fb8500)'},
-  {key:'savannah',   name:'Savannah Grassland', emoji:'🦓', color:'linear-gradient(135deg,#dda15e,#bc6c25)'}
+  {key:'physicalFeatures', name:'Physical Features', emoji:'🏔️', color:'linear-gradient(135deg,#264653,#1b3a3a)',
+    paragraph:"A physical map is a map which shows the natural features of a place, such as mountains, deserts, rivers and lakes, rather than man-made things like roads and borders. On a physical map, the height of land (called altitude) is usually shown using different colours or shading — the higher the land, the darker the shading usually is. Altitude is the height of a place above sea level, and sea level is the height at which the sea touches the land, used as the starting point (0 metres) for measuring height everywhere else. A plateau is a high, flat, inland area of a country. A coastal plain is low-lying land that is close to the sea. An escarpment is where the land rises steeply between the coastal plain and the plateau — these are mainly made up of mountain ranges. A mountain range is a group or line of mountains, and the highest point at the top of a mountain is called its peak. Mount Kilimanjaro in Tanzania, at 5,895 metres above sea level, is the highest peak in Africa; Mount Kenya is the second highest. In Southern Africa, the Drakensberg (also known as uKhahlamba) is the highest mountain range. A hill is a raised area of land that is not as large as a mountain, and a valley is a low area of land found between hills or mountains. Along the coast, a cape is a piece of land that juts out into the sea, while a bay is a dent or curve in the coastline."},
+  {key:'rivers', name:'Rivers', emoji:'🌊', color:'linear-gradient(135deg,#48cae4,#0077b6)',
+    paragraph:"A river begins at its source, usually high up in the mountains where rain or melting snow collects. A small river is called a stream, and when a stream or smaller river flows into a bigger river, it is called a tributary. As a river flows, it passes through valleys between hills, before crossing the flat coastal plain on its way to the sea. The point where a river finally flows into the sea (or into a lake or another river) is called its mouth. All the rivers and streams that drain into one river, together with the land area they flow through, is called a catchment area — all of this together, both the water and the land, is known as a river system. Rivers always flow downwards, from a higher place to a lower place, never uphill. South Africa's rivers include the Orange (Gariep) River, the longest river entirely within South Africa, which starts in Lesotho and forms the border with Namibia; the Limpopo River, which forms the northern border with Zimbabwe and Botswana; and the Vaal River, a major tributary of the Orange. The Nile, in the north of Africa, is the longest river on the entire continent, while the Congo River is the only major river in the world that crosses the equator twice. River water is often stored behind a dam, like the Vaal Dam in Gauteng, to provide water for homes, industry, and irrigating farmland in drier areas."},
+  {key:'neighbouringCountries', name:"Neighbouring Countries", emoji:'🗺️', color:'linear-gradient(135deg,#9d4edd,#5a189a)',
+    paragraph:"South Africa shares land borders with six neighbouring countries: Namibia, Botswana, Zimbabwe, Mozambique, Eswatini (formerly known as Swaziland) and Lesotho. A border is the line that divides one country from another, and can follow a river, a mountain range, or simply a straight line agreed between countries. Most of South Africa's neighbours have a coastline, where their land meets the sea, but two of them do not: Lesotho and Eswatini are landlocked, meaning they are completely surrounded by other countries and have no direct access to the sea. Lesotho is unusual because it is surrounded entirely by South Africa alone. Each of South Africa's neighbouring countries has its own capital city — Zimbabwe's capital is Harare, Botswana's is Gaborone, Namibia's is Windhoek, Mozambique's is Maputo, Eswatini's is Mbabane, and Lesotho's is Maseru. South Africa itself unusually has three capital cities: Pretoria (the administrative capital), Cape Town (the legislative capital, where parliament sits) and Bloemfontein (the judicial capital)."},
+  {key:'weatherClimate', name:'Weather &amp; Climate', emoji:'⛅', color:'linear-gradient(135deg,#ffb703,#fb8500)',
+    paragraph:"Weather is what the atmosphere or air is like at a particular place on a particular day — for example, whether it is sunny, rainy, windy or cold today. Climate, on the other hand, is the average weather conditions of an area over a long period of time, such as many years. The main elements of weather are temperature, rainfall, wind, cloud cover and humidity (how much moisture is in the air). South Africa has several different climate regions: the Western Cape has a Mediterranean climate, with hot, dry summers and cold, wet winters — most of its rain falls in winter. The Eastern Cape coast and the KwaZulu-Natal coast have hot, wet summers and warm winters, with some rainfall on the coast all year. The Limpopo and Mpumalanga area bordering Mozambique is very hot with wet summers and warm, dry winters. The Northern Cape is very hot and dry, with very little rain all year. The western parts of the Free State and North West are hot and dry in summer, and cold and dry in winter. Climate affects what kind of natural vegetation can grow in an area, and what kind of farming people can do there."},
+  {key:'interpretingWeatherMaps', name:'Interpreting Weather Maps', emoji:'🗺️☀️', color:'linear-gradient(135deg,#4cc9f0,#1d3557)',
+    paragraph:"Weather maps and forecasts are useful for showing what the weather conditions in different places in a country will be like, often for the following day or over several days ahead — this is called a forecast. People who study the weather and make these forecasts are called meteorologists. On a weather map, symbols such as a sun, clouds or raindrops are used to show the expected weather at different cities, along with the expected temperature in degrees Celsius. Cloud cover describes how much of the sky is covered by cloud, from a clear sky with no cloud, to a partly cloudy sky, to a sky that is completely overcast. To read a weather map correctly, you need to look carefully at the symbol and number given for each place — the city with the sunniest symbol and highest number is usually the hottest, while a city shown with rain and a lower number will be cooler and wetter. Weather instruments like the thermometer (which measures temperature), rain gauge (rainfall), wind vane (wind direction), anemometer (wind speed), barometer (air pressure) and hygrometer (humidity) are used to gather the real information that goes into these forecasts and maps."},
+  {key:'mineralsMined', name:'Minerals Mined in SA', emoji:'⛏️', color:'linear-gradient(135deg,#6c757d,#343a40)',
+    paragraph:"Minerals are useful, non-living substances found in rocks under the ground, and South Africa is rich in many different minerals. Gold is mainly used for jewellery; platinum is used in jewellery, the car industry and electrical industries; diamonds are used for jewellery and in cutting machines; coal is used to generate electrical power and to make things like tar for roads, plastic and soap; iron is used for buildings, vehicles and machines, and for making other metals; copper is used for pipes, electrical wires and jewellery; manganese is used for batteries, cans and making other metals; and chrome is used for making other metals and alloy parts of machines. Minerals are a non-renewable resource, which means that once they are used up, they cannot be replaced or regrown by nature or by people — this is very different from a renewable resource like water, wind or plants, which will not run out if they are managed properly. There are two main ways of mining minerals: open pit (surface) mining, where layers of soil and rock are removed from the surface to reach minerals close to the surface, and underground (shaft or deep-level) mining, where long tunnels are dug deep underground to reach minerals that lie far below the surface. Some of South Africa's underground mines are among the deepest in the world, reaching several kilometres below the ground."},
+  {key:'safetyOfMiners', name:'Safety of Miners', emoji:'⚠️', color:'linear-gradient(135deg,#b0413e,#7a2420)',
+    paragraph:"Mining can be dangerous for both miners and the environment. Underground mining in particular can be risky for miners, who work deep below the surface in tunnels, so mines must follow strict safety rules to protect workers from accidents, collapses and exposure to harmful dust or gases. Mining also produces a lot of waste, in the form of polluted water, rock and sand — mining companies often dump this waste in piles called mine dumps, and sometimes this waste pollutes nearby rivers, making the water harmful to people, plants and animals; farmers have sometimes been warned not to let their animals drink from, or irrigate crops with, water polluted by mining. When a mine is no longer being used, it often leaves behind a large hole that gradually fills with water. Poisonous chemicals that were trapped underground, such as acid and uranium, can dissolve into this water and flow into groundwater, which can travel for hundreds of kilometres and eventually reach rivers and lakes used for drinking, farming and by wildlife. Chemicals and dust from mining can also damage natural vegetation and wildlife habitats directly, and in the past, before people understood the dangers, some minerals like asbestos were even used as a building material, even though asbestos fibres are now known to damage the lungs and can cause cancer. Air pollution from mining dust and fumes can also cause disease. This is especially serious in South Africa because about 98% of the country is arid or dry, meaning there are already water shortages — if the available water becomes polluted too, there is even less water for people, animals and farming."},
+  {key:'coalFormation', name:'Coal Formation', emoji:'🪨', color:'linear-gradient(135deg,#588157,#3a5a40)',
+    paragraph:"Coal is formed over millions of years through a slow natural process. It begins when dying trees and other plants fall into swamps or wetlands and are gradually covered by mud. Over time, these rotting plant layers harden and dry out under the mud, forming a soft material called peat. As more layers of peat become buried deeper and deeper under the ground, the weight and pressure of the soil above, along with heat from deep within the Earth, slowly turns the peat into coal. Because this process takes millions of years, coal is a non-renewable resource — once it is burned for fuel or to generate electrical power, it cannot be used again, and it cannot be replaced within a human lifetime. Coal is burned in power stations to generate electricity, and is also used to make products such as tar for roads, plastic and soap. In South Africa, most of the coal fields are found in Mpumalanga, Limpopo, the Eastern Cape, KwaZulu-Natal and the Free State; Mpumalanga, which has large amounts of coal, produces the most electricity from coal of any province."}
 ];
 
+const DRAW_PLAN = {
+  physicalFeatures:7, rivers:7, neighbouringCountries:7, weatherClimate:7,
+  interpretingWeatherMaps:6, mineralsMined:7, safetyOfMiners:5, coalFormation:4
+};
+
 function generateQuiz(){
-  // Skew harder: keep all medium/hard/grade6 questions, but only a reduced random sample of easy ones.
-  const easyQs = RAW_QUESTIONS.filter(q => q.difficulty === 'easy');
-  const otherQs = RAW_QUESTIONS.filter(q => q.difficulty !== 'easy');
-  const keepEasyCount = Math.max(3, Math.ceil(easyQs.length * 0.4));
-  const pool = [...shuffle(easyQs).slice(0, keepEasyCount), ...otherQs];
+  // Draws a random, topic-balanced sample of 50 from the larger pool, so every
+  // attempt (and every restart) is a different set of 50 questions.
+  const pool = [];
+  SECTIONS.forEach(sec => {
+    const topicQs = shuffle(RAW_QUESTIONS.filter(q => q.section === sec.key));
+    const count = DRAW_PLAN[sec.key] || 0;
+    pool.push(...topicQs.slice(0, count));
+  });
   return shuffle(pool).map(q => {
     const question = { ...q, id: uid() };
-    if (question.type === 'mcq'){
-      question.choices = shuffle(question.choices);
-    } else {
-      question.choices = ['True','False'];
-    }
+    question.choices = shuffle(question.choices);
     return question;
   });
 }
@@ -346,7 +496,10 @@ function render(){
 }
 window.addEventListener('hashchange', render);
 
-/* ===================== QUESTION PALETTE (jump to any question) ===================== */
+/* ===================== PROGRESS MAP (read-only during the quiz — no jumping) =====================
+   Going back is blocked until the quiz is completed, so that learners must read
+   every paragraph in order (paragraphs seed facts for later questions). This map
+   only shows progress; it is not clickable during a live quiz. */
 let paletteOpen = false;
 function paletteHTML(){
   const items = state.questions.map((q,i) => {
@@ -354,11 +507,10 @@ function paletteHTML(){
     let cls = 'palette-btn';
     if (i === state.index) cls += ' current';
     if (ans && ans.resolved) cls += ans.correct ? ' correct' : ' incorrect';
-    return `<button type="button" class="${cls}" data-idx="${i}">${i+1}</button>`;
+    return `<button type="button" class="${cls}" disabled>${i+1}</button>`;
   }).join('');
-  return `<div class="palette-grid">${items}</div>`;
+  return `<div class="palette-grid">${items}</div><div class="locked-note">🔒 You can't jump around or go back until the quiz is finished — this keeps every paragraph's facts in play for later questions.</div>`;
 }
-function jumpToQuestion(i){ state.index = i; paletteOpen = false; saveJSON(LS_SAVE, state); render(); }
 
 /* ===================== POST-QUIZ REVIEW (all / correct only / incorrect only) ===================== */
 let reviewFilter = 'all';
@@ -411,7 +563,7 @@ function renderHome(){
       <div class="row between">
         <div>
           <h1>🌍 Geography Quest</h1>
-          <p>South Africa's Climate &amp; Vegetation</p>
+          <p>Grade 5 End-of-Year Exam Scope &middot; 50 Questions</p>
         </div>
         <div class="level-box">
           <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>
@@ -432,7 +584,7 @@ function renderHome(){
 
     <div class="card">
       <h3 style="margin-bottom:10px">Start a fresh quiz</h3>
-      <p style="margin-bottom:12px">Climate regions, natural vegetation, fynbos and savannah grassland — freshly shuffled every time, skewed toward medium and hard!</p>
+      <p style="margin-bottom:12px">50 questions covering physical features, rivers, neighbouring countries, weather &amp; climate, weather maps, minerals, mining safety and coal formation — each one comes with a short paragraph to read first, drawn randomly from a much bigger bank, so every attempt is different!</p>
       <div class="topic-grid">
         ${SECTIONS.map(s => `<div class="topic-card" style="background:${s.color}"><b>${s.emoji} ${sectionNameByKey(s.key)}</b></div>`).join('')}
       </div>
@@ -523,7 +675,7 @@ function renderQuiz(){
         <div class="score-tile"><div class="num">${percent}%</div><div class="lbl">Accuracy</div></div>
         <div class="score-tile"><div class="num">${state.index+1}/${total}</div><div class="lbl">Question</div></div>
       </div>
-      <button class="btn-ghost" id="paletteBtn" style="justify-self:start">🗂️ Jump to any question</button>
+      <button class="btn-ghost" id="paletteBtn" style="justify-self:start">🗂️ View progress map</button>
     </div>
 
     ${paletteOpen ? `<div class="card palette-card">${paletteHTML()}</div>` : ''}
@@ -533,12 +685,15 @@ function renderQuiz(){
         <span class="difficulty-tag ${q.difficulty}">${q.difficulty === 'grade6' ? 'Grade 6 ⭐' : q.difficulty}</span>
         <span class="pill">${sec.emoji} ${sectionNameByKey(sec.key)}</span>
       </div>
+      <div class="paragraph-box">
+        <h4>📖 Did You Know?</h4>
+        <div class="paragraph-text">${sec.paragraph}</div>
+      </div>
       <div class="qprompt">${q.prompt}</div>
       <div id="answerArea"></div>
       <div id="feedbackArea"></div>
       <div id="memoArea"></div>
-      <div class="nav-row">
-        <button class="arrow-btn" id="backBtn" ${state.index===0 ? 'disabled':''}>←</button>
+      <div class="nav-row" style="justify-content:flex-end">
         <button class="btn-secondary" id="saveExitBtn">💾 Save &amp; Exit</button>
         <button class="arrow-btn" id="fwdBtn" ${resolved ? '' : 'disabled'}>→</button>
       </div>
@@ -547,18 +702,12 @@ function renderQuiz(){
 
   renderAnswerArea(q, existing);
 
-  document.getElementById('backBtn').onclick = () => { state.index = Math.max(0, state.index-1); saveJSON(LS_SAVE, state); render(); };
   document.getElementById('fwdBtn').onclick = () => {
     if (state.index === total-1){ finishQuiz(); return; }
     state.index++; saveJSON(LS_SAVE, state); render();
   };
   document.getElementById('saveExitBtn').onclick = () => { saveJSON(LS_SAVE, state); go('home'); };
   document.getElementById('paletteBtn').onclick = () => { paletteOpen = !paletteOpen; renderQuiz(); };
-  if (paletteOpen){
-    document.querySelectorAll('.palette-btn').forEach(btn => {
-      btn.onclick = () => jumpToQuestion(Number(btn.getAttribute('data-idx')));
-    });
-  }
 }
 
 function renderAnswerArea(q, existing){

@@ -1,7 +1,7 @@
 {
-  "name": "Geography Quest: South Africa's Climate & Vegetation",
+  "name": "Geography Quest: Grade 5 End-of-Year Exam Scope",
   "short_name": "Geography Quest",
-  "description": "A colourful, gamified South African geography quiz on climate regions, natural vegetation, fynbos, forests and savannah grassland, with instant marking and badges.",
+  "description": "A colourful, gamified 50-question Grade 5 Geography quiz covering physical features, rivers, South Africa's neighbouring countries, weather and climate, interpreting weather maps, minerals mined in South Africa, safety of miners and coal formation, with comprehension-style paragraphs, instant marking and badges.",
   "start_url": "./geography.html",
   "scope": "./",
   "display": "standalone",

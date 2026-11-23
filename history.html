@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>History Quest: Ancient Egypt</title>
-<meta name="description" content="A colourful, gamified Ancient Egypt history quiz, skewed toward medium/hard questions, with instant marking and badges." />
+<title>History Quest: Grade 5 End-of-Year Exam Scope</title>
+<meta name="description" content="A colourful, gamified Grade 5 History quiz covering the San and Khoikhoi, early African farmers, the Coat of Arms, Ancient Egypt and South African heritage sites, with comprehension-style paragraphs, instant marking and badges." />
 <meta name="theme-color" content="#b8860b" />
 <link rel="manifest" href="history-manifest.json" />
 <link rel="icon" href="icons/icon-192.png" />
@@ -111,6 +111,10 @@ button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .memo-box h4{margin:0;font-size:.95rem;color:var(--purple);display:flex;align-items:center;gap:6px}
 .memo-box .ans-line{font-weight:800}
 .memo-box .explain{color:var(--ink);line-height:1.5}
+.paragraph-box{background:#fdf6ea;border:2px solid #f3e6cd;border-radius:18px;padding:14px 16px;display:grid;gap:6px}
+.paragraph-box h4{margin:0;font-size:.9rem;color:var(--purple);display:flex;align-items:center;gap:6px}
+.paragraph-box .paragraph-text{color:var(--ink);line-height:1.65;font-size:.92rem}
+.locked-note{font-size:.76rem;color:var(--muted);text-align:center}
 .palette-card{padding:14px}
 .palette-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
 .palette-btn{padding:9px 0;border-radius:8px;font-size:.8rem;font-weight:800;background:#eef1ff;color:var(--ink);box-shadow:none;border:2px solid transparent}
@@ -169,144 +173,333 @@ const uid = () => Math.random().toString(36).slice(2, 10);
 function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=rnd(0,i); [a[i],a[j]]=[a[j],a[i]];} return a; }
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
-/* ===================== FIXED QUESTION BANK: 50 Ancient Egypt questions ===================== */
+/* ===================== FIXED QUESTION BANK: Grade 5 End-of-Year Exam Scope =====================
+   Scope: The San and Khoikhoi, African farmers, Coat of Arms, Roles of people in
+   African farming society, The ancient Egyptians, Heritage sites in South Africa.
+   Each question belongs to a topic with its own educational paragraph (see SECTIONS
+   below); the paragraph is shown with every question from that topic. Paragraphs
+   sometimes mention facts answering questions in OTHER topics too, rewarding
+   learners who read every paragraph rather than skimming. Each quiz attempt draws
+   a random, topic-balanced sample of 50 from this larger pool (see DRAW_PLAN), so
+   repeated attempts are not identical. */
+
+/* ===================== FIXED QUESTION BANK: Grade 5 End-of-Year Exam Scope =====================
+   Scope: The San and Khoikhoi, African farmers, Coat of Arms, Roles of people in
+   African farming society, The ancient Egyptians, Heritage sites in South Africa.
+   Every question belongs to one of the 13 topics in SECTIONS below, each of which
+   carries its own educational paragraph (shown with every question drawn from
+   that topic). Paragraphs sometimes mention facts that answer questions in OTHER
+   topics too, so learners who read every paragraph are rewarded later. Each quiz
+   attempt draws a random, topic-balanced sample of 50 questions from this larger
+   pool of 116 (see DRAW_PLAN), so repeated attempts are not identical. */
 const RAW_QUESTIONS = [
-  // --- Egypt & the Nile (geography) ---
-  {section:'geography', difficulty:'easy', type:'tf', prompt:'Ancient Egypt was one of the oldest civilisations in Africa.', correctAnswer:'True',
-    explanation:'True. Ancient Egypt is one of the oldest civilisations in Africa, thriving for thousands of years.'},
-  {section:'geography', difficulty:'easy', type:'mcq', prompt:'Which continent is Egypt located in?', choices:['Africa','Asia','Europe','South America'], correctAnswer:'Africa',
-    explanation:'Egypt is situated in the continent of Africa.'},
-  {section:'geography', difficulty:'easy', type:'tf', prompt:'The Nile is the longest river in Africa.', correctAnswer:'True',
-    explanation:'True. The Nile is the longest river in Africa, and it was central to Ancient Egyptian life.'},
-  {section:'geography', difficulty:'medium', type:'mcq', prompt:'Which sea does the Nile River flow into?', choices:['Mediterranean Sea','Red Sea','Atlantic Ocean','Indian Ocean'], correctAnswer:'Mediterranean Sea',
-    explanation:'The Nile flows north into the Mediterranean Sea.'},
-  {section:'geography', difficulty:'easy', type:'mcq', prompt:'What word describes a way of life where people learn different skills, have different jobs, and live together in an organised way?', choices:['Civilisation','Population','Colony','Kingdom'], correctAnswer:'Civilisation',
-    explanation:'A civilisation is a way of life where people learn different skills, take on different jobs, and live together in an organised way.'},
-  {section:'geography', difficulty:'medium', type:'tf', prompt:'The first people settled along the Nile only about 500 years ago.', correctAnswer:'False',
-    explanation:'False. The first people settled along the northern banks of the Nile about 5,000 years ago.'},
-  {section:'geography', difficulty:'medium', type:'mcq', prompt:'About how long ago did people first settle along the northern banks of the Nile?', choices:['5,000 years ago','500 years ago','50,000 years ago','5 years ago'], correctAnswer:'5,000 years ago',
-    explanation:'The first people settled along the northern banks of the Nile about 5,000 years ago.'},
-  {section:'geography', difficulty:'hard', type:'mcq', prompt:'Why did the first settlers choose to live along the banks of the Nile?', choices:['The soil there was very good for growing crops','The weather was cold','There were mountains for protection','It was far away from other people'], correctAnswer:'The soil there was very good for growing crops',
-    explanation:'The soil along the river was very fertile, which was excellent for growing crops — this is why the first settlers chose to live there.'},
+  // --- San Hunter-Gatherers (9) ---
+  {section:'sanLife', difficulty:'easy', type:'mcq', prompt:'What were the San traditionally known as?', choices:['Hunter-gatherers','Farmers','Blacksmiths','Merchants'], correctAnswer:'Hunter-gatherers',
+    explanation:'The San were hunter-gatherers: the men hunted animals and the women gathered wild plant foods.'},
+  {section:'sanLife', difficulty:'easy', type:'mcq', prompt:'What was the main role of San men in finding food?', choices:['Hunting wild animals for meat','Milking cattle','Growing crops','Making pottery'], correctAnswer:'Hunting wild animals for meat',
+    explanation:'San men hunted wild animals for meat, often using arrows tipped with poison.'},
+  {section:'sanLife', difficulty:'easy', type:'mcq', prompt:'Which of these was a primary role for San women?', choices:['Gathering plant foods like roots and berries','Hunting big game','Leading the army','Building stone houses'], correctAnswer:'Gathering plant foods like roots and berries',
+    explanation:'San women gathered plant foods such as roots and berries from the environment.'},
+  {section:'sanLife', difficulty:'easy', type:'mcq', prompt:'What does it mean to be "nomadic"?', choices:['Moving from place to place rather than staying in one spot','Living only in cities','Never eating meat','Building permanent stone palaces'], correctAnswer:'Moving from place to place rather than staying in one spot',
+    explanation:'Nomadic means moving from place to place rather than settling permanently in one spot.'},
+  {section:'sanLife', difficulty:'medium', type:'mcq', prompt:'What material did the San mainly use to make their tools?', choices:['Stone and bone','Iron','Steel','Glass'], correctAnswer:'Stone and bone',
+    explanation:'The San made their tools from stone and bone, not iron.'},
+  {section:'sanLife', difficulty:'medium', type:'mcq', prompt:'How did the San store water during the dry season?', choices:['Inside ostrich egg shells','In glass bottles','In iron pots','In plastic containers'], correctAnswer:'Inside ostrich egg shells',
+    explanation:'During the dry season, the San stored water inside ostrich egg shells, which they could bury and dig up later.'},
+  {section:'sanLife', difficulty:'medium', type:'mcq', prompt:'What was traditional San clothing mainly made from?', choices:['Animal skins','Cotton','Wool','Linen'], correctAnswer:'Animal skins',
+    explanation:'The San traditionally made their clothing from animal skins.'},
+  {section:'sanLife', difficulty:'hard', type:'mcq', prompt:'Why do we call the San "hunter-gatherers"?', choices:['Because the men hunted animals and the women gathered wild plant foods','Because they only hunted and never ate plants','Because they only farmed crops','Because they gathered iron ore'], correctAnswer:'Because the men hunted animals and the women gathered wild plant foods',
+    explanation:'The name "hunter-gatherers" comes from this division of roles: men hunted, women gathered.'},
+  {section:'sanLife', difficulty:'hard', type:'mcq', prompt:'Which of these is a real difference between the San of long ago and many San people today?', choices:['Many San children today go to school and learn to read and write, unlike long ago','Modern San no longer eat any food at all','San people of long ago used cars for hunting','There is no difference at all'], correctAnswer:'Many San children today go to school and learn to read and write, unlike long ago',
+    explanation:'Today, San children often go to school and learn to read and write — something San children long ago did not do.'},
 
-  // --- Importance of the Nile ---
-  {section:'importance', difficulty:'easy', type:'mcq', prompt:'The Nile River was often described as the ___ of Ancient Egypt, because it gave life and strength.', choices:['life blood','backbone','heart','soul'], correctAnswer:'life blood',
-    explanation:'The Nile was called the "life blood" of Ancient Egypt — something that gives life and strength.'},
-  {section:'importance', difficulty:'medium', type:'mcq', prompt:'What nickname did the Ancient Greeks give to Egypt?', choices:['The gift of the Nile','The land of gold','The desert kingdom','The river empire'], correctAnswer:'The gift of the Nile',
-    explanation:'The Greeks called Egypt "the gift of the Nile" because the river was so important to its success.'},
-  {section:'importance', difficulty:'easy', type:'tf', prompt:'Ancient Egypt would never have been as successful without the Nile River.', correctAnswer:'True',
-    explanation:'True. Without the Nile, Ancient Egypt would never have been as successful — it provided water, fertile soil, and transport.'},
-  {section:'importance', difficulty:'medium', type:'mcq', prompt:'What is the name for the rich, dark soil the Nile left behind after it flooded?', choices:['Fertile silt (mud)','Sand','Clay','Limestone'], correctAnswer:'Fertile silt (mud)',
-    explanation:'The Nile carried fertile silt (mud) that was left behind after flooding, which farmers used to grow their crops.'},
-  {section:'importance', difficulty:'medium', type:'tf', prompt:'The Nile\'s yearly floods only caused problems and had no benefits for farmers.', correctAnswer:'False',
-    explanation:'False. The floods left behind fertile soil, which was a big advantage for growing crops.'},
-  {section:'importance', difficulty:'hard', type:'mcq', prompt:'What was one advantage of the Nile\'s yearly floods?', choices:['They left behind fertile soil for growing crops','They destroyed all the crops every year','They made the desert bigger','They stopped people travelling by boat'], correctAnswer:'They left behind fertile soil for growing crops',
-    explanation:'The floods left behind rich, fertile soil, which was excellent for growing crops.'},
-  {section:'importance', difficulty:'medium', type:'mcq', prompt:'What natural feature surrounding Egypt made it hard for enemies to invade or settle nearby?', choices:['The desert','The mountains','The ocean','The rainforest'], correctAnswer:'The desert',
-    explanation:'The desert surrounding Egypt made it difficult for other settlements to develop nearby or for enemies to attack.'},
-  {section:'importance', difficulty:'easy', type:'tf', prompt:'The Nile River provided the Ancient Egyptians with fertile soil and water for their crops.', correctAnswer:'True',
-    explanation:'True. The Nile gave the Egyptians plenty of water and fertile soil for growing crops.'},
+  // --- San Religion & Rock Art (10) ---
+  {section:'sanBelief', difficulty:'easy', type:'mcq', prompt:'What was the San god called?', choices:['/Kaggen','Shaman','Ancestor','Ra'], correctAnswer:'/Kaggen',
+    explanation:'The San believed in a god called /Kaggen.'},
+  {section:'sanBelief', difficulty:'easy', type:'mcq', prompt:'What was the "Trance Dance" used for?', choices:['It was performed by healers to help heal the sick','It was a dance performed only at weddings','It was used to call rain only','It was a dance for children to play'], correctAnswer:'It was performed by healers to help heal the sick',
+    explanation:'The Trance Dance was a ceremony performed by San healers to help heal the sick.'},
+  {section:'sanBelief', difficulty:'easy', type:'mcq', prompt:'Which animal was considered the most powerful and spiritually important in San religion?', choices:['The eland','The lion','The elephant','The springbok'], correctAnswer:'The eland',
+    explanation:'The eland, a large antelope, was the most powerful and spiritually important animal in San religion.'},
+  {section:'sanBelief', difficulty:'easy', type:'mcq', prompt:'Where did the San usually create their rock art paintings?', choices:['On rock walls inside caves or rock shelters in mountains','On tree bark in forests','On animal hides to wear','On the sand of the desert'], correctAnswer:'On rock walls inside caves or rock shelters in mountains',
+    explanation:'San rock art was painted on rock walls, usually inside caves or rock shelters in mountains.'},
+  {section:'sanBelief', difficulty:'medium', type:'mcq', prompt:"Besides a marriage ceremony, at what other occasion might the eland appear in San belief?", choices:["At a boy's first successful kill",'At a funeral only','At a birthday party','At a harvest festival'], correctAnswer:"At a boy's first successful kill",
+    explanation:'The eland was believed to appear at important occasions, including a marriage and a boy\'s first successful kill.'},
+  {section:'sanBelief', difficulty:'medium', type:'mcq', prompt:'What did the San commonly use to make red and orange paint for their rock art?', choices:['Iron-rich minerals (ochre)','Blood only','Berries only','Soot only'], correctAnswer:'Iron-rich minerals (ochre)',
+    explanation:'Iron-rich minerals, known as ochre, gave San rock art paint its red and orange colours.'},
+  {section:'sanBelief', difficulty:'medium', type:'mcq', prompt:'Could the San traditionally read and write?', choices:['No — they had no writing system, so we learn about them from rock art, objects and oral stories','Yes — they wrote detailed history books','Yes, but only the women could write','No — and no evidence about them survives at all'], correctAnswer:'No — they had no writing system, so we learn about them from rock art, objects and oral stories',
+    explanation:'The San had no writing system, so historians learn about them from rock art, artefacts, and oral stories.'},
+  {section:'sanBelief', difficulty:'medium', type:'mcq', prompt:'What do we call the study of objects to learn how people lived in the past?', choices:['Archaeology','Geography','Biology','Astronomy'], correctAnswer:'Archaeology',
+    explanation:'Archaeology is the study of objects to learn how people lived in the past.'},
+  {section:'sanBelief', difficulty:'hard', type:'mcq', prompt:'Besides rock art, which of these is another way historians can find out about the San?', choices:['Objects found by archaeologists and stories passed down by their descendants','Satellite photographs only','Newspaper reports from the time','Letters the San wrote to each other'], correctAnswer:'Objects found by archaeologists and stories passed down by their descendants',
+    explanation:'Objects (artefacts) and oral history passed down by descendants are important ways historians learn about the San.'},
+  {section:'sanBelief', difficulty:'hard', type:'mcq', prompt:'True or false: San figures appear on the South African Coat of Arms.', choices:['True — San rock art figures are shown shaking hands on the shield','False — only animals appear on the Coat of Arms','True — but only as the national flower','False — the Coat of Arms has no human figures'], correctAnswer:'True — San rock art figures are shown shaking hands on the shield',
+    explanation:'San figures from a famous rock painting appear shaking hands on the Coat of Arms, representing unity.'},
 
-  // --- Uses of the Nile ---
-  {section:'uses', difficulty:'easy', type:'mcq', prompt:'Which of these was NOT a way the Ancient Egyptians used the Nile River?', choices:['Space travel','Irrigation','Fishing','Transportation'], correctAnswer:'Space travel',
-    explanation:'The Egyptians used the Nile for irrigation, fishing and transportation — not space travel, which did not exist yet!'},
-  {section:'uses', difficulty:'easy', type:'mcq', prompt:'What device, using a pulley system, did the Egyptians invent to lift water from the river?', choices:['A shaduf','A chariot','A sundial','A papyrus press'], correctAnswer:'A shaduf',
-    explanation:'The Egyptians invented the shaduf, a pulley system used to lift large buckets of water from the river.'},
-  {section:'uses', difficulty:'medium', type:'tf', prompt:'The Egyptians used canals and shadufs to irrigate their crops.', correctAnswer:'True',
-    explanation:'True. Farmers irrigated their crops using canals and shadufs.'},
-  {section:'uses', difficulty:'medium', type:'mcq', prompt:'What plant, which grew along the riverbanks, was used to make paper and building materials?', choices:['Papyrus reeds','Bamboo','Cotton','Palm leaves'], correctAnswer:'Papyrus reeds',
-    explanation:'Papyrus reeds, which grew along the river banks, were used for building materials and for making paper.'},
-  {section:'uses', difficulty:'easy', type:'mcq', prompt:'What material, found along the Nile, was used to make bricks?', choices:['Mud','Steel','Glass','Plastic'], correctAnswer:'Mud',
-    explanation:'Mud from along the Nile was used to make bricks for building.'},
-  {section:'uses', difficulty:'medium', type:'mcq', prompt:'Which animals did the Egyptians hunt along the Nile for food?', choices:['Hippos and river birds','Lions and zebras','Penguins and seals','Kangaroos and koalas'], correctAnswer:'Hippos and river birds',
-    explanation:'The Egyptians hunted hippos and river birds along the Nile for food.'},
-  {section:'uses', difficulty:'easy', type:'tf', prompt:'The Nile River was used as a route for transporting goods and building materials.', correctAnswer:'True',
-    explanation:'True. The Nile was the Egyptians\' main transport route for goods and materials.'},
-  {section:'uses', difficulty:'medium', type:'mcq', prompt:'Which of these was a use of the Nile River for large settlements?', choices:['Providing drinking water','Providing electricity','Providing internet','Providing oil'], correctAnswer:'Providing drinking water',
-    explanation:'The Nile provided drinking water for large settlements of people.'},
-  {section:'uses', difficulty:'hard', type:'mcq', prompt:'Besides making paper, what else were papyrus reeds used for?', choices:['Building materials','Cooking fuel','Jewellery','Medicine'], correctAnswer:'Building materials',
-    explanation:'Papyrus reeds were used both for making paper and as building materials.'},
+  // --- San Survival Plants (9) ---
+  {section:'sanPlants', difficulty:'easy', type:'mcq', prompt:'Which plant did San hunters chew to stop hunger and thirst when they went hunting?', choices:['Hoodia','Buchu','Sickle bush','Bushman\'s poison'], correctAnswer:'Hoodia',
+    explanation:'San hunters chewed the Hoodia plant on hunting trips to stop hunger and thirst.'},
+  {section:'sanPlants', difficulty:'easy', type:'mcq', prompt:'What was the milky juice of the Sickle bush used for?', choices:['To poison the tips of hunting arrows','To cure stomach aches','To treat snake bites','To make rock art paint'], correctAnswer:'To poison the tips of hunting arrows',
+    explanation:'Hunters used the Sickle bush\'s milky juice to poison the tips of their hunting arrows.'},
+  {section:'sanPlants', difficulty:'easy', type:'mcq', prompt:'What was the Buchu plant traditionally used to cure?', choices:['Stomach aches','Snake bites','Hunger and thirst','Headaches only'], correctAnswer:'Stomach aches',
+    explanation:'The Buchu plant was traditionally used to cure stomach aches.'},
+  {section:'sanPlants', difficulty:'medium', type:'mcq', prompt:"How did the San use Bushman's poison plant to treat a snake bite?", choices:['They chewed the roots and smeared the paste on the wound','They burned the whole plant and inhaled the smoke','They boiled it and drank it as tea','They wore it as jewellery'], correctAnswer:'They chewed the roots and smeared the paste on the wound',
+    explanation:'For a snake bite, the San would chew the roots of Bushman\'s poison and smear the paste on the wound.'},
+  {section:'sanPlants', difficulty:'medium', type:'mcq', prompt:'The Hoodia plant mainly helped San hunters by…', choices:['Reducing feelings of hunger and thirst on long hunting trips','Making them run faster','Making their arrows sharper','Helping them see in the dark'], correctAnswer:'Reducing feelings of hunger and thirst on long hunting trips',
+    explanation:'Chewing Hoodia reduced feelings of hunger and thirst, which was useful on long hunting trips.'},
+  {section:'sanPlants', difficulty:'medium', type:'mcq', prompt:'Why was San knowledge of plants so important for survival?', choices:['Plants provided food, medicine and materials for hunting tools','Plants were only used for decoration','Plants were traded for iron tools only','Plants were not important to the San'], correctAnswer:'Plants provided food, medicine and materials for hunting tools',
+    explanation:'San plant knowledge provided food, medicine, and materials such as arrow poison for hunting.'},
+  {section:'sanPlants', difficulty:'medium', type:'mcq', prompt:"Which plant's poisonous juice was used specifically on hunting arrow tips?", choices:['Sickle bush','Hoodia','Buchu',"Bushman's poison"], correctAnswer:'Sickle bush',
+    explanation:'The Sickle bush\'s milky juice was the one used specifically to poison arrow tips.'},
+  {section:'sanPlants', difficulty:'hard', type:'mcq', prompt:'Which of these was NOT a traditional use of San plants?', choices:['Making paper for writing','Curing stomach aches','Poisoning arrow tips','Treating snake bites'], correctAnswer:'Making paper for writing',
+    explanation:'The San had no writing system, so making paper for writing was not a traditional use of their plants.'},
+  {section:'sanPlants', difficulty:'hard', type:'mcq', prompt:'San plant knowledge was passed down from generation to generation mainly through…', choices:['Oral teaching and demonstration, since the San had no writing system','Printed textbooks','Online videos','Government schools'], correctAnswer:'Oral teaching and demonstration, since the San had no writing system',
+    explanation:'Since the San had no writing system, plant knowledge was passed down orally and by demonstration.'},
 
-  // --- Social Structure ---
-  {section:'society', difficulty:'easy', type:'mcq', prompt:'What is the word for a society where people live according to different social classes?', choices:['Hierarchical','Democratic','Nomadic','Republic'], correctAnswer:'Hierarchical',
-    explanation:'Ancient Egypt was a hierarchical society, meaning people lived according to their social class.'},
-  {section:'society', difficulty:'easy', type:'mcq', prompt:'Who was at the very top of Ancient Egyptian society?', choices:['The Pharaoh','The Vizier','A scribe','A farmer'], correctAnswer:'The Pharaoh',
-    explanation:'The Pharaoh (king) was at the top of the Ancient Egyptian social system.'},
-  {section:'society', difficulty:'medium', type:'mcq', prompt:'Who was the Pharaoh\'s most senior advisor, ranked just below him?', choices:['The Vizier','A scribe','A craftsman','A farmer'], correctAnswer:'The Vizier',
-    explanation:'The Vizier was the Pharaoh\'s chief minister and most senior advisor.'},
-  {section:'society', difficulty:'medium', type:'tf', prompt:'Many Pharaohs were worshipped as gods.', correctAnswer:'True',
-    explanation:'True. Many Pharaohs held great power and were worshipped as gods.'},
-  {section:'society', difficulty:'easy', type:'mcq', prompt:'What was a person called whose job was to read and write important documents?', choices:['A scribe','A pharaoh','A farmer','A slave'], correctAnswer:'A scribe',
-    explanation:'A scribe was a skilled writer whose job was to write down important things.'},
-  {section:'society', difficulty:'medium', type:'mcq', prompt:'Why do we know so much about Ancient Egypt today?', choices:['Because scribes wrote things down','Because everyone could read and write','Because there were no written records at all','Because farmers kept diaries'], correctAnswer:'Because scribes wrote things down',
-    explanation:'It is because of the work of scribes, who could read and write, that we know so much about Ancient Egypt today.'},
-  {section:'society', difficulty:'medium', type:'mcq', prompt:'What job did administrators do in Ancient Egypt?', choices:['Measured land and collected taxes','Built pyramids alone','Fought in wars only','Cooked food for the pharaoh'], correctAnswer:'Measured land and collected taxes',
-    explanation:'Administrators measured land and collected taxes for the Pharaoh, travelling up and down the Nile by boat.'},
-  {section:'society', difficulty:'hard', type:'mcq', prompt:'How did farmers usually pay their taxes to the Pharaoh?', choices:['In crops or animals','In gold coins','In paper money','In jewellery only'], correctAnswer:'In crops or animals',
-    explanation:'Farmers had to pay taxes to the Pharaoh in the form of crops or animals, according to the size of their farm.'},
-  {section:'society', difficulty:'medium', type:'tf', prompt:'It is thought that slaves, who were at the bottom of society, helped build the pyramids of Giza.', correctAnswer:'True',
-    explanation:'True. Slaves were at the very bottom of the hierarchy, and it is thought that they built the ancient pyramids of Giza.'},
+  // --- The Khoikhoi (9) ---
+  {section:'khoikhoi', difficulty:'easy', type:'mcq', prompt:'What were the Khoikhoi traditionally known as?', choices:['Herders','Hunter-gatherers','Miners','Fishermen'], correctAnswer:'Herders',
+    explanation:'The Khoikhoi were herders, keeping animals rather than hunting and gathering.'},
+  {section:'khoikhoi', difficulty:'easy', type:'mcq', prompt:'What animals did the Khoikhoi keep large herds of?', choices:['Cattle and sheep','Horses and pigs','Chickens and ducks','Camels and donkeys'], correctAnswer:'Cattle and sheep',
+    explanation:'The Khoikhoi kept large herds of cattle and sheep.'},
+  {section:'khoikhoi', difficulty:'easy', type:'mcq', prompt:'What was owning many cattle a sign of in Khoikhoi society?', choices:['Wealth and status','Bad luck','Punishment','Weakness'], correctAnswer:'Wealth and status',
+    explanation:'Owning many cattle was an important sign of wealth and status among the Khoikhoi.'},
+  {section:'khoikhoi', difficulty:'easy', type:'mcq', prompt:'Like the San, the Khoikhoi were…', choices:['Nomadic, moving from place to place','Settled, staying in one place forever','Unable to keep any animals','Farmers who grew only crops'], correctAnswer:'Nomadic, moving from place to place',
+    explanation:'Like the San, the Khoikhoi were nomadic, moving from place to place.'},
+  {section:'khoikhoi', difficulty:'medium', type:'mcq', prompt:'Why do historians often group the San and Khoikhoi together as "the Khoisan"?', choices:['They shared similar click languages and lived in the same region of Southern Africa','They were exactly the same people with no differences','They both lived only in Egypt','They both built the pyramids'], correctAnswer:'They shared similar click languages and lived in the same region of Southern Africa',
+    explanation:'The San and Khoikhoi are grouped as "the Khoisan" because of their shared click languages and shared region.'},
+  {section:'khoikhoi', difficulty:'medium', type:'mcq', prompt:'Which group traditionally owned large herds of cattle and sheep: the San or the Khoikhoi?', choices:['The Khoikhoi','The San','Neither group','Both groups equally'], correctAnswer:'The Khoikhoi',
+    explanation:'It was the Khoikhoi, not the San, who traditionally owned large herds of cattle and sheep.'},
+  {section:'khoikhoi', difficulty:'medium', type:'mcq', prompt:'What might the Khoikhoi do when interacting with early African farmers who also kept cattle?', choices:['Trade animals, tools and skills, or even intermarry','Refuse to ever speak to them','Give away all their cattle for free','Move to a different continent'], correctAnswer:'Trade animals, tools and skills, or even intermarry',
+    explanation:'The Khoikhoi could trade animals, tools and skills with farmers, and sometimes intermarried with them.'},
+  {section:'khoikhoi', difficulty:'medium', type:'mcq', prompt:'Why did the Khoikhoi move their herds from place to place?', choices:['To find good grazing land for their animals','To avoid the Nile River','To find iron ore','To escape farming communities forever'], correctAnswer:'To find good grazing land for their animals',
+    explanation:'The Khoikhoi moved their herds to find good grazing land for their cattle and sheep.'},
+  {section:'khoikhoi', difficulty:'hard', type:'mcq', prompt:'Which statement about the Khoikhoi is TRUE?', choices:['They were herders who relied on livestock for milk, meat and wealth','They were excellent hunters who never kept animals','They lived only in Ancient Egypt','They made all their tools from iron'], correctAnswer:'They were herders who relied on livestock for milk, meat and wealth',
+    explanation:'The Khoikhoi relied on their livestock for milk, meat and wealth, as herders.'},
 
-  // --- Homes & Buildings ---
-  {section:'homes', difficulty:'easy', type:'mcq', prompt:'What shape were the roofs of most Ancient Egyptian houses?', choices:['Flat','Pointed','Domed','Curved'], correctAnswer:'Flat',
-    explanation:'The Egyptians built flat-roofed houses.'},
-  {section:'homes', difficulty:'medium', type:'mcq', prompt:'What were most Ancient Egyptian houses built from?', choices:['Mud bricks baked hard in the sun','Steel beams','Glass panels','Wooden logs only'], correctAnswer:'Mud bricks baked hard in the sun',
-    explanation:'Houses were built from bricks made of mud, which was baked hard under the sun.'},
-  {section:'homes', difficulty:'medium', type:'tf', prompt:'Stone was mainly used to build ordinary Ancient Egyptian houses.', correctAnswer:'False',
-    explanation:'False. Stone was only used to build tombs, palaces and temples — not ordinary houses.'},
-  {section:'homes', difficulty:'medium', type:'mcq', prompt:'What was stone mainly used to build in Ancient Egypt?', choices:['Tombs, palaces and temples','Ordinary houses','Roads only','Boats only'], correctAnswer:'Tombs, palaces and temples',
-    explanation:'Stone was only used to build tombs, palaces and temples.'},
-  {section:'homes', difficulty:'easy', type:'tf', prompt:'Egyptian houses were built just above the flood water mark.', correctAnswer:'True',
-    explanation:'True. Just above the flood water mark, the Egyptians built flat-roofed houses.'},
-  {section:'homes', difficulty:'hard', type:'mcq', prompt:'What tool, using a pulley system, helped Egyptians lift water for building and farming?', choices:['The shaduf','The plough','The chariot','The sundial'], correctAnswer:'The shaduf',
-    explanation:'The shaduf was a pulley system invented by the Egyptians to lift large buckets of water from the river.'},
-  {section:'homes', difficulty:'medium', type:'tf', prompt:'Ancient Egyptians built their houses far away from the Nile River, deep in the desert.', correctAnswer:'False',
-    explanation:'False. Egyptians built their houses near the Nile, just above the flood water mark, not deep in the desert.'},
+  // --- The Coat of Arms (10) ---
+  {section:'coatOfArms', difficulty:'easy', type:'mcq', prompt:'What does the rising sun on the Coat of Arms represent?', choices:['New beginnings','War','The ocean','Farming'], correctAnswer:'New beginnings',
+    explanation:'The rising sun at the top of the Coat of Arms represents new beginnings.'},
+  {section:'coatOfArms', difficulty:'easy', type:'mcq', prompt:'Which bird appears at the top of the Coat of Arms, with its wings spread wide?', choices:['The secretary bird','The eagle','The ostrich','The flamingo'], correctAnswer:'The secretary bird',
+    explanation:'A secretary bird with wings spread wide flies above the shield on the Coat of Arms.'},
+  {section:'coatOfArms', difficulty:'easy', type:'mcq', prompt:'What two weapons are shown crossed above the shield on the Coat of Arms?', choices:['A spear and a knobkierie','A sword and a shield','A bow and arrow','A gun and a sword'], correctAnswer:'A spear and a knobkierie',
+    explanation:'A spear and a knobkierie are shown crossed above the shield, representing the defence of peace.'},
+  {section:'coatOfArms', difficulty:'medium', type:'mcq', prompt:'What do the elephant tusks on the Coat of Arms represent?', choices:['Wisdom, strength and growth','Danger and war','Sadness','Poverty'], correctAnswer:'Wisdom, strength and growth',
+    explanation:'The elephant tusks below the shield represent wisdom, strength and growth.'},
+  {section:'coatOfArms', difficulty:'medium', type:'mcq', prompt:'What do the wheat ears on the Coat of Arms symbolise?', choices:['The fertility of the land','The ocean','Industry and mining','The sky'], correctAnswer:'The fertility of the land',
+    explanation:'The two ears of wheat on the Coat of Arms symbolise the fertility of the land.'},
+  {section:'coatOfArms', difficulty:'easy', type:'mcq', prompt:'Whose figures, taken from a famous rock painting, appear on the Coat of Arms?', choices:['San figures','Egyptian pharaohs','Khoikhoi herders','European settlers'], correctAnswer:'San figures',
+    explanation:'San figures from a famous rock painting appear on the Coat of Arms.'},
+  {section:'coatOfArms', difficulty:'easy', type:'mcq', prompt:"What is South Africa's national flower, which also appears on the Coat of Arms?", choices:['The protea','The rose','The sunflower','The daisy'], correctAnswer:'The protea',
+    explanation:'The protea, South Africa\'s national flower, also features on the Coat of Arms.'},
+  {section:'coatOfArms', difficulty:'medium', type:'mcq', prompt:'What does the Coat of Arms motto "!ke e: /xarra //ke" mean?', choices:['Diverse people unite','Long live the king','Peace and war','Strength through unity only'], correctAnswer:'Diverse people unite',
+    explanation:'The motto "!ke e: /xarra //ke" means "diverse people unite".'},
+  {section:'coatOfArms', difficulty:'medium', type:'mcq', prompt:'Which language is the Coat of Arms motto written in?', choices:['The (extinct) /Xam San language','Afrikaans','Zulu','English'], correctAnswer:'The (extinct) /Xam San language',
+    explanation:'The motto is written in the extinct /Xam San language.'},
+  {section:'coatOfArms', difficulty:'hard', type:'mcq', prompt:'What is a Coat of Arms?', choices:['A collection of pictures and symbols on a shield, usually with a motto','A type of traditional clothing','A musical instrument','A farming tool'], correctAnswer:'A collection of pictures and symbols on a shield, usually with a motto',
+    explanation:'A Coat of Arms is a collection of pictures and symbols on a shield, usually with a motto.'},
 
-  // --- Farming & Food ---
-  {section:'farming', difficulty:'easy', type:'mcq', prompt:'What type of grain did the Ancient Egyptians grow to make bread and beer?', choices:['Barley','Rice','Corn','Oats'], correctAnswer:'Barley',
-    explanation:'The Egyptians grew a type of grain called barley, which they used to make bread and beer.'},
-  {section:'farming', difficulty:'easy', type:'tf', prompt:'The Egyptians made both bread and beer from barley.', correctAnswer:'True',
-    explanation:'True. Barley was used to make both bread and beer.'},
-  {section:'farming', difficulty:'medium', type:'mcq', prompt:'Which of these fruits did the Ancient Egyptians grow?', choices:['Melons and grapes','Bananas and pineapples','Apples and oranges','Coconuts and mangoes'], correctAnswer:'Melons and grapes',
-    explanation:'The Egyptians grew fruits such as melons and grapes, among others.'},
-  {section:'farming', difficulty:'medium', type:'mcq', prompt:'Which vegetables did the Ancient Egyptians grow?', choices:['Onions, cabbages, leeks and beans','Potatoes and corn','Carrots and peas only','Tomatoes and peppers'], correctAnswer:'Onions, cabbages, leeks and beans',
-    explanation:'The Egyptians grew vegetables such as onions, cabbages, leeks and beans.'},
-  {section:'farming', difficulty:'medium', type:'mcq', prompt:'What did the Ancient Egyptians turn grapes into?', choices:['Wine','Vinegar','Juice','Jam'], correctAnswer:'Wine',
-    explanation:'The Egyptians turned grapes into wine.'},
-  {section:'farming', difficulty:'medium', type:'mcq', prompt:'What plant did the Egyptians grow and turn into linen?', choices:['Flax','Cotton','Papyrus','Wool'], correctAnswer:'Flax',
-    explanation:'Flax was a plant the Egyptians grew and made into linen cloth.'},
-  {section:'farming', difficulty:'easy', type:'tf', prompt:'Flax was a plant that Egyptians turned into linen cloth.', correctAnswer:'True',
-    explanation:'True. Flax was made into linen.'},
-  {section:'farming', difficulty:'hard', type:'mcq', prompt:'Why was farming so successful in Ancient Egypt?', choices:['The Nile\'s floods left fertile soil for growing crops','There was no sunlight so crops grew slowly','The desert sand was perfect for crops','Egyptians imported all their food'], correctAnswer:'The Nile\'s floods left fertile soil for growing crops',
-    explanation:'The Nile\'s yearly floods left behind fertile soil, which made farming very successful.'},
-  {section:'farming', difficulty:'easy', type:'mcq', prompt:'Besides bread, what drink did the Egyptians make from barley?', choices:['Beer','Coffee','Tea','Milk'], correctAnswer:'Beer',
-    explanation:'The Egyptians made both bread and beer from barley.'}
+  // --- The Iron Age (9) ---
+  {section:'ironAge', difficulty:'easy', type:'mcq', prompt:'What is the period in history called when people made and used iron tools?', choices:['The Iron Age','The Stone Age','The Bronze Age','The Space Age'], correctAnswer:'The Iron Age',
+    explanation:'The Iron Age is the period in history when people made and used iron tools.'},
+  {section:'ironAge', difficulty:'easy', type:'mcq', prompt:'What is iron found in rocks called?', choices:['Iron ore','Iron dust','Iron sand','Iron coal'], correctAnswer:'Iron ore',
+    explanation:'Rocks containing iron are called iron ore.'},
+  {section:'ironAge', difficulty:'easy', type:'mcq', prompt:'What was a furnace used for in the Iron Age?', choices:['To heat iron ore to a high temperature until it melted','To cook food for the whole village','To store water','To dry clothes'], correctAnswer:'To heat iron ore to a high temperature until it melted',
+    explanation:'A furnace was a closed structure used to heat iron ore until it melted into liquid iron.'},
+  {section:'ironAge', difficulty:'medium', type:'mcq', prompt:'What is the process of turning iron ore into liquid iron called?', choices:['Smelting','Weaving','Bartering','Farming'], correctAnswer:'Smelting',
+    explanation:'Smelting is the process of heating iron ore until it turns into liquid iron.'},
+  {section:'ironAge', difficulty:'medium', type:'mcq', prompt:'What were ironworkers also sometimes called?', choices:['Miners and smiths','Chiefs and viziers','Scribes and priests','Herders and farmers'], correctAnswer:'Miners and smiths',
+    explanation:'Ironworkers were also sometimes called miners and smiths.'},
+  {section:'ironAge', difficulty:'medium', type:'mcq', prompt:'Why were iron tools better than stone tools for farming?', choices:['They were stronger and helped farmers clear land and chop trees more easily','They were lighter but much weaker','They could not be shaped into useful tools','They rusted immediately and broke'], correctAnswer:'They were stronger and helped farmers clear land and chop trees more easily',
+    explanation:'Iron tools were stronger than stone tools, helping farmers clear land and chop trees more easily.'},
+  {section:'ironAge', difficulty:'medium', type:'mcq', prompt:'What did the San sometimes do to get iron tools from African farmers?', choices:['Traded with them, or sometimes raided them','Built their own iron furnaces','Ignored iron tools completely','Only bought them with gold coins'], correctAnswer:'Traded with them, or sometimes raided them',
+    explanation:'The San, who had no iron, sometimes traded with — or raided — farmers to get iron tools.'},
+  {section:'ironAge', difficulty:'hard', type:'mcq', prompt:'Which of these groups made tools from iron, unlike the San and Khoikhoi?', choices:['Early African farmers','Only the Ancient Egyptians','Nobody in Southern Africa used iron','Only European settlers'], correctAnswer:'Early African farmers',
+    explanation:'Early African farmers made tools from iron, unlike the San and Khoikhoi, who used stone and bone.'},
+  {section:'ironAge', difficulty:'hard', type:'mcq', prompt:'The San traditionally made their tools mainly from…', choices:['Stone and bone, not iron','Iron and steel','Glass and plastic','Gold and silver'], correctAnswer:'Stone and bone, not iron',
+    explanation:'The San made their tools from stone and bone, since they did not know how to smelt iron.'},
+
+  // --- Early Farming Settlements (9) ---
+  {section:'farmersLife', difficulty:'easy', type:'mcq', prompt:'Why did early African farmers settle in one place, unlike the San and Khoikhoi?', choices:['So they could plant and harvest crops from the same land over time','Because they were too tired to move','Because they had no animals to herd','Because the law forced them to'], correctAnswer:'So they could plant and harvest crops from the same land over time',
+    explanation:'Farmers settled in one place so they could plant and harvest crops from the same land, year after year.'},
+  {section:'farmersLife', difficulty:'easy', type:'mcq', prompt:'What is a group of households living together called?', choices:['A homestead','A kraal','A furnace','A chiefdom council'], correctAnswer:'A homestead',
+    explanation:'A homestead is a group of households living together.'},
+  {section:'farmersLife', difficulty:'easy', type:'mcq', prompt:'Where was the cattle kraal usually built in a homestead?', choices:['At the centre, so the animals could be protected','Far outside the village, unguarded','On top of a mountain','Inside the chief\'s house'], correctAnswer:'At the centre, so the animals could be protected',
+    explanation:'The cattle kraal was usually built at the centre of the homestead, to protect the valuable animals.'},
+  {section:'farmersLife', difficulty:'medium', type:'mcq', prompt:'Why were homesteads and villages usually built near rivers or wet areas?', choices:['Fresh water was needed for crops and for cattle to drink','Rivers kept away all predators','It was the law to live near water','Farmers could not swim otherwise'], correctAnswer:'Fresh water was needed for crops and for cattle to drink',
+    explanation:'Fresh water from rivers or wet areas was essential for growing crops and giving cattle water to drink.'},
+  {section:'farmersLife', difficulty:'medium', type:'mcq', prompt:"What were early African farmers' houses typically built from?", choices:['Grass for the roof, with mud and pole frames for the walls','Steel beams and glass windows','Stone blocks only','Ice and snow'], correctAnswer:'Grass for the roof, with mud and pole frames for the walls',
+    explanation:'Early farmers\' houses were built using grass for the roof, with mud and pole frames for the walls.'},
+  {section:'farmersLife', difficulty:'medium', type:'mcq', prompt:'Why was it important to have the cattle kraal at the centre of the homestead?', choices:['To keep the valuable cattle safe and protected','To make the homestead look bigger','To block the wind','Cattle were not valuable, so it did not matter'], correctAnswer:'To keep the valuable cattle safe and protected',
+    explanation:'Keeping the cattle kraal at the centre helped keep the valuable animals safe from thieves or predators.'},
+  {section:'farmersLife', difficulty:'medium', type:'mcq', prompt:'As farming communities grew larger over time, what did some of them develop into?', choices:['Settled chiefdoms','Nomadic herding bands','Hunter-gatherer groups','Pirate crews'], correctAnswer:'Settled chiefdoms',
+    explanation:'As farming communities grew, some developed into more organised, settled chiefdoms.'},
+  {section:'farmersLife', difficulty:'hard', type:'mcq', prompt:'Which of these best describes a key difference between early farmers and the San?', choices:['Farmers lived in permanent settlements, while the San moved from place to place','Farmers never kept any animals at all','The San lived in large stone cities','There was no difference between them'], correctAnswer:'Farmers lived in permanent settlements, while the San moved from place to place',
+    explanation:'Early farmers lived in permanent settlements, unlike the nomadic San.'},
+  {section:'farmersLife', difficulty:'hard', type:'mcq', prompt:'Besides water, what else did farmers need near their settlement?', choices:['Fertile soil for growing crops','A mountain to hide behind','A desert for protection','Ice for refrigeration'], correctAnswer:'Fertile soil for growing crops',
+    explanation:'Besides water, farmers needed fertile soil nearby for growing their crops.'},
+
+  // --- Roles in Farming Society (9) ---
+  {section:'farmersRoles', difficulty:'easy', type:'mcq', prompt:'Who was the most powerful person in an early African farming village?', choices:['The chief','The youngest child','A travelling merchant','A foreign king'], correctAnswer:'The chief',
+    explanation:'The chief was the most powerful person in an early African farming village.'},
+  {section:'farmersRoles', difficulty:'medium', type:'mcq', prompt:'Which of these was a role of the chief in farming society?', choices:['Making decisions about how land was shared, and lending cattle to poorer families','Only cooking meals for the village','Only herding sheep','Only making pottery'], correctAnswer:'Making decisions about how land was shared, and lending cattle to poorer families',
+    explanation:'The chief made decisions about how land was shared, and could lend cattle to poorer families or widows.'},
+  {section:'farmersRoles', difficulty:'medium', type:'mcq', prompt:'Which of these was a typical role of men and boys in early farming society?', choices:['Hunting, settling arguments, and smelting iron to make tools','Only weaving baskets','Only making clothes','Only singing songs'], correctAnswer:'Hunting, settling arguments, and smelting iron to make tools',
+    explanation:'Men and boys hunted for extra food, settled arguments, and smelted iron ore to make tools.'},
+  {section:'farmersRoles', difficulty:'medium', type:'mcq', prompt:'Which of these was a typical role of women in early farming society?', choices:['Planting crops, milking cattle, making pottery and cooking','Leading the army into battle only','Only hunting large animals','Only building furnaces'], correctAnswer:'Planting crops, milking cattle, making pottery and cooking',
+    explanation:'Women planted and tended crops, milked cattle, made pottery, and cooked food.'},
+  {section:'farmersRoles', difficulty:'easy', type:'mcq', prompt:'Who typically made pottery in early African farming society?', choices:['Women','Only the chief','Only young boys','Foreign traders'], correctAnswer:'Women',
+    explanation:'Pottery-making was typically a role carried out by women.'},
+  {section:'farmersRoles', difficulty:'medium', type:'mcq', prompt:'Besides planting crops, name another task typically done by women in farming society.', choices:['Collecting firewood and water','Leading warriors into battle','Smelting iron ore','Ruling as chief'], correctAnswer:'Collecting firewood and water',
+    explanation:'Besides planting crops, women also collected firewood and water for the household.'},
+  {section:'farmersRoles', difficulty:'medium', type:'mcq', prompt:'What could the chief do to help a widow whose husband had died?', choices:['Lend her cattle','Force her to leave the village','Take away her children','Ignore her completely'], correctAnswer:'Lend her cattle',
+    explanation:'The chief could lend cattle to a widow whose husband had died, to help support her.'},
+  {section:'farmersRoles', difficulty:'hard', type:'mcq', prompt:'Besides men, who else sometimes helped mine iron ore in some farming communities?', choices:['Women and children','Only foreign visitors','Only the chief himself','Nobody else ever helped'], correctAnswer:'Women and children',
+    explanation:'In some communities, women and children also helped mine iron ore, alongside the men.'},
+  {section:'farmersRoles', difficulty:'hard', type:'mcq', prompt:'Which role involved settling arguments within the village?', choices:['Men and boys','Only the chief\'s wife','Only young children','Visiting traders'], correctAnswer:'Men and boys',
+    explanation:'Men and boys were responsible for settling arguments within the village.'},
+
+  // --- Farming, Crops & Trade (9) ---
+  {section:'farmersCrops', difficulty:'easy', type:'mcq', prompt:'What is farming mainly to feed yourself and your family, rather than to sell, called?', choices:['Subsistence farming','Commercial farming','Industrial farming','Organic farming'], correctAnswer:'Subsistence farming',
+    explanation:'Subsistence farming is farming mainly to feed yourself and your family, not to sell for profit.'},
+  {section:'farmersCrops', difficulty:'easy', type:'mcq', prompt:'Name two important crops grown by early African farmers.', choices:['Sorghum and millet','Rice and wheat','Potatoes and maize','Bananas and apples'], correctAnswer:'Sorghum and millet',
+    explanation:'Sorghum and millet were two important crops grown by early African farmers.'},
+  {section:'farmersCrops', difficulty:'easy', type:'mcq', prompt:'What is the exchange of goods and services without using money called?', choices:['Bartering (trading)','Taxing','Mining','Smelting'], correctAnswer:'Bartering (trading)',
+    explanation:'Bartering (or trading) is the exchange of goods and services without using money.'},
+  {section:'farmersCrops', difficulty:'medium', type:'mcq', prompt:'What is lobola?', choices:["A payment of cattle given by a groom's family to a bride's family for marriage",'A type of iron tool','A traditional dance','A kind of furnace'], correctAnswer:"A payment of cattle given by a groom's family to a bride's family for marriage",
+    explanation:"Lobola is a traditional payment of cattle given by a groom's family to a bride's family for marriage."},
+  {section:'farmersCrops', difficulty:'medium', type:'mcq', prompt:'Besides milk and meat, what else did cattle provide for early farmers?', choices:['Hides, used to make clothing','Iron ore','Wheat flour','Papyrus paper'], correctAnswer:'Hides, used to make clothing',
+    explanation:'Besides milk and meat, cattle also provided hides, which were used to make clothing.'},
+  {section:'farmersCrops', difficulty:'easy', type:'mcq', prompt:'When were cattle usually killed and eaten in early farming society?', choices:['Only on special occasions','Every single day','Only in winter','Never — they were never eaten'], correctAnswer:'Only on special occasions',
+    explanation:'Cattle were so valuable that they were usually only killed and eaten on special occasions.'},
+  {section:'farmersCrops', difficulty:'medium', type:'mcq', prompt:'Why were farmers able to trade more goods than hunter-gatherers typically could?', choices:['Because they grew surplus food and kept valuable livestock','Because they had no need for tools','Because they never kept any animals','Because money had already been invented'], correctAnswer:'Because they grew surplus food and kept valuable livestock',
+    explanation:'Farmers grew more food than they needed, and kept valuable livestock, which allowed them to trade.'},
+  {section:'farmersCrops', difficulty:'medium', type:'mcq', prompt:'Which grain, alongside sorghum, was an important crop for early African farmers?', choices:['Great millet','Rice','Oats','Quinoa'], correctAnswer:'Great millet',
+    explanation:'Great millet, alongside sorghum, was an important crop for early African farmers.'},
+  {section:'farmersCrops', difficulty:'hard', type:'mcq', prompt:'What made cattle such an important source of wealth for early farmers?', choices:['They provided milk, meat and hides, and could be used to pay lobola','They could be traded for papyrus only','They were used only for transport','They had no real value to farmers'], correctAnswer:'They provided milk, meat and hides, and could be used to pay lobola',
+    explanation:'Cattle provided milk, meat and hides, and could also be used to pay lobola, making them very valuable.'},
+
+  // --- Khoisan & Farmer Interaction (8) ---
+  {section:'khoisanFarmerInteraction', difficulty:'easy', type:'mcq', prompt:'What do we call the San and Khoikhoi together?', choices:['The Khoisan','The Bantu','The Vizier people','The Nile people'], correctAnswer:'The Khoisan',
+    explanation:'The San and Khoikhoi together are known as the Khoisan.'},
+  {section:'khoisanFarmerInteraction', difficulty:'medium', type:'mcq', prompt:'Which skill might the Khoikhoi share with African farming communities?', choices:['Rainmaking skills','Iron smelting','Pyramid building','Papyrus paper-making'], correctAnswer:'Rainmaking skills',
+    explanation:'The Khoikhoi sometimes shared their rainmaking skills with farming communities.'},
+  {section:'khoisanFarmerInteraction', difficulty:'medium', type:'mcq', prompt:'What might early African farmers trade with the Khoikhoi in exchange for cattle?', choices:['Iron tools','Papyrus paper','Ostrich eggs','Rock art paint'], correctAnswer:'Iron tools',
+    explanation:'Farmers could trade iron tools with the Khoikhoi in exchange for their cattle.'},
+  {section:'khoisanFarmerInteraction', difficulty:'hard', type:'mcq', prompt:'Why did San groups sometimes raid early African farmers?', choices:['Because farmers had iron tools and cattle that the San wanted but could not easily make or keep themselves','Because the San hated all farmers','Because farmers had no useful goods at all','Because of a disagreement about rock art'], correctAnswer:'Because farmers had iron tools and cattle that the San wanted but could not easily make or keep themselves',
+    explanation:'San groups sometimes raided farmers for iron tools and cattle, which they could not easily make or keep themselves.'},
+  {section:'khoisanFarmerInteraction', difficulty:'medium', type:'mcq', prompt:'Which two South African languages are known for click sounds borrowed from Khoisan languages?', choices:['Xhosa and Zulu','English and Afrikaans','Sorghum and Millet','Sotho and Tswana'], correctAnswer:'Xhosa and Zulu',
+    explanation:'Xhosa and Zulu both include click sounds borrowed from Khoisan languages.'},
+  {section:'khoisanFarmerInteraction', difficulty:'easy', type:'mcq', prompt:'Besides trading, name another way the Khoisan and early farmers interacted.', choices:['They married each other and told each other stories','They never had any contact at all','They only fought wars, with no peaceful contact','They lived on different continents'], correctAnswer:'They married each other and told each other stories',
+    explanation:'Besides trading, the Khoisan and farmers sometimes married each other and told each other stories.'},
+  {section:'khoisanFarmerInteraction', difficulty:'medium', type:'mcq', prompt:'What does studying the interaction between the Khoisan and early farmers help historians understand?', choices:['How complex and connected early Southern African societies were','Nothing useful at all','Only how to build pyramids','Only modern South African politics'], correctAnswer:'How complex and connected early Southern African societies were',
+    explanation:'Studying these interactions helps historians understand how complex and connected early Southern African societies were.'},
+  {section:'khoisanFarmerInteraction', difficulty:'easy', type:'mcq', prompt:'True or false: the Khoisan and early farmers sometimes cooperated peacefully through trade and marriage.', choices:['True — they traded goods, shared skills, and sometimes intermarried','False — they never had any peaceful contact','True — but only through warfare','False — farmers and the Khoisan never met'], correctAnswer:'True — they traded goods, shared skills, and sometimes intermarried',
+    explanation:'The Khoisan and farmers sometimes cooperated peacefully through trade, shared skills, and marriage.'},
+
+  // --- Egypt & the Nile (8) ---
+  {section:'egyptNile', difficulty:'easy', type:'mcq', prompt:'What river was Ancient Egyptian civilisation built around?', choices:['The Nile','The Amazon','The Congo','The Zambezi'], correctAnswer:'The Nile',
+    explanation:'Ancient Egyptian civilisation was built around the Nile River.'},
+  {section:'egyptNile', difficulty:'medium', type:'mcq', prompt:'What did the Ancient Greeks call Egypt, because of how important the river was to it?', choices:['"The gift of the Nile"','"The desert kingdom"','"The land of gold"','"The river empire"'], correctAnswer:'"The gift of the Nile"',
+    explanation:'The Ancient Greeks called Egypt "the gift of the Nile" because the river was so important to its success.'},
+  {section:'egyptNile', difficulty:'easy', type:'mcq', prompt:'What device did the Egyptians invent to lift water from the river, using a pulley system?', choices:['The shaduf','The chariot','The sundial','The plough'], correctAnswer:'The shaduf',
+    explanation:'The Egyptians invented the shaduf, a pulley system for lifting water from the river.'},
+  {section:'egyptNile', difficulty:'medium', type:'mcq', prompt:"What rich material did the Nile's yearly floods leave behind, which farmers used to grow crops?", choices:['Fertile silt (mud)','Sand','Ash','Salt'], correctAnswer:'Fertile silt (mud)',
+    explanation:'The Nile\'s yearly floods left behind fertile silt (mud), which farmers used to grow crops.'},
+  {section:'egyptNile', difficulty:'medium', type:'mcq', prompt:"What plant, grown along the Nile's banks, was turned into one of the world's earliest types of paper?", choices:['Papyrus reeds','Bamboo','Cotton','Flax'], correctAnswer:'Papyrus reeds',
+    explanation:'Papyrus reeds, grown along the Nile\'s banks, were turned into one of the world\'s earliest types of paper.'},
+  {section:'egyptNile', difficulty:'easy', type:'mcq', prompt:'About how long ago did people first settle along the fertile northern banks of the Nile?', choices:['About 5,000 years ago','About 500 years ago','About 50 years ago','About 50,000 years ago'], correctAnswer:'About 5,000 years ago',
+    explanation:'People first settled along the fertile northern banks of the Nile about 5,000 years ago.'},
+  {section:'egyptNile', difficulty:'easy', type:'mcq', prompt:'Which sea does the Nile River flow into?', choices:['The Mediterranean Sea','The Red Sea','The Atlantic Ocean','The Indian Ocean'], correctAnswer:'The Mediterranean Sea',
+    explanation:'The Nile River flows north into the Mediterranean Sea.'},
+  {section:'egyptNile', difficulty:'hard', type:'mcq', prompt:'Why did the first settlers along the Nile choose to live there?', choices:['The soil was excellent for growing crops','The weather was very cold','There were mountains for protection','It was far from any water source'], correctAnswer:'The soil was excellent for growing crops',
+    explanation:'The first settlers chose to live along the Nile because the soil there was excellent for growing crops.'},
+
+  // --- Ancient Egyptian Society (8) ---
+  {section:'egyptSociety', difficulty:'easy', type:'mcq', prompt:'Who was at the very top of Ancient Egyptian society?', choices:['The Pharaoh','The Vizier','A scribe','A farmer'], correctAnswer:'The Pharaoh',
+    explanation:'The Pharaoh (king) was at the very top of Ancient Egyptian society.'},
+  {section:'egyptSociety', difficulty:'medium', type:'mcq', prompt:"Who was the Pharaoh's most senior and trusted advisor?", choices:['The Vizier','A scribe','A craftsman','A farmer'], correctAnswer:'The Vizier',
+    explanation:'The Vizier was the Pharaoh\'s most senior and trusted advisor.'},
+  {section:'egyptSociety', difficulty:'medium', type:'mcq', prompt:'Why do historians know so much about Ancient Egypt today?', choices:['Because scribes kept careful written records','Because the Egyptians left no records at all','Because every Egyptian could read and write','Because the pyramids explain everything'], correctAnswer:'Because scribes kept careful written records',
+    explanation:'Historians know so much about Ancient Egypt because scribes kept careful written records.'},
+  {section:'egyptSociety', difficulty:'medium', type:'mcq', prompt:'Who historians believe helped build the pyramids, and were at the bottom of Egyptian society?', choices:['Slaves','Pharaohs','Viziers','Scribes'], correctAnswer:'Slaves',
+    explanation:'Slaves, at the bottom of Egyptian society, are thought to have helped build the pyramids.'},
+  {section:'egyptSociety', difficulty:'easy', type:'mcq', prompt:'What were most ordinary Ancient Egyptian houses built from?', choices:['Mud bricks baked hard in the sun','Steel beams','Glass panels','Wooden logs only'], correctAnswer:'Mud bricks baked hard in the sun',
+    explanation:'Most ordinary Egyptian houses were built from mud bricks baked hard in the sun.'},
+  {section:'egyptSociety', difficulty:'medium', type:'mcq', prompt:'What was stone mainly used to build in Ancient Egypt?', choices:['Tombs, palaces and temples','Ordinary houses','Roads only','Small boats'], correctAnswer:'Tombs, palaces and temples',
+    explanation:'Stone was mainly used to build tombs, palaces and temples — not ordinary houses.'},
+  {section:'egyptSociety', difficulty:'easy', type:'mcq', prompt:'What grain did Ancient Egyptians grow to make both bread and beer?', choices:['Barley','Rice','Corn','Oats'], correctAnswer:'Barley',
+    explanation:'Ancient Egyptians grew barley, which they used to make both bread and beer.'},
+  {section:'egyptSociety', difficulty:'medium', type:'mcq', prompt:'What plant did Ancient Egyptians grow and weave into linen cloth?', choices:['Flax','Cotton','Papyrus','Wool'], correctAnswer:'Flax',
+    explanation:'Ancient Egyptians grew flax and wove it into linen cloth.'},
+
+  // --- Heritage Sites (9) ---
+  {section:'heritage', difficulty:'easy', type:'mcq', prompt:'What is a heritage site?', choices:['A place protected because of its natural, cultural or historical importance','A place where only farmers live','A type of ancient weapon','A kind of iron furnace'], correctAnswer:'A place protected because of its natural, cultural or historical importance',
+    explanation:'A heritage site is a place that is protected because of its natural, cultural or historical importance.'},
+  {section:'heritage', difficulty:'medium', type:'mcq', prompt:'Which types of heritage sites can exist, according to how they are usually classified?', choices:['Natural, cultural, or a mix of both','Only natural sites','Only cultural sites','Only religious sites'], correctAnswer:'Natural, cultural, or a mix of both',
+    explanation:'Heritage sites can be natural, cultural, or a mix of both.'},
+  {section:'heritage', difficulty:'easy', type:'mcq', prompt:'In which South African province was the famous Linton Rock Panel (a San rock art masterpiece) found?', choices:['The Eastern Cape','Gauteng','The Western Cape','Limpopo'], correctAnswer:'The Eastern Cape',
+    explanation:'The famous Linton Rock Panel was found in the Eastern Cape.'},
+  {section:'heritage', difficulty:'medium', type:'mcq', prompt:'Where is the Linton Rock Panel now displayed?', choices:['The Iziko South African Museum','The Cradle of Humankind','Robben Island','The Pyramids of Giza'], correctAnswer:'The Iziko South African Museum',
+    explanation:'The Linton Rock Panel is now displayed at the Iziko South African Museum.'},
+  {section:'heritage', difficulty:'easy', type:'mcq', prompt:'Which heritage site in the Western Cape is where Nelson Mandela was once imprisoned?', choices:['Robben Island','Table Mountain','The Cradle of Humankind','Mapungubwe'], correctAnswer:'Robben Island',
+    explanation:'Robben Island, in the Western Cape, is where Nelson Mandela was once imprisoned.'},
+  {section:'heritage', difficulty:'medium', type:'mcq', prompt:"Which Gauteng heritage site is known for some of the world's oldest human ancestor fossils?", choices:['The Cradle of Humankind','Robben Island','Mapungubwe','The Linton Panel site'], correctAnswer:'The Cradle of Humankind',
+    explanation:'The Cradle of Humankind in Gauteng is known for some of the world\'s oldest human ancestor fossils.'},
+  {section:'heritage', difficulty:'medium', type:'mcq', prompt:'Which Limpopo heritage site was home to an ancient African kingdom?', choices:['Mapungubwe','Robben Island','The Cradle of Humankind','The Nile Delta'], correctAnswer:'Mapungubwe',
+    explanation:'Mapungubwe, in Limpopo, was home to an ancient African kingdom.'},
+  {section:'heritage', difficulty:'hard', type:'mcq', prompt:'Why do heritage sites matter to historians and archaeologists?', choices:['They help us remember and understand the past, and allow ongoing learning','They are only useful for tourism income','They have no real educational value','They only matter to one specific province'], correctAnswer:'They help us remember and understand the past, and allow ongoing learning',
+    explanation:'Heritage sites matter because they help us remember and understand the past, and allow ongoing learning.'},
+  {section:'heritage', difficulty:'easy', type:'mcq', prompt:'True or false: every province in South Africa has at least one heritage site.', choices:['True — every province has its own heritage sites','False — only the Eastern Cape has heritage sites','False — only Gauteng has heritage sites','True — but only two provinces have any'], correctAnswer:'True — every province has its own heritage sites',
+    explanation:'Every province in South Africa has its own heritage sites, reflecting the country\'s rich and varied history.'}
 ];
 
 /* ===================== QUIZ GENERATION ===================== */
 const SECTIONS = [
-  {key:'geography', name:'Egypt &amp; the Nile', emoji:'🌍', color:'linear-gradient(135deg,#457b9d,#1d3557)'},
-  {key:'importance', name:'Importance of the Nile', emoji:'💧', color:'linear-gradient(135deg,#48cae4,#0077b6)'},
-  {key:'uses', name:'Uses of the Nile', emoji:'🚣', color:'linear-gradient(135deg,#588157,#3a5a40)'},
-  {key:'society', name:'Social Structure', emoji:'👑', color:'linear-gradient(135deg,#e9c46a,#c1780f)'},
-  {key:'homes', name:'Homes &amp; Buildings', emoji:'🏠', color:'linear-gradient(135deg,#b0413e,#7a2420)'},
-  {key:'farming', name:'Farming &amp; Food', emoji:'🌾', color:'linear-gradient(135deg,#dda15e,#bc6c25)'}
+  {key:'sanLife', name:'San Hunter-Gatherers', emoji:'🏕️', color:'linear-gradient(135deg,#588157,#3a5a40)',
+    paragraph:"The San people were the first people to live in Southern Africa, and they lived as hunter-gatherers — the men hunted wild animals for meat, while the women gathered plant foods like roots, berries and wild fruit from the environment. The San were nomadic, which means they moved from place to place rather than staying in one spot, following the animals and searching for food and water. Because they had no permanent homes, they made their tools from materials around them, such as stone and bone, rather than metal. During the dry season, the San stored precious water inside ostrich egg shells, which they could bury and dig up again later. Their clothing was made from animal skins. Today, some San people still live in Southern Africa, but most no longer hunt and gather in the traditional way — modern San children, for example, go to school and learn to read and write, very different from San children long ago."},
+  {key:'sanBelief', name:'San Religion &amp; Rock Art', emoji:'🎨', color:'linear-gradient(135deg,#e9c46a,#c1780f)',
+    paragraph:"The San had a rich spiritual life. Their god was called /Kaggen, and they believed in the power of healers who performed a special ceremony called the Trance Dance to help heal sick people in the community. Of all the animals, the eland (a large antelope) was considered the most powerful and spiritually important animal in San religion — eland appeared in San rock art again and again, and were believed to appear at important occasions such as a marriage, or a boy's first successful kill. To record their history and spiritual experiences, the San created beautiful paintings on rock walls, usually inside caves or rock shelters in mountains. They made their rock art paint using natural materials they found around them, including iron-rich minerals (ochre) for red and orange colours. Because the San could not write, these paintings — along with objects found by archaeologists and stories passed down by their descendants — are some of the most important ways historians learn about San life today. In fact, San figures from a famous rock painting even appear on South Africa's own Coat of Arms."},
+  {key:'sanPlants', name:'San Survival Plants', emoji:'🌿', color:'linear-gradient(135deg,#2a9d8f,#1b998b)',
+    paragraph:"The San had deep knowledge of the plants in their environment and used them for survival and medicine. San hunters chewed the Hoodia plant when they went hunting because it helped stop hunger and thirst on long hunting trips. The Sickle bush's milky juice was used by hunters to poison the tips of their hunting arrows, so that even a small wound could bring down a large animal. The Buchu plant was used to cure stomach aches. Bushman's poison, despite its name, was another plant the San used carefully for its medicinal properties — for example, the San would chew its roots and smear the paste onto a snake bite wound. Knowledge of these plants was passed down orally from generation to generation, since the San had no writing system, and it shows how closely the San understood and depended on the natural world around them for both food and healing."},
+  {key:'khoikhoi', name:'The Khoikhoi', emoji:'🐄', color:'linear-gradient(135deg,#bc6c25,#8a5a2b)',
+    paragraph:"Unlike the San, who were hunter-gatherers, the Khoikhoi were herders — they kept large herds of animals such as cattle and sheep, which they relied on for milk, meat and wealth. Like the San, the Khoikhoi were nomadic and moved from place to place, usually to find good grazing land for their animals. Owning many cattle was an important sign of wealth and status in Khoikhoi society. Because both the San and the Khoikhoi lived in Southern Africa and shared similar languages that use click sounds, historians often group them together and call them the Khoisan. The Khoikhoi sometimes interacted with early African farmers who also kept cattle — they could trade animals, tools and skills with each other, and even intermarry. Unlike early African farmers, the Khoikhoi did not know how to smelt iron for tools."},
+  {key:'coatOfArms', name:'The Coat of Arms', emoji:'🛡️', color:'linear-gradient(135deg,#457b9d,#1d3557)',
+    paragraph:"A Coat of Arms is a collection of pictures and symbols on a shield, usually with a motto (a short meaningful phrase) underneath. South Africa's Coat of Arms is full of symbolism: at the top is a rising sun, representing new beginnings, and above it flies a secretary bird with wings spread wide. Below the shield is a pair of tusks from an elephant, representing wisdom, strength and growth, along with two ears of wheat, symbolising the fertility of the land. On either side of the shield stand two San figures from a famous San rock painting, greeting one another, and in the middle of the shield two more San figures shake hands, standing for unity. Above the shield sits a spear and a knobkierie (a traditional club), crossed together, representing the defence of peace rather than war. Below everything runs a ribbon with the motto '!ke e: /xarra //ke', words from the extinct /Xam San language meaning 'diverse people unite'. A protea, South Africa's national flower, also features on the Coat of Arms."},
+  {key:'ironAge', name:'The Iron Age', emoji:'⚒️', color:'linear-gradient(135deg,#6c757d,#343a40)',
+    paragraph:"Early African farmers were different from the San and Khoikhoi in one big way: they knew how to make tools from iron, rather than just stone or bone. The period in history when people made and used iron tools is called the Iron Age. To make iron tools, farmers first had to find iron ore — rocks that contain iron. They then built structures called furnaces, closed structures used to heat the iron ore to a very high temperature until it melted into a liquid, a process called smelting. The people who did this skilled work were called ironworkers (sometimes called miners and smiths). Iron tools, like hoes and axes, were much stronger and more useful than stone tools — they helped farmers chop trees and clear land much more quickly and easily, and made farming far more productive. It's thought that the San wanted iron tools too, since they were so much better than stone ones, and would trade with — or sometimes raid — the African farmers to get them."},
+  {key:'farmersLife', name:'Early Farming Settlements', emoji:'🏘️', color:'linear-gradient(135deg,#dda15e,#bc6c25)',
+    paragraph:"Unlike the nomadic San and Khoikhoi, early African farmers were not nomadic — they settled permanently in one place, usually for a long time, so that they could plant and harvest crops from the same land year after year. A group of households living together was called a homestead, and the cattle kraal — where cattle, sheep and goats were kept — was usually built right at the centre of the homestead, so the animals could be protected and watched closely, since cattle were so valuable. Homesteads and villages were usually built near rivers or wet areas, because fresh water was essential both for growing crops and for giving cattle water to drink. Early farmers' houses were built using grass for the roof, along with mud and pole frames for the walls — very different from the rock paintings and portable shelters of the San. As farming communities grew larger over time, some developed into settled chiefdoms, with more complex social organisation than the smaller hunter-gatherer and herder groups around them."},
+  {key:'farmersRoles', name:'Roles in Farming Society', emoji:'👥', color:'linear-gradient(135deg,#b0413e,#7a2420)',
+    paragraph:"Early African farming society had clear roles for different people. The chief was the most powerful person in the village — he was in charge of the homestead, made important decisions about how land was shared, and could even lend cattle to poorer families or help widows whose husbands had died. Men and boys in the village hunted for extra food, settled arguments, and did the skilled work of smelting iron ore to make tools. Women in farming society played a central role too: they planted and tended crops, milked the cattle, made pottery, cooked food, and collected firewood and water — and in some communities, women and children would also help mine iron ore. This division of roles meant that everyone in the homestead contributed to its survival and success, from the chief's leadership down to the daily work of every man, woman and child."},
+  {key:'farmersCrops', name:'Farming, Crops &amp; Trade', emoji:'🌾', color:'linear-gradient(135deg,#588157,#2a9d8f)',
+    paragraph:"Early African farmers grew their own food rather than hunting and gathering it, a lifestyle called subsistence farming — farming mainly to feed yourself and your family, not to sell for profit. Two of the most important crops grown by early African farmers were sorghum and great millet, both hardy grains well suited to Southern Africa's climate. Because farmers grew more food than hunter-gatherers typically could gather, and because they kept valuable livestock, they were able to exchange goods they didn't need for things they did need — this exchange of goods and services, without using money, is called bartering or trading. Cattle were especially valuable in farming society: besides giving milk, meat and hides for clothing, cattle could be used to pay lobola, a traditional payment of cattle given by a groom's family to a bride's family as part of getting married. Cattle were so valuable that they were usually only killed and eaten on special occasions."},
+  {key:'khoisanFarmerInteraction', name:'Khoisan &amp; Farmer Interaction', emoji:'🤝', color:'linear-gradient(135deg,#9d4edd,#5a189a)',
+    paragraph:"The San, the Khoikhoi (together known as the Khoisan) and the early African farmers all lived across Southern Africa at the same time, often sharing the same landscapes, and they interacted with each other in many ways. Sometimes they cooperated peacefully: they could trade goods and skills with each other — for example, farmers might trade iron tools for Khoikhoi cattle, or the Khoikhoi might share their rainmaking skills with farming communities. People from these different groups sometimes married each other, worked for one another, and told each other stories — modern South African languages like Xhosa and Zulu even include click sounds borrowed from Khoisan languages. At other times, relationships were more tense — San groups, who had no iron, sometimes raided African farmers' cattle or tools, since farmers had things the San wanted but could not easily make themselves. Studying how these different groups of people lived side by side helps historians understand how complex and connected early Southern African societies were, long before written records existed."},
+  {key:'egyptNile', name:'Egypt &amp; the Nile', emoji:'🌍', color:'linear-gradient(135deg,#48cae4,#0077b6)',
+    paragraph:"Ancient Egypt was one of the oldest civilisations in Africa, built almost entirely around the Nile River, the longest river in Africa, which flows north into the Mediterranean Sea. The first people settled along the fertile northern banks of the Nile about 5,000 years ago, because the soil there was excellent for growing crops. The Nile was so important to Ancient Egypt's success that the Ancient Greeks called Egypt 'the gift of the Nile' — without it, this civilisation could never have thrived in such a dry, desert region. Every year, the Nile flooded, leaving behind rich, fertile silt that farmers used to grow their crops. The Egyptians also used the river for transportation, fishing, and irrigation, lifting water onto their fields using an invention called a shaduf, a simple pulley system. Papyrus reeds, which grew along the riverbanks, were turned into one of the world's earliest types of paper, as well as building materials."},
+  {key:'egyptSociety', name:'Ancient Egyptian Society', emoji:'👑', color:'linear-gradient(135deg,#e9c46a,#c1780f)',
+    paragraph:"Ancient Egypt was a hierarchical society, which means people lived according to different social classes. At the very top was the Pharaoh, the king, who was so powerful that many Pharaohs were worshipped as gods. Just below the Pharaoh was the Vizier, his most senior and trusted advisor. Scribes were skilled people who could read and write, and it is largely thanks to their careful records that historians know so much about Ancient Egypt today. At the bottom of the social structure were slaves, who historians believe helped build Ancient Egypt's famous pyramids. Most ordinary Egyptians lived in flat-roofed houses built from mud bricks baked hard in the sun, built just above the Nile's flood line — stone was reserved only for grand buildings like tombs, palaces and temples. Egyptian farmers grew barley (used to make both bread and beer), fruits like melons and grapes, vegetables such as onions and beans, and flax, which was woven into linen cloth."},
+  {key:'heritage', name:'Heritage Sites', emoji:'🏛️', color:'linear-gradient(135deg,#b8860b,#8a5a2b)',
+    paragraph:"A heritage site is a place that is considered important enough, because of its natural beauty, culture, or history, that it is protected and preserved for future generations to learn from and enjoy. Heritage sites can be natural (like a mountain or a cave system), cultural (like a historic building or a rock art site), or a mix of both. Every province in South Africa has its own heritage sites, reflecting the country's rich and varied history. In the Eastern Cape, for example, the Linton Rock Panel — one of the most famous pieces of San rock art ever found — was discovered, and it is now displayed at the Iziko South African Museum. Other well-known South African heritage sites include Robben Island in the Western Cape, where Nelson Mandela was once imprisoned, the Cradle of Humankind in Gauteng, where some of the world's oldest human ancestor fossils were found, and Mapungubwe in Limpopo, home to an ancient African kingdom. Heritage sites matter because they help us remember and understand where we come from, and they allow historians and archaeologists to keep learning about the past long after the people who made them are gone."}
 ];
 
+const DRAW_PLAN = {
+  sanLife:4, sanBelief:4, sanPlants:4, khoikhoi:4, coatOfArms:4, ironAge:4,
+  farmersLife:4, farmersRoles:4, farmersCrops:4, khoisanFarmerInteraction:4,
+  egyptNile:3, egyptSociety:3, heritage:4
+};
+
 function generateQuiz(){
-  // Skew harder: keep all medium/hard questions, but only a reduced random sample of easy ones.
-  const easyQs = RAW_QUESTIONS.filter(q => q.difficulty === 'easy');
-  const otherQs = RAW_QUESTIONS.filter(q => q.difficulty !== 'easy');
-  const keepEasyCount = Math.max(3, Math.ceil(easyQs.length * 0.4));
-  const pool = [...shuffle(easyQs).slice(0, keepEasyCount), ...otherQs];
+  // Draws a random, topic-balanced sample of 50 from the larger pool, so every
+  // attempt (and every restart) is a different set of 50 questions.
+  const pool = [];
+  SECTIONS.forEach(sec => {
+    const topicQs = shuffle(RAW_QUESTIONS.filter(q => q.section === sec.key));
+    const count = DRAW_PLAN[sec.key] || 0;
+    pool.push(...topicQs.slice(0, count));
+  });
   return shuffle(pool).map(q => {
     const question = { ...q, id: uid() };
-    if (question.type === 'mcq'){
-      question.choices = shuffle(question.choices);
-    } else {
-      question.choices = ['True','False'];
-    }
+    question.choices = shuffle(question.choices);
     return question;
   });
 }
@@ -365,7 +558,10 @@ function render(){
 }
 window.addEventListener('hashchange', render);
 
-/* ===================== QUESTION PALETTE (jump to any question) ===================== */
+/* ===================== PROGRESS MAP (read-only during the quiz — no jumping) =====================
+   Going back is blocked until the quiz is completed, so that learners must read
+   every paragraph in order (paragraphs seed facts for later questions). This map
+   only shows progress; it is not clickable during a live quiz. */
 let paletteOpen = false;
 function paletteHTML(){
   const items = state.questions.map((q,i) => {
@@ -373,11 +569,10 @@ function paletteHTML(){
     let cls = 'palette-btn';
     if (i === state.index) cls += ' current';
     if (ans && ans.resolved) cls += ans.correct ? ' correct' : ' incorrect';
-    return `<button type="button" class="${cls}" data-idx="${i}">${i+1}</button>`;
+    return `<button type="button" class="${cls}" disabled>${i+1}</button>`;
   }).join('');
-  return `<div class="palette-grid">${items}</div>`;
+  return `<div class="palette-grid">${items}</div><div class="locked-note">🔒 You can't jump around or go back until the quiz is finished — this keeps every paragraph's facts in play for later questions.</div>`;
 }
-function jumpToQuestion(i){ state.index = i; paletteOpen = false; saveJSON(LS_SAVE, state); render(); }
 
 /* ===================== POST-QUIZ REVIEW (all / correct only / incorrect only) ===================== */
 let reviewFilter = 'all';
@@ -430,7 +625,7 @@ function renderHome(){
       <div class="row between">
         <div>
           <h1>🏺 History Quest</h1>
-          <p>Ancient Egypt &middot; 50 Questions</p>
+          <p>Grade 5 End-of-Year Exam Scope &middot; 50 Questions</p>
         </div>
         <div class="level-box">
           <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>
@@ -451,7 +646,7 @@ function renderHome(){
 
     <div class="card">
       <h3 style="margin-bottom:10px">Start a fresh quiz</h3>
-      <p style="margin-bottom:12px">A large bank of questions about Ancient Egypt, freshly shuffled every time — skewed toward medium and hard!</p>
+      <p style="margin-bottom:12px">50 questions covering the San &amp; Khoikhoi, early African farmers, the Coat of Arms, Ancient Egypt and South African heritage sites — each one comes with a short paragraph to read first, drawn randomly from a much bigger bank, so every attempt is different!</p>
       <div class="topic-grid">
         ${SECTIONS.map(s => `<div class="topic-card" style="background:${s.color}"><b>${s.emoji} ${s.name}</b></div>`).join('')}
       </div>
@@ -477,7 +672,7 @@ function renderHome(){
         </div>`).join('')}
       </div>
     </div>
-    <div class="footer-note">Works offline · Install this app to your home screen for the best experience · Made for a future archaeologist 🏺</div>
+    <div class="footer-note">Works offline · Install this app to your home screen for the best experience · Made for a future historian 🏺</div>
   `;
 
   document.getElementById('startBtn').onclick = () => {
@@ -542,7 +737,7 @@ function renderQuiz(){
         <div class="score-tile"><div class="num">${percent}%</div><div class="lbl">Accuracy</div></div>
         <div class="score-tile"><div class="num">${state.index+1}/${total}</div><div class="lbl">Question</div></div>
       </div>
-      <button class="btn-ghost" id="paletteBtn" style="justify-self:start">🗂️ Jump to any question</button>
+      <button class="btn-ghost" id="paletteBtn" style="justify-self:start">🗂️ View progress map</button>
     </div>
 
     ${paletteOpen ? `<div class="card palette-card">${paletteHTML()}</div>` : ''}
@@ -552,12 +747,15 @@ function renderQuiz(){
         <span class="difficulty-tag ${q.difficulty}">${q.difficulty}</span>
         <span class="pill">${sec.emoji} ${sectionNameByKey(sec.key)}</span>
       </div>
+      <div class="paragraph-box">
+        <h4>📖 Did You Know?</h4>
+        <div class="paragraph-text">${sec.paragraph}</div>
+      </div>
       <div class="qprompt">${q.prompt}</div>
       <div id="answerArea"></div>
       <div id="feedbackArea"></div>
       <div id="memoArea"></div>
-      <div class="nav-row">
-        <button class="arrow-btn" id="backBtn" ${state.index===0 ? 'disabled':''}>←</button>
+      <div class="nav-row" style="justify-content:flex-end">
         <button class="btn-secondary" id="saveExitBtn">💾 Save &amp; Exit</button>
         <button class="arrow-btn" id="fwdBtn" ${resolved ? '' : 'disabled'}>→</button>
       </div>
@@ -566,18 +764,12 @@ function renderQuiz(){
 
   renderAnswerArea(q, existing);
 
-  document.getElementById('backBtn').onclick = () => { state.index = Math.max(0, state.index-1); saveJSON(LS_SAVE, state); render(); };
   document.getElementById('fwdBtn').onclick = () => {
     if (state.index === total-1){ finishQuiz(); return; }
     state.index++; saveJSON(LS_SAVE, state); render();
   };
   document.getElementById('saveExitBtn').onclick = () => { saveJSON(LS_SAVE, state); go('home'); };
   document.getElementById('paletteBtn').onclick = () => { paletteOpen = !paletteOpen; renderQuiz(); };
-  if (paletteOpen){
-    document.querySelectorAll('.palette-btn').forEach(btn => {
-      btn.onclick = () => jumpToQuestion(Number(btn.getAttribute('data-idx')));
-    });
-  }
 }
 
 function renderAnswerArea(q, existing){
@@ -745,7 +937,7 @@ function downloadSummary(report){
   <p><b>Date:</b> ${dateStr}<br/><b>Score:</b> ${report.correct}/${report.total} (${report.percent}%)<br/><b>Badges earned:</b> ${report.badges.map(b=>b.n).join(', ')}</p>
   <table><thead><tr><th>#</th><th>Topic</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th><th>Explanation / Memo</th></tr></thead>
   <tbody>${rows}</tbody></table>
-  <p style="margin-top:20px;color:#8a7256">Generated by History Quest – keep exploring Ancient Egypt!</p>
+  <p style="margin-top:20px;color:#8a7256">Generated by History Quest – keep exploring South Africa's history!</p>
   </body></html>`;
   const blob = new Blob([html], {type:'text/html'});
   const url = URL.createObjectURL(blob);

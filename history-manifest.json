@@ -1,7 +1,7 @@
 {
-  "name": "History Quest: Ancient Egypt",
+  "name": "History Quest: Grade 5 End-of-Year Exam Scope",
   "short_name": "History Quest",
-  "description": "A colourful, gamified 50-question Ancient Egypt history quiz with instant marking and badges.",
+  "description": "A colourful, gamified 50-question Grade 5 History quiz covering the San & Khoikhoi, early African farmers, the Coat of Arms, Ancient Egypt and South African heritage sites, with comprehension-style paragraphs, instant marking and badges.",
   "start_url": "./history.html",
   "scope": "./",
   "display": "standalone",

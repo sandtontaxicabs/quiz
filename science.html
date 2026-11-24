@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Science Quest: Grade 5 End-of-Year Exam Scope</title>
+<meta name="description" content="A colourful, gamified Grade 5 Natural Sciences exam-scope quiz covering plant reproduction, sound, states of matter, the digestive system and forces, with instant marking and badges." />
+<meta name="theme-color" content="#3a86ff" />
+<link rel="manifest" href="science-manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+:root{
+  --bg1:#eef4ff; --bg2:#f1ecff; --card:#ffffff; --ink:#1c2541; --muted:#5c6b8a;
+  --purple:#3a86ff; --pink:#8338ec; --gold:#ffbe0b; --green:#06d6a0; --blue:#4cc9f0; --red:#ff006e;
+  --shadow:0 14px 34px rgba(30,60,120,.14);
+  --radius:22px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:"Baloo 2","Trebuchet MS","Segoe UI",Arial,sans-serif;color:var(--ink)}
+body{
+  background:
+    radial-gradient(circle at 8% 10%, #dce8ff 0, transparent 40%),
+    radial-gradient(circle at 92% 15%, #e9ddff 0, transparent 42%),
+    radial-gradient(circle at 50% 100%, #d4f7ec 0, transparent 45%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  padding:14px; padding-bottom:40px;
+}
+.app{max-width:760px;margin:0 auto;display:grid;gap:14px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+h1,h2,h3{margin:0}
+h1{font-size:clamp(1.4rem,5vw,2rem);line-height:1.1}
+p{margin:0;color:var(--muted)}
+button{border:none;border-radius:16px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;
+  transition:transform .12s ease, box-shadow .2s ease, opacity .2s ease; box-shadow:0 8px 18px rgba(30,60,120,.16);
+  font-family:inherit;}
+button:hover{transform:translateY(-1px)}
+button:active{transform:translateY(1px) scale(.98)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#6fa8ff);color:#fff}
+.btn-secondary{background:#eaf1ff;color:var(--ink)}
+.btn-good{background:linear-gradient(135deg,var(--green),#3ee6b0);color:#04372c}
+.btn-warn{background:linear-gradient(135deg,var(--gold),#ffd166);color:#5b3d00}
+.btn-danger{background:linear-gradient(135deg,var(--red),#ff6fa8);color:#fff}
+.btn-ghost{background:transparent;color:var(--purple);box-shadow:none;text-decoration:underline;padding:6px 8px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row.between{justify-content:space-between}
+.row.center{justify-content:center}
+.pill{padding:7px 13px;border-radius:999px;background:#eaf1ff;font-weight:800;font-size:.85rem;display:inline-flex;gap:6px;align-items:center}
+.pill.gold{background:#fff4d6;color:#6f5200}
+.pill.green{background:#dcfff3;color:#04473a}
+.pill.pink{background:#ffe1ee;color:#8a1f4c}
+.badge-emoji{font-size:1.1em}
+
+/* Home screen */
+.hero{background:linear-gradient(135deg,var(--purple),#8b7bff 60%, var(--pink));color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% -10%, rgba(255,255,255,.35), transparent 45%)}
+.hero h1{color:#fff}
+.hero p{color:rgba(255,255,255,.92)}
+.level-box{background:rgba(255,255,255,.18);border-radius:16px;padding:10px 14px;backdrop-filter:blur(2px)}
+.xp-bar-outer{height:12px;border-radius:999px;background:rgba(255,255,255,.28);overflow:hidden;margin-top:6px}
+.xp-bar-inner{height:100%;background:linear-gradient(90deg,var(--gold),#fff3b0);border-radius:999px;transition:width .5s ease}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.topic-card{border-radius:18px;padding:12px;color:#fff;position:relative;overflow:hidden;min-height:80px;display:flex;flex-direction:column;justify-content:space-between;font-size:.88rem}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:14px;background:#f5f8ff;border:1px solid #e3eaff;font-size:.92rem}
+.history-item + .history-item{margin-top:8px}
+.badges-shelf{display:flex;flex-wrap:wrap;gap:8px}
+.badge-chip{background:#fff7e0;border:1px solid #ffe6a6;border-radius:14px;padding:8px 10px;font-size:1.4rem;position:relative}
+
+/* Quiz screen */
+.progress-wrap{display:grid;gap:8px}
+.progress-label{display:flex;justify-content:space-between;font-size:.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.bar-outer{height:14px;border-radius:999px;background:#eaf1ff;overflow:hidden;box-shadow:inset 0 0 0 1px #dde7ff}
+.bar-inner{height:100%;border-radius:999px;transition:width .45s cubic-bezier(.4,1.6,.6,1)}
+.bar-inner.overall{background:linear-gradient(90deg,var(--purple),var(--pink))}
+.bar-inner.section{background:linear-gradient(90deg,var(--blue),var(--green))}
+.score-strip{display:flex;gap:10px;flex-wrap:wrap}
+.score-tile{flex:1;min-width:110px;background:#f5f8ff;border-radius:16px;padding:10px 12px;text-align:center;border:1px solid #e3eaff}
+.score-tile .num{font-size:1.35rem;font-weight:900}
+.score-tile .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.03em}
+
+.qcard{padding:18px;display:grid;gap:16px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.difficulty-tag{font-size:.72rem;font-weight:900;text-transform:uppercase;padding:5px 10px;border-radius:999px;letter-spacing:.03em}
+.difficulty-tag.easy{background:#dcfff3;color:#04473a}
+.difficulty-tag.medium{background:#fff4d6;color:#6f5200}
+.difficulty-tag.hard{background:#ffe1ee;color:#8a1f4c}
+.qprompt{font-size:1.15rem;font-weight:800;line-height:1.5}
+.choices{display:grid;gap:10px}
+.choice-btn{text-align:left;background:#f5f8ff;border:2px solid #e3eaff;color:var(--ink);font-weight:700;padding:13px 15px;border-radius:16px;box-shadow:none;display:flex;align-items:center;gap:10px}
+.choice-btn:hover{border-color:#c7d7ff}
+.choice-btn.selected{border-color:var(--purple);background:#eaf1ff}
+.choice-btn.correct{border-color:var(--green);background:#dcfff3;color:#04473a}
+.choice-btn.incorrect{border-color:var(--red);background:#ffe1ee;color:#8a1f4c}
+.choice-btn.disabled-other{opacity:.55}
+.choice-letter{width:26px;height:26px;border-radius:50%;background:#e3eaff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;flex:none}
+.choice-btn.correct .choice-letter{background:var(--green);color:#fff}
+.choice-btn.incorrect .choice-letter{background:var(--red);color:#fff}
+
+.feedback-banner{border-radius:16px;padding:12px 14px;font-weight:800;display:flex;gap:10px;align-items:center;animation:pop .35s ease}
+.feedback-banner.correct{background:#dcfff3;color:#04473a}
+.feedback-banner.incorrect{background:#fff1d6;color:#6f5200}
+.feedback-banner.wrong-final{background:#ffe1ee;color:#8a1f4c}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.shake{animation:shake .4s ease}
+
+.memo-box{background:#f5f8ff;border:2px dashed #c7d7ff;border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.memo-box h4{margin:0;font-size:.95rem;color:var(--purple);display:flex;align-items:center;gap:6px}
+.memo-box .ans-line{font-weight:800}
+.memo-box .explain{color:var(--ink);line-height:1.5}
+.palette-card{padding:14px}
+.palette-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
+.palette-btn{padding:9px 0;border-radius:8px;font-size:.8rem;font-weight:800;background:#eef1ff;color:var(--ink);box-shadow:none;border:2px solid transparent}
+.palette-btn.current{border-color:var(--purple)}
+.palette-btn.correct{background:#dcfff3}
+.palette-btn.incorrect{background:#ffe1e8}
+.review-item{border:1px solid #eceffb;border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.review-item.incorrect{border-color:#ffd0da;background:#fff8f9}
+.review-item.correct{border-color:#c9f3e3;background:#f7fffb}
+.review-q-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.review-topic{font-size:.72rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.03em;margin-bottom:4px}
+.review-prompt{font-weight:700;margin-bottom:6px}
+.review-answers{margin-bottom:6px}
+.review-explain{color:var(--muted);font-size:.88rem;line-height:1.5}
+
+
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.arrow-btn{width:52px;height:52px;border-radius:50%;font-size:1.3rem;display:flex;align-items:center;justify-content:center;background:#eaf1ff;color:var(--purple);box-shadow:0 6px 14px rgba(30,60,120,.14)}
+
+.results-card{text-align:center;display:grid;gap:14px}
+.big-score{font-size:3rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stars-row{font-size:2rem;letter-spacing:4px}
+.section-report{text-align:left;display:grid;gap:8px}
+.section-report .sr-row{display:flex;justify-content:space-between;background:#f5f8ff;border-radius:14px;padding:10px 12px;border:1px solid #e3eaff}
+
+.hidden{display:none !important}
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+
+.tab-bar-wrap{max-width:760px;margin:0 auto 10px}
+.tab-bar{display:flex;gap:2px;padding:4px;background:rgba(255,255,255,.92);border-radius:16px;box-shadow:0 6px 18px rgba(30,60,120,.12);overflow-x:auto}
+.tab-btn{flex:1;text-align:center;padding:6px 0;border-radius:8px;font-weight:800;font-size:.56rem;border:none;background:transparent;color:var(--muted);white-space:nowrap;font-family:inherit;cursor:pointer}
+.tab-btn.active{background:var(--purple);color:#fff}
+.footer-note{text-align:center;font-size:.78rem;color:var(--muted);padding-top:6px}
+.install-banner{background:#fff7e0;border:1px solid #ffe6a6;border-radius:16px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="tab-bar-wrap">
+  <nav class="tab-bar">
+    <button type="button" class="tab-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='maths.html'">🔢 Maths</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='english.html'">📚 English</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='history.html'">🏺 History</button>
+    <button type="button" class="tab-btn active" onclick="window.location.href='science.html'">🔬 Science</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='geography.html'">🌍 Geography</button>
+  </nav>
+</div>
+<div class="app" id="app"></div>
+
+<script>
+/* ===================== UTILITIES ===================== */
+const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const pick = (arr) => arr[rnd(0, arr.length - 1)];
+const uid = () => Math.random().toString(36).slice(2, 10);
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=rnd(0,i); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+/* ===================== FIXED QUESTION BANK: Grade 5 End-of-Year Exam Scope =====================
+   Scope: Label parts of a flower / Seed dispersal, Sound, States of matter,
+   Digestive system (Human digestive system), Forces, Seasons and adaptations
+   of plants and animals. */
+const RAW_QUESTIONS = [
+  // --- Plant Reproduction: flower parts, pollination, seed dispersal, germination (16) ---
+  {section:'reproduction', difficulty:'easy', type:'mcq', prompt:'What is pollination?', choices:['The transfer of pollen from the anther to the stigma of a flower of the same kind','The joining of pollen and an egg inside the ovary','The spreading of seeds away from the parent plant','The growth of a seed into a new plant'], correctAnswer:'The transfer of pollen from the anther to the stigma of a flower of the same kind',
+    explanation:'Pollination is the transfer of pollen from the anther of one flower to the stigma of a flower of the same kind, carried out by insects or by wind.'},
+  {section:'reproduction', difficulty:'easy', type:'mcq', prompt:'Which substance do insects and wind move from flower to flower during pollination?', choices:['Pollen','Nectar','Sepals','Seeds'], correctAnswer:'Pollen',
+    explanation:'During pollination, insects and wind move pollen from the anther of one flower to the stigma of another flower of the same kind.'},
+  {section:'reproduction', difficulty:'easy', type:'mcq', prompt:'Which part of the flower forms the fruit after fertilisation?', choices:['The ovary','The petal','The sepal','The stigma'], correctAnswer:'The ovary',
+    explanation:'The ovary is the reproductive part of the flower that forms the fruit once fertilisation has taken place.'},
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:'Which part of the flower makes the pollen?', choices:['The anther','The stigma','The ovary','The sepal'], correctAnswer:'The anther',
+    explanation:'The anther (at the top of the stamen) is the part of the flower that makes pollen.'},
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:'Which part of the flower receives pollen during pollination?', choices:['The stigma','The anther','The filament','The ovule'], correctAnswer:'The stigma',
+    explanation:'The stigma is the sticky part at the top of the pistil that receives pollen during pollination.'},
+  {section:'reproduction', difficulty:'easy', type:'mcq', prompt:'What are sepals?', choices:['Little green leaves that protect the flower bud','The brightly coloured parts that attract insects','The part of the flower that makes pollen','The part of the flower that receives pollen'], correctAnswer:'Little green leaves that protect the flower bud',
+    explanation:'Sepals are the little green leaves that protect the flower bud before it opens.'},
+  {section:'reproduction', difficulty:'easy', type:'mcq', prompt:'What are petals?', choices:['The brightly coloured part of a flower that attracts insects','The little green leaves that protect the flower bud','The part of the flower that makes pollen','The part of the flower that forms the fruit'], correctAnswer:'The brightly coloured part of a flower that attracts insects',
+    explanation:'Petals are the brightly coloured part of a flower, and their job is to attract insects to the flower.'},
+  {section:'reproduction', difficulty:'easy', type:'mcq', prompt:'What is nectar?', choices:['A sweet liquid that flowers produce to attract insects','The dust-like substance that fertilises a flower','The green leaves that protect a flower bud','The part of a flower that becomes a fruit'], correctAnswer:'A sweet liquid that flowers produce to attract insects',
+    explanation:'Nectar is a sweet liquid which flowers produce to attract insects, who then help pollinate the flower.'},
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:'What is fertilisation?', choices:['When pollen and an egg join together inside the ovary','When pollen moves from the anther to the stigma','When a seed is carried away from the parent plant','When a seed starts to grow'], correctAnswer:'When pollen and an egg join together inside the ovary',
+    explanation:'Fertilisation is the process where pollen and an egg join together inside the ovary of a flower.'},
+  {section:'reproduction', difficulty:'easy', type:'mcq', prompt:'To have young or offspring means to…', choices:['Reproduce','Pollinate','Germinate','Disperse'], correctAnswer:'Reproduce',
+    explanation:'To reproduce means to have young or offspring — it is why plants and animals flower, mate or lay eggs.'},
+  {section:'reproduction', difficulty:'easy', type:'mcq', prompt:'Bees, butterflies, moths, wasps and ants are called ______ because they transfer pollen from the anther to the stigma.', choices:['Pollinators','Predators','Decomposers','Herbivores'], correctAnswer:'Pollinators',
+    explanation:'Insects such as bees, butterflies, moths, wasps and ants are called pollinators, because they carry pollen from the anther to the stigma as they visit flowers.'},
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:"What is the correct order of a plant's life cycle?", choices:['Pollination → Fertilisation → Fruit and seed formation → Seed dispersal → Germination','Germination → Pollination → Seed dispersal → Fertilisation → Fruit and seed formation','Fertilisation → Pollination → Germination → Fruit and seed formation → Seed dispersal','Seed dispersal → Germination → Pollination → Fertilisation → Fruit and seed formation'], correctAnswer:'Pollination → Fertilisation → Fruit and seed formation → Seed dispersal → Germination',
+    explanation:'The plant life cycle goes: pollination, then fertilisation, then fruit and seed formation, then seed dispersal, then germination — and the new plant eventually flowers again.'},
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:'A sycamore seed has papery "wings" attached to it. How is it dispersed?', choices:['It is carried away by the wind','It floats away on water','It is eaten by an animal','It sticks onto an animal\'s fur'], correctAnswer:'It is carried away by the wind',
+    explanation:'The papery wings on a sycamore seed let it spin and glide, so it is dispersed by the wind.'},
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:'A coconut can survive floating in the sea for a long time. How is it dispersed?', choices:['It floats away on water','It is carried away by the wind','It explodes open','It sticks onto an animal\'s fur'], correctAnswer:'It floats away on water',
+    explanation:'A coconut has a tough, buoyant husk, so it is dispersed by floating on water, sometimes washing up far from the parent tree.'},
+  {section:'reproduction', difficulty:'easy', type:'mcq', prompt:'What is germination?', choices:['When a seed starts to grow','When a flower is pollinated','When a seed is carried away from its parent plant','When a fruit forms around a seed'], correctAnswer:'When a seed starts to grow',
+    explanation:'Germination is when a seed starts to grow into a new plant.'},
+  {section:'reproduction', difficulty:'hard', type:'mcq', prompt:'Do seeds need light to germinate?', choices:["No — a seed already has its own store of food, so it doesn't need light before it germinates",'Yes — without light a seed can never germinate at all','Yes — light is the only thing a seed needs to germinate','No — seeds need no conditions at all to germinate'], correctAnswer:"No — a seed already has its own store of food, so it doesn't need light before it germinates",
+    explanation:"Seeds don't need light to germinate, because they already have their own stored food inside them. They need water, warmth and air instead; they only need light once they have leaves, to start photosynthesising."},
+
+  // --- Sound (8) ---
+  {section:'sound', difficulty:'easy', type:'mcq', prompt:'A sound is high or low according to its…', choices:['Pitch','Volume','Decibel','Control variable'], correctAnswer:'Pitch',
+    explanation:'A sound is high or low according to its pitch.'},
+  {section:'sound', difficulty:'easy', type:'mcq', prompt:'Making a sound louder increases its…', choices:['Volume','Pitch','Decibel scale only','Frequency of colour'], correctAnswer:'Volume',
+    explanation:'Making sounds louder increases their volume.'},
+  {section:'sound', difficulty:'easy', type:'mcq', prompt:'Sound travels away from its source as…', choices:['Vibrations','Light waves','Decibels','Electricity'], correctAnswer:'Vibrations',
+    explanation:'Sound travels from a source as vibrations, which spread outward through the air (or another material) until they reach our ears.'},
+  {section:'sound', difficulty:'medium', type:'mcq', prompt:'In a fair test, the variable that is kept exactly the same throughout the investigation is called the…', choices:['Control variable','Independent variable','Dependent variable','Random variable'], correctAnswer:'Control variable',
+    explanation:'The control variable is the one kept the same throughout an investigation, so that only the independent variable is changed on purpose.'},
+  {section:'sound', difficulty:'easy', type:'tf', prompt:'Cotton wool muffles (softens) sound.', correctAnswer:'True',
+    explanation:'True. Soft materials like cotton wool absorb vibrations rather than letting sound pass through easily, so they muffle sound.'},
+  {section:'sound', difficulty:'easy', type:'mcq', prompt:'A flute is an example of a…', choices:['Wind instrument','String instrument','Percussion instrument','Electronic instrument'], correctAnswer:'Wind instrument',
+    explanation:'A flute makes sound from a column of vibrating air, so it is a wind instrument.'},
+  {section:'sound', difficulty:'medium', type:'mcq', prompt:'If you tighten a guitar string, what happens to its pitch?', choices:['The pitch becomes higher','The pitch becomes lower','The pitch stays exactly the same','The string stops making any sound'], correctAnswer:'The pitch becomes higher',
+    explanation:'Tightening a string makes it vibrate faster, which raises its pitch.'},
+  {section:'sound', difficulty:'medium', type:'mcq', prompt:'Sound usually travels best through which state of matter?', choices:['Solids','Liquids','Gases','It travels equally well through all three'], correctAnswer:'Solids',
+    explanation:"Sound travels best through solids, because their particles are packed tightly together so vibrations pass from particle to particle more easily than in liquids or gases."},
+
+  // --- States of Matter (8) ---
+  {section:'matter', difficulty:'easy', type:'mcq', prompt:'The state of matter where molecules are far apart and move around freely is called a…', choices:['Gas','Solid','Liquid','Mixture'], correctAnswer:'Gas',
+    explanation:'In a gas, the molecules are far apart and move around freely in all directions.'},
+  {section:'matter', difficulty:'easy', type:'mcq', prompt:'The state of matter where molecules are tightly packed together and do not move is called a…', choices:['Solid','Gas','Liquid','Vapour'], correctAnswer:'Solid',
+    explanation:'In a solid, the molecules are tightly packed together and do not move around.'},
+  {section:'matter', difficulty:'easy', type:'mcq', prompt:'The state of matter where molecules move around a little and take the shape of their container is called a…', choices:['Liquid','Solid','Gas','Crystal'], correctAnswer:'Liquid',
+    explanation:'In a liquid, the molecules move around a little bit and the liquid takes the shape of whatever container it is in.'},
+  {section:'matter', difficulty:'easy', type:'mcq', prompt:'When you add heat to a solid, it will ______ into a liquid.', choices:['Melt','Freeze','Evaporate','Condense'], correctAnswer:'Melt',
+    explanation:'Adding heat to a solid makes it melt into a liquid.'},
+  {section:'matter', difficulty:'easy', type:'mcq', prompt:'When you take away heat from a liquid, it will ______ into a solid.', choices:['Freeze','Melt','Evaporate','Condense'], correctAnswer:'Freeze',
+    explanation:'Taking heat away from a liquid makes it freeze into a solid.'},
+  {section:'matter', difficulty:'medium', type:'mcq', prompt:'When you add heat to a liquid and it turns into a gas, this is called…', choices:['Evaporation','Condensation','Freezing','Melting'], correctAnswer:'Evaporation',
+    explanation:'When heat is added to a liquid and it turns into a gas, this change of state is called evaporation.'},
+  {section:'matter', difficulty:'medium', type:'mcq', prompt:'When you take away heat from a gas and it turns into a liquid, this is called…', choices:['Condensation','Evaporation','Freezing','Melting'], correctAnswer:'Condensation',
+    explanation:'When heat is taken away from a gas and it turns into a liquid, this change of state is called condensation — this is how clouds form in the water cycle.'},
+  {section:'matter', difficulty:'medium', type:'mcq', prompt:'Where does the energy for the water cycle come from?', choices:['The Sun','Water itself','Plants','The Moon'], correctAnswer:'The Sun',
+    explanation:'The energy that drives the water cycle (heating water so it evaporates) comes from the Sun.'},
+
+  // --- Digestive System (10) ---
+  {section:'digestive', difficulty:'easy', type:'mcq', prompt:'Which part of the digestive system is where digestion starts?', choices:['The mouth','The stomach','The small intestine','The oesophagus'], correctAnswer:'The mouth',
+    explanation:'Digestion starts in the mouth, where food is chewed and mixed with saliva.'},
+  {section:'digestive', difficulty:'easy', type:'mcq', prompt:'Which part of the digestive system mixes food with digestive juices?', choices:['The stomach','The mouth','The large intestine','The anus'], correctAnswer:'The stomach',
+    explanation:'The stomach mixes food with digestive juices that help break it down further.'},
+  {section:'digestive', difficulty:'medium', type:'mcq', prompt:'Which part of the digestive system pushes food down into the stomach?', choices:['The oesophagus','The small intestine','The large intestine','The mouth'], correctAnswer:'The oesophagus',
+    explanation:'The oesophagus is the tube that pushes food down from the mouth into the stomach.'},
+  {section:'digestive', difficulty:'medium', type:'mcq', prompt:'Which part of the digestive system breaks food down into very tiny particles to complete digestion?', choices:['The small intestine','The stomach','The large intestine','The oesophagus'], correctAnswer:'The small intestine',
+    explanation:'The small intestine breaks food down into very tiny particles, completing digestion, and absorbs nutrients into the blood.'},
+  {section:'digestive', difficulty:'medium', type:'mcq', prompt:'Which part of the digestive system absorbs water and some minerals back into the blood?', choices:['The large intestine','The small intestine','The stomach','The oesophagus'], correctAnswer:'The large intestine',
+    explanation:'The large intestine absorbs water and some minerals back into the blood from the undigested material passing through it.'},
+  {section:'digestive', difficulty:'easy', type:'mcq', prompt:'Where does undigested food material leave the body?', choices:['The anus','The mouth','The stomach','The oesophagus'], correctAnswer:'The anus',
+    explanation:'Undigested food material leaves the body through the anus.'},
+  {section:'digestive', difficulty:'easy', type:'mcq', prompt:'What is the liquid in the mouth that softens food and contains a digestive juice that breaks down starch?', choices:['Saliva','Bile','Mucus','Plasma'], correctAnswer:'Saliva',
+    explanation:'Saliva softens food in the mouth and contains a digestive juice that starts to break down starch.'},
+  {section:'digestive', difficulty:'medium', type:'mcq', prompt:'What chemical is used to test for starch, turning blue-black if starch is present?', choices:['Iodine solution','Vinegar','Salt water','Bicarbonate of soda'], correctAnswer:'Iodine solution',
+    explanation:'Iodine solution is used to test for starch — it turns blue-black when starch is present.'},
+  {section:'digestive', difficulty:'easy', type:'mcq', prompt:'Eating the correct types and amounts of different foods is called a…', choices:['Balanced diet','Food chain','Fair test','Food group'], correctAnswer:'Balanced diet',
+    explanation:'A balanced diet means eating the correct types and amounts of different foods to stay healthy.'},
+  {section:'digestive', difficulty:'medium', type:'mcq', prompt:'Which food group should we eat the most of to give us energy?', choices:['Carbohydrates','Protein','Fat','Vitamins'], correctAnswer:'Carbohydrates',
+    explanation:'Carbohydrates are the food group that gives us energy, so we should eat the most of this group.'},
+
+  // --- Forces (8) ---
+  {section:'forces', difficulty:'easy', type:'mcq', prompt:'What force pulls everything towards the Earth?', choices:['Gravity','Friction','Upthrust','Drag'], correctAnswer:'Gravity',
+    explanation:'Gravity is the force that pulls everything towards the Earth.'},
+  {section:'forces', difficulty:'easy', type:'mcq', prompt:'What do we call the force between two surfaces that are trying to slide past each other?', choices:['Friction','Gravity','Upthrust','Applied force'], correctAnswer:'Friction',
+    explanation:'Friction is the force between two surfaces that are trying to slide past each other.'},
+  {section:'forces', difficulty:'easy', type:'mcq', prompt:'What do we call the force that pushes things up, such as keeping a boat afloat?', choices:['Upthrust','Friction','Drag','Gravity'], correctAnswer:'Upthrust',
+    explanation:'Upthrust is the force that pushes things up, such as the force keeping a boat floating on water.'},
+  {section:'forces', difficulty:'easy', type:'mcq', prompt:'A force that is applied to another object or person, like a push, pull or kick, is called a/an…', choices:['Applied force','Satellite force','Magnetic force','Upthrust'], correctAnswer:'Applied force',
+    explanation:'An applied force is a force applied to another object or person, for example a push, pull or kick.'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'What do we call a body in space that orbits a larger body?', choices:['A satellite','A comet','A galaxy','An alloy'], correctAnswer:'A satellite',
+    explanation:'A satellite is a body that orbits a larger body in space.'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'What do we call the force that slows down things moving through the air (sometimes also called drag)?', choices:['Air resistance','Water resistance','Upthrust','Gravity'], correctAnswer:'Air resistance',
+    explanation:'Air resistance slows down things moving through air, and is sometimes also called drag.'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'On an aeroplane, which TWO forces are provided by the aeroplane itself (not natural forces)?', choices:['Thrust and lift (uplifting force)','Gravity and air resistance','Thrust and gravity','Air resistance and lift'], correctAnswer:'Thrust and lift (uplifting force)',
+    explanation:'An aeroplane provides its own thrust (to move forward) and lift (to rise upward), while gravity and air resistance are natural forces acting against it.'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'Which group of materials below are ALL magnetic materials?', choices:['Iron, steel and nickel','Wood, plastic and gold','Rubber, wool and glass','Brass, wood and cotton'], correctAnswer:'Iron, steel and nickel',
+    explanation:'Iron, steel and nickel are all magnetic materials, meaning they are attracted to a magnet. Wood, plastic, gold, rubber, wool, glass, brass and cotton are not magnetic.'},
+
+  // --- Seasons & Adaptations (10) ---
+  {section:'seasons', difficulty:'easy', type:'mcq', prompt:'What is adaptation?', choices:['The process where an organism becomes better suited to its environment','When an animal moves to a warmer region for winter','When an animal\'s body goes into a dormant state','The transfer of pollen from one flower to another'], correctAnswer:'The process where an organism becomes better suited to its environment',
+    explanation:'Adaptation is the process where an organism becomes better suited to its environment.'},
+  {section:'seasons', difficulty:'easy', type:'mcq', prompt:'Why do cactus plants have thorns instead of leaves?', choices:['So the plant loses less water','To attract more insects','To make more fruit','To store extra sunlight'], correctAnswer:'So the plant loses less water',
+    explanation:'A cactus has thorns instead of broad leaves so that it loses less water in its hot, dry environment.'},
+  {section:'seasons', difficulty:'easy', type:'mcq', prompt:'What is the waxy coating on a cactus plant for?', choices:['To stop water from escaping (evaporating) from the plant','To attract pollinators','To protect the plant from frost','To help the plant float on water'], correctAnswer:'To stop water from escaping (evaporating) from the plant',
+    explanation:'The waxy coating on a cactus stops water from escaping from the plant, helping it survive with very little water.'},
+  {section:'seasons', difficulty:'medium', type:'mcq', prompt:'Why do desert plants like cacti have deep roots?', choices:['To find water deep under the surface','To store extra food','To anchor the plant against wind only','To absorb sunlight'], correctAnswer:'To find water deep under the surface',
+    explanation:'Desert plants grow deep roots so they can reach water that is far under the surface.'},
+  {section:'seasons', difficulty:'medium', type:'mcq', prompt:'Which of these are adaptations that help a camel survive in a hot, dry environment?', choices:['Long eyelashes to keep sand out of its eyes, thick lips to eat thorny plants, and humps that store fat for energy','Thick fur to stay warm, a long tail for balance, and sharp claws for digging','Webbed feet for swimming, a long beak for fishing, and waterproof feathers','Gills for breathing underwater and fins for swimming'], correctAnswer:'Long eyelashes to keep sand out of its eyes, thick lips to eat thorny plants, and humps that store fat for energy',
+    explanation:'Camels are adapted to hot, dry environments with long eyelashes to keep sand out of their eyes, thick lips so they can eat thorny plants, humps that store fat for energy, and wide, tough feet for walking on hot sand.'},
+  {section:'seasons', difficulty:'easy', type:'mcq', prompt:'Why do small desert animals like rats and lizards dig burrows?', choices:['To stay cool during the hot days','To find water underground','To hide from the rain','To store food for winter'], correctAnswer:'To stay cool during the hot days',
+    explanation:'Small animals such as rats and lizards dig burrows so they can stay cool during the hottest part of the day.'},
+  {section:'seasons', difficulty:'medium', type:'mcq', prompt:'What is migration?', choices:['When animals move to a warmer region because there is no longer enough food where they are','When an animal\'s body goes into a dormant state for the winter','When a plant becomes better suited to its environment','When pollen moves from one flower to another'], correctAnswer:'When animals move to a warmer region because there is no longer enough food where they are',
+    explanation:'Migration is when animals move to a warmer region, usually because there is no longer enough food in the place they were living.'},
+  {section:'seasons', difficulty:'medium', type:'mcq', prompt:'Siberian cranes migrate from Russia and Northern Europe to India at the end of summer. Why do they do this?', choices:['To find warmth and food once it turns cold at home','To escape from other birds','To find a mate only, then fly straight back','Because they cannot survive in water'], correctAnswer:'To find warmth and food once it turns cold at home',
+    explanation:'Siberian cranes migrate to India at the end of summer so they can find a warmer place with enough food, rather than face the cold where food becomes scarce.'},
+  {section:'seasons', difficulty:'medium', type:'mcq', prompt:'What is hibernation?', choices:["When an animal's body goes into a dormant state for a long period, with its heart rate, breathing and body temperature all dropping",'When an animal moves to a warmer place to find food','When a plant loses its leaves in winter','When an animal stores extra food in its cheeks every day'], correctAnswer:"When an animal's body goes into a dormant state for a long period, with its heart rate, breathing and body temperature all dropping",
+    explanation:"Hibernation describes how an animal's body goes into a dormant state for a long period of time — its heart rate and breathing slow down, and its body temperature drops."},
+  {section:'seasons', difficulty:'hard', type:'mcq', prompt:'Why do bears eat a lot of food in autumn before they hibernate?', choices:['To build up extra layers of fat that help them survive the long, cold winter','To grow a thicker coat of fur','To attract a mate before winter','To prepare their burrow for winter'], correctAnswer:'To build up extra layers of fat that help them survive the long, cold winter',
+    explanation:'Bears eat a lot of food in autumn to build up extra layers of fat, which gives them the energy they need to survive the long, cold winter while hibernating.'},
+
+  // --- Extra depth: Plant Reproduction & Seed Dispersal (7) ---
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:"A flower's ovary contains ovules. After fertilisation, what does each ovule become?", choices:['A seed','A petal','A new flower','A root'], correctAnswer:'A seed',
+    explanation:'Once an ovule has been fertilised (pollen and egg have joined), it develops into a seed.'},
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:'Why do many flowers produce brightly coloured petals and sweet nectar?', choices:['To attract insects, so they will visit and carry pollen between flowers','To protect the flower from the cold','To store food for the growing seed','To absorb sunlight for photosynthesis'], correctAnswer:'To attract insects, so they will visit and carry pollen between flowers',
+    explanation:'Bright petals and sweet nectar attract insects, which visit the flower and carry pollen to other flowers as they feed, helping pollination happen.'},
+  {section:'reproduction', difficulty:'hard', type:'mcq', prompt:"A flower pollinated by wind usually has small, dull-coloured petals and produces huge amounts of light, powdery pollen. Why?", choices:["It doesn't need to attract insects, and light pollen can be carried easily by moving air",'Wind-pollinated flowers need colourful petals to be seen from far away','Wind-pollinated flowers make less pollen than insect-pollinated flowers','Wind-pollinated flowers do not need pollen at all'], correctAnswer:"It doesn't need to attract insects, and light pollen can be carried easily by moving air",
+    explanation:"Since wind (not insects) carries the pollen, these flowers don't need bright colours or scent to attract visitors — but they do need to make lots of very light pollen so the wind can blow it to other flowers."},
+  {section:'reproduction', difficulty:'hard', type:'mcq', prompt:'Self-pollination happens when pollen from a flower lands on the stigma of…', choices:['The same flower, or another flower on the same plant','A flower of a different species','A flower on a different plant of the same species','Any flower nearby, regardless of species'], correctAnswer:'The same flower, or another flower on the same plant',
+    explanation:'Self-pollination is when a flower is pollinated by pollen from the same flower or another flower on the same plant, rather than from a different plant (which is called cross-pollination).'},
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:'What is the main advantage of seed dispersal for a plant?', choices:['It stops new seedlings from competing with the parent plant for light, water and nutrients','It makes the fruit taste better','It helps the flower open faster','It protects the roots from frost'], correctAnswer:'It stops new seedlings from competing with the parent plant for light, water and nutrients',
+    explanation:'By spreading seeds away from the parent plant, dispersal gives new seedlings space to grow without competing with the parent (or each other) for light, water and nutrients.'},
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:'A burr seed has tiny hooks that catch onto animal fur as the animal brushes past. Which seed dispersal method is this an example of?', choices:["Animal dispersal (carried on the outside of an animal)",'Animal dispersal (eaten by an animal)','Wind dispersal','Water dispersal'], correctAnswer:'Animal dispersal (carried on the outside of an animal)',
+    explanation:'A burr\'s tiny hooks let it cling to fur (or clothing), so the seed is carried away on the outside of an animal until it eventually falls off.'},
+  {section:'reproduction', difficulty:'medium', type:'mcq', prompt:"Which part of the flower, taken together, is called the flower's \"male part\"?", choices:['The stamen (anther and filament)','The pistil','The sepal','The petal'], correctAnswer:'The stamen (anther and filament)',
+    explanation:'The stamen — made up of the anther and filament — is the male part of the flower, because it produces the pollen.'},
+
+  // --- Extra depth: Sound (7) ---
+  {section:'sound', difficulty:'medium', type:'mcq', prompt:'A ruler is clamped to a desk so part of it hangs over the edge. If you pluck the hanging part, what causes the sound you hear?', choices:['The ruler vibrating back and forth','Air pushing the ruler','Friction between the ruler and the desk','The desk vibrating on its own'], correctAnswer:'The ruler vibrating back and forth',
+    explanation:'Plucking the ruler makes it vibrate rapidly back and forth, and these vibrations create the sound you hear.'},
+  {section:'sound', difficulty:'medium', type:'mcq', prompt:'If you shorten the length of the hanging part of a ruler and pluck it again, what happens to the pitch?', choices:['The pitch becomes higher','The pitch becomes lower','The pitch stays exactly the same','The ruler stops making any sound'], correctAnswer:'The pitch becomes higher',
+    explanation:'A shorter length of ruler vibrates faster, which makes the pitch higher.'},
+  {section:'sound', difficulty:'hard', type:'mcq', prompt:'Two identical glass bottles are partly filled with water — Bottle A has more water than Bottle B. When you blow across the top of each bottle, which makes a higher-pitched sound?', choices:['Bottle B (less water, so more air is free to vibrate)','Bottle A (more water vibrates more)','They sound exactly the same','Neither bottle can make a sound'], correctAnswer:'Bottle B (less water, so more air is free to vibrate)',
+    explanation:"It is the column of air above the water that vibrates when you blow across a bottle. Bottle B has a bigger column of air (less water), and a smaller amount of vibrating air gives a higher pitch."},
+  {section:'sound', difficulty:'medium', type:'mcq', prompt:'Why can sound not travel through the vacuum of space?', choices:['Sound needs a material (particles) to travel through, and there are no particles in a vacuum','Sound is too quiet to be heard in space','Sound travels too fast in space to hear','There is no gravity in space'], correctAnswer:'Sound needs a material (particles) to travel through, and there are no particles in a vacuum',
+    explanation:'Sound travels as vibrations passed from particle to particle, so it needs a material like air, water or a solid to travel through. A vacuum has no particles at all, so sound cannot travel through it.'},
+  {section:'sound', difficulty:'hard', type:'mcq', prompt:'In a fair test investigating how far sound travels through different materials, which of these should be kept the same (the control variables) each time?', choices:['The loudness of the sound, the distance, and the way the sound is made','The material being tested','The day of the week the test is done','The age of the person listening'], correctAnswer:'The loudness of the sound, the distance, and the way the sound is made',
+    explanation:'For a fair test, only the material being tested should change. Everything else — such as how loud and how the sound is made, and the distance — must be kept the same (the control variables).'},
+  {section:'sound', difficulty:'medium', type:'mcq', prompt:'Which of these would most effectively soundproof a room?', choices:['Thick, soft materials like carpets and curtains, which absorb vibrations','Hard, shiny surfaces like tiles and glass','Leaving the windows open','Painting the walls a dark colour'], correctAnswer:'Thick, soft materials like carpets and curtains, which absorb vibrations',
+    explanation:'Soft, thick materials absorb sound vibrations rather than letting them bounce or pass through, so they are good for soundproofing. Hard, shiny surfaces reflect sound instead.'},
+  {section:'sound', difficulty:'easy', type:'mcq', prompt:'As you move further away from a sound source, what generally happens to how loud the sound seems?', choices:['It gets quieter (fainter)','It gets louder','It stays exactly the same','The pitch changes, but not the volume'], correctAnswer:'It gets quieter (fainter)',
+    explanation:'Sound spreads out and loses energy as it travels, so it generally sounds fainter the further away you are from its source.'},
+
+  // --- Extra depth: States of Matter (7) ---
+  {section:'matter', difficulty:'medium', type:'mcq', prompt:'Which of these is an example of a reversible change?', choices:['Melting chocolate (it can be cooled back into a solid)','Baking a cake','Burning paper','Frying an egg'], correctAnswer:'Melting chocolate (it can be cooled back into a solid)',
+    explanation:'Melting is a reversible change of state — melted chocolate can be cooled back into a solid. Baking, burning and frying are irreversible changes that cannot easily be undone.'},
+  {section:'matter', difficulty:'hard', type:'mcq', prompt:'Why can a gas be squashed (compressed) into a smaller space much more easily than a solid or a liquid?', choices:['Because the particles in a gas are far apart, with lots of empty space between them','Because gas particles are much smaller than solid particles','Because gases have no mass','Because gases are not made of particles'], correctAnswer:'Because the particles in a gas are far apart, with lots of empty space between them',
+    explanation:'In a gas, the particles are spread far apart with lots of empty space between them, so there is room to push them closer together. Solids and liquids have their particles already close together, leaving little room to compress.'},
+  {section:'matter', difficulty:'medium', type:'mcq', prompt:'Why does a puddle of water disappear faster on a hot, sunny, windy day than on a cold, still day?', choices:['Heat and wind both increase the rate of evaporation','Water only evaporates when it is cold','Wind stops evaporation from happening','The puddle freezes instead of evaporating'], correctAnswer:'Heat and wind both increase the rate of evaporation',
+    explanation:'Heat gives water particles more energy to escape into the air, and wind carries the water vapour away, so both heat and wind make evaporation happen faster.'},
+  {section:'matter', difficulty:'medium', type:'mcq', prompt:'When ice melts into water, what happens to its total mass?', choices:["It stays the same — melting is a change of state, not a change in the amount of matter",'It increases','It decreases','It becomes zero'], correctAnswer:"It stays the same — melting is a change of state, not a change in the amount of matter",
+    explanation:'Melting only changes the state of a substance (from solid to liquid) — no matter is gained or lost, so the mass stays the same.'},
+  {section:'matter', difficulty:'hard', type:'mcq', prompt:'You dissolve salt completely into water to make a clear salt solution. How could you get the solid salt back?', choices:['Evaporate the water, leaving the salt behind','Filter the solution through paper','Freeze the solution and remove the ice','Add more water to the solution'], correctAnswer:'Evaporate the water, leaving the salt behind',
+    explanation:'Evaporating the water turns it into vapour and leaves the dissolved salt behind as a solid, since only the water escapes, not the salt.'},
+  {section:'matter', difficulty:'medium', type:'mcq', prompt:'Why is filtering NOT a good way to separate dissolved salt from water?', choices:['Because the dissolved salt particles are far too small to be caught by a filter','Because filters only work on gases','Because salt is magnetic','Because filtering only works on hot liquids'], correctAnswer:'Because the dissolved salt particles are far too small to be caught by a filter',
+    explanation:'Once salt has dissolved, it breaks up into particles far too small for a filter to catch — filtering only separates solids that have not dissolved, like sand from water.'},
+  {section:'matter', difficulty:'easy', type:'mcq', prompt:'Which of these is a gas at room temperature?', choices:['Oxygen','Milk','Honey','Sand'], correctAnswer:'Oxygen',
+    explanation:'Oxygen is a gas at room temperature. Milk and honey are liquids, and sand is a solid.'},
+
+  // --- Extra depth: Digestive System (7) ---
+  {section:'digestive', difficulty:'medium', type:'mcq', prompt:'Why do we need to chew our food well in the mouth?', choices:['To break it into smaller pieces and mix it with saliva, making it easier to swallow and digest','To make food taste sweeter','To kill germs in the food','To help food travel faster to the stomach'], correctAnswer:'To break it into smaller pieces and mix it with saliva, making it easier to swallow and digest',
+    explanation:'Chewing breaks food into smaller pieces and mixes it with saliva, which makes it easier to swallow and starts digestion.'},
+  {section:'digestive', difficulty:'hard', type:'mcq', prompt:'Digestion breaks food down into nutrients. Why does the body need to do this?', choices:["So nutrients are small enough to be absorbed into the blood and used by the body's cells",'So food takes up less space in the stomach','So we feel hungry again sooner','So food tastes better'], correctAnswer:"So nutrients are small enough to be absorbed into the blood and used by the body's cells",
+    explanation:"Food must be broken down into very small nutrient particles so they can pass through the wall of the small intestine into the blood, and be carried to the body's cells to be used."},
+  {section:'digestive', difficulty:'medium', type:'mcq', prompt:'Which organ produces bile, which helps to digest fats?', choices:['The liver','The heart','The kidney','The lungs'], correctAnswer:'The liver',
+    explanation:'The liver produces bile, which helps to break down (digest) fats in the small intestine.'},
+  {section:'digestive', difficulty:'medium', type:'mcq', prompt:'What is the main nutrient found in foods like meat, eggs, beans and fish, needed for growth and repair of the body?', choices:['Protein','Carbohydrate','Fat','Fibre'], correctAnswer:'Protein',
+    explanation:'Protein, found in foods like meat, eggs, beans and fish, is needed for the growth and repair of the body.'},
+  {section:'digestive', difficulty:'easy', type:'mcq', prompt:'Why do we need fibre in our diet, even though our bodies cannot digest it?', choices:['It helps keep the digestive system working properly','It gives us the most energy of any food group','It builds muscle','It makes teeth stronger'], correctAnswer:'It helps keep the digestive system working properly',
+    explanation:'Although fibre cannot be digested, it helps keep the digestive system (bowels) working properly by adding bulk that helps move waste through the gut.'},
+  {section:'digestive', difficulty:'hard', type:'mcq', prompt:'A food is tested with iodine solution and no colour change happens (it stays orange-brown). What does this tell us?', choices:['The food does not contain starch','The food contains a lot of starch','The food contains protein','The food is unsafe to eat'], correctAnswer:'The food does not contain starch',
+    explanation:'Iodine solution only turns blue-black when starch is present. If it stays orange-brown, that tells us the food does not contain starch.'},
+  {section:'digestive', difficulty:'medium', type:'mcq', prompt:'What is the main job of teeth in digestion?', choices:['To break food into smaller pieces (mechanical digestion) before it is swallowed','To produce saliva','To absorb nutrients','To push food into the stomach'], correctAnswer:'To break food into smaller pieces (mechanical digestion) before it is swallowed',
+    explanation:"Teeth physically break food into smaller pieces, which is called mechanical digestion, making it easier to swallow and for the body's chemicals to digest further."},
+
+  // --- Extra depth: Forces (7) ---
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'A heavier box and a lighter box are both pushed with the same force across a rough floor. Which one is harder to get moving?', choices:['The heavier box, because more friction acts against a heavier object','The lighter box','They are equally easy to move','Neither box will move at all'], correctAnswer:'The heavier box, because more friction acts against a heavier object',
+    explanation:'A heavier object presses down harder on the floor, creating more friction, so it is harder to get moving with the same push.'},
+  {section:'forces', difficulty:'hard', type:'mcq', prompt:'Two forces act on a stationary object in opposite directions and are exactly equal in size. What happens to the object?', choices:['It stays still, because the forces are balanced','It accelerates in one direction','It spins in a circle','It disappears'], correctAnswer:'It stays still, because the forces are balanced',
+    explanation:'When two opposite forces on an object are exactly equal, they are called balanced forces, and the object stays still (or keeps moving at a steady speed if it was already moving).'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'What do we call forces that are equal in size but act in opposite directions, causing no change in motion?', choices:['Balanced forces','Unbalanced forces','Applied forces','Magnetic forces'], correctAnswer:'Balanced forces',
+    explanation:'Forces that are equal in size and opposite in direction are called balanced forces — they cancel each other out, so there is no change in motion.'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'If the forces on a moving object become unbalanced (one force bigger than the opposing one), what happens?', choices:['The object speeds up, slows down, or changes direction','Nothing changes','The object stops instantly','The object becomes weightless'], correctAnswer:'The object speeds up, slows down, or changes direction',
+    explanation:'When forces on an object are unbalanced, the bigger force "wins", causing the object to speed up, slow down, or change direction.'},
+  {section:'forces', difficulty:'hard', type:'mcq', prompt:"Why does a parachute slow a skydiver's fall?", choices:['It greatly increases air resistance acting against gravity','It removes gravity completely','It increases the skydiver\'s weight','It creates an applied force pushing the skydiver upward'], correctAnswer:'It greatly increases air resistance acting against gravity',
+    explanation:"A parachute's large surface area catches much more air, hugely increasing air resistance, which pushes back against gravity and slows the skydiver's fall."},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'Why is it easier to push a shopping trolley on smooth tiles than on thick carpet?', choices:['Smooth tiles create less friction than thick carpet','Carpet has no friction at all','Tiles are heavier than carpet','Trolleys only work properly on carpet'], correctAnswer:'Smooth tiles create less friction than thick carpet',
+    explanation:'A smoother surface like tiles creates less friction than a rough surface like thick carpet, so it takes less force to push the trolley across it.'},
+  {section:'forces', difficulty:'medium', type:'mcq', prompt:'Like poles of two magnets (for example, north and north) are brought close together. What happens?', choices:['They repel (push apart)','They attract (pull together)','Nothing happens at all','They stick together permanently'], correctAnswer:'They repel (push apart)',
+    explanation:'Like magnetic poles (north-north or south-south) repel each other, pushing apart. Only unlike poles (north-south) attract.'},
+
+  // --- Extra depth: Seasons & Adaptations (7) ---
+  {section:'seasons', difficulty:'medium', type:'mcq', prompt:'A polar bear has thick white fur and a thick layer of fat (blubber). How are these adaptations useful?', choices:["They keep the bear warm in extremely cold temperatures, and the white colour helps it blend into the snow",'They help it swim faster only','They help it see in the dark','They help it digest food faster'], correctAnswer:"They keep the bear warm in extremely cold temperatures, and the white colour helps it blend into the snow",
+    explanation:"A polar bear's thick fur and blubber insulate it against extreme cold, while its white colouring camouflages it against the snow."},
+  {section:'seasons', difficulty:'medium', type:'mcq', prompt:'Why do deciduous trees lose their leaves in autumn and winter in cold climates?', choices:['To reduce water loss and save energy when it is too cold to grow','To attract more insects','To prepare for flowering','Because the leaves turn into seeds'], correctAnswer:'To reduce water loss and save energy when it is too cold to grow',
+    explanation:'Losing their leaves helps deciduous trees reduce water loss and save energy during the cold winter months, when there is little sunlight for growing anyway.'},
+  {section:'seasons', difficulty:'hard', type:'mcq', prompt:'An animal that hibernates and an animal that migrates are both responding to the same seasonal problem. What is it?', choices:['A lack of food (and/or very cold conditions) during winter','Too much rain in summer','Too many predators in spring','Too much daylight in summer'], correctAnswer:'A lack of food (and/or very cold conditions) during winter',
+    explanation:'Both hibernation and migration are strategies for surviving winter, when food becomes scarce and conditions turn very cold — hibernating animals sleep through it, while migrating animals move somewhere warmer with more food.'},
+  {section:'seasons', difficulty:'medium', type:'mcq', prompt:'Many desert foxes and owls are nocturnal (most active at night). Why is this a useful adaptation in a hot, dry environment?', choices:['It helps them avoid the extreme heat and water loss of the daytime','It helps them see better in bright sunlight','It helps them digest food faster','It helps them grow bigger'], correctAnswer:'It helps them avoid the extreme heat and water loss of the daytime',
+    explanation:'By being active at night and resting during the day, nocturnal desert animals avoid the extreme daytime heat, which also helps them lose less water.'},
+  {section:'seasons', difficulty:'medium', type:'mcq', prompt:'Why do some animals, like the Arctic hare, change colour with the seasons, turning white in winter?', choices:['To camouflage against the snow and avoid predators','To keep warmer in winter','To attract a mate','To grow faster'], correctAnswer:'To camouflage against the snow and avoid predators',
+    explanation:"An Arctic hare's white winter coat camouflages it against the snow, making it harder for predators to spot."},
+  {section:'seasons', difficulty:'hard', type:'mcq', prompt:'Regions near the equator have roughly equal day length all year round and no distinct seasons. Why might animals there show fewer seasonal adaptations, like hibernation, compared to animals near the poles?', choices:['Because the temperature and food supply stay fairly constant throughout the year','Because there is no sunlight at the equator','Because there are no predators at the equator','Because animals at the equator cannot adapt at all'], correctAnswer:'Because the temperature and food supply stay fairly constant throughout the year',
+    explanation:'Without big seasonal changes in temperature or food supply, animals near the equator have less need for adaptations like hibernation, which exist specifically to survive harsh seasonal changes.'},
+  {section:'seasons', difficulty:'medium', type:'mcq', prompt:'What is camouflage, and how does it help an animal?', choices:["Colouring or patterns that help an animal blend into its surroundings, making it harder for predators (or prey) to spot it",'Moving to a warmer region when food runs out','Going into a dormant state to survive winter','Becoming better suited to an environment over many generations'], correctAnswer:"Colouring or patterns that help an animal blend into its surroundings, making it harder for predators (or prey) to spot it",
+    explanation:'Camouflage is colouring or patterns that let an animal blend into its surroundings, helping it hide from predators or sneak up on prey.'}
+];
+
+
+/* ===================== QUIZ GENERATION ===================== */
+const SECTIONS = [
+  {key:'reproduction', name:'Plant Reproduction &amp; Seed Dispersal', emoji:'🌸', color:'linear-gradient(135deg,#ff006e,#c9184a)'},
+  {key:'sound', name:'Sound', emoji:'🔊', color:'linear-gradient(135deg,#4cc9f0,#0077b6)'},
+  {key:'matter', name:'States of Matter', emoji:'🧊', color:'linear-gradient(135deg,#8338ec,#5a189a)'},
+  {key:'digestive', name:'Digestive System', emoji:'🍽️', color:'linear-gradient(135deg,#06d6a0,#1b998b)'},
+  {key:'forces', name:'Forces', emoji:'🧲', color:'linear-gradient(135deg,#fb5607,#d00000)'},
+  {key:'seasons', name:'Seasons &amp; Adaptations', emoji:'🐫', color:'linear-gradient(135deg,#ffbe0b,#fb8500)'}
+];
+
+function generateQuiz(){
+  // The exam-scope bank is already sized to match the real end-of-year exam, so use every question.
+  return shuffle(RAW_QUESTIONS).map(q => {
+    const question = { ...q, id: uid() };
+    if (question.type === 'mcq'){
+      question.choices = shuffle(question.choices);
+    } else {
+      question.choices = ['True','False'];
+    }
+    return question;
+  });
+}
+function sectionNameByKey(key){ const s = SECTIONS.find(x=>x.key===key); return s ? s.name.replace(/&amp;/g,'&') : key; }
+
+/* ===================== PERSISTENCE ===================== */
+const LS_SAVE = 'sq_saved_v1';
+const LS_HISTORY = 'sq_history_v1';
+const LS_XP = 'sq_xp_v1';
+
+function loadJSON(key, fallback){
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; }
+}
+function saveJSON(key, val){ try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
+
+function getXP(){ return loadJSON(LS_XP, {xp:0}); }
+function addXP(n){ const d = getXP(); d.xp += n; saveJSON(LS_XP, d); return d.xp; }
+function levelFromXP(xp){ return Math.floor(xp/100) + 1; }
+function xpIntoLevel(xp){ return xp % 100; }
+
+function getHistory(){ return loadJSON(LS_HISTORY, []); }
+function pushHistory(entry){ const h = getHistory(); h.unshift(entry); saveJSON(LS_HISTORY, h.slice(0,25)); }
+
+/* ===================== APP STATE ===================== */
+let state = null;
+
+function newQuizState(){
+  paletteOpen = false;
+  return {
+    startedAt: Date.now(),
+    questions: generateQuiz(),
+    index: 0,
+    answers: {},
+  };
+}
+
+function totalCount(){ return state.questions.length; }
+function answeredCount(){ return Object.values(state.answers).filter(a=>a.resolved).length; }
+function correctCount(){ return Object.values(state.answers).filter(a=>a.resolved && a.correct).length; }
+function sectionQuestions(sectionKey){ return state.questions.filter(q=>q.section===sectionKey); }
+function sectionAnsweredCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved).length; }
+function sectionCorrectCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved && state.answers[q.id].correct).length; }
+
+/* ===================== RENDERING ===================== */
+const app = document.getElementById('app');
+
+function go(view){ window.location.hash = view; render(); }
+
+function render(){
+  const hash = window.location.hash.replace('#','') || 'home';
+  if (hash === 'home') return renderHome();
+  if (hash === 'quiz') return renderQuiz();
+  if (hash === 'results') return renderResults();
+  if (hash === 'review') return renderReview();
+  renderHome();
+}
+window.addEventListener('hashchange', render);
+
+/* ===================== QUESTION PALETTE (jump to any question) ===================== */
+let paletteOpen = false;
+function paletteHTML(){
+  const items = state.questions.map((q,i) => {
+    const ans = state.answers[q.id];
+    let cls = 'palette-btn';
+    if (i === state.index) cls += ' current';
+    if (ans && ans.resolved) cls += ans.correct ? ' correct' : ' incorrect';
+    return `<button type="button" class="${cls}" data-idx="${i}">${i+1}</button>`;
+  }).join('');
+  return `<div class="palette-grid">${items}</div>`;
+}
+function jumpToQuestion(i){ state.index = i; paletteOpen = false; saveJSON(LS_SAVE, state); render(); }
+
+/* ===================== POST-QUIZ REVIEW (all / correct only / incorrect only) ===================== */
+let reviewFilter = 'all';
+function renderReview(){
+  const report = window._lastReport;
+  if (!report){ go('home'); return; }
+  const filtered = report.questions
+    .map((q,i) => ({...q, num:i+1}))
+    .filter(q => reviewFilter==='all' ? true : reviewFilter==='correct' ? q.wasCorrect : !q.wasCorrect);
+  const correctCountR = report.questions.filter(q=>q.wasCorrect).length;
+  const incorrectCountR = report.questions.length - correctCountR;
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="row between" style="margin-bottom:10px">
+        <h3>🔍 Review Your Answers</h3>
+        <button class="btn-secondary" id="backResultsBtn">← Back to Results</button>
+      </div>
+      <div class="row" style="gap:8px;margin-bottom:14px">
+        <button class="${reviewFilter==='all'?'btn-primary':'btn-secondary'}" data-filter="all">All (${report.questions.length})</button>
+        <button class="${reviewFilter==='correct'?'btn-primary':'btn-secondary'}" data-filter="correct">✅ Correct (${correctCountR})</button>
+        <button class="${reviewFilter==='incorrect'?'btn-primary':'btn-secondary'}" data-filter="incorrect">❌ Incorrect (${incorrectCountR})</button>
+      </div>
+      ${filtered.length===0 ? '<p>No questions match this filter.</p>' : filtered.map(q => `
+        <div class="review-item ${q.wasCorrect?'correct':'incorrect'}">
+          <div class="review-q-head"><b>Q${q.num}</b> <span class="pill ${q.wasCorrect?'green':'pink'}">${q.wasCorrect?'Correct':'Incorrect'}</span></div>
+          <div class="review-topic">${sectionNameByKey(q.section)} · ${q.difficulty}</div>
+          <div class="review-prompt">${q.prompt}</div>
+          <div class="review-answers">Your answer: <b>${q.chosen===null?'<i>no answer</i>':q.chosen}</b>${q.wasCorrect?'':`<br>Correct answer: <b>${q.correctAnswer}</b>`}</div>
+          <div class="review-explain">${q.explanation}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('backResultsBtn').onclick = () => go('results');
+  document.querySelectorAll('[data-filter]').forEach(btn => {
+    btn.onclick = () => { reviewFilter = btn.getAttribute('data-filter'); renderReview(); };
+  });
+}
+
+function renderHome(){
+  const saved = loadJSON(LS_SAVE, null);
+  const history = getHistory();
+  const xpData = getXP();
+  const level = levelFromXP(xpData.xp);
+  const pct = xpIntoLevel(xpData.xp);
+
+  app.innerHTML = `
+    <div class="card hero">
+      <div class="row between">
+        <div>
+          <h1>🔬 Science Quest</h1>
+          <p>Grade 5 End-of-Year Exam Scope</p>
+        </div>
+        <div class="level-box">
+          <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>
+          <div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%"></div></div>
+          <div style="font-size:.72rem;opacity:.85;margin-top:2px">${pct}/100 XP to next level</div>
+        </div>
+      </div>
+    </div>
+
+    ${saved ? `
+    <div class="card install-banner">
+      <div><b>⏸️ You have a saved quiz in progress</b><br><span style="font-size:.85rem;color:var(--muted)">Question ${saved.index+1} of ${saved.questions.length}</span></div>
+      <div class="row">
+        <button class="btn-primary" id="continueBtn">Continue ▶</button>
+        <button class="btn-ghost" id="discardBtn">Discard</button>
+      </div>
+    </div>` : ''}
+
+    <div class="card">
+      <h3 style="margin-bottom:10px">Start a fresh quiz</h3>
+      <p style="margin-bottom:12px">102 questions covering the full end-of-year exam scope in Cambridge-level depth — plant reproduction &amp; seed dispersal, sound, states of matter, the digestive system, forces, and seasons &amp; adaptations — freshly shuffled every time, mixed easy, medium and hard!</p>
+      <div class="topic-grid">
+        ${SECTIONS.map(s => `<div class="topic-card" style="background:${s.color}"><b>${s.emoji} ${s.name}</b></div>`).join('')}
+      </div>
+      <div class="row center" style="margin-top:14px">
+        <button class="btn-primary" id="startBtn" style="font-size:1.1rem;padding:14px 28px">🚀 Start New Quiz</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🏆 Your Badges</h3>
+      <div class="badges-shelf" style="margin-top:12px">
+        ${renderBadgeShelf(history)}
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📊 Your Past Attempts</h3>
+      <div style="margin-top:12px">
+      ${history.length===0 ? '<p>No attempts yet — play your first quiz!</p>' : history.slice(0,8).map(h => `
+        <div class="history-item">
+          <span>${new Date(h.date).toLocaleDateString()} ${new Date(h.date).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</span>
+          <span class="pill ${h.percent>=90?'gold':h.percent>=70?'green':'pink'}">${h.correct}/${h.total} · ${h.percent}%</span>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="footer-note">Works offline · Install this app to your home screen for the best experience · Made for a future scientist 🔬</div>
+  `;
+
+  document.getElementById('startBtn').onclick = () => {
+    state = newQuizState();
+    saveJSON(LS_SAVE, state);
+    go('quiz');
+  };
+  const cbtn = document.getElementById('continueBtn');
+  if (cbtn) cbtn.onclick = () => { state = saved; go('quiz'); };
+  const dbtn = document.getElementById('discardBtn');
+  if (dbtn) dbtn.onclick = () => { localStorage.removeItem(LS_SAVE); render(); };
+}
+
+function computeBadgesForAttempt(report){
+  const badges = [];
+  if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
+  else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
+  else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
+  report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
+  badges.push({e:'✅', n:'Completed'});
+  return badges;
+}
+
+function renderBadgeShelf(history){
+  if (history.length===0) return '<p>Complete a quiz to start earning badges!</p>';
+  const all = [];
+  history.forEach(h => (h.badges||[]).forEach(b => all.push(b)));
+  const seen = new Set();
+  const unique = all.filter(b => { const k=b.n; if (seen.has(k)) return false; seen.add(k); return true; });
+  if (unique.length===0) return '<p>Complete a quiz to start earning badges!</p>';
+  return unique.map(b => `<div class="badge-chip">${b.e}</div>`).join('');
+}
+
+function renderQuiz(){
+  if (!state){ go('home'); return; }
+  const q = state.questions[state.index];
+  const total = totalCount();
+  const answered = answeredCount();
+  const correct = correctCount();
+  const percent = answered ? Math.round((correct/answered)*100) : 0;
+  const sec = SECTIONS.find(s=>s.key===q.section);
+  const secTotal = sectionQuestions(q.section).length;
+  const secAnswered = sectionAnsweredCount(q.section);
+
+  const existing = state.answers[q.id];
+  const resolved = existing && existing.resolved;
+
+  app.innerHTML = `
+    <div class="card progress-wrap">
+      <div class="row between">
+        <div class="progress-label">Overall Progress</div>
+        <div class="progress-label">${answered}/${total}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner overall" style="width:${(answered/total)*100}%"></div></div>
+      <div class="row between" style="margin-top:4px">
+        <div class="progress-label">${sec.emoji} ${sectionNameByKey(sec.key)}</div>
+        <div class="progress-label">${secAnswered}/${secTotal}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner section" style="width:${(secAnswered/secTotal)*100}%"></div></div>
+      <div class="score-strip" style="margin-top:6px">
+        <div class="score-tile"><div class="num">${correct}/${answered||0}</div><div class="lbl">Score</div></div>
+        <div class="score-tile"><div class="num">${percent}%</div><div class="lbl">Accuracy</div></div>
+        <div class="score-tile"><div class="num">${state.index+1}/${total}</div><div class="lbl">Question</div></div>
+      </div>
+      <button class="btn-ghost" id="paletteBtn" style="justify-self:start">🗂️ Jump to any question</button>
+    </div>
+
+    ${paletteOpen ? `<div class="card palette-card">${paletteHTML()}</div>` : ''}
+
+    <div class="card qcard" id="qcard">
+      <div class="qtop">
+        <span class="difficulty-tag ${q.difficulty}">${q.difficulty}</span>
+        <span class="pill">${sec.emoji} ${sectionNameByKey(sec.key)}</span>
+      </div>
+      <div class="qprompt">${q.prompt}</div>
+      <div id="answerArea"></div>
+      <div id="feedbackArea"></div>
+      <div id="memoArea"></div>
+      <div class="nav-row">
+        <button class="arrow-btn" id="backBtn" ${state.index===0 ? 'disabled':''}>←</button>
+        <button class="btn-secondary" id="saveExitBtn">💾 Save &amp; Exit</button>
+        <button class="arrow-btn" id="fwdBtn" ${resolved ? '' : 'disabled'}>→</button>
+      </div>
+    </div>
+  `;
+
+  renderAnswerArea(q, existing);
+
+  document.getElementById('backBtn').onclick = () => { state.index = Math.max(0, state.index-1); saveJSON(LS_SAVE, state); render(); };
+  document.getElementById('fwdBtn').onclick = () => {
+    if (state.index === total-1){ finishQuiz(); return; }
+    state.index++; saveJSON(LS_SAVE, state); render();
+  };
+  document.getElementById('saveExitBtn').onclick = () => { saveJSON(LS_SAVE, state); go('home'); };
+  document.getElementById('paletteBtn').onclick = () => { paletteOpen = !paletteOpen; renderQuiz(); };
+  if (paletteOpen){
+    document.querySelectorAll('.palette-btn').forEach(btn => {
+      btn.onclick = () => jumpToQuestion(Number(btn.getAttribute('data-idx')));
+    });
+  }
+}
+
+function renderAnswerArea(q, existing){
+  const answerArea = document.getElementById('answerArea');
+  const feedbackArea = document.getElementById('feedbackArea');
+  const memoArea = document.getElementById('memoArea');
+  const resolved = existing && existing.resolved;
+
+  answerArea.innerHTML = `<div class="choices">${q.choices.map((c,i)=>{
+    const letter = String.fromCharCode(65+i);
+    let cls = 'choice-btn';
+    if (resolved){
+      if (c === q.correctAnswer) cls += ' correct';
+      else if (existing.lastChosen === c) cls += ' incorrect';
+      else cls += ' disabled-other';
+    }
+    return `<button class="${cls}" data-choice="${esc(c)}" ${resolved?'disabled':''}><span class="choice-letter">${letter}</span><span>${c}</span></button>`;
+  }).join('')}</div>`;
+  if (!resolved){
+    answerArea.querySelectorAll('.choice-btn').forEach(btn => {
+      btn.onclick = () => submitAnswer(q, btn.getAttribute('data-choice'));
+    });
+  }
+
+  if (existing){
+    renderFeedback(q, existing, feedbackArea);
+    if (resolved) renderMemo(q, memoArea);
+  }
+}
+
+function renderFeedback(q, ans, container){
+  if (!ans.lastWasCorrect && !ans.resolved){
+    container.innerHTML = `<div class="feedback-banner incorrect">🤔 Not quite! Give it one more try.</div>`;
+  } else if (ans.resolved && ans.correct){
+    container.innerHTML = `<div class="feedback-banner correct">${ans.attempts===1 ? '🎉 Correct on the first try! Amazing!' : '✅ Correct! Well done for trying again.'}</div>`;
+  } else if (ans.resolved && !ans.correct){
+    container.innerHTML = `<div class="feedback-banner wrong-final">📚 Not this time — read the memo below to learn why.</div>`;
+  } else {
+    container.innerHTML = '';
+  }
+}
+
+function renderMemo(q, container){
+  container.innerHTML = `<div class="memo-box">
+    <h4>📝 Study Memo</h4>
+    <div class="ans-line">Correct answer: <b>${q.correctAnswer}</b></div>
+    <div class="explain">${q.explanation}</div>
+  </div>`;
+}
+
+function submitAnswer(q, chosenRaw){
+  const existing = state.answers[q.id] || {attempts:0, resolved:false};
+  existing.attempts += 1;
+  existing.lastChosen = chosenRaw;
+  const isCorrect = String(chosenRaw) === String(q.correctAnswer);
+
+  if (isCorrect){
+    existing.resolved = true;
+    existing.correct = true;
+    existing.lastWasCorrect = true;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    launchConfetti(existing.attempts===1 ? 60 : 35);
+  } else if (existing.attempts >= 1){
+    existing.resolved = true;
+    existing.correct = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  } else {
+    existing.resolved = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  }
+  renderQuiz();
+}
+
+function finishQuiz(){
+  const total = totalCount();
+  const correct = correctCount();
+  const percent = Math.round((correct/total)*100);
+  const noRetries = Object.values(state.answers).every(a => a.attempts === 1);
+  const usedRetries = Object.values(state.answers).some(a => a.attempts > 1);
+
+  const sectionReports = SECTIONS.map(sec => {
+    const sq = sectionQuestions(sec.key);
+    const sc = sectionCorrectCount(sec.key);
+    return {key: sec.key, name: sectionNameByKey(sec.key), emoji: sec.emoji, correct: sc, total: sq.length, percent: Math.round((sc/sq.length)*100)};
+  });
+
+  const report = {
+    date: Date.now(), correct, total, percent, noRetries, usedRetries, sectionReports,
+    questions: state.questions.map(q => ({
+      prompt: q.prompt, section: q.section, difficulty: q.difficulty,
+      chosen: state.answers[q.id] ? state.answers[q.id].lastChosen : null,
+      correctAnswer: q.correctAnswer, wasCorrect: state.answers[q.id] ? !!state.answers[q.id].correct : false,
+      explanation: q.explanation
+    }))
+  };
+  report.badges = computeBadgesForAttempt(report);
+
+  const xpEarned = Object.values(state.answers).reduce((s,a)=> s + (a.correct ? (a.attempts===1?10:5) : 0), 0);
+  addXP(xpEarned);
+  report.xpEarned = xpEarned;
+
+  pushHistory({date: report.date, correct, total, percent, badges: report.badges});
+  localStorage.removeItem(LS_SAVE);
+
+  window._lastReport = report;
+  go('results');
+}
+
+function renderResults(){
+  const report = window._lastReport;
+  if (!report){ go('home'); return; }
+  const stars = report.percent >= 90 ? '⭐⭐⭐' : report.percent >= 70 ? '⭐⭐' : report.percent >= 40 ? '⭐' : '🌱';
+
+  app.innerHTML = `
+    <div class="card results-card">
+      <h1>${report.percent === 100 ? '🏆 Cum Laude!' : report.percent >= 75 ? '🎉 Great Job!' : '💪 Keep Practising!'}</h1>
+      <div class="big-score">${report.correct}/${report.total}</div>
+      <div style="font-size:1.2rem;font-weight:800">${report.percent}% · +${report.xpEarned} XP</div>
+      <div class="stars-row">${stars}</div>
+      <div class="badges-shelf row center">${report.badges.map(b=>`<div class="badge-chip">${b.e}</div>`).join('')}</div>
+      <div class="section-report">
+        ${report.sectionReports.map(sr => `<div class="sr-row"><span>${sr.emoji} ${sr.name}</span><b>${sr.correct}/${sr.total} (${sr.percent}%)</b></div>`).join('')}
+      </div>
+      <div class="row center">
+        <button class="btn-primary" id="downloadBtn">⬇️ Download Summary</button>
+        <button class="btn-warn" id="reviewBtn">🔍 Review Answers</button>
+        <button class="btn-good" id="playAgainBtn">🔄 New Quiz</button>
+        <button class="btn-secondary" id="homeBtn">🏠 Home</button>
+      </div>
+    </div>
+  `;
+  if (report.percent >= 90) launchConfetti(140);
+
+  document.getElementById('downloadBtn').onclick = () => downloadSummary(report);
+  document.getElementById('reviewBtn').onclick = () => { reviewFilter = 'all'; go('review'); };
+  document.getElementById('playAgainBtn').onclick = () => { state = newQuizState(); saveJSON(LS_SAVE, state); go('quiz'); };
+  document.getElementById('homeBtn').onclick = () => go('home');
+}
+
+function downloadSummary(report){
+  const dateStr = new Date(report.date).toLocaleString();
+  const rows = report.questions.map((q,i) => `
+    <tr>
+      <td style="padding:8px;border:1px solid #ddd">${i+1}</td>
+      <td style="padding:8px;border:1px solid #ddd">${sectionNameByKey(q.section)} (${q.difficulty})</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.prompt}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.chosen===null?'<i>no answer</i>':q.chosen}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.correctAnswer}</td>
+      <td style="padding:8px;border:1px solid #ddd;font-weight:bold;color:${q.wasCorrect?'#04473a':'#8a1f4c'}">${q.wasCorrect?'Correct':'Incorrect'}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.explanation}</td>
+    </tr>`).join('');
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Science Quest Results – ${dateStr}</title>
+  <style>body{font-family:Arial,sans-serif;padding:20px;color:#1c2541}h1{color:#3a86ff}table{border-collapse:collapse;width:100%;font-size:14px}th{background:#eaf1ff;padding:8px;border:1px solid #ddd;text-align:left}</style>
+  </head><body>
+  <h1>🔬 Science Quest – Results</h1>
+  <p><b>Date:</b> ${dateStr}<br/><b>Score:</b> ${report.correct}/${report.total} (${report.percent}%)<br/><b>Badges earned:</b> ${report.badges.map(b=>b.n).join(', ')}</p>
+  <table><thead><tr><th>#</th><th>Topic</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th><th>Explanation / Memo</th></tr></thead>
+  <tbody>${rows}</tbody></table>
+  <p style="margin-top:20px;color:#5c6b8a">Generated by Science Quest – keep exploring the world of Natural Sciences!</p>
+  </body></html>`;
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `science-quest-results-${new Date(report.date).toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ===================== CONFETTI ===================== */
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+let confettiParticles = [];
+let confettiRAF = null;
+function launchConfetti(count){
+  const colors = ['#3a86ff','#8338ec','#ffbe0b','#06d6a0','#4cc9f0','#ff006e'];
+  for (let i=0;i<count;i++){
+    confettiParticles.push({
+      x: Math.random()*canvas.width, y: -20 - Math.random()*80,
+      vx: (Math.random()-0.5)*3, vy: 2+Math.random()*3,
+      size: 5+Math.random()*6, color: pick(colors), rot: Math.random()*360, vr:(Math.random()-0.5)*10,
+      life: 0, maxLife: 140+Math.random()*60
+    });
+  }
+  if (!confettiRAF) confettiLoop();
+}
+function confettiLoop(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confettiParticles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.03; p.rot += p.vr; p.life++;
+    ctx.save();
+    ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+    ctx.fillStyle = p.color; ctx.globalAlpha = Math.max(0, 1 - p.life/p.maxLife);
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+    ctx.restore();
+  });
+  confettiParticles = confettiParticles.filter(p => p.life < p.maxLife && p.y < canvas.height+40);
+  if (confettiParticles.length>0){
+    confettiRAF = requestAnimationFrame(confettiLoop);
+  } else {
+    confettiRAF = null;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+}
+
+/* ===================== SERVICE WORKER ===================== */
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+
+/* ===================== INIT ===================== */
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "History Quest: Grade 5 End-of-Year Exam Scope",
+  "short_name": "History Quest",
+  "description": "A colourful, gamified 50-question Grade 5 History quiz covering the San & Khoikhoi, early African farmers, the Coat of Arms, Ancient Egypt and South African heritage sites, with comprehension-style paragraphs, instant marking and badges.",
+  "start_url": "./history.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fff7e6",
+  "theme_color": "#b8860b",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

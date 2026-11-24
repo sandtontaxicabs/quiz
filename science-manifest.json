@@ -1,0 +1,17 @@
+{
+  "name": "Science Quest: Grade 5 End-of-Year Exam Scope",
+  "short_name": "Science Quest",
+  "description": "A colourful, gamified Grade 5 Natural Sciences exam-scope quiz covering plant reproduction, sound, states of matter, the digestive system, forces, and seasons & adaptations, with instant marking and badges.",
+  "start_url": "./science.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#eef4ff",
+  "theme_color": "#3a86ff",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

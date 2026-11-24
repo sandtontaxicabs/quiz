@@ -1,0 +1,17 @@
+{
+  "name": "Geography Quest: Grade 5 End-of-Year Exam Scope",
+  "short_name": "Geography Quest",
+  "description": "A colourful, gamified 50-question Grade 5 Geography quiz covering physical features, rivers (incl. confluences), South Africa's neighbouring countries, weather and climate, interpreting weather maps (incl. symbols and temperature readings), minerals mined in South Africa (incl. mining locations), safety of miners and coal formation, with comprehension-style paragraphs, instant marking and badges.",
+  "start_url": "./geography.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#e8f6f3",
+  "theme_color": "#2a9d8f",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

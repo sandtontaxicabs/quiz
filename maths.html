@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Maths Quest: Grade 5 End-of-Year Exam Scope</title>
+<meta name="description" content="A colourful, gamified 50-question Grade 5 Maths quiz covering Place Value, Rounding Off, Triangular Numbers, Time, Fractions, Laws of Arithmetic, Percentage &amp; Decimals, Types of Triangles, 3D Shapes, Area &amp; Perimeter, Data Handling, Missing Angles, Addition, Multiplication and Division — every question multiple choice, with a Grade 6 stretch tier, instant marking and badges." />
+<meta name="theme-color" content="#6c63ff" />
+<link rel="manifest" href="maths-manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+:root{
+  --bg1:#eef2ff; --bg2:#fff0f6; --card:#ffffff; --ink:#232946; --muted:#6b7394;
+  --purple:#6c63ff; --pink:#ff6b9d; --gold:#ffb703; --green:#06d6a0; --blue:#4cc9f0; --red:#ef476f;
+  --shadow:0 14px 34px rgba(50,50,120,.14);
+  --radius:22px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:"Baloo 2","Trebuchet MS","Segoe UI",Arial,sans-serif;color:var(--ink)}
+body{
+  background:
+    radial-gradient(circle at 8% 10%, #d9d4ff 0, transparent 40%),
+    radial-gradient(circle at 92% 15%, #ffd6e7 0, transparent 42%),
+    radial-gradient(circle at 50% 100%, #d4f7ec 0, transparent 45%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  padding:14px; padding-bottom:40px;
+}
+.app{max-width:760px;margin:0 auto;display:grid;gap:14px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+h1,h2,h3{margin:0}
+h1{font-size:clamp(1.4rem,5vw,2rem);line-height:1.1}
+p{margin:0;color:var(--muted)}
+button{border:none;border-radius:16px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;
+  transition:transform .12s ease, box-shadow .2s ease, opacity .2s ease; box-shadow:0 8px 18px rgba(70,84,150,.16);
+  font-family:inherit;}
+button:hover{transform:translateY(-1px)}
+button:active{transform:translateY(1px) scale(.98)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#8a7dff);color:#fff}
+.btn-secondary{background:#eef1ff;color:var(--ink)}
+.btn-good{background:linear-gradient(135deg,var(--green),#3ee6b0);color:#04372c}
+.btn-warn{background:linear-gradient(135deg,var(--gold),#ffd166);color:#5b3d00}
+.btn-danger{background:linear-gradient(135deg,var(--red),#ff8fa3);color:#fff}
+.btn-ghost{background:transparent;color:var(--purple);box-shadow:none;text-decoration:underline;padding:6px 8px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row.between{justify-content:space-between}
+.row.center{justify-content:center}
+.pill{padding:7px 13px;border-radius:999px;background:#eef1ff;font-weight:800;font-size:.85rem;display:inline-flex;gap:6px;align-items:center}
+.pill.gold{background:#fff4d6;color:#6f5200}
+.pill.green{background:#dcfff3;color:#04473a}
+.pill.pink{background:#ffe4ee;color:#8a1f4c}
+.badge-emoji{font-size:1.1em}
+
+/* Home screen */
+.hero{background:linear-gradient(135deg,var(--purple),#9a90ff 60%, var(--pink));color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% -10%, rgba(255,255,255,.35), transparent 45%)}
+.hero h1{color:#fff}
+.hero p{color:rgba(255,255,255,.9)}
+.level-box{background:rgba(255,255,255,.18);border-radius:16px;padding:10px 14px;backdrop-filter:blur(2px)}
+.xp-bar-outer{height:12px;border-radius:999px;background:rgba(255,255,255,.28);overflow:hidden;margin-top:6px}
+.xp-bar-inner{height:100%;background:linear-gradient(90deg,var(--gold),#fff3b0);border-radius:999px;transition:width .5s ease}
+.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.topic-grid{grid-template-columns:1fr}}
+.topic-card{border-radius:18px;padding:14px;color:#fff;position:relative;overflow:hidden;min-height:96px;display:flex;flex-direction:column;justify-content:space-between}
+.topic-card.shapes{background:linear-gradient(135deg,#4cc9f0,#4361ee)}
+.topic-card.laws{background:linear-gradient(135deg,#06d6a0,#1b998b)}
+.topic-card.fractions{background:linear-gradient(135deg,#ff6b9d,#c9184a)}
+.topic-card.shapes3d{background:linear-gradient(135deg,#8338ec,#5a189a)}
+.topic-card.placeValue{background:linear-gradient(135deg,#6c63ff,#4338ca)}
+.topic-card.rounding{background:linear-gradient(135deg,#ffb703,#fb8500)}
+.topic-card.triangularNumbers{background:linear-gradient(135deg,#ef476f,#a4133c)}
+.topic-card.time{background:linear-gradient(135deg,#2a9d8f,#264653)}
+.topic-card.percentDecimals{background:linear-gradient(135deg,#f72585,#7209b7)}
+.topic-card.trianglesTypes{background:linear-gradient(135deg,#588157,#3a5a40)}
+.topic-card.dataHandling{background:linear-gradient(135deg,#4361ee,#3a0ca3)}
+.topic-card.angles{background:linear-gradient(135deg,#fb8500,#9c6615)}
+.topic-card.addition{background:linear-gradient(135deg,#06d6a0,#06a77d)}
+.topic-card.multiplication{background:linear-gradient(135deg,#118ab2,#073b4c)}
+.topic-card.division{background:linear-gradient(135deg,#8338ec,#3c096c)}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:14px;background:#f8f9ff;border:1px solid #eceffb;font-size:.92rem}
+.history-item + .history-item{margin-top:8px}
+.badges-shelf{display:flex;flex-wrap:wrap;gap:8px}
+.badge-chip{background:#fff7e0;border:1px solid #ffe6a6;border-radius:14px;padding:8px 10px;font-size:1.4rem;position:relative}
+.badge-chip .name{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);font-size:.6rem;font-weight:800;color:var(--muted);white-space:nowrap}
+
+/* Quiz screen */
+.progress-wrap{display:grid;gap:8px}
+.progress-label{display:flex;justify-content:space-between;font-size:.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.bar-outer{height:14px;border-radius:999px;background:#eef1ff;overflow:hidden;box-shadow:inset 0 0 0 1px #e2e6ff}
+.bar-inner{height:100%;border-radius:999px;transition:width .45s cubic-bezier(.4,1.6,.6,1)}
+.bar-inner.overall{background:linear-gradient(90deg,var(--purple),var(--pink))}
+.bar-inner.section{background:linear-gradient(90deg,var(--blue),var(--green))}
+.score-strip{display:flex;gap:10px;flex-wrap:wrap}
+.score-tile{flex:1;min-width:110px;background:#f8f9ff;border-radius:16px;padding:10px 12px;text-align:center;border:1px solid #eceffb}
+.score-tile .num{font-size:1.35rem;font-weight:900}
+.score-tile .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.03em}
+
+.qcard{padding:18px;display:grid;gap:16px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.difficulty-tag{font-size:.72rem;font-weight:900;text-transform:uppercase;padding:5px 10px;border-radius:999px;letter-spacing:.03em}
+.difficulty-tag.easy{background:#dcfff3;color:#04473a}
+.difficulty-tag.medium{background:#fff4d6;color:#6f5200}
+.difficulty-tag.hard{background:#ffe1e8;color:#8a1f4c}
+.difficulty-tag.grade6{background:linear-gradient(135deg,#232946,#5a189a);color:#fff}
+.qprompt{font-size:1.15rem;font-weight:800;line-height:1.4}
+.qprompt .math{font-family:"Cambria Math","Georgia",serif}
+.diagram-wrap{display:flex;justify-content:center;padding:6px 0}
+.choices{display:grid;gap:10px}
+.choice-btn{text-align:left;background:#f8f9ff;border:2px solid #e6e9fb;color:var(--ink);font-weight:700;padding:13px 15px;border-radius:16px;box-shadow:none;display:flex;align-items:center;gap:10px}
+.choice-btn:hover{border-color:#c9cffb}
+.choice-btn.selected{border-color:var(--purple);background:#eef0ff}
+.choice-btn.correct{border-color:var(--green);background:#dcfff3;color:#04473a}
+.choice-btn.incorrect{border-color:var(--red);background:#ffe1e8;color:#8a1f4c}
+.choice-btn.disabled-other{opacity:.55}
+.choice-letter{width:26px;height:26px;border-radius:50%;background:#e6e9fb;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;flex:none}
+.choice-btn.correct .choice-letter{background:var(--green);color:#fff}
+.choice-btn.incorrect .choice-letter{background:var(--red);color:#fff}
+
+.numeric-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.numeric-row input{flex:1;min-width:120px;padding:13px 15px;border-radius:16px;border:2px solid #e6e9fb;font-size:1.1rem;font-weight:800;font-family:inherit;color:var(--ink)}
+.numeric-row input:focus{outline:none;border-color:var(--purple)}
+.numeric-row span.unit{font-weight:800;color:var(--muted)}
+
+.feedback-banner{border-radius:16px;padding:12px 14px;font-weight:800;display:flex;gap:10px;align-items:center;animation:pop .35s ease}
+.feedback-banner.correct{background:#dcfff3;color:#04473a}
+.feedback-banner.incorrect{background:#fff1d6;color:#6f5200}
+.feedback-banner.wrong-final{background:#ffe1e8;color:#8a1f4c}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.shake{animation:shake .4s ease}
+
+.memo-box{background:#f5f6ff;border:2px dashed #c9cffb;border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.memo-box h4{margin:0;font-size:.95rem;color:var(--purple);display:flex;align-items:center;gap:6px}
+.memo-box .ans-line{font-weight:800}
+.memo-box .explain{color:var(--ink);line-height:1.5}
+.palette-card{padding:14px}
+.palette-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
+.palette-btn{padding:9px 0;border-radius:8px;font-size:.8rem;font-weight:800;background:#eef1ff;color:var(--ink);box-shadow:none;border:2px solid transparent}
+.palette-btn.current{border-color:var(--purple)}
+.palette-btn.correct{background:#dcfff3}
+.palette-btn.incorrect{background:#ffe1e8}
+.review-item{border:1px solid #eceffb;border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.review-item.incorrect{border-color:#ffd0da;background:#fff8f9}
+.review-item.correct{border-color:#c9f3e3;background:#f7fffb}
+.review-q-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.review-topic{font-size:.72rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.03em;margin-bottom:4px}
+.review-prompt{font-weight:700;margin-bottom:6px}
+.review-answers{margin-bottom:6px}
+.review-explain{color:var(--muted);font-size:.88rem;line-height:1.5}
+
+
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.arrow-btn{width:52px;height:52px;border-radius:50%;font-size:1.3rem;display:flex;align-items:center;justify-content:center;background:#eef1ff;color:var(--purple);box-shadow:0 6px 14px rgba(70,84,150,.14)}
+
+.results-card{text-align:center;display:grid;gap:14px}
+.big-score{font-size:3rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stars-row{font-size:2rem;letter-spacing:4px}
+.section-report{text-align:left;display:grid;gap:8px}
+.section-report .sr-row{display:flex;justify-content:space-between;background:#f8f9ff;border-radius:14px;padding:10px 12px;border:1px solid #eceffb}
+
+.hidden{display:none !important}
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+.footer-note{text-align:center;font-size:.78rem;color:var(--muted);padding-top:6px}
+.install-banner{background:#fff7e0;border:1px solid #ffe6a6;border-radius:16px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+
+.tab-bar-wrap{max-width:760px;margin:0 auto 10px}
+.tab-bar{display:flex;gap:2px;padding:4px;background:rgba(255,255,255,.92);border-radius:16px;box-shadow:0 6px 18px rgba(50,50,120,.12);overflow-x:auto}
+.tab-btn{flex:1;text-align:center;padding:6px 0;border-radius:8px;font-weight:800;font-size:.56rem;border:none;background:transparent;color:var(--muted);white-space:nowrap;font-family:inherit;cursor:pointer}
+.tab-btn.active{background:var(--purple);color:#fff}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="tab-bar-wrap">
+  <nav class="tab-bar">
+    <button type="button" class="tab-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button type="button" class="tab-btn active" onclick="window.location.href='maths.html'">🔢 Maths</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='english.html'">📚 English</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='history.html'">🏺 History</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='science.html'">🔬 Science</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='geography.html'">🌍 Geography</button>
+  </nav>
+</div>
+<div class="app" id="app"></div>
+
+<script>
+/* ===================== UTILITIES ===================== */
+const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const pick = (arr) => arr[rnd(0, arr.length - 1)];
+const uid = () => Math.random().toString(36).slice(2, 10);
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=rnd(0,i); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function fmt(n){ return Number.isInteger(n) ? n : Math.round(n*100)/100; }
+// Builds a shuffled 4-item choice list from a correct value + candidate distractors,
+// topping up with fallbackFn() if candidates collide with each other or the correct answer.
+function makeChoices(correct, candidates, fallbackFn){
+  const correctStr = String(correct);
+  const set = new Set(candidates.map(String));
+  set.delete(correctStr);
+  let guard = 0;
+  while (set.size < 3 && guard < 80){
+    const c = String(fallbackFn());
+    if (c !== correctStr) set.add(c);
+    guard++;
+  }
+  return shuffle([correctStr, ...Array.from(set)].slice(0,4));
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); return b===0 ? a : gcd(b, a%b); }
+
+/* ===================== SHAPE (SVG) HELPERS ===================== */
+// Generates an "L / step" composite rectilinear shape:
+// bounding box W x H, with a notch of width nw, height nh cut from the top-right corner.
+// If nw=0 or nh=0, it's a plain rectangle.
+function buildLShape(W, H, nw, nh){
+  const pts = [
+    [0,0], [W-nw,0], [W-nw,nh], [W,nh], [W,H], [0,H]
+  ];
+  const area = W*H - nw*nh;
+  const segments = [
+    {len: W-nw, label:'top'},
+    {len: nh,   label:'notch-v'},
+    {len: nw,   label:'notch-h'},
+    {len: H-nh, label:'right'},
+    {len: W,    label:'bottom'},
+    {len: H,    label:'left'}
+  ];
+  const perimeter = segments.reduce((s,x)=>s+x.len,0);
+  return {pts, area, perimeter, segments, W, H, nw, nh};
+}
+
+function shapeSVG(shape, unit, opts){
+  opts = opts || {};
+  const hideIndex = opts.hideIndex; // segment index to show as "?"
+  const pad = 46;
+  const maxDim = Math.max(shape.W, shape.H);
+  const scale = Math.min(220 / shape.W, 190 / shape.H, 26);
+  const vw = shape.W*scale + pad*2, vh = shape.H*scale + pad*2;
+  const ox = pad, oy = pad;
+  const P = shape.pts.map(([x,y]) => [ox + x*scale, oy + y*scale]);
+  const pointsAttr = P.map(p => p.join(',')).join(' ');
+
+  // label positions per segment (midpoint of each edge, offset outward)
+  function mid(i,j,dx,dy,text,key){
+    const [x1,y1]=P[i], [x2,y2]=P[j];
+    const mx=(x1+x2)/2 + dx, my=(y1+y2)/2 + dy;
+    const isHidden = hideIndex===key;
+    return `<text x="${mx}" y="${my}" font-size="13" font-weight="800" fill="${isHidden?'#ef476f':'#232946'}" text-anchor="middle" dominant-baseline="middle" font-family="Trebuchet MS, Arial, sans-serif">${isHidden? '?' : text+unit}</text>`;
+  }
+
+  const labels = [
+    mid(0,1, 0,-14, fmt(shape.segments[0].len), 0),
+    mid(1,2, 22,0, fmt(shape.segments[1].len), 1),
+    mid(2,3, 0,-14, fmt(shape.segments[2].len), 2),
+    mid(3,4, 24,0, fmt(shape.segments[3].len), 3),
+    mid(4,5, 0,18, fmt(shape.segments[4].len), 4),
+    mid(5,0, -24,0, fmt(shape.segments[5].len), 5)
+  ].join('');
+
+  return `<svg width="${Math.min(vw,300)}" height="${Math.min(vh,260)}" viewBox="0 0 ${vw} ${vh}" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="${pointsAttr}" fill="#c9e8ff" stroke="#4361ee" stroke-width="3" stroke-linejoin="round"/>
+    ${labels}
+  </svg>`;
+}
+
+/* ===================== QUESTION BANK: SECTION "shapes" (Area & Perimeter) ===================== */
+function genShapeQuestion(difficulty){
+  const isRect = difficulty === 'easy' && Math.random() < 0.55;
+  let W,H,nw,nh;
+  if (difficulty === 'easy'){
+    W = rnd(4,9); H = rnd(3,8);
+    if (isRect){ nw=0; nh=0; } else { nw = rnd(1, Math.min(3,W-1)); nh = rnd(1, Math.min(3,H-1)); }
+  } else if (difficulty === 'medium'){
+    W = rnd(7,14); H = rnd(6,12);
+    nw = rnd(2, Math.min(6,W-2)); nh = rnd(2, Math.min(6,H-2));
+  } else { // hard
+    W = rnd(12,40); H = rnd(10,30);
+    nw = rnd(3, Math.min(15,W-3)); nh = rnd(3, Math.min(15,H-3));
+  }
+  const shape = buildLShape(W,H,nw,nh);
+  const unit = pick(difficulty==='hard' ? ['m','km','cm'] : ['m','cm']);
+  const mode = isRect ? pick(['area','perimeter']) : pick(['area','area','perimeter','perimeter','missing']);
+
+  if (mode === 'area'){
+    const correct = fmt(shape.area);
+    const rawChoices = makeChoices(correct,
+      [fmt(shape.W*shape.H), fmt(correct + rnd(2,8)), fmt(Math.max(1,correct - rnd(2,8)))],
+      () => Math.max(1, correct + pick([-10,-6,6,10,-14,14]))
+    );
+    const choices = rawChoices.map(v=>`${v} ${unit}²`);
+    return {
+      id: uid(), section:'shapes', difficulty, type:'mcq',
+      prompt: `Find the <b>area</b> of this composite shape.`,
+      diagramSVG: shapeSVG(shape, unit, {}),
+      choices, correctAnswer: `${correct} ${unit}²`,
+      explanation: shape.nw===0
+        ? `This is a simple rectangle, so Area = length × width = ${shape.W} × ${shape.H} = <b>${correct} ${unit}²</b>.`
+        : `Split the shape into two rectangles.<br>Rectangle 1 (left, full height): ${shape.W-shape.nw} × ${shape.H} = ${(shape.W-shape.nw)*shape.H} ${unit}²<br>Rectangle 2 (bottom-right): ${shape.nw} × ${shape.H-shape.nh} = ${shape.nw*(shape.H-shape.nh)} ${unit}²<br>Total area = ${(shape.W-shape.nw)*shape.H} + ${shape.nw*(shape.H-shape.nh)} = <b>${correct} ${unit}²</b>.`
+    };
+  }
+  if (mode === 'perimeter'){
+    const correct = fmt(shape.perimeter);
+    const wrongSum = fmt(shape.segments.slice(0,4).reduce((s,x)=>s+x.len,0)); // forgot 2 sides
+    const distractors = new Set([wrongSum, fmt(correct+rnd(2,6)), fmt(Math.max(1,correct-rnd(2,6)))]);
+    distractors.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractors)].slice(0,4).map(v=>`${v} ${unit}`));
+    const sumText = shape.segments.map(s=>fmt(s.len)).join(' + ');
+    return {
+      id: uid(), section:'shapes', difficulty, type:'mcq',
+      prompt: `Find the <b>perimeter</b> of this shape (add up all the outer sides).`,
+      diagramSVG: shapeSVG(shape, unit, {}),
+      choices, correctAnswer: `${correct} ${unit}`,
+      explanation: `Add every side going all the way around:<br>${sumText} = <b>${correct} ${unit}</b>.<br>Tip: opposite sides of the missing "step" always add up to the outer width and height!`
+    };
+  }
+  // missing length
+  const hideIndex = rnd(0,5);
+  const missingVal = fmt(shape.segments[hideIndex].len);
+  const others = shape.segments.filter((_,i)=>i!==hideIndex).reduce((s,x)=>s+x.len,0);
+  const correct = missingVal;
+  const rawChoices = makeChoices(correct,
+    [fmt(correct+rnd(1,4)), fmt(Math.max(1,correct-rnd(1,4))), fmt(shape.perimeter)],
+    () => fmt(Math.max(1, correct + pick([-6,-5,5,6,-7,7])))
+  );
+  const choices = rawChoices.map(v=>`${v} ${unit}`);
+  return {
+    id: uid(), section:'shapes', difficulty, type:'mcq',
+    prompt: `The perimeter of this shape is <b>${fmt(shape.perimeter)} ${unit}</b>. What is the length of the missing side (shown as "?")?`,
+    diagramSVG: shapeSVG(shape, unit, {hideIndex}),
+    choices, correctAnswer: `${correct} ${unit}`,
+    explanation: `Add up the 5 known sides: ${others} ${unit}.<br>Perimeter − known sides = missing side:<br>${fmt(shape.perimeter)} − ${others} = <b>${correct} ${unit}</b>.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "laws" (Laws of Arithmetic) ===================== */
+function genLawsQuestion(difficulty){
+  const kind = difficulty === 'easy'
+    ? pick(['calcOrder','calcOrder','operatorFill'])
+    : difficulty === 'medium'
+      ? pick(['reorderMCQ','missingChain','calcOrder','operatorFill','regroupCalc'])
+      : pick(['missingChain','distributive','reorderMCQ','calcOrder','regroupCalc']);
+
+  if (kind === 'operatorFill'){
+    const b = rnd(2,9), c = rnd(2,9), prod = b*c;
+    const a = rnd(5,60);
+    let chosenOp = pick(['+','−']);
+    let result = chosenOp === '+' ? a+prod : a-prod;
+    if (result < 0){ chosenOp = '+'; result = a+prod; }
+    return {
+      id: uid(), section:'laws', difficulty, type:'mcq',
+      prompt: `Which operator belongs in the gap to make this correct?<br><span class="math" style="font-size:1.3rem">${a} <b>?</b> ${b} × ${c} = ${result}</span>`,
+      diagramSVG: null,
+      choices: shuffle(['+','−','×','÷']), correctAnswer: chosenOp,
+      explanation: `Multiplication happens before addition or subtraction (order of operations).<br>${b} × ${c} = ${prod}.<br>${a} ${chosenOp} ${prod} = <b>${result}</b>.`
+    };
+  }
+
+  if (kind === 'calcOrder'){
+    const type = pick(['addDiv','subMul','mulSub','divAdd']);
+    let a,b,c,correct,exprText,explanation,wrongLeftToRight;
+    if (type === 'addDiv'){
+      c = rnd(2,6); const q = rnd(2,9); b = c*q; a = rnd(5,40);
+      correct = a + q; exprText = `${a} + ${b} ÷ ${c}`;
+      wrongLeftToRight = Math.round(((a+b)/c)*100)/100;
+      explanation = `Divide first: ${b} ÷ ${c} = ${q}.<br>Then add: ${a} + ${q} = <b>${correct}</b>.`;
+    } else if (type === 'subMul'){
+      b = rnd(2,9); c = rnd(2,9); const prod = b*c; a = rnd(prod+5, prod+60);
+      correct = a - prod; exprText = `${a} − ${b} × ${c}`;
+      wrongLeftToRight = (a-b)*c;
+      explanation = `Multiply first: ${b} × ${c} = ${prod}.<br>Then subtract: ${a} − ${prod} = <b>${correct}</b>.`;
+    } else if (type === 'mulSub'){
+      a = rnd(2,9); b = rnd(2,9); const prod = a*b; c = rnd(1, Math.max(1,prod-5));
+      correct = prod - c; exprText = `${a} × ${b} − ${c}`;
+      wrongLeftToRight = a*(b-c);
+      explanation = `Multiply first: ${a} × ${b} = ${prod}.<br>Then subtract: ${prod} − ${c} = <b>${correct}</b>.`;
+    } else {
+      b = rnd(2,9); const q = rnd(2,9); a = b*q; c = rnd(2,40);
+      correct = q + c; exprText = `${a} ÷ ${b} + ${c}`;
+      wrongLeftToRight = Math.round((a/(b+c))*100)/100;
+      explanation = `Divide first: ${a} ÷ ${b} = ${q}.<br>Then add: ${q} + ${c} = <b>${correct}</b>.`;
+    }
+    const choices = makeChoices(correct,
+      [wrongLeftToRight, correct+rnd(1,4), Math.max(0,correct-rnd(1,4))],
+      () => Math.max(0, correct + pick([-6,6,-8,8,-5,5]))
+    );
+    return {
+      id: uid(), section:'laws', difficulty, type:'mcq',
+      prompt: `Calculate, using the correct order of operations:<br><span class="math" style="font-size:1.3rem">${exprText}</span>`,
+      diagramSVG: null,
+      choices, correctAnswer: String(correct),
+      explanation
+    };
+  }
+
+  if (kind === 'regroupCalc'){
+    const a = rnd(2,9), b = rnd(2,9), c = rnd(2,9);
+    const correct = a*b*c;
+    const choices = makeChoices(correct,
+      [a*b+c, (a+b)*c, correct+rnd(2,10)],
+      () => Math.max(1, correct + pick([-5,5,-8,8,-3,3]))
+    );
+    return {
+      id: uid(), section:'laws', difficulty, type:'mcq',
+      prompt: `Using the associative law to regroup the multiplication, calculate:<br><span class="math" style="font-size:1.3rem">${a} × ${b} × ${c}</span><br>(Hint: try (${a} × ${c}) × ${b} first.)`,
+      diagramSVG: null,
+      choices, correctAnswer: String(correct),
+      explanation: `The associative law lets you multiply in any order:<br>(${a} × ${c}) × ${b} = ${a*c} × ${b} = <b>${correct}</b>.<br>${a} × ${b} × ${c} always equals ${correct}, however you group it.`
+    };
+  }
+
+  if (kind === 'reorderMCQ'){
+    const a = pick([2,4,5,10,20,25,50]);
+    const b = rnd(2,9);
+    const c = pick([2,4,5,8,10]);
+    const product = a*b*c;
+    const correctRegroup = `(${a} × ${c}) × ${b} = ${a*c} × ${b}`;
+    const options = shuffle([
+      correctRegroup,
+      `${a} + ${b} × ${c}`,
+      `(${a} × ${b}) − ${c}`,
+      `${a} × (${b} + ${c})`
+    ]);
+    return {
+      id: uid(), section:'laws', difficulty, type:'mcq',
+      prompt: `Which is the easiest way to work out ${a} × ${b} × ${c} mentally, without changing the answer?`,
+      diagramSVG: null,
+      choices: options, correctAnswer: correctRegroup,
+      explanation: `${a} × ${b} × ${c} = ${product}.<br>The associative law lets you regroup the multiplication in any order:<br>(${a} × ${c}) × ${b} = ${a*c} × ${b} = ${product}. The other options change the value because they don't just regroup multiplication.`
+    };
+  }
+
+  if (kind === 'missingChain'){
+    const a = rnd(12,30);
+    const factor = pick([2,3,4,5,6]);
+    const b = factor * rnd(2,7);
+    const product = a*b;
+    const missing = b/factor;
+    const choices = makeChoices(missing,
+      [missing+1, Math.max(1,missing-1), factor],
+      () => Math.max(1, missing + pick([-2,2,3,-3]))
+    );
+    return {
+      id: uid(), section:'laws', difficulty, type:'mcq',
+      prompt: `Fill in the missing number: ${a} × ${b} = ${a} × <span class="math">?</span> × ${factor}`,
+      diagramSVG: null,
+      choices, correctAnswer: String(missing),
+      explanation: `${b} can be split into ${missing} × ${factor} (since ${missing} × ${factor} = ${b}).<br>So ${a} × ${b} = ${a} × ${missing} × ${factor} = ${product}.`
+    };
+  }
+
+  // distributive — split a number into a round part plus a remainder, mirroring
+  // the official-exam pattern "18 × 15 = (18 × 10) + (18 × ?)".
+  const roundPart = pick([10,20,30,40]);
+  const missing = rnd(2,9);
+  const full = roundPart + missing;
+  const mult = rnd(12,40);
+  const choices = makeChoices(missing,
+    [missing+1, Math.max(1,missing-1), roundPart],
+    () => Math.max(1, missing + pick([2,-2,3,-3]))
+  );
+  return {
+    id: uid(), section:'laws', difficulty, type:'mcq',
+    prompt: `Use the distributive law to fill in the missing number:<br><span class="math" style="font-size:1.3rem">${mult} × ${full} = (${mult} × ${roundPart}) + (${mult} × <span class="math">?</span>)</span>`,
+    diagramSVG: null,
+    choices, correctAnswer: String(missing),
+    explanation: `${full} = ${roundPart} + ${missing}, so ${mult} × ${full} = (${mult} × ${roundPart}) + (${mult} × ${missing}).<br>This trick (the distributive law) makes multiplying by a round number, plus a bit more, much faster mentally.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "fractions" ===================== */
+function genFractionQuestion(difficulty){
+  const kind = difficulty === 'easy' ? pick(['missingNum','improperMixed','fractionOfAmount'])
+    : difficulty === 'medium' ? pick(['missingNum','simplify','addFractions','fractionOfAmount','orderFractions'])
+    : pick(['simplify','addFractions','orderFractions','improperMixed']);
+
+  if (kind === 'missingNum'){
+    let a,b,k;
+    if (difficulty === 'easy'){ a = rnd(1,4); b = rnd(a+1,8); k = rnd(2,3); }
+    else if (difficulty === 'medium'){ a = rnd(2,6); b = rnd(a+2,10); k = rnd(2,5); }
+    else { a = rnd(3,9); b = rnd(a+3,14); k = rnd(2,6); }
+    const num2 = a*k, den2 = b*k;
+    const hideNum = Math.random() < 0.5;
+    const missing = hideNum ? num2 : den2;
+    const distractorSet = new Set([String(missing+k), String(Math.max(1,missing-k)), String(missing+1)]);
+    distractorSet.delete(String(missing));
+    const choices = shuffle([String(missing), ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'fractions', difficulty, type:'mcq',
+      prompt: `Fill in the missing number to make an equivalent fraction:<br><span class="math" style="font-size:1.3rem">${a}/${b} = ${hideNum?'?':num2}/${hideNum?den2:'?'}</span>`,
+      diagramSVG: null,
+      choices, correctAnswer: String(missing),
+      explanation: `To get from ${hideNum?b:a} to ${hideNum?den2:num2} you multiply by ${k} (since ${hideNum?b:a} × ${k} = ${hideNum?den2:num2}).<br>Do the same to the other part: ${hideNum?a:b} × ${k} = <b>${missing}</b>.<br>So ${a}/${b} = ${num2}/${den2}.`
+    };
+  }
+
+  if (kind === 'simplify'){
+    let a0,b0;
+    do { a0 = rnd(2,6); b0 = rnd(2,9); } while (gcd(a0,b0) !== 1 || a0 >= b0);
+    const g = rnd(2, difficulty==='hard' ? 7 : 5);
+    const a = a0*g, b = b0*g;
+    const correct = `${a0}/${b0}`;
+    const distractorSet = new Set([`${a0+1}/${b0}`, `${a0}/${b0+1}`, `${g}/${g+1}`, `${a0}/${b0-1>0?b0-1:b0+2}`]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'fractions', difficulty, type:'mcq',
+      prompt: `Write <span class="math">${a}/${b}</span> in its simplest form.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `The highest common factor of ${a} and ${b} is ${g}.<br>${a} ÷ ${g} = ${a0} and ${b} ÷ ${g} = ${b0}.<br>So ${a}/${b} = <b>${a0}/${b0}</b>.`
+    };
+  }
+
+  if (kind === 'improperMixed'){
+    const whole = rnd(1, difficulty==='hard' ? 9 : 5);
+    const den = rnd(2,8);
+    const rem = rnd(1,den-1);
+    const num = whole*den + rem;
+    const correct = `${whole} ${rem}/${den}`;
+    const distractorSet = new Set([`${whole+1} ${rem}/${den}`, `${whole} ${rem+1}/${den}`, `${Math.max(0,whole-1)} ${rem}/${den}`]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'fractions', difficulty, type:'mcq',
+      prompt: `Write <span class="math">${num}/${den}</span> as a mixed number.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `${den} goes into ${num} a total of ${whole} whole times (${whole} × ${den} = ${whole*den}), leaving a remainder of ${num} − ${whole*den} = ${rem}.<br>So ${num}/${den} = <b>${whole} ${rem}/${den}</b>.`
+    };
+  }
+
+  if (kind === 'addFractions'){
+    const den = pick([4,6,8,10,12]);
+    let n1 = rnd(1,den-1), n2 = rnd(1,den-1);
+    const sumNum = n1+n2;
+    const wholePart = Math.floor(sumNum/den);
+    const remPart = sumNum % den;
+    const g = remPart ? gcd(remPart,den) : den;
+    const sn = remPart ? remPart/g : 0, sd = remPart ? den/g : 1;
+    const correct = wholePart > 0
+      ? (remPart ? `${wholePart} ${sn}/${sd}` : `${wholePart}`)
+      : `${sn}/${sd}`;
+    const choices = makeChoices(correct,
+      [`${sumNum}/${den}`, `${n1}/${den}`, `${n2}/${den}`, `${sn+1}/${sd}`, `${Math.max(0,sn-1)}/${sd}`],
+      () => { const r = rnd(1,den*2-1); const d2 = pick([den, den*2]); return `${r}/${d2}`; }
+    );
+    return {
+      id: uid(), section:'fractions', difficulty, type:'mcq',
+      prompt: `Calculate:<br><span class="math" style="font-size:1.3rem">${n1}/${den} + ${n2}/${den}</span>`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `Since both fractions already share the same denominator, just add the numerators:<br>${n1}/${den} + ${n2}/${den} = ${sumNum}/${den}${wholePart>0?` = ${wholePart} ${remPart}/${den} (in lowest terms, <b>${correct}</b>)`:` = <b>${correct}</b> (in lowest terms)`}.`
+    };
+  }
+
+  if (kind === 'fractionOfAmount'){
+    const den = pick([3,4,5,6,8]);
+    const num = rnd(1,den-1);
+    const multiplier = rnd(2,9);
+    const total = den*multiplier;
+    const correct = num*multiplier;
+    const choices = makeChoices(correct,
+      [total, correct+multiplier, Math.max(1,correct-multiplier)],
+      () => Math.max(1, correct + pick([-multiplier*2, multiplier*2, -1, 1, 2, -2]))
+    );
+    return {
+      id: uid(), section:'fractions', difficulty, type:'mcq',
+      prompt: `Find <span class="math">${num}/${den}</span> of ${total}.`,
+      diagramSVG: null,
+      choices, correctAnswer: String(correct),
+      explanation: `${total} ÷ ${den} = ${multiplier} (one part).<br>${num}/${den} of ${total} = ${num} × ${multiplier} = <b>${correct}</b>.`
+    };
+  }
+
+  // orderFractions
+  const den = pick([6,8,12,10]);
+  const nums = shuffle(Array.from({length: den-1}, (_,i)=>i+1)).slice(0,4);
+  const fracs = nums.map(n => ({n, d:den, v:n/den}));
+  const sorted = [...fracs].sort((a,b)=>a.v-b.v).map(f=>`${f.n}/${f.d}`);
+  const correct = sorted.join(', ');
+  const wrong1 = [...sorted].reverse().join(', ');
+  const choices = makeChoices(correct,
+    [wrong1],
+    () => shuffle(sorted).join(', ')
+  );
+  return {
+    id: uid(), section:'fractions', difficulty, type:'mcq',
+    prompt: `Put these fractions in order from <b>smallest to largest</b>:<br><span class="math" style="font-size:1.2rem">${fracs.map(f=>`${f.n}/${f.d}`).join(',  ')}</span>`,
+    diagramSVG: null,
+    choices, correctAnswer: correct,
+    explanation: `Since all the fractions share the same denominator (${den}), just compare the numerators.<br>In order from smallest to largest: <b>${correct}</b>.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "placeValue" ===================== */
+function genPlaceValueQuestion(difficulty){
+  const kind = pick(['digitValue','multiplyChain','wordsToFigures','expandedForm']);
+
+  if (kind === 'digitValue'){
+    const whole = rnd(1, difficulty==='hard' ? 90 : 60);
+    const d1 = rnd(1,9), d2 = rnd(1,9);
+    const numStr = `${whole}.${d1}${d2}`;
+    const askTenths = Math.random() < 0.5;
+    const digit = askTenths ? d1 : d2;
+    const place = askTenths ? 'tenths' : 'hundredths';
+    const value = askTenths ? digit/10 : digit/100;
+    const correct = String(value);
+    const choices = makeChoices(correct,
+      [digit, askTenths ? digit/100 : digit/10, value*10],
+      () => fmt(value + pick([0.01,-0.01,0.1,-0.1,0.02,-0.02]))
+    );
+    return {
+      id: uid(), section:'placeValue', difficulty, type:'mcq',
+      prompt: `What is the value of the digit <b>${digit}</b> in the number <b>${numStr}</b>?`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `In ${numStr}, the digit ${digit} is in the ${place} place, so its value is <b>${correct}</b>.`
+    };
+  }
+
+  if (kind === 'multiplyChain'){
+    const factor = pick([10,100,1000]);
+    const op = pick(['×','÷']);
+    const base = op === '÷' ? rnd(Math.ceil(factor/5), factor*9) : rnd(2,95);
+    const result = op === '×' ? base*factor : Math.round((base/factor)*10000)/10000;
+    const choices = makeChoices(result,
+      [op==='×'?base/factor:base*factor, result*10, result/10],
+      () => Math.max(0.0001, fmt(result + pick([-Math.max(0.01,result*0.5), result*0.5, result*2, -Math.max(0.01,result*0.2)])))
+    );
+    return {
+      id: uid(), section:'placeValue', difficulty, type:'mcq',
+      prompt: `Complete the number sentence:<br><span class="math" style="font-size:1.3rem">${base} ${op} ${factor} = ?</span>`,
+      diagramSVG: null,
+      choices, correctAnswer: String(result),
+      explanation: `${op === '×' ? 'Multiplying' : 'Dividing'} by ${factor} moves every digit ${Math.log10(factor)} place${factor>10?'s':''} ${op==='×'?'to the left':'to the right'}.<br>${base} ${op} ${factor} = <b>${result}</b>.`
+    };
+  }
+
+  if (kind === 'wordsToFigures'){
+    const thousands = rnd(100,999);
+    const hundreds = rnd(1,9);
+    const tensUnits = rnd(0,99);
+    const num = thousands*1000 + hundreds*100 + tensUnits;
+    const numWords = `${numberToWordsThousands(thousands)} thousand, ${numberToWordsHundreds(hundreds*100+tensUnits)}`;
+    const correct = String(num);
+    const choices = makeChoices(correct,
+      [num+100, num-10, thousands*1000 + tensUnits*10 + hundreds],
+      () => Math.max(1, num + pick([-200,200,-50,50,-500,500]))
+    );
+    return {
+      id: uid(), section:'placeValue', difficulty, type:'mcq',
+      prompt: `Which number is written as: "<b>${numWords}</b>"?`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `"${numWords}" written in figures is <b>${correct}</b>.`
+    };
+  }
+
+  // expandedForm
+  const th = rnd(1,9), h = rnd(0,9), t = rnd(0,9), o = rnd(0,9), tenths = rnd(1,9);
+  const num = th*1000 + h*100 + t*10 + o + tenths/10;
+  const parts = [`${th*1000}`, h?`${h*100}`:null, t?`${t*10}`:null, o?`${o}`:null, `${tenths/10}`].filter(Boolean);
+  const expandedStr = parts.join(' + ');
+  const correct = fmt(num);
+  const choices = makeChoices(correct,
+    [fmt(num + rnd(1,9)), th*1000 + h*100 + t*10 + o, fmt(num*10)],
+    () => fmt(Math.max(1, correct + pick([-5,5,-1,1,0.2,-0.2])))
+  );
+  return {
+    id: uid(), section:'placeValue', difficulty, type:'mcq',
+    prompt: `Which number is the same as:<br><span class="math" style="font-size:1.2rem">${expandedStr}</span>`,
+    diagramSVG: null,
+    choices, correctAnswer: String(correct),
+    explanation: `Adding all the parts together: ${expandedStr} = <b>${correct}</b>.`
+  };
+}
+function numberToWordsHundreds(n){
+  const ones = ['','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+  const tensWords = ['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+  if (n === 0) return 'zero';
+  let out = '';
+  const h = Math.floor(n/100), rem = n%100;
+  if (h) out += `${ones[h]} hundred${rem?' and ':''}`;
+  if (rem){
+    if (rem < 20) out += ones[rem];
+    else { out += tensWords[Math.floor(rem/10)]; if (rem%10) out += `-${ones[rem%10]}`; }
+  }
+  return out || 'zero';
+}
+function numberToWordsThousands(n){ return numberToWordsHundreds(n); }
+
+/* ===================== QUESTION BANK: SECTION "rounding" ===================== */
+function genRoundingQuestion(difficulty){
+  const kind = pick(['roundTo','smallestPossible','roundsToWhich']);
+
+  if (kind === 'roundTo'){
+    const place = pick(difficulty==='hard' ? [10,100,1000] : [10,100]);
+    const num = rnd(place, place*99) + rnd(0,9);
+    const correct = Math.round(num/place)*place;
+    const choices = makeChoices(correct,
+      [Math.floor(num/place)*place, Math.ceil(num/place)*place, correct+place, correct-place],
+      () => correct + place*pick([-3,-2,2,3])
+    );
+    return {
+      id: uid(), section:'rounding', difficulty, type:'mcq',
+      prompt: `Round <b>${num.toLocaleString()}</b> to the nearest <b>${place}</b>.`,
+      diagramSVG: null,
+      choices: choices.map(c=>Number(c).toLocaleString()), correctAnswer: correct.toLocaleString(),
+      explanation: `${num.toLocaleString()} is between ${Math.floor(num/place)*place} and ${Math.ceil(num/place)*place}.<br>Rounded to the nearest ${place}, it becomes <b>${correct.toLocaleString()}</b>.`
+    };
+  }
+
+  if (kind === 'smallestPossible'){
+    const place = pick([10,100]);
+    const rounded = rnd(2,40)*place;
+    const smallest = rounded - place/2;
+    const choices = makeChoices(smallest,
+      [rounded, rounded+place/2, rounded-place],
+      () => smallest + place*pick([-2,-1,1,2])
+    );
+    return {
+      id: uid(), section:'rounding', difficulty, type:'mcq',
+      prompt: `A stadium holds <b>${rounded.toLocaleString()}</b> people, when rounded to the nearest ${place}. What is the <b>smallest</b> possible number of people the stadium could actually hold?`,
+      diagramSVG: null,
+      choices: choices.map(c=>Number(c).toLocaleString()), correctAnswer: smallest.toLocaleString(),
+      explanation: `Any number from ${(rounded-place/2).toLocaleString()} up to (but not including) ${(rounded+place/2).toLocaleString()} rounds to ${rounded.toLocaleString()}.<br>So the smallest possible number is <b>${smallest.toLocaleString()}</b>.`
+    };
+  }
+
+  // roundsToWhich
+  const target = rnd(20,90);
+  const correctVal = fmt(target - 0.5 + Math.random()*0.99);
+  const correct = correctVal.toFixed(2).replace(/0$/,'').replace(/\.$/,'');
+  const options = makeChoices(correct,
+    [target+1, target-1, fmt(target+0.6)],
+    () => fmt(target + pick([2,-2,0.6,-0.6]) + rnd(0,1))
+  );
+  return {
+    id: uid(), section:'rounding', difficulty, type:'mcq',
+    prompt: `Which of these numbers rounds to <b>${target}</b> (to the nearest whole number)?`,
+    diagramSVG: null,
+    choices: options, correctAnswer: correct,
+    explanation: `${correct} is less than half a unit away from ${target}, so it rounds to <b>${target}</b>. The other options round to a different whole number.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "triangularNumbers" ===================== */
+function triangular(n){ return n*(n+1)/2; }
+function genTriangularQuestion(difficulty){
+  const kind = pick(['nth','whichIs','consecutiveSum']);
+
+  if (kind === 'nth'){
+    const n = rnd(4, difficulty==='hard' ? 14 : 9);
+    const correct = triangular(n);
+    const distractorSet = new Set([String(n*n), String(correct+n), String(Math.max(1,correct-rnd(1,4)))]);
+    distractorSet.delete(String(correct));
+    const choices = shuffle([String(correct), ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'triangularNumbers', difficulty, type:'mcq',
+      prompt: `What is the <b>${ordinal(n)}</b> triangular number?`,
+      diagramSVG: null,
+      choices, correctAnswer: String(correct),
+      explanation: `Triangular numbers are made by adding 1, then 2, then 3, and so on: 1, 3, 6, 10, 15 …<br>The ${ordinal(n)} triangular number is 1+2+3+…+${n} = <b>${correct}</b>.`
+    };
+  }
+
+  if (kind === 'whichIs'){
+    const n = rnd(3,9);
+    const correct = triangular(n);
+    const distractorSet = new Set([String(correct+1), String(correct-1), String(n*n)]);
+    distractorSet.delete(String(correct));
+    const choices = shuffle([String(correct), ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'triangularNumbers', difficulty, type:'mcq',
+      prompt: `Which of these numbers is a <b>triangular number</b>?`,
+      diagramSVG: null,
+      choices, correctAnswer: String(correct),
+      explanation: `${correct} is a triangular number because it is the sum 1+2+…+${n} (the ${ordinal(n)} triangular number). The other numbers can't be made this way.`
+    };
+  }
+
+  // consecutiveSum
+  const n = rnd(2,9);
+  const sum = triangular(n) + triangular(n+1);
+  const correct = (n+1)*(n+1);
+  const choices = makeChoices(correct,
+    [sum+1, triangular(n+2), sum-1],
+    () => Math.max(1, correct + pick([-3,-2,2,3]))
+  );
+  return {
+    id: uid(), section:'triangularNumbers', difficulty, type:'mcq',
+    prompt: `The ${ordinal(n)} triangular number (${triangular(n)}) is added to the ${ordinal(n+1)} triangular number (${triangular(n+1)}). What is the total?`,
+    diagramSVG: null,
+    choices, correctAnswer: String(correct),
+    explanation: `${triangular(n)} + ${triangular(n+1)} = <b>${correct}</b>.<br>Fun fact: adding any two consecutive triangular numbers always makes a square number — here, ${correct} = ${n+1} × ${n+1}!`
+  };
+}
+function ordinal(n){
+  const s = ['th','st','nd','rd'];
+  const v = n % 100;
+  return n + (s[(v-20)%10] || s[v] || s[0]);
+}
+
+/* ===================== QUESTION BANK: SECTION "time" ===================== */
+const TIME_ZONE_CITIES = [
+  {name:'London', offset:0}, {name:'Cairo', offset:2}, {name:'Vancouver', offset:-8},
+  {name:'Auckland', offset:13}, {name:'Montevideo', offset:-3}, {name:'Abu Dhabi', offset:4}
+];
+function genTimeQuestion(difficulty){
+  const kind = pick(['convert','duration','minutesInHours','addMinutes','timeZone']);
+
+  if (kind === 'convert'){
+    const h24 = rnd(0,23), m = pick([0,5,10,15,20,25,30,35,40,45,50,55]);
+    const period = h24 < 12 ? 'a.m.' : 'p.m.';
+    let h12 = h24 % 12; if (h12 === 0) h12 = 12;
+    const correct = `${h12}:${String(m).padStart(2,'0')} ${period}`;
+    const wrongPeriod = period === 'a.m.' ? 'p.m.' : 'a.m.';
+    const distractorSet = new Set([`${h12}:${String(m).padStart(2,'0')} ${wrongPeriod}`, `${h12===12?1:h12+1}:${String(m).padStart(2,'0')} ${period}`, `${h12}:${String((m+5)%60).padStart(2,'0')} ${period}`]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'time', difficulty, type:'mcq',
+      prompt: `Convert <b>${String(h24).padStart(2,'0')}:${String(m).padStart(2,'0')}</b> (24-hour clock) into 12-hour clock time.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `${String(h24).padStart(2,'0')}:${String(m).padStart(2,'0')} in 24-hour time is <b>${correct}</b> in 12-hour time (${h24<12?'before':'from'} midday is ${h24<12?'a.m.':'p.m.'}).`
+    };
+  }
+
+  if (kind === 'duration'){
+    const startH = rnd(6,20), startM = pick([0,5,10,15,20,25,30,35,40,45,50,55]);
+    const durM = rnd(15,95);
+    let endTotal = startH*60+startM+durM;
+    const endH = Math.floor(endTotal/60) % 24, endM = endTotal % 60;
+    const correct = `${Math.floor(durM/60)}h ${durM%60}min`;
+    const choices = makeChoices(correct,
+      [`${Math.floor(durM/60)}h ${(durM%60)+5}min`, `${Math.ceil(durM/60)}h ${durM%60}min`, `${Math.floor(durM/60)+1}h ${Math.max(0,(durM%60)-10)}min`],
+      () => { const d = Math.max(1, durM + pick([-10,10,-20,20,-15,15])); return `${Math.floor(d/60)}h ${d%60}min`; }
+    );
+    return {
+      id: uid(), section:'time', difficulty, type:'mcq',
+      prompt: `A train leaves the station at <b>${String(startH).padStart(2,'0')}:${String(startM).padStart(2,'0')}</b> and arrives at <b>${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')}</b>. How long did the journey take?`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `From ${String(startH).padStart(2,'0')}:${String(startM).padStart(2,'0')} to ${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')} is ${durM} minutes, which is <b>${correct}</b>.`
+    };
+  }
+
+  if (kind === 'minutesInHours'){
+    const wholeHrs = rnd(1,5);
+    const quarter = pick([0,15,30,45]);
+    const totalMin = wholeHrs*60 + quarter;
+    const hrsLabel = quarter===0 ? `${wholeHrs}` : quarter===30 ? `${wholeHrs} 1/2` : quarter===15 ? `${wholeHrs} 1/4` : `${wholeHrs} 3/4`;
+    const hrsWord = (quarter===0 && wholeHrs===1) ? 'hour' : 'hours';
+    const choices = makeChoices(totalMin,
+      [wholeHrs*60, totalMin+15, totalMin-15],
+      () => Math.max(1, totalMin + pick([-30,-10,10,20,30,-20]))
+    );
+    return {
+      id: uid(), section:'time', difficulty, type:'mcq',
+      prompt: `How many minutes are there in <b>${hrsLabel} ${hrsWord}</b>?`,
+      diagramSVG: null,
+      choices, correctAnswer: String(totalMin),
+      explanation: `There are 60 minutes in 1 hour.<br>${wholeHrs} × 60 = ${wholeHrs*60}, plus ${quarter} more minutes for the extra part of an hour = <b>${totalMin}</b> minutes.`
+    };
+  }
+
+  if (kind === 'addMinutes'){
+    const startH = rnd(1,11), startM = pick([0,10,20,30,40,50]);
+    const period = pick(['a.m.','p.m.']);
+    const durM = rnd(40,150);
+    const start24 = period==='p.m.' && startH!==12 ? startH+12 : (period==='a.m.' && startH===12 ? 0 : startH);
+    let endTotal = start24*60+startM+durM;
+    const endH = Math.floor(endTotal/60) % 24, endM = endTotal % 60;
+    const correct = `${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')}`;
+    const distractorSet = new Set([`${String((endH+1)%24).padStart(2,'0')}:${String(endM).padStart(2,'0')}`, `${String(endH).padStart(2,'0')}:${String((endM+10)%60).padStart(2,'0')}`, `${String((endH+23)%24).padStart(2,'0')}:${String(endM).padStart(2,'0')}`]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'time', difficulty, type:'mcq',
+      prompt: `A movie starts at <b>${startH}:${String(startM).padStart(2,'0')} ${period}</b> and lasts for <b>${durM} minutes</b>. At what time does it finish? Give your answer in 24-hour clock time.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `${startH}:${String(startM).padStart(2,'0')} ${period} in 24-hour time is ${String(start24).padStart(2,'0')}:${String(startM).padStart(2,'0')}.<br>Adding ${durM} minutes gives <b>${correct}</b>.`
+    };
+  }
+
+  // timeZone
+  let cityA, cityB;
+  do { cityA = pick(TIME_ZONE_CITIES); cityB = pick(TIME_ZONE_CITIES); } while (cityA.name === cityB.name);
+  const diff = cityB.offset - cityA.offset;
+  const knownH = rnd(1,11), knownM = pick([0,15,30,45]);
+  const period = pick(['a.m.','p.m.']);
+  const known24 = period==='p.m.' && knownH!==12 ? knownH+12 : (period==='a.m.' && knownH===12 ? 0 : knownH);
+  let otherTotal = (known24*60+knownM + diff*60 + 24*60) % (24*60);
+  const otherH24 = Math.floor(otherTotal/60), otherM = otherTotal%60;
+  let otherH12 = otherH24 % 12; if (otherH12===0) otherH12=12;
+  const otherPeriod = otherH24 < 12 ? 'a.m.' : 'p.m.';
+  const correct = `${otherH12}:${String(otherM).padStart(2,'0')} ${otherPeriod}`;
+  const choices = makeChoices(correct,
+    [`${otherH12}:${String(otherM).padStart(2,'0')} ${otherPeriod==='a.m.'?'p.m.':'a.m.'}`, `${otherH12===12?1:otherH12+1}:${String(otherM).padStart(2,'0')} ${otherPeriod}`, `${knownH}:${String(knownM).padStart(2,'0')} ${period}`],
+    () => { const h = rnd(1,12); const m = pick([0,15,30,45]); const p = pick(['a.m.','p.m.']); return `${h}:${String(m).padStart(2,'0')} ${p}`; }
+  );
+  return {
+    id: uid(), section:'time', difficulty, type:'mcq',
+    prompt: `${cityA.name} is ${cityA.offset>=0?cityA.offset+' hours ahead of':Math.abs(cityA.offset)+' hours behind'} GMT, and ${cityB.name} is ${cityB.offset>=0?cityB.offset+' hours ahead of':Math.abs(cityB.offset)+' hours behind'} GMT.<br>When it is <b>${knownH}:${String(knownM).padStart(2,'0')} ${period}</b> in ${cityA.name}, what time is it in ${cityB.name}?`,
+    diagramSVG: null,
+    choices, correctAnswer: correct,
+    explanation: `${cityB.name} is ${diff>=0?diff+' hours ahead of':Math.abs(diff)+' hours behind'} ${cityA.name}.<br>${knownH}:${String(knownM).padStart(2,'0')} ${period} in ${cityA.name} is <b>${correct}</b> in ${cityB.name}.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "percentDecimals" ===================== */
+function genPercentDecimalsQuestion(difficulty){
+  const kind = pick(['toDecimal','toFraction','addDecimals','discount','compare']);
+
+  if (kind === 'toDecimal'){
+    const percent = pick([5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95]);
+    const correct = (percent/100).toString();
+    const distractorSet = new Set([String(percent/10), String(percent), (percent/1000).toString()]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'percentDecimals', difficulty, type:'mcq',
+      prompt: `Write <b>${percent}%</b> as a decimal.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `To change a percentage to a decimal, divide by 100.<br>${percent} ÷ 100 = <b>${correct}</b>.`
+    };
+  }
+
+  if (kind === 'toFraction'){
+    const percent = pick([10,20,25,40,50,60,75,80]);
+    const g = gcd(percent,100);
+    const correct = `${percent/g}/${100/g}`;
+    const distractorSet = new Set([`${percent}/100`, `${percent/g+1}/${100/g}`, `${percent/g}/${100/g+1}`]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'percentDecimals', difficulty, type:'mcq',
+      prompt: `Write <b>${percent}%</b> as a fraction in its simplest form.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `${percent}% = ${percent}/100.<br>The highest common factor of ${percent} and 100 is ${g}.<br>${percent}/100 simplified is <b>${correct}</b>.`
+    };
+  }
+
+  if (kind === 'addDecimals'){
+    const a = fmt(rnd(10,90) + pick([0,0.1,0.2,0.25,0.3,0.4,0.45,0.5,0.6,0.7,0.75,0.8,0.9]));
+    const b = fmt(rnd(1,20) + pick([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]));
+    const correct = fmt(a+b);
+    const distractorSet = new Set([String(fmt(a+b+1)), String(fmt(Math.abs(a-b))), String(fmt(a+b-0.1))]);
+    distractorSet.delete(String(correct));
+    const choices = shuffle([String(correct), ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'percentDecimals', difficulty, type:'mcq',
+      prompt: `Calculate:<br><span class="math" style="font-size:1.3rem">${a} + ${b}</span>`,
+      diagramSVG: null,
+      choices, correctAnswer: String(correct),
+      explanation: `Line up the decimal points and add: ${a} + ${b} = <b>${correct}</b>.`
+    };
+  }
+
+  if (kind === 'discount'){
+    const price = pick([200,250,300,350,400,450,500,600,800]);
+    const percentOff = pick([10,20,25,50]);
+    const correct = (price*percentOff)/100;
+    const choices = makeChoices(correct,
+      [price-correct, correct+10, correct-10],
+      () => Math.max(1, correct + pick([-20,20,-5,5,15,-15]))
+    );
+    return {
+      id: uid(), section:'percentDecimals', difficulty, type:'mcq',
+      prompt: `A jacket costs ${price}. It is in a sale with <b>${percentOff}% off</b>. How much money is taken off the price?`,
+      diagramSVG: null,
+      choices, correctAnswer: String(correct),
+      explanation: `${percentOff}% of ${price} = (${percentOff} ÷ 100) × ${price} = <b>${correct}</b> taken off.`
+    };
+  }
+
+  // compare
+  const percent = pick([60,65,70,72,75,80]);
+  const decimal = fmt(percent/100 + pick([-0.03,-0.02,0.02,0.03]));
+  const biggerIsPercent = (percent/100) > decimal;
+  const correct = biggerIsPercent ? `${percent}%` : String(decimal);
+  const options = shuffle([`${percent}%`, String(decimal)]);
+  const distractorSet = new Set(["They are equal", "Not enough information"]);
+  const choices = shuffle([correct, (biggerIsPercent ? String(decimal) : `${percent}%`), ...Array.from(distractorSet)]);
+  return {
+    id: uid(), section:'percentDecimals', difficulty, type:'mcq',
+    prompt: `Which is larger: <b>${percent}%</b> or <b>${decimal}</b>?`,
+    diagramSVG: null,
+    choices, correctAnswer: correct,
+    explanation: `${percent}% = ${fmt(percent/100)} as a decimal.<br>${fmt(percent/100)} ${biggerIsPercent?'>':'<'} ${decimal}, so <b>${correct}</b> is larger.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "trianglesTypes" (Types of Triangles) ===================== */
+const TRIANGLE_TYPES = [
+  {name:'Equilateral triangle', desc:'has 3 equal sides and 3 equal angles (all 60°)'},
+  {name:'Isosceles triangle', desc:'has exactly 2 equal sides and 2 equal angles'},
+  {name:'Scalene triangle', desc:'has no equal sides and no equal angles — all sides and angles are different'},
+  {name:'Right-angled triangle', desc:'has one angle that is exactly 90°'}
+];
+function genTrianglesTypeQuestion(difficulty){
+  const kind = pick(['identify','describe','tworightangles','countEqual']);
+
+  if (kind === 'identify'){
+    const item = pick(TRIANGLE_TYPES);
+    const others = shuffle(TRIANGLE_TYPES.map(t=>t.name).filter(n=>n!==item.name)).slice(0,3);
+    const choices = shuffle([item.name, ...others]);
+    return {
+      id: uid(), section:'trianglesTypes', difficulty, type:'mcq',
+      prompt: `A triangle ${item.desc}. What is this type of triangle called?`,
+      diagramSVG: null,
+      choices, correctAnswer: item.name,
+      explanation: `A triangle that ${item.desc} is called a(n) <b>${item.name}</b>.`
+    };
+  }
+
+  if (kind === 'describe'){
+    const item = pick(TRIANGLE_TYPES);
+    const others = shuffle(TRIANGLE_TYPES.map(t=>t.desc).filter(d=>d!==item.desc)).slice(0,3);
+    const choices = shuffle([item.desc, ...others]);
+    return {
+      id: uid(), section:'trianglesTypes', difficulty, type:'mcq',
+      prompt: `Which of these correctly describes a(n) <b>${item.name}</b>?`,
+      diagramSVG: null,
+      choices: choices.map(c=>c.charAt(0).toUpperCase()+c.slice(1)), correctAnswer: item.desc.charAt(0).toUpperCase()+item.desc.slice(1),
+      explanation: `A ${item.name} ${item.desc}.`
+    };
+  }
+
+  if (kind === 'tworightangles'){
+    const options = shuffle([
+      'No — two right angles would already add up to 180°, leaving nothing for the third angle',
+      'Yes, every triangle can have two right angles',
+      'Yes, but only an equilateral triangle can',
+      'Yes, but only a scalene triangle can'
+    ]);
+    return {
+      id: uid(), section:'trianglesTypes', difficulty, type:'mcq',
+      prompt: `Can a triangle have two right angles (two angles of exactly 90°)?`,
+      diagramSVG: null,
+      choices: options, correctAnswer: 'No — two right angles would already add up to 180°, leaving nothing for the third angle',
+      explanation: `The angles in any triangle always add up to 180°.<br>Two right angles alone would be 90° + 90° = 180°, leaving 0° for the third angle — which is impossible. So no triangle can have two right angles.`
+    };
+  }
+
+  // countEqual
+  const item = pick(TRIANGLE_TYPES.filter(t=>t.name!=='Right-angled triangle'));
+  const equalSides = item.name==='Equilateral triangle' ? 3 : item.name==='Isosceles triangle' ? 2 : 0;
+  const choices = shuffle(['0','1','2','3']);
+  return {
+    id: uid(), section:'trianglesTypes', difficulty, type:'mcq',
+    prompt: `How many equal sides does a(n) <b>${item.name}</b> have?`,
+    diagramSVG: null,
+    choices, correctAnswer: String(equalSides),
+    explanation: `A ${item.name} has <b>${equalSides}</b> equal side${equalSides===1?'':'s'} (and the same number of equal angles).`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "dataHandling" ===================== */
+function mode(arr){
+  const counts = {};
+  arr.forEach(n => counts[n] = (counts[n]||0)+1);
+  let best = arr[0], bestCount = 0;
+  Object.entries(counts).forEach(([k,v]) => { if (v > bestCount){ best = Number(k); bestCount = v; } });
+  return best;
+}
+function median(arr){
+  const s = [...arr].sort((a,b)=>a-b);
+  const mid = Math.floor(s.length/2);
+  return s.length % 2 ? s[mid] : fmt((s[mid-1]+s[mid])/2);
+}
+function genDataHandlingQuestion(difficulty){
+  const kind = pick(['modeMedian','barChart','bestGraph','range']);
+
+  if (kind === 'modeMedian' || kind === 'range'){
+    const n = pick([7,9]);
+    const base = rnd(5,20);
+    const data = [];
+    for (let i=0;i<n;i++) data.push(base + rnd(0,15));
+    // force a repeated value so mode is well-defined
+    data[1] = data[0];
+    const askMode = kind === 'range' ? false : Math.random() < 0.5;
+    if (kind === 'range'){
+      const correct = Math.max(...data) - Math.min(...data);
+      const choices = makeChoices(correct,
+        [correct+1, Math.max(0,correct-1), Math.max(...data)],
+        () => Math.max(0, correct + pick([-3,-2,2,3]))
+      );
+      return {
+        id: uid(), section:'dataHandling', difficulty, type:'mcq',
+        prompt: `Here are the scores of ${n} learners:<br><b>${data.join(', ')}</b><br>What is the <b>range</b> of these scores?`,
+        diagramSVG: null,
+        choices, correctAnswer: String(correct),
+        explanation: `The range is the highest value minus the lowest value.<br>${Math.max(...data)} − ${Math.min(...data)} = <b>${correct}</b>.`
+      };
+    }
+    const correctVal = askMode ? mode(data) : median(data);
+    const label = askMode ? 'mode' : 'median';
+    const choices = makeChoices(correctVal,
+      [askMode ? median(data) : mode(data), correctVal+1, Math.max(0,correctVal-1)],
+      () => Math.max(0, correctVal + pick([-3,-2,2,3,-1,1]))
+    );
+    return {
+      id: uid(), section:'dataHandling', difficulty, type:'mcq',
+      prompt: `Here are the test scores of ${n} learners:<br><b>${data.join(', ')}</b><br>What is the <b>${label}</b> of these scores?`,
+      diagramSVG: null,
+      choices, correctAnswer: String(correctVal),
+      explanation: askMode
+        ? `The mode is the value that appears most often. Here, <b>${correctVal}</b> appears more times than any other score.`
+        : `To find the median, put the scores in order and find the middle value.<br>Ordered: ${[...data].sort((a,b)=>a-b).join(', ')}.<br>The median is <b>${correctVal}</b>.`
+    };
+  }
+
+  if (kind === 'barChart'){
+    const gridValue = pick([2,4,5,10]);
+    const squares = pick([4.5,5.5,6.5,7.5,8.5]);
+    const correct = gridValue*squares;
+    const choices = makeChoices(correct,
+      [gridValue*Math.floor(squares), correct+gridValue, Math.max(gridValue,correct-gridValue)],
+      () => Math.max(gridValue, correct + pick([-gridValue*2,gridValue*2,-gridValue/2,gridValue/2]))
+    );
+    const fruit = pick(['apples','bananas','oranges','grapes']);
+    return {
+      id: uid(), section:'dataHandling', difficulty, type:'mcq',
+      prompt: `In a bar chart showing favourite fruits, each grid square represents <b>${gridValue} learners</b>. If the bar for <b>${fruit}</b> is <b>${squares} squares</b> tall, how many learners chose ${fruit}?`,
+      diagramSVG: null,
+      choices, correctAnswer: String(correct),
+      explanation: `Each square = ${gridValue} learners.<br>${squares} squares × ${gridValue} = <b>${correct}</b> learners.`
+    };
+  }
+
+  // bestGraph
+  const scenarios = [
+    {text:'Showing how the temperature in a room changes every hour through the day', answer:'Line graph', why:'it shows a continuous change over time'},
+    {text:"Comparing how many learners in a class chose each of 5 different favourite sports", answer:'Bar chart', why:'it compares separate categories side by side'},
+    {text:'Showing what fraction of a class has each of 4 different eye colours', answer:'Pie chart', why:'it shows how a whole is split into parts'},
+    {text:"Showing a small number of items using repeated picture symbols, like 🍎 = 2 apples", answer:'Pictogram', why:'it uses repeated pictures to represent a count'}
+  ];
+  const item = pick(scenarios);
+  const otherAnswers = shuffle(scenarios.map(s=>s.answer).filter(a=>a!==item.answer));
+  const choices = shuffle([item.answer, ...otherAnswers]);
+  return {
+    id: uid(), section:'dataHandling', difficulty, type:'mcq',
+    prompt: `Which type of graph would be best for: <i>${item.text}</i>?`,
+    diagramSVG: null,
+    choices, correctAnswer: item.answer,
+    explanation: `A <b>${item.answer}</b> is the best choice here because ${item.why}.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "angles" (Calculating Missing Angles) ===================== */
+function genAnglesQuestion(difficulty){
+  const kind = pick(['straightLine','aroundPoint','triangleSum','classify']);
+
+  if (kind === 'straightLine'){
+    const a = rnd(20,90), b = rnd(20, 160-a);
+    const correct = 180 - a - b;
+    const choices = makeChoices(correct,
+      [180-a, a+b, correct+10],
+      () => Math.max(1, correct + pick([-15,-5,5,15,-20,20]))
+    );
+    return {
+      id: uid(), section:'angles', difficulty, type:'mcq',
+      prompt: `Three angles lie on a straight line. Two of the angles measure <b>${a}°</b> and <b>${b}°</b>. Calculate the size of the third angle.`,
+      diagramSVG: null,
+      choices: choices.map(c=>`${c}°`), correctAnswer: `${correct}°`,
+      explanation: `Angles on a straight line always add up to 180°.<br>180 − ${a} − ${b} = <b>${correct}°</b>.`
+    };
+  }
+
+  if (kind === 'aroundPoint'){
+    const a = rnd(30,150);
+    const b = rnd(30, Math.max(31, 340-a));
+    const correct = 360 - a - b;
+    const choices = makeChoices(correct,
+      [360-a, a+b, correct+15],
+      () => Math.max(1, correct + pick([-20,-10,10,20,-5,5]))
+    );
+    return {
+      id: uid(), section:'angles', difficulty, type:'mcq',
+      prompt: `Three angles meet at a point. Two of them measure <b>${a}°</b> and <b>${b}°</b>. Calculate the size of the missing angle.`,
+      diagramSVG: null,
+      choices: choices.map(c=>`${c}°`), correctAnswer: `${correct}°`,
+      explanation: `Angles around a point always add up to 360°.<br>360 − ${a} − ${b} = <b>${correct}°</b>.`
+    };
+  }
+
+  if (kind === 'triangleSum'){
+    const a = rnd(30,100), b = rnd(30,170-a);
+    const correct = 180 - a - b;
+    const choices = makeChoices(correct,
+      [180-a, a+b, correct+10],
+      () => Math.max(1, correct + pick([-15,-5,5,15,-20,20]))
+    );
+    return {
+      id: uid(), section:'angles', difficulty, type:'mcq',
+      prompt: `A triangle has two angles measuring <b>${a}°</b> and <b>${b}°</b>. What is the size of the third angle?`,
+      diagramSVG: null,
+      choices: choices.map(c=>`${c}°`), correctAnswer: `${correct}°`,
+      explanation: `The angles inside any triangle always add up to 180°.<br>180 − ${a} − ${b} = <b>${correct}°</b>.`
+    };
+  }
+
+  // classify
+  const deg = rnd(5,355);
+  let correct;
+  if (deg < 90) correct = 'Acute';
+  else if (deg === 90) correct = 'Right';
+  else if (deg < 180) correct = 'Obtuse';
+  else correct = 'Reflex';
+  const choices = shuffle(['Acute','Right','Obtuse','Reflex']);
+  return {
+    id: uid(), section:'angles', difficulty, type:'mcq',
+    prompt: `An angle measures <b>${deg}°</b>. Which word describes this angle?`,
+    diagramSVG: null,
+    choices, correctAnswer: correct,
+    explanation: `${deg}° is ${correct==='Acute'?'less than 90°':correct==='Right'?'exactly 90°':correct==='Obtuse'?'between 90° and 180°':'between 180° and 360°'}, so it is <b>${correct.toLowerCase()}</b>.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "addition" ===================== */
+function genAdditionQuestion(difficulty){
+  const kind = pick(['bigAdd','wordProblem','missingDigit']);
+  const digits = difficulty==='hard' ? 5 : difficulty==='medium' ? 4 : 3;
+
+  if (kind === 'bigAdd'){
+    const a = rnd(Math.pow(10,digits-1), Math.pow(10,digits)-1);
+    const b = rnd(Math.pow(10,digits-1), Math.pow(10,digits)-1);
+    const correct = a+b;
+    const distractorSet = new Set([String(correct+10), String(correct-10), String(correct+100)]);
+    distractorSet.delete(String(correct));
+    const choices = shuffle([String(correct), ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'addition', difficulty, type:'mcq',
+      prompt: `Calculate:<br><span class="math" style="font-size:1.3rem">${a.toLocaleString()} + ${b.toLocaleString()}</span>`,
+      diagramSVG: null,
+      choices: choices.map(c=>Number(c).toLocaleString()), correctAnswer: correct.toLocaleString(),
+      explanation: `${a.toLocaleString()} + ${b.toLocaleString()} = <b>${correct.toLocaleString()}</b>.`
+    };
+  }
+
+  if (kind === 'wordProblem'){
+    const ctx = pick([
+      {item:'fiction books', item2:'non-fiction books', place:'library', thing:'books'},
+      {item:'red marbles', item2:'blue marbles', place:'jar', thing:'marbles'},
+      {item:'adult tickets', item2:'child tickets', place:'cinema', thing:'tickets'}
+    ]);
+    const a = rnd(Math.pow(10,digits-2), Math.pow(10,digits-1));
+    const b = rnd(Math.pow(10,digits-2), Math.pow(10,digits-1));
+    const correct = a+b;
+    const choices = makeChoices(correct,
+      [correct+100, Math.abs(a-b), correct-50],
+      () => Math.max(1, correct + pick([-20,20,-30,30,-10,10]))
+    );
+    return {
+      id: uid(), section:'addition', difficulty, type:'mcq',
+      prompt: `A ${ctx.place} has ${a.toLocaleString()} ${ctx.item} and ${b.toLocaleString()} ${ctx.item2}. How many ${ctx.thing} does it have altogether?`,
+      diagramSVG: null,
+      choices: choices.map(c=>Number(c).toLocaleString()), correctAnswer: correct.toLocaleString(),
+      explanation: `${a.toLocaleString()} + ${b.toLocaleString()} = <b>${correct.toLocaleString()}</b> ${ctx.thing}.`
+    };
+  }
+
+  // missingDigit
+  const a = rnd(100,899), b = rnd(100,899-a>0?899-a:100);
+  const sum = a+b;
+  const sumStr = String(sum);
+  const idx = rnd(0, sumStr.length-1);
+  const correctDigit = sumStr[idx];
+  const distractorSet = new Set();
+  while (distractorSet.size < 3){
+    const d = String(rnd(0,9));
+    if (d !== correctDigit) distractorSet.add(d);
+  }
+  const choices = shuffle([correctDigit, ...Array.from(distractorSet)]);
+  const masked = sumStr.split('').map((d,i)=> i===idx ? '?' : d).join('');
+  return {
+    id: uid(), section:'addition', difficulty, type:'mcq',
+    prompt: `${a} + ${b} = ${masked}<br>What is the missing digit (shown as "?")?`,
+    diagramSVG: null,
+    choices, correctAnswer: correctDigit,
+    explanation: `${a} + ${b} = <b>${sum}</b>, so the missing digit is <b>${correctDigit}</b>.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "multiplication" ===================== */
+function genMultiplicationQuestion(difficulty){
+  const kind = pick(['bigMul','factors','squareNum']);
+
+  if (kind === 'bigMul'){
+    const a = rnd(difficulty==='hard'?200:100, difficulty==='hard'?899:499);
+    const b = rnd(12,29);
+    const correct = a*b;
+    const distractorSet = new Set([String(correct+a), String(correct-a), String(correct+10)]);
+    distractorSet.delete(String(correct));
+    const choices = shuffle([String(correct), ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'multiplication', difficulty, type:'mcq',
+      prompt: `Calculate:<br><span class="math" style="font-size:1.3rem">${a} × ${b}</span>`,
+      diagramSVG: null,
+      choices: choices.map(c=>Number(c).toLocaleString()), correctAnswer: correct.toLocaleString(),
+      explanation: `${a} × ${b} = <b>${correct.toLocaleString()}</b>.`
+    };
+  }
+
+  if (kind === 'factors'){
+    const target = pick([12,16,18,20,24,28,30,36,40]);
+    const allFactors = [];
+    for (let i=1;i<=target;i++) if (target % i === 0) allFactors.push(i);
+    const notFactor = pick(Array.from({length:target+5}, (_,i)=>i+1).filter(n => target % n !== 0));
+    const factorsChoices = shuffle(allFactors).slice(0,3);
+    const choices = shuffle([String(notFactor), ...factorsChoices.map(String)]);
+    return {
+      id: uid(), section:'multiplication', difficulty, type:'mcq',
+      prompt: `Which of these numbers is <b>NOT</b> a factor of <b>${target}</b>?`,
+      diagramSVG: null,
+      choices, correctAnswer: String(notFactor),
+      explanation: `The factors of ${target} are: ${allFactors.join(', ')}.<br><b>${notFactor}</b> does not divide evenly into ${target}, so it is not a factor.`
+    };
+  }
+
+  // squareNum
+  const n = rnd(2, difficulty==='hard' ? 15 : 10);
+  const correct = n*n;
+  const choices = makeChoices(correct,
+    [n*(n+1), (n-1)*(n-1), (n+1)*(n+1)],
+    () => Math.max(1, correct + pick([-3,-2,-1,1,2,3]))
+  );
+  return {
+    id: uid(), section:'multiplication', difficulty, type:'mcq',
+    prompt: `What is the <b>${ordinal(n)}</b> square number?`,
+    diagramSVG: null,
+    choices, correctAnswer: String(correct),
+    explanation: `The ${ordinal(n)} square number is ${n} × ${n} = <b>${correct}</b>.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "division" ===================== */
+function genDivisionQuestion(difficulty){
+  const kind = pick(['remainder','ceiling','divisibility']);
+
+  if (kind === 'remainder'){
+    const divisor = rnd(4,9);
+    const quotient = rnd(difficulty==='hard'?80:20, difficulty==='hard'?199:99);
+    const remainder = rnd(1,divisor-1);
+    const dividend = quotient*divisor + remainder;
+    const correct = `${quotient} r ${remainder}`;
+    const distractorSet = new Set([`${quotient} r ${Math.max(0,remainder-1)}`, `${quotient+1} r ${remainder}`, `${quotient} r ${(remainder+1)%divisor}`]);
+    distractorSet.delete(correct);
+    const choices = shuffle([correct, ...Array.from(distractorSet)].slice(0,4));
+    return {
+      id: uid(), section:'division', difficulty, type:'mcq',
+      prompt: `Calculate <b>${dividend} ÷ ${divisor}</b>. Give your answer with a remainder.`,
+      diagramSVG: null,
+      choices, correctAnswer: correct,
+      explanation: `${divisor} × ${quotient} = ${quotient*divisor}.<br>${dividend} − ${quotient*divisor} = ${remainder}.<br>So ${dividend} ÷ ${divisor} = <b>${correct}</b>.`
+    };
+  }
+
+  if (kind === 'ceiling'){
+    const perBox = rnd(4,9);
+    const totalItems = rnd(perBox*5+1, perBox*20);
+    const correct = Math.ceil(totalItems/perBox);
+    const choices = makeChoices(correct,
+      [Math.floor(totalItems/perBox), correct+1, correct-1],
+      () => Math.max(1, correct + pick([-2,2,3,-3]))
+    );
+    const item = pick(['cupcakes','oranges','pencils','marbles']);
+    return {
+      id: uid(), section:'division', difficulty, type:'mcq',
+      prompt: `Boxes hold <b>${perBox} ${item}</b> each. A baker makes <b>${totalItems} ${item}</b>. How many boxes are needed to hold all of them?`,
+      diagramSVG: null,
+      choices, correctAnswer: String(correct),
+      explanation: `${totalItems} ÷ ${perBox} = ${fmt(totalItems/perBox)}.<br>Since there are some ${item} left over, one extra box is needed, so <b>${correct}</b> boxes are needed in total.`
+    };
+  }
+
+  // divisibility
+  const divisor = pick([3,4,6,8,9]);
+  const base = rnd(100,800);
+  const divisibleNum = base - (base % divisor);
+  const choices = makeChoices(divisibleNum,
+    [divisibleNum+1, divisibleNum+2, divisibleNum+5].filter(n => n % divisor !== 0),
+    () => { const off = rnd(1,divisor-1); return divisibleNum + off + pick([0,divisor*rnd(1,3)]); }
+  );
+  return {
+    id: uid(), section:'division', difficulty, type:'mcq',
+    prompt: `Which of these numbers IS divisible by <b>${divisor}</b> (with no remainder)?`,
+    diagramSVG: null,
+    choices, correctAnswer: String(divisibleNum),
+    explanation: `${divisibleNum} ÷ ${divisor} = ${divisibleNum/divisor} exactly, with no remainder, so ${divisibleNum} is divisible by ${divisor}. The other numbers leave a remainder when divided by ${divisor}.`
+  };
+}
+
+/* ===================== QUESTION BANK: SECTION "shapes3d" (3D Shapes & Nets of a Cube) ===================== */
+function netSVG(cells){
+  const cellSize = 34, pad = 10;
+  const maxR = Math.max(...cells.map(c=>c[0]));
+  const maxC = Math.max(...cells.map(c=>c[1]));
+  const w = (maxC+1)*cellSize + pad*2, h = (maxR+1)*cellSize + pad*2;
+  const rects = cells.map(([r,c]) => `<rect x="${pad+c*cellSize}" y="${pad+r*cellSize}" width="${cellSize}" height="${cellSize}" fill="#c9e8ff" stroke="#4361ee" stroke-width="2"/>`).join('');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">${rects}</svg>`;
+}
+const NET_LIBRARY = [
+  {cells:[[0,1],[1,0],[1,1],[1,2],[2,1],[3,1]], kind:'closed'},
+  {cells:[[0,0],[1,0],[1,1],[1,2],[1,3],[2,3]], kind:'closed'},
+  {cells:[[0,0],[0,1],[0,2],[1,2],[2,2],[3,2]], kind:'closed'},
+  {cells:[[0,1],[1,0],[1,1],[1,2],[1,3],[2,2]], kind:'closed'},
+  {cells:[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]], kind:'invalid'},
+  {cells:[[0,0],[0,1],[0,2],[0,3],[0,4],[0,5]], kind:'invalid'},
+  {cells:[[0,1],[1,0],[1,1],[1,2],[2,1]], kind:'open'},
+  {cells:[[1,0],[1,1],[1,2],[1,3],[2,1]], kind:'open'}
+];
+
+const SHAPE_FACTS = [
+  {q:'How many faces does a cube have?', n:6, label:'faces', explanation:'A cube has 6 identical square faces.'},
+  {q:'How many faces does a cuboid have?', n:6, label:'faces', explanation:'A cuboid (rectangular box) always has 6 rectangular faces.'},
+  {q:'How many edges does a cube have?', n:12, label:'edges', explanation:'A cube has 12 edges — 4 on the top face, 4 on the bottom face, and 4 vertical edges joining them.'},
+  {q:'How many vertices does a cube have?', n:8, label:'vertices', explanation:'A cube has 8 vertices (corners) — 4 on the top face and 4 on the bottom face.'},
+  {q:'How many faces does a pentagonal prism have?', n:7, label:'faces', explanation:'A pentagonal prism has 2 pentagon faces (the two ends) plus 5 rectangular side faces = 7 faces in total.'},
+  {q:'How many faces does a triangular prism have?', n:5, label:'faces', explanation:'A triangular prism has 2 triangular faces (the two ends) plus 3 rectangular side faces = 5 faces in total.'},
+  {q:'How many faces does a square-based pyramid have?', n:5, label:'faces', explanation:'A square-based pyramid has 1 square base plus 4 triangular faces that meet at the top = 5 faces in total.'},
+  {q:'How many faces does an octagon-based pyramid have?', n:9, label:'faces', explanation:'An octagon-based pyramid has 1 octagon base (8 sides) plus 8 triangular faces that meet at the top point = 9 faces in total.'},
+  {q:'How many circular faces does a cylinder have?', n:2, label:'circular faces', explanation:'A cylinder has 2 flat circular faces (top and bottom) joined by one curved rectangular face.'},
+  {q:'A cone is made up of how many separate pieces (a flat circle and a curved surface)?', n:2, label:'pieces', explanation:'A cone is made of 2 pieces: 1 flat circular face (the base) and 1 curved surface that comes to a point.'}
+];
+function genShapeFactQuestion(difficulty){
+  const fact = pick(SHAPE_FACTS);
+  const wrongSet = new Set([fact.n+rnd(1,3), Math.max(1,fact.n-rnd(1,3)), fact.n+rnd(4,6)]);
+  wrongSet.delete(fact.n);
+  const choices = shuffle([fact.n, ...Array.from(wrongSet)].slice(0,4)).map(String);
+  return {
+    id: uid(), section:'shapes3d', difficulty, type:'mcq',
+    prompt: fact.q,
+    diagramSVG: null,
+    choices, correctAnswer: String(fact.n),
+    explanation: fact.explanation
+  };
+}
+
+const OBJECT_SHAPE_MATCHES = [
+  {obj:'an ice cream cone', shape:'Cone'},
+  {obj:'a tent', shape:'Triangular prism'},
+  {obj:'a drink can', shape:'Cylinder'},
+  {obj:'a football', shape:'Sphere'},
+  {obj:'a cereal box', shape:'Cuboid'},
+  {obj:'a dice', shape:'Cube'}
+];
+function genObjectMatchQuestion(difficulty){
+  const item = pick(OBJECT_SHAPE_MATCHES);
+  const otherShapes = shuffle(OBJECT_SHAPE_MATCHES.map(x=>x.shape).filter(s=>s!==item.shape)).slice(0,3);
+  const choices = shuffle([item.shape, ...otherShapes]);
+  return {
+    id: uid(), section:'shapes3d', difficulty, type:'mcq',
+    prompt: `Which 3D shape do we usually associate with <b>${item.obj}</b>?`,
+    diagramSVG: null,
+    choices, correctAnswer: item.shape,
+    explanation: `${item.obj.charAt(0).toUpperCase()+item.obj.slice(1)} is shaped like a <b>${item.shape}</b>.`
+  };
+}
+
+function genNetClassifyQuestion(difficulty){
+  const net = pick(NET_LIBRARY);
+  const labelMap = {closed:'Net of a cube', open:'Net of an open cube', invalid:'Not a net of a cube'};
+  const correct = labelMap[net.kind];
+  const reasonMap = {
+    closed: `This net has exactly 6 squares arranged so each one folds up to cover a different face, with no gaps and no overlaps — it's a <b>net of a cube</b>.`,
+    open: `This net has only 5 squares, so when folded it makes a box with one face missing — it's a <b>net of an open cube</b>.`,
+    invalid: `Even though it has 6 squares, when folded this arrangement causes faces to overlap or leaves faces uncovered — so it's <b>not a net of a cube</b>.`
+  };
+  const decoy = 'A net of a triangular prism';
+  return {
+    id: uid(), section:'shapes3d', difficulty, type:'mcq',
+    prompt: `Look at this net. Is it a net of a cube, a net of an open cube, not a net of a cube at all, or something else entirely?`,
+    diagramSVG: netSVG(net.cells),
+    choices: shuffle([...Object.values(labelMap), decoy]), correctAnswer: correct,
+    explanation: reasonMap[net.kind]
+  };
+}
+
+const NAME_SHAPE_LIBRARY = [
+  {desc:'I have 1 square face and 4 triangular faces that meet at a point.', name:'Square-based pyramid'},
+  {desc:'I have 2 circular faces and 1 curved rectangular face.', name:'Cylinder'},
+  {desc:'I have 2 triangular faces and 3 rectangular faces.', name:'Triangular prism'},
+  {desc:'I have 2 pentagon faces and 5 rectangular faces.', name:'Pentagonal prism'},
+  {desc:'I have 2 hexagon faces and 6 rectangular faces.', name:'Hexagonal prism'},
+  {desc:'I have 6 identical square faces.', name:'Cube'},
+  {desc:'I have 6 rectangular faces, and my opposite faces are equal in size.', name:'Cuboid'},
+  {desc:'I have 1 flat circular face and 1 curved surface that comes to a point.', name:'Cone'}
+];
+function genNameShapeQuestion(difficulty){
+  const item = pick(NAME_SHAPE_LIBRARY);
+  const otherNames = shuffle(NAME_SHAPE_LIBRARY.map(x => x.name).filter(n => n !== item.name)).slice(0,3);
+  const choices = shuffle([item.name, ...otherNames]);
+  return {
+    id: uid(), section:'shapes3d', difficulty, type:'mcq',
+    prompt: `${item.desc}<br>What 3D shape am I?`,
+    diagramSVG: null,
+    choices, correctAnswer: item.name,
+    explanation: `A shape with these faces is called a <b>${item.name}</b>.`
+  };
+}
+
+const SHAPE_PREFIXES = [{p:'Tri', n:3},{p:'Pent', n:5},{p:'Hex', n:6},{p:'Oct', n:8}];
+function genPrefixQuestion(difficulty){
+  const item = pick(SHAPE_PREFIXES);
+  const wrongSet = new Set([item.n+1, Math.max(1,item.n-1), item.n+2]);
+  wrongSet.delete(item.n);
+  const choices = shuffle([item.n, ...Array.from(wrongSet)].slice(0,4)).map(String);
+  return {
+    id: uid(), section:'shapes3d', difficulty, type:'mcq',
+    prompt: `The prefix "<b>${item.p}</b>-" (as in ${item.p.toLowerCase()}agon) means how many sides or faces?`,
+    diagramSVG: null,
+    choices, correctAnswer: String(item.n),
+    explanation: `"${item.p}-" means <b>${item.n}</b> (e.g. a ${item.p.toLowerCase()}agon has ${item.n} sides).`
+  };
+}
+
+function gen3DShapeQuestion(difficulty){
+  const kind = difficulty === 'easy' ? pick(['shapeFact','shapeFact','objectMatch','prefix','nameShape'])
+    : difficulty === 'medium' ? pick(['shapeFact','objectMatch','prefix','netClassify','netClassify','nameShape'])
+    : pick(['netClassify','netClassify','shapeFact','nameShape']);
+  if (kind === 'shapeFact') return genShapeFactQuestion(difficulty);
+  if (kind === 'objectMatch') return genObjectMatchQuestion(difficulty);
+  if (kind === 'prefix') return genPrefixQuestion(difficulty);
+  if (kind === 'nameShape') return genNameShapeQuestion(difficulty);
+  return genNetClassifyQuestion(difficulty);
+}
+
+/* ===================== QUIZ GENERATION ===================== */
+const SECTIONS = [
+  {key:'placeValue',       name:'Place Value',          emoji:'🔢', gen: genPlaceValueQuestion},
+  {key:'rounding',         name:'Rounding Off',         emoji:'🎯', gen: genRoundingQuestion},
+  {key:'triangularNumbers',name:'Triangular Numbers',   emoji:'🔺', gen: genTriangularQuestion},
+  {key:'time',             name:'Time',                 emoji:'⏰', gen: genTimeQuestion},
+  {key:'fractions',        name:'Fractions',            emoji:'🍕', gen: genFractionQuestion},
+  {key:'laws',             name:'Laws of Arithmetic',   emoji:'🧠', gen: genLawsQuestion},
+  {key:'percentDecimals',  name:'Percentage &amp; Decimals', emoji:'💯', gen: genPercentDecimalsQuestion},
+  {key:'trianglesTypes',   name:'Types of Triangles',   emoji:'📏', gen: genTrianglesTypeQuestion},
+  {key:'shapes3d',         name:'3D Shapes',            emoji:'🧊', gen: gen3DShapeQuestion},
+  {key:'shapes',           name:'Area &amp; Perimeter', emoji:'📐', gen: genShapeQuestion},
+  {key:'dataHandling',     name:'Data Handling',        emoji:'📊', gen: genDataHandlingQuestion},
+  {key:'angles',           name:'Missing Angles',       emoji:'📍', gen: genAnglesQuestion},
+  {key:'addition',         name:'Addition',             emoji:'➕', gen: genAdditionQuestion},
+  {key:'multiplication',   name:'Multiplication',       emoji:'✖️', gen: genMultiplicationQuestion},
+  {key:'division',         name:'Division',             emoji:'➗', gen: genDivisionQuestion}
+];
+// Topic-balanced draw: 50 questions total, roughly 3-4 per topic (sums to 50).
+const DRAW_PLAN = {
+  placeValue:3, rounding:3, triangularNumbers:3, time:3, fractions:4, laws:4,
+  percentDecimals:4, trianglesTypes:3, shapes3d:4, shapes:4, dataHandling:3,
+  angles:3, addition:3, multiplication:3, division:3
+};
+// Overall quiz-wide difficulty mix (not per-topic): 50 questions total.
+const GLOBAL_DIFF_COUNTS = {hard:25, medium:10, easy:10, grade6:5};
+
+function generateQuiz(){
+  // Build a topic-balanced slot list (per DRAW_PLAN), shuffle it, then pair each
+  // slot with a shuffled difficulty from GLOBAL_DIFF_COUNTS and generate a fresh,
+  // randomised MCQ for it — so every attempt (and every restart) is a new set of 50.
+  const topicSlots = [];
+  Object.entries(DRAW_PLAN).forEach(([key,n]) => { for (let i=0;i<n;i++) topicSlots.push(key); });
+  const diffSlots = [];
+  Object.entries(GLOBAL_DIFF_COUNTS).forEach(([diff,n]) => { for (let i=0;i<n;i++) diffSlots.push(diff); });
+  const shuffledTopics = shuffle(topicSlots);
+  const shuffledDiffs = shuffle(diffSlots);
+  return shuffledTopics.map((key,i) => {
+    const sec = SECTIONS.find(s=>s.key===key);
+    return sec.gen(shuffledDiffs[i]);
+  });
+}
+
+/* ===================== PERSISTENCE ===================== */
+const LS_SAVE = 'mq_saved_v1';
+const LS_HISTORY = 'mq_history_v1';
+const LS_XP = 'mq_xp_v1';
+
+function loadJSON(key, fallback){
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; }
+}
+function saveJSON(key, val){ try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
+
+function getXP(){ return loadJSON(LS_XP, {xp:0}); }
+function addXP(n){ const d = getXP(); d.xp += n; saveJSON(LS_XP, d); return d.xp; }
+function levelFromXP(xp){ return Math.floor(xp/100) + 1; }
+function xpIntoLevel(xp){ return xp % 100; }
+
+function getHistory(){ return loadJSON(LS_HISTORY, []); }
+function pushHistory(entry){ const h = getHistory(); h.unshift(entry); saveJSON(LS_HISTORY, h.slice(0,25)); }
+
+/* ===================== APP STATE ===================== */
+let state = null; // active quiz state
+
+function newQuizState(){
+  paletteOpen = false;
+  return {
+    startedAt: Date.now(),
+    questions: generateQuiz(),
+    index: 0,
+    answers: {}, // qid -> {chosen, correct, attempts, resolved}
+  };
+}
+
+function totalCount(){ return state.questions.length; }
+function answeredCount(){ return Object.values(state.answers).filter(a=>a.resolved).length; }
+function correctCount(){ return Object.values(state.answers).filter(a=>a.resolved && a.correct).length; }
+function sectionQuestions(sectionKey){ return state.questions.filter(q=>q.section===sectionKey); }
+function sectionAnsweredCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved).length; }
+function sectionCorrectCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved && state.answers[q.id].correct).length; }
+
+/* ===================== RENDERING ===================== */
+const app = document.getElementById('app');
+
+function go(view){ window.location.hash = view; render(); }
+
+function render(){
+  const hash = window.location.hash.replace('#','') || 'home';
+  if (hash === 'home') return renderHome();
+  if (hash === 'quiz') return renderQuiz();
+  if (hash === 'results') return renderResults();
+  if (hash === 'review') return renderReview();
+  renderHome();
+}
+window.addEventListener('hashchange', render);
+
+/* ===================== QUESTION PALETTE (jump to any question) ===================== */
+let paletteOpen = false;
+function paletteHTML(){
+  const items = state.questions.map((q,i) => {
+    const ans = state.answers[q.id];
+    let cls = 'palette-btn';
+    if (i === state.index) cls += ' current';
+    if (ans && ans.resolved) cls += ans.correct ? ' correct' : ' incorrect';
+    return `<button type="button" class="${cls}" data-idx="${i}">${i+1}</button>`;
+  }).join('');
+  return `<div class="palette-grid">${items}</div>`;
+}
+function jumpToQuestion(i){ state.index = i; paletteOpen = false; saveJSON(LS_SAVE, state); render(); }
+
+/* ===================== POST-QUIZ REVIEW (all / correct only / incorrect only) ===================== */
+let reviewFilter = 'all';
+function renderReview(){
+  const report = window._lastReport;
+  if (!report){ go('home'); return; }
+  const filtered = report.questions
+    .map((q,i) => ({...q, num:i+1}))
+    .filter(q => reviewFilter==='all' ? true : reviewFilter==='correct' ? q.wasCorrect : !q.wasCorrect);
+  const correctCountR = report.questions.filter(q=>q.wasCorrect).length;
+  const incorrectCountR = report.questions.length - correctCountR;
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="row between" style="margin-bottom:10px">
+        <h3>🔍 Review Your Answers</h3>
+        <button class="btn-secondary" id="backResultsBtn">← Back to Results</button>
+      </div>
+      <div class="row" style="gap:8px;margin-bottom:14px">
+        <button class="${reviewFilter==='all'?'btn-primary':'btn-secondary'}" data-filter="all">All (${report.questions.length})</button>
+        <button class="${reviewFilter==='correct'?'btn-primary':'btn-secondary'}" data-filter="correct">✅ Correct (${correctCountR})</button>
+        <button class="${reviewFilter==='incorrect'?'btn-primary':'btn-secondary'}" data-filter="incorrect">❌ Incorrect (${incorrectCountR})</button>
+      </div>
+      ${filtered.length===0 ? '<p>No questions match this filter.</p>' : filtered.map(q => `
+        <div class="review-item ${q.wasCorrect?'correct':'incorrect'}">
+          <div class="review-q-head"><b>Q${q.num}</b> <span class="pill ${q.wasCorrect?'green':'pink'}">${q.wasCorrect?'Correct':'Incorrect'}</span></div>
+          <div class="review-topic">${(SECTIONS.find(s=>s.key===q.section)||{}).name || q.section} · ${q.difficulty === 'grade6' ? 'Grade 6' : q.difficulty}</div>
+          <div class="review-prompt">${q.prompt}</div>
+          <div class="review-answers">Your answer: <b>${q.chosen===null?'<i>no answer</i>':q.chosen}</b>${q.wasCorrect?'':`<br>Correct answer: <b>${q.correctAnswer}</b>`}</div>
+          <div class="review-explain">${q.explanation}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('backResultsBtn').onclick = () => go('results');
+  document.querySelectorAll('[data-filter]').forEach(btn => {
+    btn.onclick = () => { reviewFilter = btn.getAttribute('data-filter'); renderReview(); };
+  });
+}
+
+function renderHome(){
+  const saved = loadJSON(LS_SAVE, null);
+  const history = getHistory();
+  const xpData = getXP();
+  const level = levelFromXP(xpData.xp);
+  const pct = xpIntoLevel(xpData.xp);
+
+  app.innerHTML = `
+    <div class="card hero">
+      <div class="row between">
+        <div>
+          <h1>🌟 Maths Quest</h1>
+          <p>Grade 5 end-of-year exam scope — 15 topics, 50 Qs, every attempt brand-new</p>
+        </div>
+        <div class="level-box">
+          <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>
+          <div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%"></div></div>
+          <div style="font-size:.72rem;opacity:.85;margin-top:2px">${pct}/100 XP to next level</div>
+        </div>
+      </div>
+    </div>
+
+    ${saved ? `
+    <div class="card install-banner">
+      <div><b>⏸️ You have a saved quiz in progress</b><br><span style="font-size:.85rem;color:var(--muted)">Question ${saved.index+1} of ${saved.questions.length}</span></div>
+      <div class="row">
+        <button class="btn-primary" id="continueBtn">Continue ▶</button>
+        <button class="btn-ghost" id="discardBtn">Discard</button>
+      </div>
+    </div>` : ''}
+
+    <div class="card">
+      <h3 style="margin-bottom:10px">Start a fresh quiz</h3>
+      <p style="margin-bottom:12px">Every time you play, you'll get 50 brand-new randomised questions — 50% hard, 20% medium, 20% easy, and 10% Grade 6 stretch questions for deeper thinking!</p>
+      <div class="topic-grid">
+        <div class="topic-card placeValue"><div><b>🔢 Place Value</b><br><span style="opacity:.9;font-size:.85rem">Digit values, ×/÷ by 10/100/1000</span></div></div>
+        <div class="topic-card rounding"><div><b>🎯 Rounding Off</b><br><span style="opacity:.9;font-size:.85rem">Nearest 10, 100, 1000</span></div></div>
+        <div class="topic-card triangularNumbers"><div><b>🔺 Triangular Numbers</b><br><span style="opacity:.9;font-size:.85rem">1, 3, 6, 10, 15 …</span></div></div>
+        <div class="topic-card time"><div><b>⏰ Time</b><br><span style="opacity:.9;font-size:.85rem">24hr clock, durations, time zones</span></div></div>
+        <div class="topic-card fractions"><div><b>🍕 Fractions</b><br><span style="opacity:.9;font-size:.85rem">Mixed numbers, ordering, fraction of an amount</span></div></div>
+        <div class="topic-card laws"><div><b>🧠 Laws of Arithmetic</b><br><span style="opacity:.9;font-size:.85rem">BODMAS, commutative &amp; associative laws</span></div></div>
+        <div class="topic-card percentDecimals"><div><b>💯 Percentage &amp; Decimals</b><br><span style="opacity:.9;font-size:.85rem">Conversions, discounts, ordering</span></div></div>
+        <div class="topic-card trianglesTypes"><div><b>📏 Types of Triangles</b><br><span style="opacity:.9;font-size:.85rem">Equilateral, isosceles, scalene</span></div></div>
+        <div class="topic-card shapes3d"><div><b>🧊 3D Shapes</b><br><span style="opacity:.9;font-size:.85rem">Faces, vertices, cube nets</span></div></div>
+        <div class="topic-card shapes"><div><b>📐 Area &amp; Perimeter</b><br><span style="opacity:.9;font-size:.85rem">Composite shapes, missing sides</span></div></div>
+        <div class="topic-card dataHandling"><div><b>📊 Data Handling</b><br><span style="opacity:.9;font-size:.85rem">Mode, median, range, bar charts</span></div></div>
+        <div class="topic-card angles"><div><b>📍 Missing Angles</b><br><span style="opacity:.9;font-size:.85rem">Straight lines, points, triangles</span></div></div>
+        <div class="topic-card addition"><div><b>➕ Addition</b><br><span style="opacity:.9;font-size:.85rem">Multi-digit sums, word problems</span></div></div>
+        <div class="topic-card multiplication"><div><b>✖️ Multiplication</b><br><span style="opacity:.9;font-size:.85rem">Factors, square numbers</span></div></div>
+        <div class="topic-card division"><div><b>➗ Division</b><br><span style="opacity:.9;font-size:.85rem">Remainders, divisibility</span></div></div>
+      </div>
+      <div class="row center" style="margin-top:14px">
+        <button class="btn-primary" id="startBtn" style="font-size:1.1rem;padding:14px 28px">🚀 Start New Quiz</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🏆 Your Badges</h3>
+      <div class="badges-shelf" style="margin-top:12px">
+        ${renderBadgeShelf(history)}
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📊 Your Past Attempts</h3>
+      <div style="margin-top:12px">
+      ${history.length===0 ? '<p>No attempts yet — play your first quiz!</p>' : history.slice(0,8).map(h => `
+        <div class="history-item">
+          <span>${new Date(h.date).toLocaleDateString()} ${new Date(h.date).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</span>
+          <span class="pill ${h.percent>=90?'gold':h.percent>=70?'green':'pink'}">${h.correct}/${h.total} · ${h.percent}%</span>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="footer-note">Works offline · Install this app to your home screen for the best experience · Made for a maths superstar 🌟</div>
+  `;
+
+  document.getElementById('startBtn').onclick = () => {
+    state = newQuizState();
+    saveJSON(LS_SAVE, state);
+    go('quiz');
+  };
+  const cbtn = document.getElementById('continueBtn');
+  if (cbtn) cbtn.onclick = () => { state = saved; go('quiz'); };
+  const dbtn = document.getElementById('discardBtn');
+  if (dbtn) dbtn.onclick = () => { localStorage.removeItem(LS_SAVE); render(); };
+}
+
+function computeBadgesForAttempt(report){
+  const badges = [];
+  if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
+  else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
+  else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
+  report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
+  badges.push({e:'✅', n:'Completed'});
+  return badges;
+}
+
+function renderBadgeShelf(history){
+  if (history.length===0) return '<p>Complete a quiz to start earning badges!</p>';
+  const all = [];
+  history.forEach(h => (h.badges||[]).forEach(b => all.push(b)));
+  const seen = new Set();
+  const unique = all.filter(b => { const k=b.n; if (seen.has(k)) return false; seen.add(k); return true; });
+  if (unique.length===0) return '<p>Complete a quiz to start earning badges!</p>';
+  return unique.map(b => `<div class="badge-chip">${b.e}</div>`).join('');
+}
+
+function renderQuiz(){
+  if (!state){ go('home'); return; }
+  const q = state.questions[state.index];
+  const total = totalCount();
+  const answered = answeredCount();
+  const correct = correctCount();
+  const percent = answered ? Math.round((correct/answered)*100) : 0;
+  const sec = SECTIONS.find(s=>s.key===q.section);
+  const secTotal = sectionQuestions(q.section).length;
+  const secAnswered = sectionAnsweredCount(q.section);
+
+  const existing = state.answers[q.id];
+  const resolved = existing && existing.resolved;
+
+  app.innerHTML = `
+    <div class="card progress-wrap">
+      <div class="row between">
+        <div class="progress-label">Overall Progress</div>
+        <div class="progress-label">${answered}/${total}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner overall" style="width:${(answered/total)*100}%"></div></div>
+      <div class="row between" style="margin-top:4px">
+        <div class="progress-label">${sec.emoji} ${sec.name}</div>
+        <div class="progress-label">${secAnswered}/${secTotal}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner section" style="width:${(secAnswered/secTotal)*100}%"></div></div>
+      <div class="score-strip" style="margin-top:6px">
+        <div class="score-tile"><div class="num">${correct}/${answered||0}</div><div class="lbl">Score</div></div>
+        <div class="score-tile"><div class="num">${percent}%</div><div class="lbl">Accuracy</div></div>
+        <div class="score-tile"><div class="num">${state.index+1}/${total}</div><div class="lbl">Question</div></div>
+      </div>
+      <button class="btn-ghost" id="paletteBtn" style="justify-self:start">🗂️ Jump to any question</button>
+    </div>
+
+    ${paletteOpen ? `<div class="card palette-card">${paletteHTML()}</div>` : ''}
+
+    <div class="card qcard" id="qcard">
+      <div class="qtop">
+        <span class="difficulty-tag ${q.difficulty}">${q.difficulty === 'grade6' ? 'Grade 6 ⭐' : q.difficulty}</span>
+        <span class="pill">${sec.emoji} ${sec.name}</span>
+      </div>
+      <div class="qprompt">${q.prompt}</div>
+      ${q.diagramSVG ? `<div class="diagram-wrap">${q.diagramSVG}</div>` : ''}
+      <div id="answerArea"></div>
+      <div id="feedbackArea"></div>
+      <div id="memoArea"></div>
+      <div class="nav-row">
+        <button class="arrow-btn" id="backBtn" ${state.index===0 ? 'disabled':''}>←</button>
+        <button class="btn-secondary" id="saveExitBtn">💾 Save &amp; Exit</button>
+        <button class="arrow-btn" id="fwdBtn" ${resolved ? '' : 'disabled'}>→</button>
+      </div>
+    </div>
+  `;
+
+  renderAnswerArea(q, existing);
+
+  document.getElementById('backBtn').onclick = () => { state.index = Math.max(0, state.index-1); saveJSON(LS_SAVE, state); render(); };
+  document.getElementById('fwdBtn').onclick = () => {
+    if (state.index === total-1){ finishQuiz(); return; }
+    state.index++; saveJSON(LS_SAVE, state); render();
+  };
+  document.getElementById('saveExitBtn').onclick = () => { saveJSON(LS_SAVE, state); go('home'); };
+  document.getElementById('paletteBtn').onclick = () => { paletteOpen = !paletteOpen; renderQuiz(); };
+  if (paletteOpen){
+    document.querySelectorAll('.palette-btn').forEach(btn => {
+      btn.onclick = () => jumpToQuestion(Number(btn.getAttribute('data-idx')));
+    });
+  }
+}
+
+function renderAnswerArea(q, existing){
+  const answerArea = document.getElementById('answerArea');
+  const feedbackArea = document.getElementById('feedbackArea');
+  const memoArea = document.getElementById('memoArea');
+  const resolved = existing && existing.resolved;
+
+  if (q.type === 'mcq' || q.type === 'tf'){
+    answerArea.innerHTML = `<div class="choices">${q.choices.map((c,i)=>{
+      const letter = String.fromCharCode(65+i);
+      let cls = 'choice-btn';
+      if (resolved){
+        if (c === q.correctAnswer) cls += ' correct';
+        else if (existing.lastChosen === c) cls += ' incorrect';
+        else cls += ' disabled-other';
+      }
+      return `<button class="${cls}" data-choice="${esc(c)}" ${resolved?'disabled':''}><span class="choice-letter">${letter}</span><span>${c}</span></button>`;
+    }).join('')}</div>`;
+    if (!resolved){
+      answerArea.querySelectorAll('.choice-btn').forEach(btn => {
+        btn.onclick = () => submitAnswer(q, btn.getAttribute('data-choice'));
+      });
+    }
+  } else if (q.type === 'numeric'){
+    answerArea.innerHTML = `<div class="numeric-row">
+      <input type="number" id="numInput" placeholder="Type your answer" ${resolved?'disabled':''} value="${resolved?existing.lastChosen:''}" />
+      <button class="btn-primary" id="submitNum" ${resolved?'disabled':''}>Submit</button>
+    </div>`;
+    if (!resolved){
+      const submit = () => {
+        const v = document.getElementById('numInput').value;
+        if (v === '') return;
+        submitAnswer(q, Number(v));
+      };
+      document.getElementById('submitNum').onclick = submit;
+      document.getElementById('numInput').addEventListener('keydown', e => { if (e.key==='Enter') submit(); });
+    }
+  }
+
+  if (existing){
+    renderFeedback(q, existing, feedbackArea);
+    if (resolved) renderMemo(q, memoArea);
+  }
+}
+
+function renderFeedback(q, ans, container){
+  if (!ans.lastWasCorrect && !ans.resolved){
+    container.innerHTML = `<div class="feedback-banner incorrect">🤔 Not quite! Give it one more try.</div>`;
+  } else if (ans.resolved && ans.correct){
+    container.innerHTML = `<div class="feedback-banner correct">${ans.attempts===1 ? '🎉 Correct on the first try! Amazing!' : '✅ Correct! Well done for trying again.'}</div>`;
+  } else if (ans.resolved && !ans.correct){
+    container.innerHTML = `<div class="feedback-banner wrong-final">📚 Not this time — read the memo below to learn why.</div>`;
+  } else {
+    container.innerHTML = '';
+  }
+}
+
+function renderMemo(q, container){
+  container.innerHTML = `<div class="memo-box">
+    <h4>📝 Study Memo</h4>
+    <div class="ans-line">Correct answer: <b>${q.correctAnswer}</b></div>
+    <div class="explain">${q.explanation}</div>
+  </div>`;
+}
+
+function submitAnswer(q, chosenRaw){
+  const existing = state.answers[q.id] || {attempts:0, resolved:false};
+  existing.attempts += 1;
+  existing.lastChosen = chosenRaw;
+  const isCorrect = q.type === 'numeric'
+    ? Number(chosenRaw) === Number(q.correctAnswer)
+    : String(chosenRaw) === String(q.correctAnswer);
+
+  if (isCorrect){
+    existing.resolved = true;
+    existing.correct = true;
+    existing.lastWasCorrect = true;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    launchConfetti(existing.attempts===1 ? 60 : 35);
+    document.getElementById('qcard').style.animation = 'none';
+  } else if (existing.attempts >= 1){
+    existing.resolved = true;
+    existing.correct = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  } else {
+    existing.resolved = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  }
+  renderQuiz();
+}
+
+function finishQuiz(){
+  const total = totalCount();
+  const correct = correctCount();
+  const percent = Math.round((correct/total)*100);
+  const noRetries = Object.values(state.answers).every(a => a.attempts === 1);
+  const usedRetries = Object.values(state.answers).some(a => a.attempts > 1);
+
+  const sectionReports = SECTIONS.map(sec => {
+    const sq = sectionQuestions(sec.key);
+    const sc = sectionCorrectCount(sec.key);
+    return {key: sec.key, name: sec.name, emoji: sec.emoji, correct: sc, total: sq.length, percent: sq.length ? Math.round((sc/sq.length)*100) : 0};
+  }).filter(sr => sr.total > 0);
+
+  const report = {
+    date: Date.now(), correct, total, percent, noRetries, usedRetries, sectionReports,
+    questions: state.questions.map(q => ({
+      prompt: q.prompt, section: q.section, difficulty: q.difficulty,
+      chosen: state.answers[q.id] ? state.answers[q.id].lastChosen : null,
+      correctAnswer: q.correctAnswer, wasCorrect: state.answers[q.id] ? !!state.answers[q.id].correct : false,
+      explanation: q.explanation
+    }))
+  };
+  report.badges = computeBadgesForAttempt(report);
+
+  const xpEarned = Object.values(state.answers).reduce((s,a)=> s + (a.correct ? (a.attempts===1?10:5) : 0), 0);
+  addXP(xpEarned);
+  report.xpEarned = xpEarned;
+
+  pushHistory({date: report.date, correct, total, percent, badges: report.badges});
+  localStorage.removeItem(LS_SAVE);
+
+  window._lastReport = report;
+  go('results');
+}
+
+function renderResults(){
+  const report = window._lastReport;
+  if (!report){ go('home'); return; }
+  const stars = report.percent >= 90 ? '⭐⭐⭐' : report.percent >= 70 ? '⭐⭐' : report.percent >= 40 ? '⭐' : '🌱';
+
+  app.innerHTML = `
+    <div class="card results-card">
+      <h1>${report.percent === 100 ? '🏆 Cum Laude!' : report.percent >= 75 ? '🎉 Great Job!' : '💪 Keep Practising!'}</h1>
+      <div class="big-score">${report.correct}/${report.total}</div>
+      <div style="font-size:1.2rem;font-weight:800">${report.percent}% · +${report.xpEarned} XP</div>
+      <div class="stars-row">${stars}</div>
+      <div class="badges-shelf row center">${report.badges.map(b=>`<div class="badge-chip">${b.e}</div>`).join('')}</div>
+      <div class="section-report">
+        ${report.sectionReports.map(sr => `<div class="sr-row"><span>${sr.emoji} ${sr.name}</span><b>${sr.correct}/${sr.total} (${sr.percent}%)</b></div>`).join('')}
+      </div>
+      <div class="row center">
+        <button class="btn-primary" id="downloadBtn">⬇️ Download Summary</button>
+        <button class="btn-warn" id="reviewBtn">🔍 Review Answers</button>
+        <button class="btn-good" id="playAgainBtn">🔄 New Quiz</button>
+        <button class="btn-secondary" id="homeBtn">🏠 Home</button>
+      </div>
+    </div>
+  `;
+  if (report.percent >= 90) launchConfetti(140);
+
+  document.getElementById('downloadBtn').onclick = () => downloadSummary(report);
+  document.getElementById('reviewBtn').onclick = () => { reviewFilter = 'all'; go('review'); };
+  document.getElementById('playAgainBtn').onclick = () => { state = newQuizState(); saveJSON(LS_SAVE, state); go('quiz'); };
+  document.getElementById('homeBtn').onclick = () => go('home');
+}
+
+function downloadSummary(report){
+  const dateStr = new Date(report.date).toLocaleString();
+  const rows = report.questions.map((q,i) => `
+    <tr>
+      <td style="padding:8px;border:1px solid #ddd">${i+1}</td>
+      <td style="padding:8px;border:1px solid #ddd">${(SECTIONS.find(s=>s.key===q.section)||{}).name || q.section} (${q.difficulty})</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.prompt}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.chosen===null?'<i>no answer</i>':q.chosen}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.correctAnswer}</td>
+      <td style="padding:8px;border:1px solid #ddd;font-weight:bold;color:${q.wasCorrect?'#04473a':'#8a1f4c'}">${q.wasCorrect?'Correct':'Incorrect'}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.explanation}</td>
+    </tr>`).join('');
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Maths Quest Results – ${dateStr}</title>
+  <style>body{font-family:Arial,sans-serif;padding:20px;color:#232946}h1{color:#6c63ff}table{border-collapse:collapse;width:100%;font-size:14px}th{background:#eef1ff;padding:8px;border:1px solid #ddd;text-align:left}</style>
+  </head><body>
+  <h1>🌟 Maths Quest – Results</h1>
+  <p><b>Date:</b> ${dateStr}<br/><b>Score:</b> ${report.correct}/${report.total} (${report.percent}%)<br/><b>Badges earned:</b> ${report.badges.map(b=>b.n).join(', ')}</p>
+  <table><thead><tr><th>#</th><th>Topic</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th><th>Explanation / Memo</th></tr></thead>
+  <tbody>${rows}</tbody></table>
+  <p style="margin-top:20px;color:#6b7394">Generated by Maths Quest – keep practising and you'll master these in no time!</p>
+  </body></html>`;
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `maths-quest-results-${new Date(report.date).toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ===================== CONFETTI ===================== */
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+let confettiParticles = [];
+let confettiRAF = null;
+function launchConfetti(count){
+  const colors = ['#6c63ff','#ff6b9d','#ffb703','#06d6a0','#4cc9f0','#ef476f'];
+  for (let i=0;i<count;i++){
+    confettiParticles.push({
+      x: Math.random()*canvas.width, y: -20 - Math.random()*80,
+      vx: (Math.random()-0.5)*3, vy: 2+Math.random()*3,
+      size: 5+Math.random()*6, color: pick(colors), rot: Math.random()*360, vr:(Math.random()-0.5)*10,
+      life: 0, maxLife: 140+Math.random()*60
+    });
+  }
+  if (!confettiRAF) confettiLoop();
+}
+function confettiLoop(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confettiParticles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.03; p.rot += p.vr; p.life++;
+    ctx.save();
+    ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+    ctx.fillStyle = p.color; ctx.globalAlpha = Math.max(0, 1 - p.life/p.maxLife);
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+    ctx.restore();
+  });
+  confettiParticles = confettiParticles.filter(p => p.life < p.maxLife && p.y < canvas.height+40);
+  if (confettiParticles.length>0){
+    confettiRAF = requestAnimationFrame(confettiLoop);
+  } else {
+    confettiRAF = null;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+}
+
+/* ===================== SERVICE WORKER ===================== */
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+
+/* ===================== INIT ===================== */
+render();
+</script>
+</body>
+</html>

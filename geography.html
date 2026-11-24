@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Geography Quest: Grade 5 End-of-Year Exam Scope</title>
+<meta name="description" content="A colourful, gamified Grade 5 Geography quiz covering physical features, rivers, South Africa's neighbouring countries, weather and climate, interpreting weather maps, minerals mined in South Africa, safety of miners and coal formation, with comprehension-style paragraphs." />
+<meta name="theme-color" content="#2a9d8f" />
+<link rel="manifest" href="geography-manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+:root{
+  --bg1:#e8f6f3; --bg2:#eaf7e8; --card:#ffffff; --ink:#1b3a3a; --muted:#5a7d78;
+  --purple:#2a9d8f; --pink:#264653; --gold:#e9c46a; --green:#588157; --blue:#457b9d; --red:#e63946;
+  --shadow:0 14px 34px rgba(20,80,70,.14);
+  --radius:22px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:"Baloo 2","Trebuchet MS","Segoe UI",Arial,sans-serif;color:var(--ink)}
+body{
+  background:
+    radial-gradient(circle at 8% 10%, #c8ebe3 0, transparent 40%),
+    radial-gradient(circle at 92% 15%, #d6ecc2 0, transparent 42%),
+    radial-gradient(circle at 50% 100%, #bfe3da 0, transparent 45%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  padding:14px; padding-bottom:40px;
+}
+.app{max-width:760px;margin:0 auto;display:grid;gap:14px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+h1,h2,h3{margin:0}
+h1{font-size:clamp(1.4rem,5vw,2rem);line-height:1.1}
+p{margin:0;color:var(--muted)}
+button{border:none;border-radius:16px;padding:12px 16px;font-size:1rem;font-weight:800;cursor:pointer;
+  transition:transform .12s ease, box-shadow .2s ease, opacity .2s ease; box-shadow:0 8px 18px rgba(20,80,70,.16);
+  font-family:inherit;}
+button:hover{transform:translateY(-1px)}
+button:active{transform:translateY(1px) scale(.98)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-primary{background:linear-gradient(135deg,var(--purple),#52b8a9);color:#fff}
+.btn-secondary{background:#e6f5f1;color:var(--ink)}
+.btn-good{background:linear-gradient(135deg,var(--green),#7fae7c);color:#0c2a10}
+.btn-warn{background:linear-gradient(135deg,var(--gold),#f4de9b);color:#5b3d00}
+.btn-danger{background:linear-gradient(135deg,var(--red),#ff8fa3);color:#fff}
+.btn-ghost{background:transparent;color:var(--purple);box-shadow:none;text-decoration:underline;padding:6px 8px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row.between{justify-content:space-between}
+.row.center{justify-content:center}
+.pill{padding:7px 13px;border-radius:999px;background:#e6f5f1;font-weight:800;font-size:.85rem;display:inline-flex;gap:6px;align-items:center}
+.pill.gold{background:#fff4d6;color:#6f5200}
+.pill.green{background:#e4f2e2;color:#204d24}
+.pill.pink{background:#fbe1de;color:#7a2420}
+.badge-emoji{font-size:1.1em}
+
+/* Home screen */
+.hero{background:linear-gradient(135deg,var(--purple),#52b8a9 60%, var(--pink));color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% -10%, rgba(255,255,255,.35), transparent 45%)}
+.hero h1{color:#fff}
+.hero p{color:rgba(255,255,255,.92)}
+.level-box{background:rgba(255,255,255,.18);border-radius:16px;padding:10px 14px;backdrop-filter:blur(2px)}
+.xp-bar-outer{height:12px;border-radius:999px;background:rgba(255,255,255,.28);overflow:hidden;margin-top:6px}
+.xp-bar-inner{height:100%;background:linear-gradient(90deg,var(--gold),#fff3b0);border-radius:999px;transition:width .5s ease}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.topic-card{border-radius:18px;padding:12px;color:#fff;position:relative;overflow:hidden;min-height:80px;display:flex;flex-direction:column;justify-content:space-between;font-size:.88rem}
+.history-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:14px;background:#f2faf7;border:1px solid #d9efe8;font-size:.92rem}
+.history-item + .history-item{margin-top:8px}
+.badges-shelf{display:flex;flex-wrap:wrap;gap:8px}
+.badge-chip{background:#fff7e0;border:1px solid #ffe6a6;border-radius:14px;padding:8px 10px;font-size:1.4rem;position:relative}
+
+/* Quiz screen */
+.progress-wrap{display:grid;gap:8px}
+.progress-label{display:flex;justify-content:space-between;font-size:.78rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.bar-outer{height:14px;border-radius:999px;background:#e6f5f1;overflow:hidden;box-shadow:inset 0 0 0 1px #d9efe8}
+.bar-inner{height:100%;border-radius:999px;transition:width .45s cubic-bezier(.4,1.6,.6,1)}
+.bar-inner.overall{background:linear-gradient(90deg,var(--purple),var(--pink))}
+.bar-inner.section{background:linear-gradient(90deg,var(--blue),var(--green))}
+.score-strip{display:flex;gap:10px;flex-wrap:wrap}
+.score-tile{flex:1;min-width:110px;background:#f2faf7;border-radius:16px;padding:10px 12px;text-align:center;border:1px solid #d9efe8}
+.score-tile .num{font-size:1.35rem;font-weight:900}
+.score-tile .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.03em}
+
+.qcard{padding:18px;display:grid;gap:16px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.difficulty-tag{font-size:.72rem;font-weight:900;text-transform:uppercase;padding:5px 10px;border-radius:999px;letter-spacing:.03em}
+.difficulty-tag.easy{background:#e4f2e2;color:#204d24}
+.difficulty-tag.medium{background:#fff4d6;color:#6f5200}
+.difficulty-tag.hard{background:#fbe1de;color:#7a2420}
+.difficulty-tag.grade6{background:linear-gradient(135deg,#1b3a3a,#264653);color:#fff}
+.qprompt{font-size:1.15rem;font-weight:800;line-height:1.5}
+.choices{display:grid;gap:10px}
+.choice-btn{text-align:left;background:#f2faf7;border:2px solid #d9efe8;color:var(--ink);font-weight:700;padding:13px 15px;border-radius:16px;box-shadow:none;display:flex;align-items:center;gap:10px}
+.choice-btn:hover{border-color:#aee0d2}
+.choice-btn.selected{border-color:var(--purple);background:#e6f5f1}
+.choice-btn.correct{border-color:var(--green);background:#e4f2e2;color:#204d24}
+.choice-btn.incorrect{border-color:var(--red);background:#fbe1de;color:#7a2420}
+.choice-btn.disabled-other{opacity:.55}
+.choice-letter{width:26px;height:26px;border-radius:50%;background:#d9efe8;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;flex:none}
+.choice-btn.correct .choice-letter{background:var(--green);color:#fff}
+.choice-btn.incorrect .choice-letter{background:var(--red);color:#fff}
+
+.feedback-banner{border-radius:16px;padding:12px 14px;font-weight:800;display:flex;gap:10px;align-items:center;animation:pop .35s ease}
+.feedback-banner.correct{background:#e4f2e2;color:#204d24}
+.feedback-banner.incorrect{background:#fff1d6;color:#6f5200}
+.feedback-banner.wrong-final{background:#fbe1de;color:#7a2420}
+@keyframes pop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.shake{animation:shake .4s ease}
+
+.memo-box{background:#f2faf7;border:2px dashed #aee0d2;border-radius:18px;padding:14px 16px;display:grid;gap:8px}
+.memo-box h4{margin:0;font-size:.95rem;color:var(--purple);display:flex;align-items:center;gap:6px}
+.memo-box .ans-line{font-weight:800}
+.memo-box .explain{color:var(--ink);line-height:1.5}
+.paragraph-box{background:#f2faf7;border:2px solid #d9efe8;border-radius:18px;padding:14px 16px;display:grid;gap:6px}
+.paragraph-box h4{margin:0;font-size:.9rem;color:var(--purple);display:flex;align-items:center;gap:6px}
+.paragraph-box .paragraph-text{color:var(--ink);line-height:1.65;font-size:.92rem}
+.locked-note{font-size:.76rem;color:var(--muted);text-align:center}
+.palette-card{padding:14px}
+.palette-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
+.palette-btn{padding:9px 0;border-radius:8px;font-size:.8rem;font-weight:800;background:#eef1ff;color:var(--ink);box-shadow:none;border:2px solid transparent}
+.palette-btn.current{border-color:var(--purple)}
+.palette-btn.correct{background:#dcfff3}
+.palette-btn.incorrect{background:#ffe1e8}
+.review-item{border:1px solid #eceffb;border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.review-item.incorrect{border-color:#ffd0da;background:#fff8f9}
+.review-item.correct{border-color:#c9f3e3;background:#f7fffb}
+.review-q-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.review-topic{font-size:.72rem;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.03em;margin-bottom:4px}
+.review-prompt{font-weight:700;margin-bottom:6px}
+.review-answers{margin-bottom:6px}
+.review-explain{color:var(--muted);font-size:.88rem;line-height:1.5}
+
+
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.arrow-btn{width:52px;height:52px;border-radius:50%;font-size:1.3rem;display:flex;align-items:center;justify-content:center;background:#e6f5f1;color:var(--purple);box-shadow:0 6px 14px rgba(20,80,70,.14)}
+
+.results-card{text-align:center;display:grid;gap:14px}
+.big-score{font-size:3rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stars-row{font-size:2rem;letter-spacing:4px}
+.section-report{text-align:left;display:grid;gap:8px}
+.section-report .sr-row{display:flex;justify-content:space-between;background:#f2faf7;border-radius:14px;padding:10px 12px;border:1px solid #d9efe8}
+
+.hidden{display:none !important}
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+
+.tab-bar-wrap{max-width:760px;margin:0 auto 10px}
+.tab-bar{display:flex;gap:2px;padding:4px;background:rgba(255,255,255,.92);border-radius:16px;box-shadow:0 6px 18px rgba(20,80,70,.12);overflow-x:auto}
+.tab-btn{flex:1;text-align:center;padding:6px 0;border-radius:8px;font-weight:800;font-size:.56rem;border:none;background:transparent;color:var(--muted);white-space:nowrap;font-family:inherit;cursor:pointer}
+.tab-btn.active{background:var(--purple);color:#fff}
+.footer-note{text-align:center;font-size:.78rem;color:var(--muted);padding-top:6px}
+.install-banner{background:#fff7e0;border:1px solid #ffe6a6;border-radius:16px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="tab-bar-wrap">
+  <nav class="tab-bar">
+    <button type="button" class="tab-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='maths.html'">🔢 Maths</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='english.html'">📚 English</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='history.html'">🏺 History</button>
+    <button type="button" class="tab-btn" onclick="window.location.href='science.html'">🔬 Science</button>
+    <button type="button" class="tab-btn active" onclick="window.location.href='geography.html'">🌍 Geography</button>
+  </nav>
+</div>
+<div class="app" id="app"></div>
+
+<script>
+/* ===================== UTILITIES ===================== */
+const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const pick = (arr) => arr[rnd(0, arr.length - 1)];
+const uid = () => Math.random().toString(36).slice(2, 10);
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=rnd(0,i); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+/* ===================== FIXED QUESTION BANK: Grade 5 End-of-Year Exam Scope =====================
+   Scope (from the official exam scope table): Physical features, Rivers, South
+   Africa's neighbouring countries, Weather and Climate, Interpreting weather
+   maps, Minerals mined in South Africa, Safety of miners, Coal formation.
+   Each question belongs to one of the 8 topics in SECTIONS below, each of
+   which carries its own educational paragraph (shown with every question
+   drawn from that topic) — comprehension-style, matching History Quest. Each
+   quiz attempt draws a random, topic-balanced sample of 50 from this larger
+   pool, so repeated attempts are not identical. */
+const RAW_QUESTIONS = [
+  // --- Physical Features (14) ---
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is a physical map?', choices:['A map which shows natural features like mountains, deserts, rivers and lakes','A map which only shows roads and borders','A map of the stars','A map that shows only cities'], correctAnswer:'A map which shows natural features like mountains, deserts, rivers and lakes',
+    explanation:'A physical map shows natural features such as mountains, deserts, rivers and lakes, rather than man-made things like roads and borders.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is altitude?', choices:['The height of a place above sea level','The temperature of a place','The width of a river','The distance to the nearest city'], correctAnswer:'The height of a place above sea level',
+    explanation:'Altitude is the height of a place above sea level.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What does "sea level" mean?', choices:['The height at which the sea touches the land, used as the starting point for measuring height','The deepest point in the ocean','The height of the tallest mountain','The average temperature of the sea'], correctAnswer:'The height at which the sea touches the land, used as the starting point for measuring height',
+    explanation:'Sea level is the height at which the sea touches the land, and it is used as the starting point (0 metres) for measuring the height of everywhere else.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'What is a plateau?', choices:['A high, flat, inland area of a country','Low-lying land near the sea','A dent in the coastline','A small river'], correctAnswer:'A high, flat, inland area of a country',
+    explanation:'A plateau is a high, flat, inland area of a country.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'What is a coastal plain?', choices:['Low-lying land that is close to the sea','A high mountain range','A deep river valley','An underground cave'], correctAnswer:'Low-lying land that is close to the sea',
+    explanation:'A coastal plain is low-lying land that is close to the sea.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'What is an escarpment?', choices:['Where land rises steeply between the coastal plain and the plateau, mainly made up of mountain ranges','A flat area with no hills at all','A type of river mouth','A kind of desert'], correctAnswer:'Where land rises steeply between the coastal plain and the plateau, mainly made up of mountain ranges',
+    explanation:'An escarpment is where land rises steeply between the coastal plain and the plateau, and is mainly made up of mountain ranges.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is a mountain range?', choices:['A group or line of mountains','A single tall mountain','A type of desert','A river that flows through mountains'], correctAnswer:'A group or line of mountains',
+    explanation:'A mountain range is a group or line of mountains.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is the highest point at the top of a mountain called?', choices:['A peak','A plateau','A valley','A cape'], correctAnswer:'A peak',
+    explanation:'The highest point at the top of a mountain is called a peak.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'Which mountain is the highest peak in Africa?', choices:['Mount Kilimanjaro, in Tanzania','Mount Kenya, in Kenya','Table Mountain, in South Africa','The Drakensberg, in South Africa'], correctAnswer:'Mount Kilimanjaro, in Tanzania',
+    explanation:'Mount Kilimanjaro, in Tanzania, is the highest peak in Africa at 5,895 metres above sea level.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'Which mountain range is the highest in Southern Africa?', choices:['The Drakensberg (uKhahlamba)','Table Mountain','The Namib range','The Cape Fold range'], correctAnswer:'The Drakensberg (uKhahlamba)',
+    explanation:'The Drakensberg, also known as uKhahlamba, is the highest mountain range in Southern Africa.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is a hill?', choices:['A raised area of land that is not as large as a mountain','A dent in the coastline','A type of river','A flat plateau'], correctAnswer:'A raised area of land that is not as large as a mountain',
+    explanation:'A hill is a raised area of land that is not as large as a mountain.'},
+  {section:'physicalFeatures', difficulty:'easy', type:'mcq', prompt:'What is a valley?', choices:['A low area of land between hills or mountains','The highest point of a mountain','A piece of land that juts into the sea','A type of desert'], correctAnswer:'A low area of land between hills or mountains',
+    explanation:'A valley is a low area of land found between hills or mountains.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'What do we call a piece of land that juts out into the sea?', choices:['A cape','A bay','A plateau','An escarpment'], correctAnswer:'A cape',
+    explanation:'A cape is a piece of land that juts out into the sea.'},
+  {section:'physicalFeatures', difficulty:'medium', type:'mcq', prompt:'What do we call a dent or curve in the coastline?', choices:['A bay','A cape','A valley','A peak'], correctAnswer:'A bay',
+    explanation:'A bay is a dent or curve in the coastline.'},
+
+  // --- Rivers (14) ---
+  {section:'rivers', difficulty:'easy', type:'mcq', prompt:'Where does a river begin?', choices:['At its source','At its mouth','At a dam','At the equator'], correctAnswer:'At its source',
+    explanation:'A river begins at its source, usually high up in the mountains.'},
+  {section:'rivers', difficulty:'easy', type:'mcq', prompt:'What is a small river called?', choices:['A stream','A tributary','A catchment','A delta'], correctAnswer:'A stream',
+    explanation:'A small river is called a stream.'},
+  {section:'rivers', difficulty:'easy', type:'mcq', prompt:'What is a tributary?', choices:['A stream or river that flows into a bigger river','The place where a river ends','A type of dam','A type of lake'], correctAnswer:'A stream or river that flows into a bigger river',
+    explanation:'A tributary is a stream or river that flows into a bigger river.'},
+  {section:'rivers', difficulty:'easy', type:'mcq', prompt:'What do we call the point where a river flows into the sea?', choices:['Its mouth','Its source','Its tributary','Its catchment'], correctAnswer:'Its mouth',
+    explanation:'The point where a river flows into the sea (or a lake or another river) is called its mouth.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'What is a catchment area?', choices:['The area of land drained by a river and its tributaries','The place where a river begins','A type of waterfall','A man-made canal'], correctAnswer:'The area of land drained by a river and its tributaries',
+    explanation:'A catchment area is the area of land drained by a river and its tributaries.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'What do we call all the rivers and streams that drain into one river, together with the land they flow through?', choices:['A river system','A catchment only','A delta','An estuary'], correctAnswer:'A river system',
+    explanation:'All the rivers and streams that drain into one river, together with the land they flow through, is called a river system.'},
+  {section:'rivers', difficulty:'easy', type:'mcq', prompt:'Do rivers ever flow uphill?', choices:['No, rivers always flow from a higher place to a lower place','Yes, rivers often flow uphill','Only during floods','Only in deserts'], correctAnswer:'No, rivers always flow from a higher place to a lower place',
+    explanation:'Rivers always flow downwards, from a higher place to a lower place, never uphill.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'Which South African river is the longest river entirely within South Africa, and forms the border with Namibia?', choices:['The Orange (Gariep) River','The Limpopo River','The Vaal River','The Tugela River'], correctAnswer:'The Orange (Gariep) River',
+    explanation:'The Orange (Gariep) River is the longest river entirely within South Africa, and forms part of the border with Namibia.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:"Which river forms South Africa's northern border with Zimbabwe and Botswana?", choices:['The Limpopo River','The Orange River','The Vaal River','The Nile'], correctAnswer:'The Limpopo River',
+    explanation:"The Limpopo River forms South Africa's northern border with Zimbabwe and Botswana."},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'Which river is the longest river on the entire African continent?', choices:['The Nile','The Congo','The Orange','The Limpopo'], correctAnswer:'The Nile',
+    explanation:'The Nile, in the north of Africa, is the longest river on the entire continent.'},
+  {section:'rivers', difficulty:'hard', type:'mcq', prompt:'Which African river is unusual because it crosses the equator twice?', choices:['The Congo River','The Nile','The Orange River','The Zambezi'], correctAnswer:'The Congo River',
+    explanation:'The Congo River is unusual because it is the only major river in the world that crosses the equator twice.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'What is the Vaal River?', choices:['A major tributary of the Orange River','The longest river in Africa','A desert in Namibia','A lake in Tanzania'], correctAnswer:'A major tributary of the Orange River',
+    explanation:'The Vaal River is a major tributary of the Orange River.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'Why is river water often stored behind a dam, like the Vaal Dam in Gauteng?', choices:['To provide water for homes, industry and irrigating farmland in drier areas','To stop the river flowing to the sea completely','To create a new mountain range','To cool down the climate'], correctAnswer:'To provide water for homes, industry and irrigating farmland in drier areas',
+    explanation:'Dams like the Vaal Dam store river water to provide water for homes, industry, and irrigating farmland in drier areas.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'In which country does the Orange-Gariep River begin (its source)?', choices:['Lesotho','Namibia','Botswana','Zimbabwe'], correctAnswer:'Lesotho',
+    explanation:'The Orange-Gariep River begins (has its source) in Lesotho.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'What is a confluence?', choices:['The exact point where two rivers meet','The place where a river begins','A type of waterfall','A man-made canal'], correctAnswer:'The exact point where two rivers meet',
+    explanation:'A confluence is the exact point where two rivers meet.'},
+  {section:'rivers', difficulty:'medium', type:'mcq', prompt:'At the confluence of the Vaal and Orange Rivers, what happens?', choices:['The Vaal River, a tributary, joins the Orange River at this exact meeting point','The Vaal River stops flowing completely','The two rivers flow apart from each other','The Orange River flows into the Vaal River instead'], correctAnswer:'The Vaal River, a tributary, joins the Orange River at this exact meeting point',
+    explanation:'The Vaal River, a tributary of the Orange River, joins it at their confluence — the exact point where the two rivers meet.'},
+
+  // --- South Africa's Neighbouring Countries (14) ---
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'How many countries share a land border with South Africa?', choices:['Six','Four','Eight','Ten'], correctAnswer:'Six',
+    explanation:'South Africa shares a land border with six neighbouring countries: Namibia, Botswana, Zimbabwe, Mozambique, Eswatini and Lesotho.'},
+  {section:'neighbouringCountries', difficulty:'medium', type:'mcq', prompt:"Which TWO of South Africa's neighbouring countries are landlocked?", choices:['Lesotho and Eswatini','Namibia and Mozambique','Botswana and Zimbabwe','Zimbabwe and Mozambique'], correctAnswer:'Lesotho and Eswatini',
+    explanation:'Lesotho and Eswatini are landlocked, meaning they have no direct access to the sea.'},
+  {section:'neighbouringCountries', difficulty:'medium', type:'mcq', prompt:'What does "landlocked" mean?', choices:['Completely surrounded by other countries, with no direct access to the sea','Surrounded entirely by the ocean','A country with no mountains','A country with no rivers'], correctAnswer:'Completely surrounded by other countries, with no direct access to the sea',
+    explanation:'Landlocked means a country is completely surrounded by other countries and has no direct access to the sea.'},
+  {section:'neighbouringCountries', difficulty:'hard', type:'mcq', prompt:'Which country is Lesotho completely surrounded by?', choices:['South Africa alone','South Africa and Mozambique','Namibia alone','Botswana and Zimbabwe'], correctAnswer:'South Africa alone',
+    explanation:'Lesotho is unusual because it is surrounded entirely by South Africa alone.'},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Zimbabwe?', choices:['Harare','Gaborone','Windhoek','Maputo'], correctAnswer:'Harare',
+    explanation:"Zimbabwe's capital city is Harare."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Botswana?', choices:['Gaborone','Harare','Windhoek','Mbabane'], correctAnswer:'Gaborone',
+    explanation:"Botswana's capital city is Gaborone."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Namibia?', choices:['Windhoek','Harare','Maputo','Maseru'], correctAnswer:'Windhoek',
+    explanation:"Namibia's capital city is Windhoek."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Mozambique?', choices:['Maputo','Windhoek','Gaborone','Mbabane'], correctAnswer:'Maputo',
+    explanation:"Mozambique's capital city is Maputo."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Eswatini (formerly Swaziland)?', choices:['Mbabane','Maseru','Harare','Maputo'], correctAnswer:'Mbabane',
+    explanation:"Eswatini's capital city is Mbabane."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is the capital city of Lesotho?', choices:['Maseru','Mbabane','Gaborone','Windhoek'], correctAnswer:'Maseru',
+    explanation:"Lesotho's capital city is Maseru."},
+  {section:'neighbouringCountries', difficulty:'medium', type:'mcq', prompt:'How many capital cities does South Africa have?', choices:['Three','One','Two','Four'], correctAnswer:'Three',
+    explanation:'South Africa unusually has three capital cities: Pretoria, Cape Town and Bloemfontein.'},
+  {section:'neighbouringCountries', difficulty:'medium', type:'mcq', prompt:"Which South African capital is where parliament sits?", choices:['Cape Town','Pretoria','Bloemfontein','Durban'], correctAnswer:'Cape Town',
+    explanation:'Cape Town is the legislative capital, where parliament sits.'},
+  {section:'neighbouringCountries', difficulty:'medium', type:'mcq', prompt:"Which of these IS one of South Africa's neighbouring countries?", choices:['Mozambique','Zambia','Malawi','Kenya'], correctAnswer:'Mozambique',
+    explanation:"Mozambique is one of South Africa's six neighbouring countries. Zambia, Malawi and Kenya do not share a border with South Africa."},
+  {section:'neighbouringCountries', difficulty:'easy', type:'mcq', prompt:'What is a border?', choices:['The line that divides one country from another','The capital city of a country','A type of river','A type of mountain'], correctAnswer:'The line that divides one country from another',
+    explanation:'A border is the line that divides one country from another, and can follow a river, a mountain range, or a straight agreed line.'},
+
+  // --- Weather and Climate (14) ---
+  {section:'weatherClimate', difficulty:'easy', type:'mcq', prompt:'What is weather?', choices:['What the atmosphere or air is like at a particular place on a particular day','The average conditions of an area over many years','A type of mountain','A type of river'], correctAnswer:'What the atmosphere or air is like at a particular place on a particular day',
+    explanation:'Weather is what the atmosphere or air is like at a particular place on a particular day.'},
+  {section:'weatherClimate', difficulty:'easy', type:'mcq', prompt:'What is climate?', choices:['The average weather conditions of an area over a long period of time','What the weather is like on one single day','A type of natural vegetation','A kind of mineral'], correctAnswer:'The average weather conditions of an area over a long period of time',
+    explanation:'Climate is the average weather conditions of an area over a long period of time.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'What is the main difference between weather and climate?', choices:['Weather describes a single day, while climate describes average conditions over many years','They mean exactly the same thing','Weather only applies to deserts','Climate only applies to oceans'], correctAnswer:'Weather describes a single day, while climate describes average conditions over many years',
+    explanation:'Weather describes conditions on a single day, while climate describes average conditions over a long period of time.'},
+  {section:'weatherClimate', difficulty:'easy', type:'mcq', prompt:'Name the main elements of weather.', choices:['Temperature, rainfall, wind, cloud cover and humidity','Mountains, rivers and lakes','Minerals and rocks','Countries and borders'], correctAnswer:'Temperature, rainfall, wind, cloud cover and humidity',
+    explanation:'The main elements of weather are temperature, rainfall, wind, cloud cover and humidity.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'What does "humidity" measure?', choices:['How much moisture (water) is in the air','How hot the air is','How fast the wind is blowing','How much rain fell yesterday'], correctAnswer:'How much moisture (water) is in the air',
+    explanation:'Humidity measures how much moisture (water) is in the air.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'Which climate type does the Western Cape have, with hot dry summers and cold wet winters?', choices:['A Mediterranean climate','A desert climate','A subtropical climate','A polar climate'], correctAnswer:'A Mediterranean climate',
+    explanation:'The Western Cape has a Mediterranean climate, with hot, dry summers and cold, wet winters.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:"When does most of the Western Cape's rain fall?", choices:['In winter','In summer','All year equally','It never rains there'], correctAnswer:'In winter',
+    explanation:"Most of the Western Cape's rain falls in winter."},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'What is the climate like on the Eastern Cape and KwaZulu-Natal coasts?', choices:['Hot, wet summers and warm winters, with rain on the coast all year','Very hot and dry, with almost no rain','Cold and snowy all year','Hot and dry in summer, cold and dry in winter'], correctAnswer:'Hot, wet summers and warm winters, with rain on the coast all year',
+    explanation:'The Eastern Cape and KwaZulu-Natal coasts have hot, wet summers and warm winters, with some rainfall on the coast all year.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'What is the climate like in the Limpopo and Mpumalanga area bordering Mozambique?', choices:['Very hot with wet summers and warm, dry winters','Very cold with snow most of the year','Dry with almost no rain at all','Mild and rainy all year round'], correctAnswer:'Very hot with wet summers and warm, dry winters',
+    explanation:'The Limpopo and Mpumalanga area bordering Mozambique is very hot with wet summers and warm, dry winters.'},
+  {section:'weatherClimate', difficulty:'easy', type:'mcq', prompt:'What is the climate like in the Northern Cape?', choices:['Very hot and dry, with very little rain all year','Cold and wet all year','Hot and wet all year','Mild with heavy snow'], correctAnswer:'Very hot and dry, with very little rain all year',
+    explanation:'The Northern Cape is very hot and dry, with very little rain all year.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'What is the climate like in the western parts of the Free State and North West?', choices:['Hot and dry in summer, cold and dry in winter','Hot and wet all year','Cold and wet all year','Mild and humid all year'], correctAnswer:'Hot and dry in summer, cold and dry in winter',
+    explanation:'The western parts of the Free State and North West are hot and dry in summer, and cold and dry in winter.'},
+  {section:'weatherClimate', difficulty:'hard', type:'mcq', prompt:'How does climate affect an area?', choices:['It affects what natural vegetation can grow and what kind of farming people can do there','It has no effect on vegetation or farming at all','It only affects the colour of the soil','It only affects which minerals are found there'], correctAnswer:'It affects what natural vegetation can grow and what kind of farming people can do there',
+    explanation:'Climate affects what kind of natural vegetation can grow in an area, and what kind of farming people can do there.'},
+  {section:'weatherClimate', difficulty:'easy', type:'mcq', prompt:'True or false: South Africa has only one climate region.', choices:['False — South Africa has several different climate regions','True — the whole country has exactly the same climate','False — South Africa has no climate at all','True, but only in winter'], correctAnswer:'False — South Africa has several different climate regions',
+    explanation:'South Africa has several different climate regions, from the Mediterranean Western Cape to the hot, dry Northern Cape.'},
+  {section:'weatherClimate', difficulty:'medium', type:'mcq', prompt:'Which instrument measures humidity?', choices:['A hygrometer','A thermometer','A barometer','A wind vane'], correctAnswer:'A hygrometer',
+    explanation:'A hygrometer is the instrument used to measure humidity.'},
+
+  // --- Interpreting Weather Maps (12) ---
+  {section:'interpretingWeatherMaps', difficulty:'easy', type:'mcq', prompt:'What is a forecast?', choices:['What the weather is going to be like on a following day','A record of yesterday\'s weather only','A type of map showing mountains','A type of weather instrument'], correctAnswer:'What the weather is going to be like on a following day',
+    explanation:'A forecast is what the weather is going to be like on a following day.'},
+  {section:'interpretingWeatherMaps', difficulty:'easy', type:'mcq', prompt:'What do we call people who study the weather and make forecasts?', choices:['Meteorologists','Geographers','Geologists','Astronomers'], correctAnswer:'Meteorologists',
+    explanation:'People who study the weather and make forecasts are called meteorologists.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'What is shown on a weather map, besides the expected temperature?', choices:['Symbols such as a sun, clouds or raindrops showing expected weather','Only the names of rivers','Only the height of mountains','Only the names of minerals'], correctAnswer:'Symbols such as a sun, clouds or raindrops showing expected weather',
+    explanation:'Weather maps show symbols such as a sun, clouds or raindrops, along with the expected temperature, for different places.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'What does "cloud cover" describe?', choices:['How much of the sky is covered by cloud','How fast clouds are moving','How high up clouds are','How much rain fell'], correctAnswer:'How much of the sky is covered by cloud',
+    explanation:'Cloud cover describes how much of the sky is covered by cloud.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'On a weather map, a city shown with a sun symbol and a high temperature number is likely to be…', choices:['Hot and sunny','Cold and snowy','Cool and rainy','Windy and cloudy'], correctAnswer:'Hot and sunny',
+    explanation:'A sun symbol with a high temperature number on a weather map shows that a city is expected to be hot and sunny.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'On a weather map, a city shown with a rain symbol and a lower temperature number is likely to be…', choices:['Cooler and wetter','Hot and dry','Extremely hot','Snowy and freezing'], correctAnswer:'Cooler and wetter',
+    explanation:'A rain symbol with a lower temperature number on a weather map shows that a city is expected to be cooler and wetter.'},
+  {section:'interpretingWeatherMaps', difficulty:'easy', type:'mcq', prompt:'Which instrument measures temperature?', choices:['A thermometer','A rain gauge','A wind vane','A barometer'], correctAnswer:'A thermometer',
+    explanation:'A thermometer measures temperature.'},
+  {section:'interpretingWeatherMaps', difficulty:'easy', type:'mcq', prompt:'Which instrument measures rainfall?', choices:['A rain gauge','A thermometer','An anemometer','A barometer'], correctAnswer:'A rain gauge',
+    explanation:'A rain gauge measures rainfall, recorded in millimetres (mm).'},
+  {section:'interpretingWeatherMaps', difficulty:'easy', type:'mcq', prompt:'Which instrument measures wind direction?', choices:['A wind vane','An anemometer','A thermometer','A hygrometer'], correctAnswer:'A wind vane',
+    explanation:'A wind vane measures wind direction.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'Which instrument measures wind speed?', choices:['An anemometer','A wind vane','A rain gauge','A barometer'], correctAnswer:'An anemometer',
+    explanation:'An anemometer measures wind speed.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'Which instrument measures air pressure?', choices:['A barometer','A thermometer','A hygrometer','A wind vane'], correctAnswer:'A barometer',
+    explanation:'A barometer measures air pressure.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'Why are weather maps useful?', choices:['They show what the weather conditions in different places in a country will be like','They only show where minerals are found','They only show rivers and mountains','They are not useful at all'], correctAnswer:'They show what the weather conditions in different places in a country will be like',
+    explanation:'Weather maps are useful for showing what the weather conditions in different places in a country will be like.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'On a weather map, a temperature is often written as two numbers, e.g. 14 / 26. What does the first number (14) show?', choices:['The minimum temperature, usually at night or early morning','The maximum temperature, usually in the afternoon','The average temperature over a year','The amount of rainfall expected'], correctAnswer:'The minimum temperature, usually at night or early morning',
+    explanation:'When a weather map shows two temperatures like 14 / 26, the first number is the minimum (night/early morning) temperature and the second is the maximum (daytime) temperature.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'On a weather map, what does a sun symbol partly hidden behind a cloud usually mean?', choices:['Partly cloudy weather','Clear, sunny skies with no cloud at all','Thunderstorms','Strong wind only'], correctAnswer:'Partly cloudy weather',
+    explanation:'A sun symbol shown partly behind a cloud on a weather map usually means partly cloudy weather.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'On a weather map, what does a cloud symbol with a lightning bolt usually mean?', choices:['Thunderstorms','Clear skies','Light drizzle only','Fog'], correctAnswer:'Thunderstorms',
+    explanation:'A cloud symbol with a lightning bolt on a weather map usually means thunderstorms are expected.'},
+  {section:'interpretingWeatherMaps', difficulty:'medium', type:'mcq', prompt:'On a weather map, what do arrows usually show?', choices:['Wind direction, and sometimes wind speed', 'The height of mountains','Where rivers flow','Where minerals are mined'], correctAnswer:'Wind direction, and sometimes wind speed',
+    explanation:'Arrows on a weather map show wind direction (pointing the way the wind is blowing toward), and sometimes wind speed in km/h or knots.'},
+
+  // --- Minerals Mined in South Africa (14) ---
+  {section:'mineralsMined', difficulty:'easy', type:'mcq', prompt:'What are minerals?', choices:['Useful, non-living substances found in rocks under the ground','Living organisms found in soil','A type of cloud','A type of river'], correctAnswer:'Useful, non-living substances found in rocks under the ground',
+    explanation:'Minerals are useful, non-living substances found in rocks under the ground.'},
+  {section:'mineralsMined', difficulty:'easy', type:'mcq', prompt:'What is gold mainly used for?', choices:['Jewellery','Building roads','Making paper','Growing crops'], correctAnswer:'Jewellery',
+    explanation:'Gold is mainly used for jewellery.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is platinum used for, besides jewellery?', choices:['The car industry and electrical industries','Building roads only','Making paper only','Growing crops'], correctAnswer:'The car industry and electrical industries',
+    explanation:'Platinum is used in jewellery, the car industry and electrical industries.'},
+  {section:'mineralsMined', difficulty:'easy', type:'mcq', prompt:'What are diamonds used for, besides jewellery?', choices:['Cutting machines','Making electricity only','Growing crops','Building bridges only'], correctAnswer:'Cutting machines',
+    explanation:'Diamonds are used for jewellery and in cutting machines.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is coal mainly used to do?', choices:['Generate electrical power','Make jewellery','Grow crops','Purify water'], correctAnswer:'Generate electrical power',
+    explanation:'Coal is mainly used to generate electrical power.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is iron mainly used for?', choices:['Buildings, vehicles and machines','Jewellery only','Growing food','Making paper'], correctAnswer:'Buildings, vehicles and machines',
+    explanation:'Iron is used for buildings, vehicles, machines and making other metals.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is copper mainly used for?', choices:['Pipes and electrical wires','Growing crops','Making tar for roads','Building mountains'], correctAnswer:'Pipes and electrical wires',
+    explanation:'Copper is mainly used for pipes, electrical wires and making jewellery.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is manganese mainly used for?', choices:['Batteries and cans','Growing crops','Making paper','Building roads'], correctAnswer:'Batteries and cans',
+    explanation:'Manganese is mainly used for batteries, cans and making other metals.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'Why are minerals called a non-renewable resource?', choices:['Because once they are used up, they cannot be replaced or regrown','Because they are found everywhere','Because they are always free to mine','Because they can be grown again quickly'], correctAnswer:'Because once they are used up, they cannot be replaced or regrown',
+    explanation:'Minerals are non-renewable because once they are used up, they cannot be replaced or regrown by nature or by people.'},
+  {section:'mineralsMined', difficulty:'easy', type:'mcq', prompt:'Which of these is a renewable resource, unlike minerals?', choices:['Water','Gold','Coal','Diamonds'], correctAnswer:'Water',
+    explanation:'Water is a renewable resource, unlike non-renewable minerals like gold, coal and diamonds.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is open pit (surface) mining?', choices:['Removing layers of soil and rock from the surface to reach minerals close to the surface','Digging tunnels deep underground','Growing crops on top of minerals','Using only chemicals to dissolve rock'], correctAnswer:'Removing layers of soil and rock from the surface to reach minerals close to the surface',
+    explanation:'Open pit (surface) mining removes layers of soil and rock from the surface to reach minerals close to the surface.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is underground (shaft or deep-level) mining?', choices:['Digging long tunnels deep underground to reach minerals that lie far below the surface','Removing soil from the surface only','Using boats to collect minerals from rivers','Growing minerals in greenhouses'], correctAnswer:'Digging long tunnels deep underground to reach minerals that lie far below the surface',
+    explanation:'Underground (shaft or deep-level) mining involves digging long tunnels deep underground to reach minerals far below the surface.'},
+  {section:'mineralsMined', difficulty:'hard', type:'mcq', prompt:"Why are some of South Africa's underground mines considered remarkable?", choices:['They are among the deepest mines in the world, reaching several kilometres below the ground','They are the only mines in the world','They produce no waste at all','They only operate for one day a year'], correctAnswer:'They are among the deepest mines in the world, reaching several kilometres below the ground',
+    explanation:"South Africa has some of the deepest mines in the world, with some shaft mines reaching several kilometres below the ground."},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'What is chrome mainly used for?', choices:['Making other metals and alloy parts of machines','Jewellery only','Growing crops','Making paper'], correctAnswer:'Making other metals and alloy parts of machines',
+    explanation:'Chrome is mainly used for making other metals and alloy parts of machines.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'In which South African provinces is gold mined deeply underground?', choices:['Gauteng and the Free State','Western Cape and Eastern Cape','KwaZulu-Natal and Limpopo','Northern Cape and North West'], correctAnswer:'Gauteng and the Free State',
+    explanation:'Gold is mined deeply underground in Gauteng and the Free State.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'In which South African provinces are diamonds mostly mined?', choices:['The Northern Cape and Limpopo','Gauteng and the Free State','KwaZulu-Natal and the Eastern Cape','North West and Mpumalanga'], correctAnswer:'The Northern Cape and Limpopo',
+    explanation:'Diamonds are mostly mined in the Northern Cape and Limpopo.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'In which South African provinces is platinum mostly mined?', choices:['North West and Limpopo','Western Cape and Northern Cape','Gauteng and Free State','KwaZulu-Natal and Mpumalanga'], correctAnswer:'North West and Limpopo',
+    explanation:'Platinum is mostly mined in North West and Limpopo.'},
+  {section:'mineralsMined', difficulty:'medium', type:'mcq', prompt:'In which South African province is iron ore mainly mined?', choices:['The Northern Cape','Mpumalanga','Gauteng','KwaZulu-Natal'], correctAnswer:'The Northern Cape',
+    explanation:'Iron ore is mainly mined in the Northern Cape, and is used to make steel for buildings, cars and machines.'},
+
+  // --- Safety of Miners / Impact of Mining (10) ---
+  {section:'safetyOfMiners', difficulty:'easy', type:'mcq', prompt:'Why must mines follow strict safety rules?', choices:['To protect miners from accidents, collapses and exposure to harmful dust or gases','To make mining take longer','To stop minerals being found','To increase the price of minerals'], correctAnswer:'To protect miners from accidents, collapses and exposure to harmful dust or gases',
+    explanation:'Mines must follow strict safety rules to protect miners from accidents, collapses and exposure to harmful dust or gases.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'What do mining companies often do with the waste rock and sand produced by mining?', choices:['Dump it in piles called mine dumps','Sell it as jewellery','Bury it in the ocean','Turn it into food'], correctAnswer:'Dump it in piles called mine dumps',
+    explanation:'Mining companies often dump waste rock and sand in piles called mine dumps.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'What can happen when a mine is no longer used and a large hole fills with water?', choices:['Poisonous chemicals like acid and uranium can dissolve into the water','The hole disappears completely','The water becomes drinkable immediately','Nothing happens to the water'], correctAnswer:'Poisonous chemicals like acid and uranium can dissolve into the water',
+    explanation:'When a mine is no longer used, poisonous chemicals like acid and uranium that were trapped underground can dissolve into the water that fills the hole.'},
+  {section:'safetyOfMiners', difficulty:'hard', type:'mcq', prompt:'How can pollution from a mine eventually reach rivers and lakes far away?', choices:['Polluted groundwater can flow underground for hundreds of kilometres', 'Pollution only ever stays in one exact spot','Wind carries all pollution away instantly','Pollution evaporates and disappears'], correctAnswer:'Polluted groundwater can flow underground for hundreds of kilometres',
+    explanation:'Polluted groundwater can flow for hundreds of kilometres underground, eventually reaching rivers and lakes.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'Why have farmers sometimes been warned not to let animals drink from certain rivers?', choices:['Because the water has been polluted by mining waste','Because the rivers have dried up completely','Because the water is too cold','Because the animals prefer rain water'], correctAnswer:'Because the water has been polluted by mining waste',
+    explanation:'Farmers have sometimes been warned not to let their animals drink from rivers polluted by mining waste.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'Why is asbestos now considered dangerous, even though it was once used as a building material?', choices:['Asbestos fibres can damage the lungs and cause cancer','Asbestos is too heavy to use','Asbestos is too expensive','Asbestos cannot be mined safely at all'], correctAnswer:'Asbestos fibres can damage the lungs and cause cancer',
+    explanation:'Asbestos fibres can damage the lungs and cause cancer, which is why it is no longer used as a building material.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'What can chemicals and dust from mining damage, besides water?', choices:['Natural vegetation and wildlife habitats','Only the sky','Only underground rocks','Nothing else at all'], correctAnswer:'Natural vegetation and wildlife habitats',
+    explanation:'Chemicals and dust from mining can damage natural vegetation and the habitats that wildlife depend on.'},
+  {section:'safetyOfMiners', difficulty:'hard', type:'mcq', prompt:'Why is water pollution from mining an especially serious problem in South Africa?', choices:['Because about 98% of South Africa is already arid or dry, with existing water shortages','Because South Africa has no rivers at all','Because South Africa has too much water already','Because mining is banned in South Africa'], correctAnswer:'Because about 98% of South Africa is already arid or dry, with existing water shortages',
+    explanation:'Water pollution from mining is especially serious in South Africa because about 98% of the country is already arid or dry, meaning there are water shortages.'},
+  {section:'safetyOfMiners', difficulty:'easy', type:'mcq', prompt:'What can air pollution from mining dust and fumes cause?', choices:['Disease','Better crop growth','Cooler weather','More rainfall'], correctAnswer:'Disease',
+    explanation:'Air pollution from mining dust and fumes can cause disease.'},
+  {section:'safetyOfMiners', difficulty:'medium', type:'mcq', prompt:'Besides people, who else is affected by mining pollution reaching rivers and lakes?', choices:['Animals and farming (crops)','Only the mining company','Nobody else is affected','Only people in other countries'], correctAnswer:'Animals and farming (crops)',
+    explanation:'Mining pollution that reaches rivers and lakes affects not only people, but also animals and farming.'},
+
+  // --- Coal Formation (9) ---
+  {section:'coalFormation', difficulty:'easy', type:'mcq', prompt:'What is the first step in coal formation?', choices:['Dying trees and other plants fall into swamps and are gradually covered by mud','Coal is mined from deep underground','Rocks melt into liquid','Rivers flood the land'], correctAnswer:'Dying trees and other plants fall into swamps and are gradually covered by mud',
+    explanation:'Coal formation begins when dying trees and other plants fall into swamps and are gradually covered by mud.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'What does the second step of coal formation produce?', choices:['Peat (from rotting plant layers hardening and drying under mud)','Diamonds','Gold dust','Iron ore'], correctAnswer:'Peat (from rotting plant layers hardening and drying under mud)',
+    explanation:'In the second step, the rotting plant layers harden and dry out under the mud, forming peat.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'What finally turns peat into coal?', choices:['The weight and pressure of soil above, plus heat, as it is buried deeper underground','Cold temperatures freezing the peat','Wind blowing over the peat','Animals walking over the peat'], correctAnswer:'The weight and pressure of soil above, plus heat, as it is buried deeper underground',
+    explanation:'As layers of peat become buried deeper, the weight and pressure of the soil above, along with heat, turns the peat into coal.'},
+  {section:'coalFormation', difficulty:'easy', type:'mcq', prompt:'Why is coal called a non-renewable resource?', choices:['Because once it is burned, it cannot be replaced within a human lifetime','Because it is not found in South Africa','Because it is too expensive to mine','Because it burns too quickly to be useful'], correctAnswer:'Because once it is burned, it cannot be replaced within a human lifetime',
+    explanation:'Coal is non-renewable because once it is burned, it cannot be replaced within a human lifetime — it takes millions of years to form.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'Besides generating electricity, what else is coal used to make?', choices:['Tar for roads, plastic and soap','Only jewellery','Only glass','Only food'], correctAnswer:'Tar for roads, plastic and soap',
+    explanation:'Besides generating electricity, coal is also used to make products such as tar for roads, plastic and soap.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'Roughly how long does it take for coal to form?', choices:['Millions of years','A few days','About ten years','About one hundred years'], correctAnswer:'Millions of years',
+    explanation:'Coal formation is a very slow natural process that takes millions of years.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'Which South African province produces the most electricity from coal?', choices:['Mpumalanga','Western Cape','Northern Cape','KwaZulu-Natal'], correctAnswer:'Mpumalanga',
+    explanation:'Mpumalanga, which has large coal fields, produces the most electricity from coal of any South African province.'},
+  {section:'coalFormation', difficulty:'easy', type:'mcq', prompt:'Where does coal formation begin?', choices:['In swamps or wetlands, with dying plants','In the ocean','On top of mountains','In deserts'], correctAnswer:'In swamps or wetlands, with dying plants',
+    explanation:'Coal formation begins in swamps or wetlands, where dying plants fall and are gradually covered by mud.'},
+  {section:'coalFormation', difficulty:'medium', type:'mcq', prompt:'Name a South African province, besides Mpumalanga, where coal fields are found.', choices:['Limpopo','Western Cape','Northern Cape','North West'], correctAnswer:'Limpopo',
+    explanation:'Besides Mpumalanga, coal fields are also found in Limpopo, the Free State, KwaZulu-Natal and the Eastern Cape.'}
+];
+
+/* ===================== QUIZ GENERATION ===================== */
+const SECTIONS = [
+  {key:'physicalFeatures', name:'Physical Features', emoji:'🏔️', color:'linear-gradient(135deg,#264653,#1b3a3a)',
+    paragraph:"A physical map is a map which shows the natural features of a place, such as mountains, deserts, rivers and lakes, rather than man-made things like roads and borders. On a physical map, the height of land (called altitude) is usually shown using different colours or shading — the higher the land, the darker the shading usually is. Altitude is the height of a place above sea level, and sea level is the height at which the sea touches the land, used as the starting point (0 metres) for measuring height everywhere else. A plateau is a high, flat, inland area of a country. A coastal plain is low-lying land that is close to the sea. An escarpment is where the land rises steeply between the coastal plain and the plateau — these are mainly made up of mountain ranges. A mountain range is a group or line of mountains, and the highest point at the top of a mountain is called its peak. Mount Kilimanjaro in Tanzania, at 5,895 metres above sea level, is the highest peak in Africa; Mount Kenya is the second highest. In Southern Africa, the Drakensberg (also known as uKhahlamba) is the highest mountain range. A hill is a raised area of land that is not as large as a mountain, and a valley is a low area of land found between hills or mountains. Along the coast, a cape is a piece of land that juts out into the sea, while a bay is a dent or curve in the coastline."},
+  {key:'rivers', name:'Rivers', emoji:'🌊', color:'linear-gradient(135deg,#48cae4,#0077b6)',
+    paragraph:"A river begins at its source, usually high up in the mountains where rain or melting snow collects. A small river is called a stream, and when a stream or smaller river flows into a bigger river, it is called a tributary. As a river flows, it passes through valleys between hills, before crossing the flat coastal plain on its way to the sea. The point where a river finally flows into the sea (or into a lake or another river) is called its mouth. All the rivers and streams that drain into one river, together with the land area they flow through, is called a catchment area — all of this together, both the water and the land, is known as a river system. Rivers always flow downwards, from a higher place to a lower place, never uphill. South Africa's rivers include the Orange (Gariep) River, the longest river entirely within South Africa, which starts in Lesotho and forms the border with Namibia; the Limpopo River, which forms the northern border with Zimbabwe and Botswana; and the Vaal River, a major tributary of the Orange. The exact point where two rivers meet is called a confluence — for example, the Vaal River meets the Orange River at their confluence. The Nile, in the north of Africa, is the longest river on the entire continent, while the Congo River is the only major river in the world that crosses the equator twice. River water is often stored behind a dam, like the Vaal Dam in Gauteng, to provide water for homes, industry, and irrigating farmland in drier areas."},
+  {key:'neighbouringCountries', name:"Neighbouring Countries", emoji:'🗺️', color:'linear-gradient(135deg,#9d4edd,#5a189a)',
+    paragraph:"South Africa shares land borders with six neighbouring countries: Namibia, Botswana, Zimbabwe, Mozambique, Eswatini (formerly known as Swaziland) and Lesotho. A border is the line that divides one country from another, and can follow a river, a mountain range, or simply a straight line agreed between countries. Most of South Africa's neighbours have a coastline, where their land meets the sea, but two of them do not: Lesotho and Eswatini are landlocked, meaning they are completely surrounded by other countries and have no direct access to the sea. Lesotho is unusual because it is surrounded entirely by South Africa alone. Each of South Africa's neighbouring countries has its own capital city — Zimbabwe's capital is Harare, Botswana's is Gaborone, Namibia's is Windhoek, Mozambique's is Maputo, Eswatini's is Mbabane, and Lesotho's is Maseru. South Africa itself unusually has three capital cities: Pretoria (the administrative capital), Cape Town (the legislative capital, where parliament sits) and Bloemfontein (the judicial capital)."},
+  {key:'weatherClimate', name:'Weather &amp; Climate', emoji:'⛅', color:'linear-gradient(135deg,#ffb703,#fb8500)',
+    paragraph:"Weather is what the atmosphere or air is like at a particular place on a particular day — for example, whether it is sunny, rainy, windy or cold today. Climate, on the other hand, is the average weather conditions of an area over a long period of time, such as many years. The main elements of weather are temperature, rainfall, wind, cloud cover and humidity (how much moisture is in the air). South Africa has several different climate regions: the Western Cape has a Mediterranean climate, with hot, dry summers and cold, wet winters — most of its rain falls in winter. The Eastern Cape coast and the KwaZulu-Natal coast have hot, wet summers and warm winters, with some rainfall on the coast all year. The Limpopo and Mpumalanga area bordering Mozambique is very hot with wet summers and warm, dry winters. The Northern Cape is very hot and dry, with very little rain all year. The western parts of the Free State and North West are hot and dry in summer, and cold and dry in winter. Climate affects what kind of natural vegetation can grow in an area, and what kind of farming people can do there."},
+  {key:'interpretingWeatherMaps', name:'Interpreting Weather Maps', emoji:'🗺️☀️', color:'linear-gradient(135deg,#4cc9f0,#1d3557)',
+    paragraph:"Weather maps and forecasts are useful for showing what the weather conditions in different places in a country will be like, often for the following day or over several days ahead — this is called a forecast. People who study the weather and make these forecasts are called meteorologists. On a weather map, symbols such as a sun, clouds or raindrops are used to show the expected weather at different cities, along with the expected temperature in degrees Celsius. Cloud cover describes how much of the sky is covered by cloud, from a clear sky with no cloud, to a partly cloudy sky, to a sky that is completely overcast. To read a weather map correctly, you need to look carefully at the symbol and number given for each place — the city with the sunniest symbol and highest number is usually the hottest, while a city shown with rain and a lower number will be cooler and wetter. Temperatures on a weather map are often written as two numbers, like 14 / 26 — the first number is the minimum (night or early morning) temperature, and the second is the maximum (daytime) temperature. A sun symbol partly hidden behind a cloud means partly cloudy weather, clouds with raindrops mean rainy weather, and a cloud with a lightning bolt means thunderstorms are expected. Arrows on a weather map show wind direction — pointing in the direction the wind is blowing toward — and sometimes wind speed too, in km/h or knots. Weather instruments like the thermometer (which measures temperature), rain gauge (rainfall), wind vane (wind direction), anemometer (wind speed), barometer (air pressure) and hygrometer (humidity) are used to gather the real information that goes into these forecasts and maps."},
+  {key:'mineralsMined', name:'Minerals Mined in SA', emoji:'⛏️', color:'linear-gradient(135deg,#6c757d,#343a40)',
+    paragraph:"Minerals are useful, non-living substances found in rocks under the ground, and South Africa is rich in many different minerals. Gold is mainly used for jewellery, electronics and coins, and is mined deeply underground in Gauteng and the Free State; platinum is used in jewellery, the car industry (to reduce pollution from car exhausts) and electrical industries, and is mostly mined in North West and Limpopo; diamonds are used for jewellery and in cutting machines, and are mostly mined in the Northern Cape and Limpopo; coal is used to generate electrical power and to make things like tar for roads, plastic and soap, and is mainly mined in Mpumalanga; iron ore is used for buildings, vehicles and machines, and for making steel, and is mainly mined in the Northern Cape; copper is used for pipes, electrical wires and jewellery; manganese and chrome are used to strengthen steel and prevent rust, as well as for batteries, cans and alloy parts of machines. Minerals are a non-renewable resource, which means that once they are used up, they cannot be replaced or regrown by nature or by people — this is very different from a renewable resource like water, wind or plants, which will not run out if they are managed properly. There are two main ways of mining minerals: open pit (surface) mining, where layers of soil and rock are removed from the surface to reach minerals close to the surface, and underground (shaft or deep-level) mining, where long tunnels are dug deep underground to reach minerals that lie far below the surface. Some of South Africa's underground mines are among the deepest in the world, reaching several kilometres below the ground."},
+  {key:'safetyOfMiners', name:'Safety of Miners', emoji:'⚠️', color:'linear-gradient(135deg,#b0413e,#7a2420)',
+    paragraph:"Mining can be dangerous for both miners and the environment. Underground mining in particular can be risky for miners, who work deep below the surface in tunnels, so mines must follow strict safety rules to protect workers from accidents, collapses and exposure to harmful dust or gases. Mining also produces a lot of waste, in the form of polluted water, rock and sand — mining companies often dump this waste in piles called mine dumps, and sometimes this waste pollutes nearby rivers, making the water harmful to people, plants and animals; farmers have sometimes been warned not to let their animals drink from, or irrigate crops with, water polluted by mining. When a mine is no longer being used, it often leaves behind a large hole that gradually fills with water. Poisonous chemicals that were trapped underground, such as acid and uranium, can dissolve into this water and flow into groundwater, which can travel for hundreds of kilometres and eventually reach rivers and lakes used for drinking, farming and by wildlife. Chemicals and dust from mining can also damage natural vegetation and wildlife habitats directly, and in the past, before people understood the dangers, some minerals like asbestos were even used as a building material, even though asbestos fibres are now known to damage the lungs and can cause cancer. Air pollution from mining dust and fumes can also cause disease. This is especially serious in South Africa because about 98% of the country is arid or dry, meaning there are already water shortages — if the available water becomes polluted too, there is even less water for people, animals and farming."},
+  {key:'coalFormation', name:'Coal Formation', emoji:'🪨', color:'linear-gradient(135deg,#588157,#3a5a40)',
+    paragraph:"Coal is formed over millions of years through a slow natural process. It begins when dying trees and other plants fall into swamps or wetlands and are gradually covered by mud. Over time, these rotting plant layers harden and dry out under the mud, forming a soft material called peat. As more layers of peat become buried deeper and deeper under the ground, the weight and pressure of the soil above, along with heat from deep within the Earth, slowly turns the peat into coal. Because this process takes millions of years, coal is a non-renewable resource — once it is burned for fuel or to generate electrical power, it cannot be used again, and it cannot be replaced within a human lifetime. Coal is burned in power stations to generate electricity, and is also used to make products such as tar for roads, plastic and soap. In South Africa, most of the coal fields are found in Mpumalanga, Limpopo, the Eastern Cape, KwaZulu-Natal and the Free State; Mpumalanga, which has large amounts of coal, produces the most electricity from coal of any province."}
+];
+
+const DRAW_PLAN = {
+  physicalFeatures:7, rivers:7, neighbouringCountries:7, weatherClimate:7,
+  interpretingWeatherMaps:6, mineralsMined:7, safetyOfMiners:5, coalFormation:4
+};
+
+function generateQuiz(){
+  // Draws a random, topic-balanced sample of 50 from the larger pool, so every
+  // attempt (and every restart) is a different set of 50 questions.
+  const pool = [];
+  SECTIONS.forEach(sec => {
+    const topicQs = shuffle(RAW_QUESTIONS.filter(q => q.section === sec.key));
+    const count = DRAW_PLAN[sec.key] || 0;
+    pool.push(...topicQs.slice(0, count));
+  });
+  return shuffle(pool).map(q => {
+    const question = { ...q, id: uid() };
+    question.choices = shuffle(question.choices);
+    return question;
+  });
+}
+function sectionNameByKey(key){ const s = SECTIONS.find(x=>x.key===key); return s ? s.name.replace(/&amp;/g,'&') : key; }
+
+/* ===================== PERSISTENCE ===================== */
+const LS_SAVE = 'gq_saved_v1';
+const LS_HISTORY = 'gq_history_v1';
+const LS_XP = 'gq_xp_v1';
+
+function loadJSON(key, fallback){
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; }
+}
+function saveJSON(key, val){ try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
+
+function getXP(){ return loadJSON(LS_XP, {xp:0}); }
+function addXP(n){ const d = getXP(); d.xp += n; saveJSON(LS_XP, d); return d.xp; }
+function levelFromXP(xp){ return Math.floor(xp/100) + 1; }
+function xpIntoLevel(xp){ return xp % 100; }
+
+function getHistory(){ return loadJSON(LS_HISTORY, []); }
+function pushHistory(entry){ const h = getHistory(); h.unshift(entry); saveJSON(LS_HISTORY, h.slice(0,25)); }
+
+/* ===================== APP STATE ===================== */
+let state = null;
+
+function newQuizState(){
+  paletteOpen = false;
+  return {
+    startedAt: Date.now(),
+    questions: generateQuiz(),
+    index: 0,
+    answers: {},
+  };
+}
+
+function totalCount(){ return state.questions.length; }
+function answeredCount(){ return Object.values(state.answers).filter(a=>a.resolved).length; }
+function correctCount(){ return Object.values(state.answers).filter(a=>a.resolved && a.correct).length; }
+function sectionQuestions(sectionKey){ return state.questions.filter(q=>q.section===sectionKey); }
+function sectionAnsweredCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved).length; }
+function sectionCorrectCount(sectionKey){ return sectionQuestions(sectionKey).filter(q=>state.answers[q.id] && state.answers[q.id].resolved && state.answers[q.id].correct).length; }
+
+/* ===================== RENDERING ===================== */
+const app = document.getElementById('app');
+
+function go(view){ window.location.hash = view; render(); }
+
+function render(){
+  const hash = window.location.hash.replace('#','') || 'home';
+  if (hash === 'home') return renderHome();
+  if (hash === 'quiz') return renderQuiz();
+  if (hash === 'results') return renderResults();
+  if (hash === 'review') return renderReview();
+  renderHome();
+}
+window.addEventListener('hashchange', render);
+
+/* ===================== PROGRESS MAP (read-only during the quiz — no jumping) =====================
+   Going back is blocked until the quiz is completed, so that learners must read
+   every paragraph in order (paragraphs seed facts for later questions). This map
+   only shows progress; it is not clickable during a live quiz. */
+let paletteOpen = false;
+function paletteHTML(){
+  const items = state.questions.map((q,i) => {
+    const ans = state.answers[q.id];
+    let cls = 'palette-btn';
+    if (i === state.index) cls += ' current';
+    if (ans && ans.resolved) cls += ans.correct ? ' correct' : ' incorrect';
+    return `<button type="button" class="${cls}" disabled>${i+1}</button>`;
+  }).join('');
+  return `<div class="palette-grid">${items}</div><div class="locked-note">🔒 You can't jump around or go back until the quiz is finished — this keeps every paragraph's facts in play for later questions.</div>`;
+}
+
+/* ===================== POST-QUIZ REVIEW (all / correct only / incorrect only) ===================== */
+let reviewFilter = 'all';
+function renderReview(){
+  const report = window._lastReport;
+  if (!report){ go('home'); return; }
+  const filtered = report.questions
+    .map((q,i) => ({...q, num:i+1}))
+    .filter(q => reviewFilter==='all' ? true : reviewFilter==='correct' ? q.wasCorrect : !q.wasCorrect);
+  const correctCountR = report.questions.filter(q=>q.wasCorrect).length;
+  const incorrectCountR = report.questions.length - correctCountR;
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="row between" style="margin-bottom:10px">
+        <h3>🔍 Review Your Answers</h3>
+        <button class="btn-secondary" id="backResultsBtn">← Back to Results</button>
+      </div>
+      <div class="row" style="gap:8px;margin-bottom:14px">
+        <button class="${reviewFilter==='all'?'btn-primary':'btn-secondary'}" data-filter="all">All (${report.questions.length})</button>
+        <button class="${reviewFilter==='correct'?'btn-primary':'btn-secondary'}" data-filter="correct">✅ Correct (${correctCountR})</button>
+        <button class="${reviewFilter==='incorrect'?'btn-primary':'btn-secondary'}" data-filter="incorrect">❌ Incorrect (${incorrectCountR})</button>
+      </div>
+      ${filtered.length===0 ? '<p>No questions match this filter.</p>' : filtered.map(q => `
+        <div class="review-item ${q.wasCorrect?'correct':'incorrect'}">
+          <div class="review-q-head"><b>Q${q.num}</b> <span class="pill ${q.wasCorrect?'green':'pink'}">${q.wasCorrect?'Correct':'Incorrect'}</span></div>
+          <div class="review-topic">${sectionNameByKey(q.section)} · ${q.difficulty === 'grade6' ? 'Grade 6' : q.difficulty}</div>
+          <div class="review-prompt">${q.prompt}</div>
+          <div class="review-answers">Your answer: <b>${q.chosen===null?'<i>no answer</i>':q.chosen}</b>${q.wasCorrect?'':`<br>Correct answer: <b>${q.correctAnswer}</b>`}</div>
+          <div class="review-explain">${q.explanation}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('backResultsBtn').onclick = () => go('results');
+  document.querySelectorAll('[data-filter]').forEach(btn => {
+    btn.onclick = () => { reviewFilter = btn.getAttribute('data-filter'); renderReview(); };
+  });
+}
+
+function renderHome(){
+  const saved = loadJSON(LS_SAVE, null);
+  const history = getHistory();
+  const xpData = getXP();
+  const level = levelFromXP(xpData.xp);
+  const pct = xpIntoLevel(xpData.xp);
+
+  app.innerHTML = `
+    <div class="card hero">
+      <div class="row between">
+        <div>
+          <h1>🌍 Geography Quest</h1>
+          <p>Grade 5 End-of-Year Exam Scope &middot; 50 Questions</p>
+        </div>
+        <div class="level-box">
+          <div class="row" style="gap:6px"><span style="font-weight:900">Level ${level}</span> <span style="opacity:.85">⭐</span></div>
+          <div class="xp-bar-outer"><div class="xp-bar-inner" style="width:${pct}%"></div></div>
+          <div style="font-size:.72rem;opacity:.85;margin-top:2px">${pct}/100 XP to next level</div>
+        </div>
+      </div>
+    </div>
+
+    ${saved ? `
+    <div class="card install-banner">
+      <div><b>⏸️ You have a saved quiz in progress</b><br><span style="font-size:.85rem;color:var(--muted)">Question ${saved.index+1} of ${saved.questions.length}</span></div>
+      <div class="row">
+        <button class="btn-primary" id="continueBtn">Continue ▶</button>
+        <button class="btn-ghost" id="discardBtn">Discard</button>
+      </div>
+    </div>` : ''}
+
+    <div class="card">
+      <h3 style="margin-bottom:10px">Start a fresh quiz</h3>
+      <p style="margin-bottom:12px">50 questions covering physical features, rivers, neighbouring countries, weather &amp; climate, weather maps, minerals, mining safety and coal formation — each one comes with a short paragraph to read first, drawn randomly from a much bigger bank, so every attempt is different!</p>
+      <div class="topic-grid">
+        ${SECTIONS.map(s => `<div class="topic-card" style="background:${s.color}"><b>${s.emoji} ${sectionNameByKey(s.key)}</b></div>`).join('')}
+      </div>
+      <div class="row center" style="margin-top:14px">
+        <button class="btn-primary" id="startBtn" style="font-size:1.1rem;padding:14px 28px">🚀 Start New Quiz</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🏆 Your Badges</h3>
+      <div class="badges-shelf" style="margin-top:12px">
+        ${renderBadgeShelf(history)}
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📊 Your Past Attempts</h3>
+      <div style="margin-top:12px">
+      ${history.length===0 ? '<p>No attempts yet — play your first quiz!</p>' : history.slice(0,8).map(h => `
+        <div class="history-item">
+          <span>${new Date(h.date).toLocaleDateString()} ${new Date(h.date).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</span>
+          <span class="pill ${h.percent>=90?'gold':h.percent>=70?'green':'pink'}">${h.correct}/${h.total} · ${h.percent}%</span>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="footer-note">Works offline · Install this app to your home screen for the best experience · Made for a future geographer 🌍</div>
+  `;
+
+  document.getElementById('startBtn').onclick = () => {
+    state = newQuizState();
+    saveJSON(LS_SAVE, state);
+    go('quiz');
+  };
+  const cbtn = document.getElementById('continueBtn');
+  if (cbtn) cbtn.onclick = () => { state = saved; go('quiz'); };
+  const dbtn = document.getElementById('discardBtn');
+  if (dbtn) dbtn.onclick = () => { localStorage.removeItem(LS_SAVE); render(); };
+}
+
+function computeBadgesForAttempt(report){
+  const badges = [];
+  if (report.percent === 100) badges.push({e:'🏆', n:'Cum Laude'});
+  else if (report.percent >= 90) badges.push({e:'🎖️', n:'Distinction'});
+  else if (report.percent >= 75) badges.push({e:'⭐', n:'Merit'});
+  report.sectionReports.forEach(sr => { if (sr.percent === 100) badges.push({e:'🌟', n: sr.name+' Master'}); });
+  badges.push({e:'✅', n:'Completed'});
+  return badges;
+}
+
+function renderBadgeShelf(history){
+  if (history.length===0) return '<p>Complete a quiz to start earning badges!</p>';
+  const all = [];
+  history.forEach(h => (h.badges||[]).forEach(b => all.push(b)));
+  const seen = new Set();
+  const unique = all.filter(b => { const k=b.n; if (seen.has(k)) return false; seen.add(k); return true; });
+  if (unique.length===0) return '<p>Complete a quiz to start earning badges!</p>';
+  return unique.map(b => `<div class="badge-chip">${b.e}</div>`).join('');
+}
+
+function renderQuiz(){
+  if (!state){ go('home'); return; }
+  const q = state.questions[state.index];
+  const total = totalCount();
+  const answered = answeredCount();
+  const correct = correctCount();
+  const percent = answered ? Math.round((correct/answered)*100) : 0;
+  const sec = SECTIONS.find(s=>s.key===q.section);
+  const secTotal = sectionQuestions(q.section).length;
+  const secAnswered = sectionAnsweredCount(q.section);
+
+  const existing = state.answers[q.id];
+  const resolved = existing && existing.resolved;
+
+  app.innerHTML = `
+    <div class="card progress-wrap">
+      <div class="row between">
+        <div class="progress-label">Overall Progress</div>
+        <div class="progress-label">${answered}/${total}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner overall" style="width:${(answered/total)*100}%"></div></div>
+      <div class="row between" style="margin-top:4px">
+        <div class="progress-label">${sec.emoji} ${sectionNameByKey(sec.key)}</div>
+        <div class="progress-label">${secAnswered}/${secTotal}</div>
+      </div>
+      <div class="bar-outer"><div class="bar-inner section" style="width:${(secAnswered/secTotal)*100}%"></div></div>
+      <div class="score-strip" style="margin-top:6px">
+        <div class="score-tile"><div class="num">${correct}/${answered||0}</div><div class="lbl">Score</div></div>
+        <div class="score-tile"><div class="num">${percent}%</div><div class="lbl">Accuracy</div></div>
+        <div class="score-tile"><div class="num">${state.index+1}/${total}</div><div class="lbl">Question</div></div>
+      </div>
+      <button class="btn-ghost" id="paletteBtn" style="justify-self:start">🗂️ View progress map</button>
+    </div>
+
+    ${paletteOpen ? `<div class="card palette-card">${paletteHTML()}</div>` : ''}
+
+    <div class="card qcard" id="qcard">
+      <div class="qtop">
+        <span class="difficulty-tag ${q.difficulty}">${q.difficulty === 'grade6' ? 'Grade 6 ⭐' : q.difficulty}</span>
+        <span class="pill">${sec.emoji} ${sectionNameByKey(sec.key)}</span>
+      </div>
+      <div class="paragraph-box">
+        <h4>📖 Did You Know?</h4>
+        <div class="paragraph-text">${sec.paragraph}</div>
+      </div>
+      <div class="qprompt">${q.prompt}</div>
+      <div id="answerArea"></div>
+      <div id="feedbackArea"></div>
+      <div id="memoArea"></div>
+      <div class="nav-row" style="justify-content:flex-end">
+        <button class="btn-secondary" id="saveExitBtn">💾 Save &amp; Exit</button>
+        <button class="arrow-btn" id="fwdBtn" ${resolved ? '' : 'disabled'}>→</button>
+      </div>
+    </div>
+  `;
+
+  renderAnswerArea(q, existing);
+
+  document.getElementById('fwdBtn').onclick = () => {
+    if (state.index === total-1){ finishQuiz(); return; }
+    state.index++; saveJSON(LS_SAVE, state); render();
+  };
+  document.getElementById('saveExitBtn').onclick = () => { saveJSON(LS_SAVE, state); go('home'); };
+  document.getElementById('paletteBtn').onclick = () => { paletteOpen = !paletteOpen; renderQuiz(); };
+}
+
+function renderAnswerArea(q, existing){
+  const answerArea = document.getElementById('answerArea');
+  const feedbackArea = document.getElementById('feedbackArea');
+  const memoArea = document.getElementById('memoArea');
+  const resolved = existing && existing.resolved;
+
+  answerArea.innerHTML = `<div class="choices">${q.choices.map((c,i)=>{
+    const letter = String.fromCharCode(65+i);
+    let cls = 'choice-btn';
+    if (resolved){
+      if (c === q.correctAnswer) cls += ' correct';
+      else if (existing.lastChosen === c) cls += ' incorrect';
+      else cls += ' disabled-other';
+    }
+    return `<button class="${cls}" data-choice="${esc(c)}" ${resolved?'disabled':''}><span class="choice-letter">${letter}</span><span>${c}</span></button>`;
+  }).join('')}</div>`;
+  if (!resolved){
+    answerArea.querySelectorAll('.choice-btn').forEach(btn => {
+      btn.onclick = () => submitAnswer(q, btn.getAttribute('data-choice'));
+    });
+  }
+
+  if (existing){
+    renderFeedback(q, existing, feedbackArea);
+    if (resolved) renderMemo(q, memoArea);
+  }
+}
+
+function renderFeedback(q, ans, container){
+  if (!ans.lastWasCorrect && !ans.resolved){
+    container.innerHTML = `<div class="feedback-banner incorrect">🤔 Not quite! Give it one more try.</div>`;
+  } else if (ans.resolved && ans.correct){
+    container.innerHTML = `<div class="feedback-banner correct">${ans.attempts===1 ? '🎉 Correct on the first try! Amazing!' : '✅ Correct! Well done for trying again.'}</div>`;
+  } else if (ans.resolved && !ans.correct){
+    container.innerHTML = `<div class="feedback-banner wrong-final">📚 Not this time — read the memo below to learn why.</div>`;
+  } else {
+    container.innerHTML = '';
+  }
+}
+
+function renderMemo(q, container){
+  container.innerHTML = `<div class="memo-box">
+    <h4>📝 Study Memo</h4>
+    <div class="ans-line">Correct answer: <b>${q.correctAnswer}</b></div>
+    <div class="explain">${q.explanation}</div>
+  </div>`;
+}
+
+function submitAnswer(q, chosenRaw){
+  const existing = state.answers[q.id] || {attempts:0, resolved:false};
+  existing.attempts += 1;
+  existing.lastChosen = chosenRaw;
+  const isCorrect = String(chosenRaw) === String(q.correctAnswer);
+
+  if (isCorrect){
+    existing.resolved = true;
+    existing.correct = true;
+    existing.lastWasCorrect = true;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    launchConfetti(existing.attempts===1 ? 60 : 35);
+  } else if (existing.attempts >= 1){
+    existing.resolved = true;
+    existing.correct = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  } else {
+    existing.resolved = false;
+    existing.lastWasCorrect = false;
+    state.answers[q.id] = existing;
+    saveJSON(LS_SAVE, state);
+    const card = document.getElementById('qcard');
+    card.classList.add('shake'); setTimeout(()=>card.classList.remove('shake'), 420);
+  }
+  renderQuiz();
+}
+
+function finishQuiz(){
+  const total = totalCount();
+  const correct = correctCount();
+  const percent = Math.round((correct/total)*100);
+  const noRetries = Object.values(state.answers).every(a => a.attempts === 1);
+  const usedRetries = Object.values(state.answers).some(a => a.attempts > 1);
+
+  const sectionReports = SECTIONS.map(sec => {
+    const sq = sectionQuestions(sec.key);
+    const sc = sectionCorrectCount(sec.key);
+    return {key: sec.key, name: sectionNameByKey(sec.key), emoji: sec.emoji, correct: sc, total: sq.length, percent: sq.length ? Math.round((sc/sq.length)*100) : 0};
+  }).filter(sr => sr.total > 0);
+
+  const report = {
+    date: Date.now(), correct, total, percent, noRetries, usedRetries, sectionReports,
+    questions: state.questions.map(q => ({
+      prompt: q.prompt, section: q.section, difficulty: q.difficulty,
+      chosen: state.answers[q.id] ? state.answers[q.id].lastChosen : null,
+      correctAnswer: q.correctAnswer, wasCorrect: state.answers[q.id] ? !!state.answers[q.id].correct : false,
+      explanation: q.explanation
+    }))
+  };
+  report.badges = computeBadgesForAttempt(report);
+
+  const xpEarned = Object.values(state.answers).reduce((s,a)=> s + (a.correct ? (a.attempts===1?10:5) : 0), 0);
+  addXP(xpEarned);
+  report.xpEarned = xpEarned;
+
+  pushHistory({date: report.date, correct, total, percent, badges: report.badges});
+  localStorage.removeItem(LS_SAVE);
+
+  window._lastReport = report;
+  go('results');
+}
+
+function renderResults(){
+  const report = window._lastReport;
+  if (!report){ go('home'); return; }
+  const stars = report.percent >= 90 ? '⭐⭐⭐' : report.percent >= 70 ? '⭐⭐' : report.percent >= 40 ? '⭐' : '🌱';
+
+  app.innerHTML = `
+    <div class="card results-card">
+      <h1>${report.percent === 100 ? '🏆 Cum Laude!' : report.percent >= 75 ? '🎉 Great Job!' : '💪 Keep Practising!'}</h1>
+      <div class="big-score">${report.correct}/${report.total}</div>
+      <div style="font-size:1.2rem;font-weight:800">${report.percent}% · +${report.xpEarned} XP</div>
+      <div class="stars-row">${stars}</div>
+      <div class="badges-shelf row center">${report.badges.map(b=>`<div class="badge-chip">${b.e}</div>`).join('')}</div>
+      <div class="section-report">
+        ${report.sectionReports.map(sr => `<div class="sr-row"><span>${sr.emoji} ${sr.name}</span><b>${sr.correct}/${sr.total} (${sr.percent}%)</b></div>`).join('')}
+      </div>
+      <div class="row center">
+        <button class="btn-primary" id="downloadBtn">⬇️ Download Summary</button>
+        <button class="btn-warn" id="reviewBtn">🔍 Review Answers</button>
+        <button class="btn-good" id="playAgainBtn">🔄 New Quiz</button>
+        <button class="btn-secondary" id="homeBtn">🏠 Home</button>
+      </div>
+    </div>
+  `;
+  if (report.percent >= 90) launchConfetti(140);
+
+  document.getElementById('downloadBtn').onclick = () => downloadSummary(report);
+  document.getElementById('reviewBtn').onclick = () => { reviewFilter = 'all'; go('review'); };
+  document.getElementById('playAgainBtn').onclick = () => { state = newQuizState(); saveJSON(LS_SAVE, state); go('quiz'); };
+  document.getElementById('homeBtn').onclick = () => go('home');
+}
+
+function downloadSummary(report){
+  const dateStr = new Date(report.date).toLocaleString();
+  const rows = report.questions.map((q,i) => `
+    <tr>
+      <td style="padding:8px;border:1px solid #ddd">${i+1}</td>
+      <td style="padding:8px;border:1px solid #ddd">${sectionNameByKey(q.section)} (${q.difficulty})</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.prompt}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.chosen===null?'<i>no answer</i>':q.chosen}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.correctAnswer}</td>
+      <td style="padding:8px;border:1px solid #ddd;font-weight:bold;color:${q.wasCorrect?'#204d24':'#7a2420'}">${q.wasCorrect?'Correct':'Incorrect'}</td>
+      <td style="padding:8px;border:1px solid #ddd">${q.explanation}</td>
+    </tr>`).join('');
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Geography Quest Results – ${dateStr}</title>
+  <style>body{font-family:Arial,sans-serif;padding:20px;color:#1b3a3a}h1{color:#2a9d8f}table{border-collapse:collapse;width:100%;font-size:14px}th{background:#e6f5f1;padding:8px;border:1px solid #ddd;text-align:left}</style>
+  </head><body>
+  <h1>🌍 Geography Quest – Results</h1>
+  <p><b>Date:</b> ${dateStr}<br/><b>Score:</b> ${report.correct}/${report.total} (${report.percent}%)<br/><b>Badges earned:</b> ${report.badges.map(b=>b.n).join(', ')}</p>
+  <table><thead><tr><th>#</th><th>Topic</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th><th>Explanation / Memo</th></tr></thead>
+  <tbody>${rows}</tbody></table>
+  <p style="margin-top:20px;color:#5a7d78">Generated by Geography Quest – keep exploring South Africa's regions!</p>
+  </body></html>`;
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `geography-quest-results-${new Date(report.date).toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ===================== CONFETTI ===================== */
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+let confettiParticles = [];
+let confettiRAF = null;
+function launchConfetti(count){
+  const colors = ['#2a9d8f','#264653','#e9c46a','#588157','#457b9d','#dda15e'];
+  for (let i=0;i<count;i++){
+    confettiParticles.push({
+      x: Math.random()*canvas.width, y: -20 - Math.random()*80,
+      vx: (Math.random()-0.5)*3, vy: 2+Math.random()*3,
+      size: 5+Math.random()*6, color: pick(colors), rot: Math.random()*360, vr:(Math.random()-0.5)*10,
+      life: 0, maxLife: 140+Math.random()*60
+    });
+  }
+  if (!confettiRAF) confettiLoop();
+}
+function confettiLoop(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confettiParticles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.03; p.rot += p.vr; p.life++;
+    ctx.save();
+    ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+    ctx.fillStyle = p.color; ctx.globalAlpha = Math.max(0, 1 - p.life/p.maxLife);
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+    ctx.restore();
+  });
+  confettiParticles = confettiParticles.filter(p => p.life < p.maxLife && p.y < canvas.height+40);
+  if (confettiParticles.length>0){
+    confettiRAF = requestAnimationFrame(confettiLoop);
+  } else {
+    confettiRAF = null;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+}
+
+/* ===================== SERVICE WORKER ===================== */
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+
+/* ===================== INIT ===================== */
+render();
+</script>
+</body>
+</html>

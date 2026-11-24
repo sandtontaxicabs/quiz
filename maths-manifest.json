@@ -1,7 +1,7 @@
 {
-  "name": "Maths Quest: Term 3 Topics",
+  "name": "Maths Quest: Grade 5 End-of-Year Exam Scope",
   "short_name": "Maths Quest",
-  "description": "A 50-question interactive gamified maths quiz covering Area & Perimeter, Laws of Arithmetic, Equivalent Fractions, Ratio & Proportion, 3D Shapes & Nets, and Probability, with a Grade 6 stretch tier, instant marking, badges and progress tracking.",
+  "description": "A 50-question interactive gamified Grade 5 Maths quiz covering Place Value, Rounding Off, Triangular Numbers, Time, Fractions, Laws of Arithmetic, Percentage & Decimals, Types of Triangles, 3D Shapes, Area & Perimeter, Data Handling, Missing Angles, Addition, Multiplication and Division. Every question is multiple choice, with a Grade 6 stretch tier, instant marking, badges and progress tracking.",
   "start_url": "./maths.html",
   "scope": "./",
   "display": "standalone",
